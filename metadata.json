@@ -1,0 +1,8 @@
+{
+  "name": "Hoàng Tuấn MPE - Sửa Điện Nước 24/7",
+  "description": "Dịch vụ sửa chữa điện nước chuyên nghiệp, uy tín tại Việt Nam bởi Hoàng Tuấn MPE. Hỗ trợ 24/7, có mặt trong 30 phút.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

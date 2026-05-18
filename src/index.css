@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #0EA5E9;
+  --color-brand-secondary: #0F172A;
+  --color-brand-accent: #F97316;
+  
+  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply text-brand-secondary bg-white font-sans antialiased text-base leading-relaxed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-brand-secondary tracking-tight leading-tight;
+  }
+
+  h1 { @apply text-4xl md:text-6xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-brand-primary text-white rounded-lg font-semibold hover:bg-brand-primary/90 transition-all active:scale-95 shadow-md shadow-brand-primary/20;
+  }
+  
+  .btn-accent {
+    @apply px-6 py-3 bg-brand-accent text-white rounded-lg font-semibold hover:bg-brand-accent/90 transition-all active:scale-95 shadow-md shadow-brand-accent/20;
+  }
+  
+  .btn-outline {
+    @apply px-6 py-3 border-2 border-brand-primary text-brand-primary bg-transparent rounded-lg font-semibold hover:bg-brand-primary/10 transition-all active:scale-95;
+  }
+
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24;
+  }
+  
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl shadow-slate-200/50;
+  }
+}
+
