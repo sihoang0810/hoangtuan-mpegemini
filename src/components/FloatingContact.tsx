@@ -12,7 +12,7 @@ const ZaloIcon = () => (
 export default function FloatingContact() {
   const { location } = useLocation();
   const currentLocationInfo = LOCATIONS.find(l => l.name === location) || LOCATIONS[0];
-  const phoneNo = currentLocationInfo.hotline.replace(/\s/g, '');
+  const phoneNo = currentLocationInfo.hotline.replace(/[.\s]/g, '');
   const zaloUrl = `https://zalo.me/${phoneNo}`;
 
   return (

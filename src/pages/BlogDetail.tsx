@@ -192,7 +192,7 @@ export default function BlogDetail() {
                 <div className="bg-brand-primary/10 p-6 rounded-3xl">
                   <h5 className="font-bold text-brand-secondary text-sm uppercase mb-2 tracking-tight">Bạn cần tư vấn thêm?</h5>
                   <p className="text-xs text-slate-500 font-medium mb-4 leading-relaxed">Kỹ thuật viên của Hoàng Tuấn MPE sẵn sàng giải đáp thắc mắc 24/7 qua Zalo.</p>
-                  <a href="https://zalo.me/0123456789" className="flex items-center justify-center gap-2 bg-white text-brand-primary py-3 rounded-xl font-bold text-xs uppercase tracking-widest shadow-sm hover:scale-105 transition-all">
+                  <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-2 bg-white text-brand-primary py-3 rounded-xl font-bold text-xs uppercase tracking-widest shadow-sm hover:scale-105 transition-all">
                     <MessageCircle size={14} />
                     Chat Zalo ngay
                   </a>
@@ -206,9 +206,9 @@ export default function BlogDetail() {
               <div className="relative z-10">
                 <h4 className="text-2xl font-bold mb-4 uppercase tracking-tighter">Cần thợ ngay?</h4>
                 <p className="text-white/60 text-sm mb-8 leading-relaxed">Có mặt sau 30 phút tại Bảo Lộc. Kiểm tra khảo sát hoàn toàn miễn phí.</p>
-                <a href="tel:0123456789" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20 tracking-tight">
+                <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20 tracking-tight">
                   <Phone size={20} />
-                  0123.456.789
+                  0389.011.315
                 </a>
               </div>
             </div>

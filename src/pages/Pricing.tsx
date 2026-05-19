@@ -52,7 +52,7 @@ export default function Pricing() {
                       <p className="text-slate-400 font-bold text-xs uppercase tracking-widest mt-1">Hỗ trợ 24/7 • Bảo hành 12 tháng</p>
                     </div>
                   </div>
-                  <a href="tel:0123456789" className="bg-brand-primary text-white px-8 py-3 rounded-xl font-bold hover:scale-105 transition-all text-center">
+                  <a href="tel:0389011315" className="bg-brand-primary text-white px-8 py-3 rounded-xl font-bold hover:scale-105 transition-all text-center">
                     Nhận báo giá
                   </a>
                 </div>
@@ -97,10 +97,10 @@ export default function Pricing() {
               Chúng tôi không thu phí nếu không sửa được. Mọi báo giá đều được kỹ thuật viên cung cấp bằng văn bản hoặc tin nhắn xác nhận trước khi làm.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <a href="tel:0123456789" className="w-full sm:w-auto bg-brand-secondary text-white text-2xl px-12 py-6 rounded-2xl font-bold hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase">
-                Gọi Ngay: 0123.456.789
+              <a href="tel:0389011315" className="w-full sm:w-auto bg-brand-secondary text-white text-2xl px-12 py-6 rounded-2xl font-bold hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase">
+                Gọi Ngay: 0389.011.315
               </a>
-              <a href="https://zalo.me/0123456789" className="w-full sm:w-auto bg-white text-brand-primary text-2xl px-12 py-6 rounded-2xl font-bold hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase">
+              <a href="https://zalo.me/0389011315" className="w-full sm:w-auto bg-white text-brand-primary text-2xl px-12 py-6 rounded-2xl font-bold hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase">
                 Hotline Zalo
               </a>
             </div>

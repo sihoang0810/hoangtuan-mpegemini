@@ -93,11 +93,11 @@ const ServiceDetailTemplate = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:0123456789" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 transition-all uppercase">
+              <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 transition-all uppercase">
                 <Phone size={20} />
-                Gọi Ngay 0123.456.789
+                Gọi Ngay 0389.011.315
               </a>
-              <a href="https://zalo.me/0123456789" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-8 py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition-all uppercase">
+              <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-8 py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition-all uppercase">
                 <MessageCircle size={20} />
                 Chat Zalo
               </a>
@@ -199,9 +199,9 @@ const ServiceDetailTemplate = () => {
                 <div className="bg-brand-secondary p-8 rounded-[2.5rem] text-white">
                   <h3 className="text-xl font-bold mb-4 uppercase">Cần thợ ngay?</h3>
                   <p className="text-white/70 text-sm mb-6">Đội ngũ kỹ thuật trực 24/7 tại khu vực Bảo Lộc và lân cận.</p>
-                  <a href="tel:0123456789" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all">
+                  <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all">
                     <Phone size={20} />
-                    0123.456.789
+                    0389.011.315
                   </a>
                   <div className="mt-6 flex items-center justify-center gap-4 text-xs font-bold text-white/50">
                     <div className="flex items-center gap-1"><Clock size={14}/> 30 Phút</div>

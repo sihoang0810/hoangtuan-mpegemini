@@ -20,7 +20,7 @@ export default function TopBar() {
           {/* Center: Tech Hotline */}
           <div className="hidden lg:flex items-center gap-2">
             <Phone size={14} className="text-brand-primary" />
-            <span className="whitespace-nowrap">HOTLINE KỸ THUẬT: 0987 654 321</span>
+            <span className="whitespace-nowrap">HOTLINE KỸ THUẬT: 0389 011 315</span>
           </div>
           
           {/* Right: Location Selection */}

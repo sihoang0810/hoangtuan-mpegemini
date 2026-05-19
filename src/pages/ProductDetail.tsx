@@ -134,11 +134,11 @@ export default function ProductDetail() {
 
             {/* Quick Actions */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:0123456789" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 transition-all transition-all uppercase">
+              <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 transition-all transition-all uppercase">
                 <Phone size={24} />
-                Đặt Mua: 0123.456.789
+                Đặt Mua: 0389.011.315
               </a>
-              <a href="https://zalo.me/0123456789" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-8 py-5 rounded-2xl font-bold text-lg hover:opacity-90 transition-all uppercase">
+              <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-8 py-5 rounded-2xl font-bold text-lg hover:opacity-90 transition-all uppercase">
                 <MessageCircle size={24} />
                 Tư vấn Zalo
               </a>
@@ -213,7 +213,7 @@ export default function ProductDetail() {
                   Khi mua thiết bị tại Hoàng Tuấn MPE, khách hàng tại khu vực Bảo Lộc và lân cận sẽ được đội ngũ kỹ thuật viên tay nghề cao của chúng tôi hỗ trợ lắp đặt đúng tiêu chuẩn kỹ thuật, đảm bảo an toàn tuyệt đối và hiệu quả sử dụng cao nhất.
                 </p>
                 <div className="flex gap-4">
-                  <a href="tel:0123456789" className="bg-brand-primary text-white px-8 py-3 rounded-xl font-bold text-sm uppercase tracking-widest hover:scale-105 transition-all">Đặt thợ lắp ngay</a>
+                  <a href="tel:0389011315" className="bg-brand-primary text-white px-8 py-3 rounded-xl font-bold text-sm uppercase tracking-widest hover:scale-105 transition-all">Đặt thợ lắp ngay</a>
                 </div>
               </div>
             </div>
@@ -223,9 +223,9 @@ export default function ProductDetail() {
               <div className="bg-brand-secondary p-10 rounded-[2.5rem] text-white">
                 <h3 className="text-xl font-bold mb-6 uppercase tracking-tighter italic">Cần báo giá sỉ?</h3>
                 <p className="text-white/60 text-sm mb-10 leading-relaxed">Nếu bạn là đại lý hoặc cần mua số lượng lớn cho công trình, hãy liên hệ để có giá tốt nhất thị trường.</p>
-                <a href="tel:0123456789" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-5 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20">
+                <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-5 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20">
                   <Phone size={20} />
-                  0123.456.789
+                  0389.011.315
                 </a>
               </div>
               

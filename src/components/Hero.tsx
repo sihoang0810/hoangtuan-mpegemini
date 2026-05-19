@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Phone, ArrowRight, ShieldCheck, Clock, CheckCircle2 } from 'lucide-react';
 
@@ -35,14 +36,14 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="btn-primary flex items-center justify-center gap-2 text-lg">
+              <a href="tel:0389011315" className="btn-primary flex items-center justify-center gap-2 text-lg">
                 <Phone size={20} />
                 Gọi Ngay
-              </button>
-              <button className="btn-outline flex items-center justify-center gap-2 text-lg">
+              </a>
+              <Link to="/dich-vu" className="btn-outline flex items-center justify-center gap-2 text-lg">
                 Xem Dịch Vụ
                 <ArrowRight size={20} />
-              </button>
+              </Link>
             </div>
 
             {/* Trust Badges */}

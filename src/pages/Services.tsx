@@ -84,11 +84,11 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
             </p>
           </div>
           <div className="flex gap-4">
-            <a href="tel:0123456789" className="flex items-center gap-2 bg-brand-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-primary/90 transition-all shadow-lg shadow-brand-primary/20">
+            <a href="tel:0389011315" className="flex items-center gap-2 bg-brand-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-primary/90 transition-all shadow-lg shadow-brand-primary/20">
               <Phone size={18} />
               Gọi Ngay
             </a>
-            <a href="https://zalo.me/0123456789" className="flex items-center gap-2 bg-[#0068ff] text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all">
+            <a href="https://zalo.me/0389011315" className="flex items-center gap-2 bg-[#0068ff] text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all">
               <MessageCircle size={18} />
               Zalo
             </a>
@@ -251,9 +251,9 @@ export default function ServicesPage() {
               transition={{ delay: 0.2 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <a href="tel:0123456789" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-primary text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-2xl shadow-brand-primary/40 hover:scale-105 active:scale-95 transition-all uppercase">
+              <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-primary text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-2xl shadow-brand-primary/40 hover:scale-105 active:scale-95 transition-all uppercase">
                 <Phone size={24} />
-                Gọi Ngay 0123.456.789
+                Gọi Ngay 0389.011.315
               </a>
               <div className="flex gap-4">
                  {['#electrical', '#plumbing', '#camera', '#detection'].map((href, i) => (
@@ -369,11 +369,11 @@ export default function ServicesPage() {
               Đừng để sự cố kéo dài gây hư hại tài sản. Gọi ngay cho đội ngũ kỹ thuật của Hoàng Tuấn MPE để được hỗ trợ trong 30 phút.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="tel:0123456789" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-secondary text-white px-10 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-all shadow-xl">
+              <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-secondary text-white px-10 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-all shadow-xl">
                 <Phone size={24} />
-                0123.456.789
+                0389.011.315
               </a>
-              <a href="https://zalo.me/0123456789" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-white text-brand-primary px-10 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-all shadow-xl">
+              <a href="https://zalo.me/0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-white text-brand-primary px-10 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-all shadow-xl">
                 <MessageCircle size={24} />
                 Chat Zalo tư vấn
               </a>

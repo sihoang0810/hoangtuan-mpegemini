@@ -33,9 +33,9 @@ export default function FinalCTA() {
               ))}
             </div>
             <div className="flex flex-col sm:flex-row gap-6 justify-center md:justify-start">
-              <a href="tel:0123456789" className="btn-primary flex items-center justify-center gap-3 text-xl py-5 px-10">
+              <a href="tel:0389011315" className="btn-primary flex items-center justify-center gap-3 text-xl py-5 px-10">
                 <Phone size={24} />
-                0123 456 789
+                0389 011 315
               </a>
               <div className="flex flex-col justify-center">
                 <span className="text-white/60 text-sm font-bold uppercase tracking-widest mb-1">Hotline Kỹ Thuật</span>

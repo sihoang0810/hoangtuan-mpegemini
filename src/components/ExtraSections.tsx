@@ -68,7 +68,7 @@ export function FAQSection() {
               Vẫn còn thắc mắc?
             </h4>
             <p className="text-slate-600 mb-6 font-medium">Hỗ trợ 24/7 qua hotline kỹ thuật:</p>
-            <a href="tel:0123456789" className="text-2xl font-bold text-brand-primary block hover:underline">0123 456 789</a>
+            <a href="tel:0389011315" className="text-2xl font-bold text-brand-primary block hover:underline">0389 011 315</a>
           </div>
         </div>
 

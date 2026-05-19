@@ -228,11 +228,11 @@ export default function Header() {
                 </div>
               ))}
               <a 
-                href="tel:0123456789" 
+                href="tel:0389011315" 
                 className="flex items-center justify-center gap-2 bg-brand-primary text-white py-4 rounded-xl font-bold mt-2"
               >
                 <PhoneCall size={20} />
-                <span>Gọi Cứu Hộ: 0123 456 789</span>
+                <span>Gọi Cứu Hộ: 0389 011 315</span>
               </a>
             </div>
           </motion.div>

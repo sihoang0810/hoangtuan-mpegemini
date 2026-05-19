@@ -114,11 +114,11 @@ export default function ProductListing() {
                 <h4 className="text-xl font-bold mb-4 uppercase tracking-tight">Cần Tư Vấn?</h4>
                 <p className="text-white/60 text-sm mb-8 leading-relaxed">Đội ngũ kỹ thuật viên sẵn sàng tư vấn thiết bị phù hợp nhất với nhu cầu của bạn.</p>
                 <div className="space-y-4">
-                  <a href="tel:0123456789" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-xl font-bold hover:scale-105 transition-all">
+                  <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-xl font-bold hover:scale-105 transition-all">
                     <Phone size={18} />
-                    0123.456.789
+                    0389.011.315
                   </a>
-                  <a href="https://zalo.me/0123456789" className="flex items-center justify-center gap-3 bg-white text-brand-primary w-full py-4 rounded-xl font-bold hover:scale-105 transition-all">
+                  <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-white text-brand-primary w-full py-4 rounded-xl font-bold hover:scale-105 transition-all">
                     <MessageCircle size={18} />
                     Chat Zalo
                   </a>

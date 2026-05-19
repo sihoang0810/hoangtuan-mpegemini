@@ -16,7 +16,7 @@ export default function Contact() {
 
             <div className="space-y-8">
               {[
-                { icon: Phone, label: 'Hotline Kỹ Thuật (24/7)', val: '0123 456 789', desc: 'Có mặt ngay sau 30 phút' },
+                { icon: Phone, label: 'Hotline Kỹ Thuật (24/7)', val: '0389 011 315', desc: 'Có mặt ngay sau 30 phút' },
                 { icon: Mail, label: 'Email Hỗ Trợ', val: 'contact@suadiennuoc.vn', desc: 'Phản hồi trong 24h' },
                 { icon: MapPin, label: 'Trụ sở chính', val: 'Số 123, Đường Láng, Hà Nội', desc: 'Hệ thống chi nhánh toàn quốc' },
                 { icon: Clock, label: 'Giờ làm việc', val: '24/7/365', desc: 'Làm việc cả ngày lễ & chủ nhật' },

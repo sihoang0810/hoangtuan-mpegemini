@@ -88,13 +88,13 @@ export const LOCATIONS = [
   {
     id: 'baoloc',
     name: 'Bảo Lộc',
-    hotline: '0123.456.789',
+    hotline: '0389.011.315',
     description: 'Trụ sở chính, hỗ trợ nhanh nhất khu vực Lâm Đồng.'
   },
   {
     id: 'hcm',
     name: 'Hồ Chí Minh',
-    hotline: '0987.654.321',
+    hotline: '0389.011.315',
     description: 'Văn phòng đại diện, hỗ trợ khu vực các quận nội thành.'
   }
 ];
