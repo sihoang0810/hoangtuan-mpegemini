@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { 
@@ -20,15 +20,40 @@ import { BLOG_POSTS } from '../data/blog';
 import FinalCTA from '../components/FinalCTA';
 import Breadcrumbs from '../components/Breadcrumbs';
 import BlogCard from '../components/BlogCard';
+import { getBlogPostBySlug, getBlogPosts, CMSBlogPost } from '../lib/sanity';
 
 export default function BlogDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const post = BLOG_POSTS.find(p => p.slug === slug);
+  const [post, setPost] = useState<CMSBlogPost | null>(null);
+  const [related, setRelated] = useState<CMSBlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (!slug) return;
+
+    setLoading(true);
+    getBlogPostBySlug(slug).then(data => {
+      setPost(data);
+      setLoading(false);
+
+      getBlogPosts().then(allPosts => {
+        const cat = data?.category || 'Điện';
+        const rel = allPosts.filter(p => p.category === cat && p.slug !== slug).slice(0, 3);
+        setRelated(rel);
+      });
+    });
   }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="pt-32 pb-20 text-center">
+        <div className="animate-spin w-16 h-16 border-4 border-brand-primary border-t-transparent rounded-full mx-auto mb-6" />
+        <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">Đang tải bài viết...</p>
+      </div>
+    );
+  }
 
   if (!post) {
     return (
@@ -44,7 +69,8 @@ export default function BlogDetail() {
     );
   }
 
-  const relatedPosts = BLOG_POSTS.filter(p => p.category === post.category && p.slug !== post.slug).slice(0, 3);
+  const relatedPosts = related.length > 0 ? related : BLOG_POSTS.filter(p => p.category === post.category && p.slug !== post.slug).slice(0, 3);
+
 
   return (
     <div className="pt-20">

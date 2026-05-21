@@ -1,39 +1,60 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, MessageSquare, Clock, Send } from 'lucide-react';
 import FinalCTA from '../components/FinalCTA';
+import { getContact, getIconComponent, CMSContact } from '../lib/sanity';
 
 export default function Contact() {
+  const [data, setData] = useState<CMSContact | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    getContact().then(res => {
+      if (active) setData(res);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const pageTitle = data?.pageTitle || 'Liên Hệ Với Chúng Tôi';
+  const pageSubtitle = data?.pageSubtitle || 'Dù là sự cố nhỏ hay nhu cầu thi công lớn, chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn 24/7. Hãy điền thông tin hoặc liên hệ trực tiếp qua hotline.';
+  
+  const fields = data?.contactFields || [
+    { icon: 'Phone', label: 'Hotline Kỹ Thuật (24/7)', val: '0389 011 315', desc: 'Có mặt ngay sau 30 phút' },
+    { icon: 'Mail', label: 'Email Hỗ Trợ', val: 'contact@suadiennuoc.vn', desc: 'Phản hồi trong 24h' },
+    { icon: 'MapPin', label: 'Trụ sở chính', val: 'Hẻm 74 Trần Phú, Lộc Phát, Bảo Lộc, Lâm Đồng', desc: 'Hỗ trợ nhanh toàn Lâm Đồng' },
+    { icon: 'Clock', label: 'Giờ làm việc', val: '24/7/365', desc: 'Làm việc cả ngày lễ & chủ nhật' },
+  ];
+
   return (
     <div className="pt-24 md:pt-32">
       <section className="section-container">
         <div className="grid lg:grid-cols-2 gap-20 items-start">
           <div>
-            <h1 className="text-4xl md:text-6xl font-bold text-brand-secondary mb-8">Liên Hệ Với <br /><span className="text-brand-primary">Chúng Tôi</span></h1>
-            <p className="text-lg text-slate-500 mb-12 leading-relaxed">
-              Dù là sự cố nhỏ hay nhu cầu thi công lớn, chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn 24/7. 
-              Hãy điền thông tin hoặc liên hệ trực tiếp qua hotline.
+            <h1 className="text-4xl md:text-6xl font-bold text-brand-secondary mb-8 uppercase tracking-tighter" dangerouslySetInnerHTML={{ __html: pageTitle.includes('Chúng Tôi') ? pageTitle.replace('Chúng Tôi', '<span class="text-brand-primary">Chúng Tôi</span>') : pageTitle }} />
+            <p className="text-lg text-slate-500 mb-12 leading-relaxed font-medium">
+              {pageSubtitle}
             </p>
 
             <div className="space-y-8">
-              {[
-                { icon: Phone, label: 'Hotline Kỹ Thuật (24/7)', val: '0389 011 315', desc: 'Có mặt ngay sau 30 phút' },
-                { icon: Mail, label: 'Email Hỗ Trợ', val: 'contact@suadiennuoc.vn', desc: 'Phản hồi trong 24h' },
-                { icon: MapPin, label: 'Trụ sở chính', val: 'Số 123, Đường Láng, Hà Nội', desc: 'Hệ thống chi nhánh toàn quốc' },
-                { icon: Clock, label: 'Giờ làm việc', val: '24/7/365', desc: 'Làm việc cả ngày lễ & chủ nhật' },
-              ].map((item, idx) => (
-                <div key={idx} className="flex gap-6 items-start">
-                  <div className="w-14 h-14 shrink-0 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-brand-primary shadow-sm">
-                    <item.icon size={28} />
+              {fields.map((item, idx) => {
+                const IconComponent = getIconComponent(item.icon);
+                return (
+                  <div key={idx} className="flex gap-6 items-start">
+                    <div className="w-14 h-14 shrink-0 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-brand-primary shadow-sm">
+                      <IconComponent size={28} />
+                    </div>
+                    <div>
+                      <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">{item.label}</span>
+                      <span className="block text-xl font-bold text-brand-secondary mb-1">{item.val}</span>
+                      {item.desc && <span className="block text-slate-500 text-sm font-medium">{item.desc}</span>}
+                    </div>
                   </div>
-                  <div>
-                    <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">{item.label}</span>
-                    <span className="block text-xl font-bold text-brand-secondary mb-1">{item.val}</span>
-                    <span className="block text-slate-500 text-sm">{item.desc}</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
+
 
           <div className="bg-white p-8 md:p-12 rounded-[3.5rem] shadow-2xl border border-slate-100 relative">
              <h3 className="text-2xl font-bold text-brand-secondary mb-8">Gửi Yêu Cầu Cho Kỹ Thuật</h3>

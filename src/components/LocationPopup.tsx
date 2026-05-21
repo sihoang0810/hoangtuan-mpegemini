@@ -1,10 +1,12 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { MapPin, Phone, ArrowRight, X } from 'lucide-react';
+import { MapPin, Phone, ArrowRight } from 'lucide-react';
 import { useLocation } from '../context/LocationContext';
-import { LOCATIONS } from '../constants';
+import { LOCATIONS as STATIC_LOCATIONS } from '../constants';
 
 export default function LocationPopup() {
-  const { showPopup, setLocation } = useLocation();
+  const { showPopup, setLocation, locations } = useLocation();
+
+  const activeLocations = locations.length > 0 ? locations : STATIC_LOCATIONS;
 
   return (
     <AnimatePresence>
@@ -30,11 +32,11 @@ export default function LocationPopup() {
               <p className="text-slate-500 mb-10">Chúng tôi sẽ hiển thị thông tin phù hợp với khu vực của bạn</p>
 
               <div className="grid md:grid-cols-2 gap-6">
-                {LOCATIONS.map((loc) => (
+                {activeLocations.map((loc) => (
                   <button
                     key={loc.id}
                     onClick={() => setLocation(loc.name as any)}
-                    className="group relative flex flex-col items-center p-8 rounded-3xl border-2 border-slate-100 hover:border-brand-primary hover:bg-brand-primary/5 transition-all text-center"
+                    className="group relative flex flex-col items-center p-8 rounded-3xl border-2 border-slate-100 hover:border-brand-primary hover:bg-brand-primary/5 transition-all text-center animate-in fade-in zoom-in-95 duration-355"
                   >
                     <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:text-white transition-all">
                       <MapPin size={32} />

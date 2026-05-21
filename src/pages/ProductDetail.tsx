@@ -17,16 +17,42 @@ import {
 } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import ProductCard from '../components/ProductCard';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { getProductBySlug, getProducts, CMSProduct } from '../lib/sanity';
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const product = PRODUCTS.find(p => p.slug === slug);
+  const [product, setProduct] = useState<CMSProduct | null>(null);
+  const [related, setRelated] = useState<CMSProduct[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (!slug) return;
+
+    setLoading(true);
+    getProductBySlug(slug).then(data => {
+      setProduct(data);
+      setLoading(false);
+      
+      // Load related products
+      getProducts().then(allProducts => {
+        const cat = data?.category || 'electrical';
+        const rel = allProducts.filter(p => p.category === cat && p.slug !== slug).slice(0, 3);
+        setRelated(rel);
+      });
+    });
   }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="pt-32 pb-20 text-center">
+        <div className="animate-spin w-16 h-16 border-4 border-brand-primary border-t-transparent rounded-full mx-auto mb-6" />
+        <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">Đang tải chi tiết sản phẩm...</p>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -41,9 +67,10 @@ export default function ProductDetail() {
     );
   }
 
-  const relatedProducts = PRODUCTS
-    .filter(p => p.category === product.category && p.id !== product.id)
+  const relatedProducts = related.length > 0 ? related : PRODUCTS
+    .filter(p => p.category === product.category && p.slug !== product.slug)
     .slice(0, 3);
+
 
   return (
     <div className="pt-24 md:pt-32">

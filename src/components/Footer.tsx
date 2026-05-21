@@ -1,8 +1,38 @@
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { getFooter, CMSFooter } from '../lib/sanity';
+
+// Custom simple Zalo SVG icon
+const ZaloIcon = ({ size = 18 }: { size?: number }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: size, height: size }}>
+    <path d="M22.091 14.394c-.201-.274-.475-.522-.816-.738.312-.497.514-1.077.514-1.656 0-2.761-3.134-5-7-5s-7 2.239-7 5 3.134 5 7 5c.421 0 .83-.028 1.226-.081 1.054.896 2.457 1.481 3.991 1.636.19.019.38.031.571.031.259 0 .506-.022.744-.063.19-.033.37-.087.541-.159l.012-.005c.403-.172.645-.595.645-1.031 0-.317-.11-.607-.291-.834l-.197-.101zm-7.304-4.894c.328 0 .594.266.594.594s-.266.594-.594.594-.594-.266-.594-.594.266-.594.594-.594zm-2.375.594c0 .328-.266.594-.594.594s-.594-.266-.594-.594.266-.594.594-.594.594.266.594.594z" />
+  </svg>
+);
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [footerData, setFooterData] = useState<CMSFooter | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    getFooter().then(data => {
+      if (active) setFooterData(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const companyName = footerData?.companyName || 'Hoàng Tuấn MPE';
+  const shortAbout = footerData?.shortAbout || 'Hoàng Tuấn MPE tự hào là đơn vị cung cấp dịch vụ sửa chữa điện nước và thiết bị điện MPE uy tín hàng đầu tại Việt Nam. Sự hài lòng của khách hàng là kim chỉ nam cho mọi hoạt động của chúng tôi.';
+  const address = footerData?.address || 'Hẻm 74 Trần Phú, Lộc Phát, Bảo Lộc, Lâm Đồng';
+  const phone = footerData?.phone || '0389 011 315';
+  const email = footerData?.email || 'contact@suadiennuoc.vn';
+  const facebookUrl = footerData?.socialLinks?.facebook || 'https://facebook.com';
+  const youtubeUrl = footerData?.socialLinks?.youtube || 'https://youtube.com';
+  const zaloUrl = footerData?.socialLinks?.zalo || `https://zalo.me/${phone.replace(/[.\s]/g, '')}`;
+  const copyrightText = footerData?.copyrightText || `© ${currentYear} ${companyName}. All rights reserved.`;
 
   const quickLinks = [
     { name: 'Trang chủ', href: '/' },
@@ -32,18 +62,21 @@ export default function Footer() {
               <div className="w-10 h-10 bg-brand-primary rounded-lg flex items-center justify-center text-white shadow-lg shadow-brand-primary/20">
                 <span className="font-bold text-xl uppercase">HT</span>
               </div>
-              <span className="font-bold text-xl text-white uppercase tracking-tighter">Hoàng Tuấn MPE</span>
+              <span className="font-bold text-xl text-white uppercase tracking-tighter">{companyName}</span>
             </div>
             <p className="text-slate-400 leading-relaxed text-sm font-medium">
-              Hoàng Tuấn MPE tự hào là đơn vị cung cấp dịch vụ sửa chữa điện nước và thiết bị điện MPE uy tín hàng đầu tại Việt Nam. 
-              Sự hài lòng của khách hàng là kim chỉ nam cho mọi hoạt động của chúng tôi.
+              {shortAbout}
             </p>
             <div className="flex gap-4">
-              {[Facebook, Instagram, Twitter, Youtube].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all">
-                  <Icon size={18} />
-                </a>
-              ))}
+              <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all">
+                <Facebook size={18} />
+              </a>
+              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all">
+                <Youtube size={18} />
+              </a>
+              <a href={zaloUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all">
+                <ZaloIcon size={18} />
+              </a>
             </div>
           </div>
 
@@ -83,22 +116,22 @@ export default function Footer() {
             <ul className="space-y-6">
               <li className="flex items-start gap-4">
                 <MapPin className="text-brand-primary shrink-0 mt-1" size={20} />
-                <span>Số 123, Đường Láng, <br />Quận Đống Đa, Hà Nội</span>
+                <span>{address}</span>
               </li>
               <li className="flex items-center gap-4">
                 <Phone className="text-brand-primary shrink-0" size={20} />
-                <a href="tel:0389011315" className="font-bold text-white hover:text-brand-primary transition-colors">0389 011 315</a>
+                <a href={`tel:${phone.replace(/[.\s]/g, '')}`} className="font-bold text-white hover:text-brand-primary transition-colors">{phone}</a>
               </li>
               <li className="flex items-center gap-4">
                 <Mail className="text-brand-primary shrink-0" size={20} />
-                <a href="mailto:contact@suadiennuoc.vn" className="hover:text-brand-primary transition-colors">contact@suadiennuoc.vn</a>
+                <a href={`mailto:${email}`} className="hover:text-brand-primary transition-colors">{email}</a>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-          <p>© {currentYear} Hoàng Tuấn MPE. All rights reserved.</p>
+          <p>{copyrightText}</p>
           <div className="flex gap-8">
             <Link to="/dieu-khoan" className="hover:text-brand-primary transition-colors">Điều khoản dịch vụ</Link>
             <Link to="/bao-mat" className="hover:text-brand-primary transition-colors">Chính sách bảo mật</Link>

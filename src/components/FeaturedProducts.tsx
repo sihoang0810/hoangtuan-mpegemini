@@ -1,11 +1,25 @@
+import React, { useState, useEffect } from 'react';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { PRODUCTS } from '../data/products';
+import { getProducts, CMSProduct } from '../lib/sanity';
 import ProductCard from './ProductCard';
 
 export default function FeaturedProducts() {
-  const featuredProducts = PRODUCTS.slice(0, 3);
+  const [products, setProducts] = useState<CMSProduct[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    getProducts().then((data) => {
+      if (active) setProducts(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const featuredProducts = products.slice(0, 3);
+
 
   return (
     <section className="section-container bg-slate-50">

@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
-import { BLOG_POSTS } from '../data/blog';
+import { getBlogPosts, CMSBlogPost } from '../lib/sanity';
 import BlogCard from './BlogCard';
 
 const Blog = () => {
+  const [posts, setPosts] = useState<CMSBlogPost[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    getBlogPosts().then((data) => {
+      if (active) setPosts(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   // Take latest 3 posts
-  const recentPosts = BLOG_POSTS.slice(0, 3);
+  const recentPosts = posts.slice(0, 3);
+
 
   return (
     <section id="blog" className="py-24 bg-white">

@@ -1,20 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShoppingBag, ChevronRight, Filter, Search, Phone, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PRODUCTS, PRODUCT_CATEGORIES } from '../data/products';
 import ProductCard from '../components/ProductCard';
+import { getProducts, CMSProduct } from '../lib/sanity';
 
 export default function ProductListing() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [dbProducts, setDbProducts] = useState<CMSProduct[]>([]);
 
-  const filteredProducts = PRODUCTS.filter(product => {
+  useEffect(() => {
+    let active = true;
+    getProducts().then(data => {
+      if (active) setDbProducts(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const productSource = dbProducts.length > 0 ? dbProducts : PRODUCTS;
+
+  const filteredProducts = productSource.filter(product => {
     const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          product.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
 
   return (
     <div className="pt-24 md:pt-32">

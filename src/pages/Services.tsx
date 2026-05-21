@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   Zap, 
@@ -21,6 +21,8 @@ import WhyChooseUs from '../components/WhyChooseUs';
 import Testimonials from '../components/Testimonials';
 import FeaturedProducts from '../components/FeaturedProducts';
 import FinalCTA from '../components/FinalCTA';
+import { getServices, CMSService } from '../lib/sanity';
+
 
 const CATEGORIES = [
   {
@@ -192,6 +194,21 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
 };
 
 export default function ServicesPage() {
+  const [services, setServices] = useState<CMSService[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    getServices().then(data => {
+      if (active) setServices(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const items: any[] = services.length > 0 ? services : SERVICES;
+
+
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -257,9 +274,9 @@ export default function ServicesPage() {
               </a>
               <div className="flex gap-4">
                  {['#electrical', '#plumbing', '#camera', '#detection'].map((href, i) => (
-                   <a key={i} href={href} className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10">
-                     {i === 0 ? <Zap size={20}/> : i === 1 ? <Droplet size={20}/> : i === 2 ? <Video size={20}/> : <Search size={20}/>}
-                   </a>
+                    <a key={i} href={href} className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10">
+                      {i === 0 ? <Zap size={20}/> : i === 1 ? <Droplet size={20}/> : i === 2 ? <Video size={20}/> : <Search size={20}/>}
+                    </a>
                  ))}
               </div>
             </motion.div>
@@ -291,10 +308,11 @@ export default function ServicesPage() {
           <CategorySection 
             key={cat.id} 
             category={cat} 
-            services={SERVICES.filter(s => s.category === cat.id)} 
+            services={items.filter(s => s.category === cat.id)} 
           />
         ))}
       </div>
+
 
       {/* Equipment Showcase (Special for Detection Category) */}
       <section className="py-20 bg-slate-950 text-white relative overflow-hidden">

@@ -1,23 +1,38 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Filter, AlertCircle } from 'lucide-react';
 import { BLOG_POSTS, BLOG_CATEGORIES } from '../data/blog';
 import BlogCard from '../components/BlogCard';
 import FinalCTA from '../components/FinalCTA';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { getBlogPosts, CMSBlogPost } from '../lib/sanity';
 
 export default function BlogListing() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [dbPosts, setDbPosts] = useState<CMSBlogPost[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    getBlogPosts().then(data => {
+      if (active) setDbPosts(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const postSource = dbPosts.length > 0 ? dbPosts : BLOG_POSTS;
 
   const filteredPosts = useMemo(() => {
-    return BLOG_POSTS.filter(post => {
+    return postSource.filter(post => {
       const matchesCategory = activeCategory === 'all' || post.category === BLOG_CATEGORIES.find(c => c.id === activeCategory)?.title;
       const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                            post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, postSource]);
+
 
   return (
     <div className="pt-20">

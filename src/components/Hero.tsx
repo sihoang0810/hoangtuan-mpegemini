@@ -1,8 +1,26 @@
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Phone, ArrowRight, ShieldCheck, Clock, CheckCircle2 } from 'lucide-react';
+import { getHomepageContent, CMSHomepage } from '../lib/sanity';
 
 export default function Hero() {
+  const [content, setContent] = useState<CMSHomepage | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    getHomepageContent().then((data) => {
+      if (active) setContent(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const heroTitle = content?.heroTitle || 'Sửa Điện Nước';
+  const heroSubtitle = content?.heroSubtitle || 'Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. Chúng tôi xử lý mọi sự cố từ nhỏ đến phức tạp với đội ngũ thợ tay nghề cao.';
+  const overlayText = content?.heroOverlayText || 'SẴN SÀNG PHỤC VỤ 24/7';
+
   return (
     <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-slate-50">
       {/* Background Shapes */}
@@ -22,17 +40,13 @@ export default function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
               </span>
-              SẴN SÀNG PHỤC VỤ 24/7
+              {overlayText}
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-bold text-brand-secondary leading-tight mb-6 tracking-tighter">
-              Sửa Điện Nước <br />
-              <span className="text-brand-primary uppercase">Hoàng Tuấn MPE</span>
-            </h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-brand-secondary leading-tight mb-6 tracking-tighter" dangerouslySetInnerHTML={{ __html: heroTitle.includes('\n') ? heroTitle.replace(/\n/g, '<br />') : heroTitle }} />
             
             <p className="text-lg text-slate-600 mb-10 max-w-lg leading-relaxed">
-              Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. 
-              Chúng tôi xử lý mọi sự cố từ nhỏ đến phức tạp với đội ngũ thợ tay nghề cao.
+              {heroSubtitle}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

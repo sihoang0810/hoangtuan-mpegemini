@@ -1,8 +1,21 @@
+import React, { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
-import { TESTIMONIALS } from '../constants';
+import { getTestimonials, CMSTestimonial } from '../lib/sanity';
 import { motion } from 'motion/react';
 
 export default function Testimonials() {
+  const [testimonials, setTestimonials] = useState<CMSTestimonial[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    getTestimonials().then((data) => {
+      if (active) setTestimonials(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <section className="section-container bg-slate-50">
       <div className="text-center mb-16">
@@ -13,7 +26,7 @@ export default function Testimonials() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {TESTIMONIALS.map((testimonial, index) => (
+        {testimonials.map((testimonial, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 20 }}

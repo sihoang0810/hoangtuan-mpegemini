@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SERVICES } from '../data/services';
 import FinalCTA from '../components/FinalCTA';
 import { FAQSection } from '../components/ExtraSections';
 import { BadgeCheck, Zap, Droplet, Video, Search } from 'lucide-react';
 import { motion } from 'motion/react';
+import { getServices, CMSService } from '../lib/sanity';
 
 const PRICE_CATEGORIES = [
   { id: 'electrical', title: 'Điện dân dụng', icon: Zap, color: 'bg-blue-500' },
@@ -13,6 +14,20 @@ const PRICE_CATEGORIES = [
 ];
 
 export default function Pricing() {
+  const [services, setServices] = useState<CMSService[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    getServices().then(data => {
+      if (active) setServices(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const priceItems = services.length > 0 ? services : SERVICES;
+
   return (
     <div className="pt-24 md:pt-32">
       <section className="section-container bg-white">
@@ -58,7 +73,7 @@ export default function Pricing() {
                 </div>
                 
                 <div className="grid lg:grid-cols-2 gap-8">
-                  {SERVICES.filter(s => s.category === cat.id).map(service => (
+                  {priceItems.filter(s => s.category === cat.id).map(service => (
                     <div key={service.id} className="bg-white p-8 rounded-3xl border border-slate-100 group hover:border-brand-primary/30 transition-all">
                       <h3 className="text-xl font-bold text-brand-secondary mb-6 pb-4 border-b border-slate-50 flex justify-between items-center">
                         {service.title}

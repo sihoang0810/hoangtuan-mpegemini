@@ -10,9 +10,10 @@ const ZaloIcon = () => (
 );
 
 export default function FloatingContact() {
-  const { location } = useLocation();
-  const currentLocationInfo = LOCATIONS.find(l => l.name === location) || LOCATIONS[0];
-  const phoneNo = currentLocationInfo.hotline.replace(/[.\s]/g, '');
+  const { location, locations } = useLocation();
+  const activeLocations = locations.length > 0 ? locations : LOCATIONS;
+  const currentLocationInfo = activeLocations.find(l => l.name === location) || activeLocations[0];
+  const phoneNo = currentLocationInfo?.hotline ? currentLocationInfo.hotline.replace(/[.\s]/g, '') : '0389011315';
   const zaloUrl = `https://zalo.me/${phoneNo}`;
 
   return (

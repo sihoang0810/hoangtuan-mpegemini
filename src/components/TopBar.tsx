@@ -1,11 +1,13 @@
 import { Phone, Clock, MapPin, ChevronDown } from 'lucide-react';
 import { useLocation } from '../context/LocationContext';
-import { LOCATIONS } from '../constants';
+import { LOCATIONS as STATIC_LOCATIONS } from '../constants';
 
 export default function TopBar() {
-  const { location, setShowPopup } = useLocation();
+  const { location, setShowPopup, locations } = useLocation();
   
-  const currentLocationInfo = LOCATIONS.find(l => l.name === location) || LOCATIONS[0];
+  const activeLocations = locations.length > 0 ? locations : STATIC_LOCATIONS;
+  const currentLocationInfo = activeLocations.find(l => l.name === location) || activeLocations[0];
+  const displayHotline = currentLocationInfo?.hotline || '0389.011.315';
 
   return (
     <div className="bg-brand-secondary text-white py-2 hidden md:block">
@@ -20,7 +22,7 @@ export default function TopBar() {
           {/* Center: Tech Hotline */}
           <div className="hidden lg:flex items-center gap-2">
             <Phone size={14} className="text-brand-primary" />
-            <span className="whitespace-nowrap">HOTLINE KỸ THUẬT: 0389 011 315</span>
+            <span className="whitespace-nowrap">HOTLINE KỸ THUẬT: {displayHotline}</span>
           </div>
           
           {/* Right: Location Selection */}

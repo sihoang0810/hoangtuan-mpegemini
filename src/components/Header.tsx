@@ -3,6 +3,7 @@ import { Menu, X, PhoneCall, MapPin, ChevronDown, Zap, Droplet, Video, Search, A
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation as useRouterLocation } from 'react-router-dom';
 import { useLocation as useAppLocation } from '../context/LocationContext';
+import { getSiteSettings, getMenus, CMSSiteSettings, CMSMenu } from '../lib/sanity';
 
 const SERVICE_MENU = [
   {
@@ -57,15 +58,37 @@ export default function Header() {
   const routerLocation = useRouterLocation();
   const { location: appLocation, setShowPopup } = useAppLocation();
 
+  const [siteSettings, setSiteSettings] = useState<CMSSiteSettings | null>(null);
+  const [menus, setMenus] = useState<CMSMenu[]>([]);
+
   useEffect(() => {
+    let active = true;
+    getSiteSettings().then(data => {
+      if (active) setSiteSettings(data);
+    });
+    getMenus().then(data => {
+      if (active) setMenus(data);
+    });
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      active = false;
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
-  const navLinks = [
+  const siteName = siteSettings?.siteName || 'Hoàng Tuấn MPE';
+  const mainHotline = siteSettings?.mainHotline || '0389 011 315';
+  const headerNotice = siteSettings?.headerNotice || 'Hỗ trợ khẩn cấp 24/7: Thợ trực chiến có mặt sau 30 phút!';
+
+  const nameParts = siteName.split(' ');
+  const displayBrand1 = nameParts.slice(0, 2).join(' ') || 'HOÀNG TUẤN';
+  const displayBrand2 = nameParts.slice(2).join(' ') || 'MPE';
+
+  const rawNavLinks = [
     { name: 'Trang chủ', href: '/' },
     { name: 'Dịch vụ', href: '/dich-vu', hasDropdown: true },
     { name: 'Bảng giá', href: '/bang-gia' },
@@ -73,6 +96,12 @@ export default function Header() {
     { name: 'Blog', href: '/blog' },
     { name: 'Liên hệ', href: '/lien-he' },
   ];
+
+  const navLinks = menus.length > 0 ? menus.map(m => ({
+    name: m.title,
+    href: m.path,
+    hasDropdown: m.path === '/dich-vu'
+  })) : rawNavLinks;
 
   return (
     <header 
@@ -89,10 +118,10 @@ export default function Header() {
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-xl text-brand-secondary uppercase leading-none whitespace-nowrap tracking-tight">
-                HOÀNG TUẤN
+                {displayBrand1}
               </span>
               <span className="font-bold text-xl text-brand-secondary uppercase leading-none whitespace-nowrap mt-0.5 tracking-tight">
-                MPE
+                {displayBrand2}
               </span>
               <span className="text-brand-primary text-[10px] font-bold tracking-[0.2em] uppercase mt-1 whitespace-nowrap">
                 TẬN NƠI 24/7
@@ -228,11 +257,11 @@ export default function Header() {
                 </div>
               ))}
               <a 
-                href="tel:0389011315" 
+                href={`tel:${mainHotline.replace(/[.\s]/g, '')}`} 
                 className="flex items-center justify-center gap-2 bg-brand-primary text-white py-4 rounded-xl font-bold mt-2"
               >
                 <PhoneCall size={20} />
-                <span>Gọi Cứu Hộ: 0389 011 315</span>
+                <span>Gọi Cứu Hộ: {mainHotline}</span>
               </a>
             </div>
           </motion.div>

@@ -1,7 +1,9 @@
 import { motion } from 'motion/react';
 import { Phone, CheckCircle, MessageSquare, Wrench, ShieldCheck, UserCheck } from 'lucide-react';
 import { FAQS } from '../data/faqs';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getFaqs, CMSFaq } from '../lib/sanity';
+
 
 const STEPS = [
   { id: 1, title: 'Tiếp nhận yêu cầu', desc: 'Ghi nhận thông tin qua hotline hoặc website.', icon: MessageSquare },
@@ -50,6 +52,19 @@ export default function ProcessTimeline() {
 
 export function FAQSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
+  const [faqs, setFaqs] = useState<CMSFaq[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    getFaqs().then(data => {
+      if (active) setFaqs(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const items = faqs.length > 0 ? faqs : FAQS;
 
   return (
     <section className="section-container bg-white">
@@ -73,7 +88,7 @@ export function FAQSection() {
         </div>
 
         <div className="space-y-4">
-          {FAQS.map((faq, idx) => (
+          {items.map((faq, idx) => (
             <div 
               key={idx}
               className={`rounded-2xl border transition-all ${
