@@ -19,10 +19,15 @@ import { PRODUCTS } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import { useEffect, useState } from 'react';
 import { getProductBySlug, getProducts, CMSProduct } from '../lib/sanity';
+import { useLocation } from '../context/LocationContext';
+import PageSEO from '../components/PageSEO';
 
 export default function ProductDetail() {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug, locationId } = useParams<{ slug: string; locationId: string }>();
   const navigate = useNavigate();
+  const { location: appLocation } = useLocation();
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+
   const [product, setProduct] = useState<CMSProduct | null>(null);
   const [related, setRelated] = useState<CMSProduct[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,24 +37,34 @@ export default function ProductDetail() {
     if (!slug) return;
 
     setLoading(true);
-    getProductBySlug(slug).then(data => {
+    let active = true;
+
+    getProductBySlug(slug, locationId).then(data => {
+      if (!active) return;
       setProduct(data);
       setLoading(false);
       
       // Load related products
-      getProducts().then(allProducts => {
-        const cat = data?.category || 'electrical';
-        const rel = allProducts.filter(p => p.category === cat && p.slug !== slug).slice(0, 3);
-        setRelated(rel);
-      });
+      if (data) {
+        getProducts(locationId).then(allProducts => {
+          if (!active) return;
+          const cat = data.category || 'electrical';
+          const rel = allProducts.filter(p => p.category === cat && p.slug !== slug).slice(0, 3);
+          setRelated(rel);
+        });
+      }
     });
-  }, [slug]);
+
+    return () => {
+      active = false;
+    };
+  }, [slug, locationId]);
 
   if (loading) {
     return (
-      <div className="pt-32 pb-20 text-center">
-        <div className="animate-spin w-16 h-16 border-4 border-brand-primary border-t-transparent rounded-full mx-auto mb-6" />
-        <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">Đang tải chi tiết sản phẩm...</p>
+      <div className="pt-40 pb-20 text-center min-h-[60vh] flex flex-col justify-center items-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary mb-4" />
+        <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Đang tải chi tiết sản phẩm...</p>
       </div>
     );
   }
@@ -57,10 +72,10 @@ export default function ProductDetail() {
   if (!product) {
     return (
       <div className="pt-32 pb-20 text-center">
-        <AlertCircle size={64} className="mx-auto text-brand-primary mb-6" />
+        <AlertCircle size={64} className="mx-auto text-brand-primary mb-6 animate-pulse" />
         <h1 className="text-3xl font-bold text-brand-secondary mb-4 uppercase">Sản phẩm không tồn tại</h1>
         <p className="text-slate-500 mb-8">Sản phẩm bạn đang tìm kiếm có thể đã tạm hết hàng hoặc thay đổi địa chỉ.</p>
-        <Link to="/san-pham" className="inline-block bg-brand-primary text-white px-8 py-3 rounded-xl font-bold">
+        <Link to={`${siteLocationPrefix}/san-pham`} className="inline-block bg-brand-primary text-white px-8 py-3 rounded-xl font-bold">
           Quay lại Cửa hàng
         </Link>
       </div>
@@ -71,18 +86,19 @@ export default function ProductDetail() {
     .filter(p => p.category === product.category && p.slug !== product.slug)
     .slice(0, 3);
 
-
   return (
     <div className="pt-24 md:pt-32">
+      <PageSEO pageType="product" data={product} />
+      
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b border-slate-100 py-4">
         <div className="max-w-7xl mx-auto px-4 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
-          <Link to="/" className="text-slate-400 hover:text-brand-primary transition-colors flex items-center gap-1">
+          <Link to={siteLocationPrefix} className="text-slate-400 hover:text-brand-primary transition-colors flex items-center gap-1">
             <Home size={14} />
             Trang chủ
           </Link>
           <ChevronRight size={12} className="text-slate-300" />
-          <Link to="/san-pham" className="text-slate-400 hover:text-brand-primary transition-colors">
+          <Link to={`${siteLocationPrefix}/san-pham`} className="text-slate-400 hover:text-brand-primary transition-colors">
             Sản phẩm
           </Link>
           <ChevronRight size={12} className="text-slate-300" />
@@ -161,7 +177,7 @@ export default function ProductDetail() {
 
             {/* Quick Actions */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 transition-all transition-all uppercase">
+              <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 transition-all uppercase">
                 <Phone size={24} />
                 Đặt Mua: 0389.011.315
               </a>
@@ -192,38 +208,42 @@ export default function ProductDetail() {
           <div className="grid lg:grid-cols-3 gap-16">
             <div className="lg:col-span-2 space-y-12">
               {/* Features Section */}
-              <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/50">
-                <h2 className="text-2xl font-bold text-brand-secondary mb-8 uppercase flex items-center gap-3">
-                  <CheckCircle2 className="text-brand-primary" />
-                  Đặc điểm nổi bật
-                </h2>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {product.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                      <div className="w-6 h-6 bg-brand-primary/10 rounded-lg flex items-center justify-center text-brand-primary shrink-0 mt-0.5">
-                        <CheckCircle2 size={16} />
+              {product.features && product.features.length > 0 && (
+                <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/50">
+                  <h2 className="text-2xl font-bold text-brand-secondary mb-8 uppercase flex items-center gap-3">
+                    <CheckCircle2 className="text-brand-primary" />
+                    Đặc điểm nổi bật
+                  </h2>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {product.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <div className="w-6 h-6 bg-brand-primary/10 rounded-lg flex items-center justify-center text-brand-primary shrink-0 mt-0.5">
+                          <CheckCircle2 size={16} />
+                        </div>
+                        <span className="text-slate-600 font-medium">{feature}</span>
                       </div>
-                      <span className="text-slate-600 font-medium">{feature}</span>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Specifications */}
-              <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/50">
-                <h2 className="text-2xl font-bold text-brand-secondary mb-8 uppercase flex items-center gap-3">
-                  <Settings className="text-brand-primary" />
-                  Thông số kỹ thuật
-                </h2>
-                <div className="space-y-4">
-                  {Object.entries(product.specs).map(([key, value], idx) => (
-                    <div key={idx} className="flex justify-between items-center py-4 border-b border-slate-100 last:border-0 hover:bg-slate-50 px-4 rounded-lg transition-colors">
-                      <span className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">{key}</span>
-                      <span className="text-brand-secondary font-bold">{value}</span>
-                    </div>
-                  ))}
+              {product.specs && Object.keys(product.specs).length > 0 && (
+                <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/50">
+                  <h2 className="text-2xl font-bold text-brand-secondary mb-8 uppercase flex items-center gap-3">
+                    <Settings className="text-brand-primary" />
+                    Thông số kỹ thuật
+                  </h2>
+                  <div className="space-y-4">
+                    {Object.entries(product.specs).map(([key, value], idx) => (
+                      <div key={idx} className="flex justify-between items-center py-4 border-b border-slate-100 last:border-0 hover:bg-slate-50 px-4 rounded-lg transition-colors">
+                        <span className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">{key}</span>
+                        <span className="text-brand-secondary font-bold">{value}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Installation Support */}
               <div className="bg-brand-primary/10 p-10 rounded-[2.5rem] border border-brand-primary/20">
@@ -237,7 +257,7 @@ export default function ProductDetail() {
                   </div>
                 </div>
                 <p className="text-slate-600 leading-relaxed mb-8">
-                  Khi mua thiết bị tại Hoàng Tuấn MPE, khách hàng tại khu vực Bảo Lộc và lân cận sẽ được đội ngũ kỹ thuật viên tay nghề cao của chúng tôi hỗ trợ lắp đặt đúng tiêu chuẩn kỹ thuật, đảm bảo an toàn tuyệt đối và hiệu quả sử dụng cao nhất.
+                  Khi mua thiết bị tại Hoàng Tuấn MPE, khách hàng tại khu vực {appLocation || 'Bảo Lộc'} và lân cận sẽ được đội ngũ kỹ thuật viên tay nghề cao của chúng tôi hỗ trợ lắp đặt đúng tiêu chuẩn kỹ thuật, đảm bảo an toàn tuyệt đối và hiệu quả sử dụng cao nhất.
                 </p>
                 <div className="flex gap-4">
                   <a href="tel:0389011315" className="bg-brand-primary text-white px-8 py-3 rounded-xl font-bold text-sm uppercase tracking-widest hover:scale-105 transition-all">Đặt thợ lắp ngay</a>
@@ -260,7 +280,7 @@ export default function ProductDetail() {
                 <h3 className="text-lg font-bold text-brand-secondary mb-8 uppercase tracking-widest border-b border-slate-100 pb-4">Sản phẩm tương tự</h3>
                 <div className="space-y-8">
                   {relatedProducts.map(rp => (
-                    <Link key={rp.id} to={`/san-pham/${rp.slug}`} className="flex gap-4 group">
+                    <Link key={rp.id} to={`${siteLocationPrefix}/san-pham/${rp.slug}`} className="flex gap-4 group">
                       <div className="w-20 h-20 bg-slate-100 rounded-xl overflow-hidden shrink-0">
                         <img src={rp.image} alt={rp.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                       </div>
@@ -274,7 +294,7 @@ export default function ProductDetail() {
                     <p className="text-xs text-slate-400 text-center font-medium">Chưa có sản phẩm tương tự.</p>
                   )}
                 </div>
-                <Link to="/san-pham" className="block text-center text-brand-primary font-bold uppercase text-[10px] tracking-widest mt-10 hover:underline">
+                <Link to={`${siteLocationPrefix}/san-pham`} className="block text-center text-brand-primary font-bold uppercase text-[10px] tracking-widest mt-10 hover:underline">
                   Xem tất cả cửa hàng
                 </Link>
               </div>

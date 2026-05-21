@@ -5,7 +5,6 @@ import {
   Calendar, 
   User, 
   Clock, 
-  Share2, 
   Facebook, 
   Twitter, 
   Link as LinkIcon, 
@@ -21,10 +20,15 @@ import FinalCTA from '../components/FinalCTA';
 import Breadcrumbs from '../components/Breadcrumbs';
 import BlogCard from '../components/BlogCard';
 import { getBlogPostBySlug, getBlogPosts, CMSBlogPost } from '../lib/sanity';
+import { useLocation } from '../context/LocationContext';
+import PageSEO from '../components/PageSEO';
 
 export default function BlogDetail() {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug, locationId } = useParams<{ slug: string; locationId: string }>();
   const navigate = useNavigate();
+  const { location: appLocation } = useLocation();
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+
   const [post, setPost] = useState<CMSBlogPost | null>(null);
   const [related, setRelated] = useState<CMSBlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,23 +38,33 @@ export default function BlogDetail() {
     if (!slug) return;
 
     setLoading(true);
-    getBlogPostBySlug(slug).then(data => {
+    let active = true;
+
+    getBlogPostBySlug(slug, locationId).then(data => {
+      if (!active) return;
       setPost(data);
       setLoading(false);
 
-      getBlogPosts().then(allPosts => {
-        const cat = data?.category || 'Điện';
-        const rel = allPosts.filter(p => p.category === cat && p.slug !== slug).slice(0, 3);
-        setRelated(rel);
-      });
+      if (data) {
+        getBlogPosts(locationId).then(allPosts => {
+          if (!active) return;
+          const cat = data.category || 'Điện';
+          const rel = allPosts.filter(p => p.category === cat && p.slug !== slug).slice(0, 3);
+          setRelated(rel);
+        });
+      }
     });
-  }, [slug]);
+
+    return () => {
+      active = false;
+    };
+  }, [slug, locationId]);
 
   if (loading) {
     return (
-      <div className="pt-32 pb-20 text-center">
-        <div className="animate-spin w-16 h-16 border-4 border-brand-primary border-t-transparent rounded-full mx-auto mb-6" />
-        <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">Đang tải bài viết...</p>
+      <div className="pt-40 pb-20 text-center min-h-[60vh] flex flex-col justify-center items-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary mb-4" />
+        <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Đang tải chi tiết bài viết...</p>
       </div>
     );
   }
@@ -61,7 +75,7 @@ export default function BlogDetail() {
         <div className="section-container">
           <h1 className="text-3xl font-bold text-brand-secondary mb-4 uppercase">Bài viết không tồn tại</h1>
           <p className="text-slate-500 mb-8">Nội dung bạn đang tìm kiếm có thể đã bị xóa hoặc thay đổi địa chỉ.</p>
-          <Link to="/blog" className="inline-block bg-brand-primary text-white px-8 py-3 rounded-xl font-bold">
+          <Link to={`${siteLocationPrefix}/blog`} className="inline-block bg-brand-primary text-white px-8 py-3 rounded-xl font-bold">
             Quay lại Blog
           </Link>
         </div>
@@ -71,15 +85,16 @@ export default function BlogDetail() {
 
   const relatedPosts = related.length > 0 ? related : BLOG_POSTS.filter(p => p.category === post.category && p.slug !== post.slug).slice(0, 3);
 
-
   return (
     <div className="pt-20">
+      <PageSEO pageType="article" data={post} />
+      
       {/* Header & Breadcrumbs */}
       <div className="bg-slate-50 py-4 border-b border-slate-100">
         <div className="section-container">
           <Breadcrumbs 
             items={[
-              { label: 'Blog', href: '/blog' },
+              { label: 'Blog', href: `${siteLocationPrefix}/blog` },
               { label: post.title, active: true }
             ]} 
           />
@@ -106,7 +121,7 @@ export default function BlogDetail() {
               <div className="flex flex-wrap items-center gap-6 py-6 border-y border-slate-100 mb-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
                 <div className="flex items-center gap-2">
                   <User size={16} className="text-brand-primary" />
-                  <span className="text-brand-secondary">{post.author.name}</span>
+                  <span className="text-brand-secondary">{post.author?.name || 'Hoàng Tuấn MPE'}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar size={16} className="text-brand-primary" />
@@ -163,7 +178,7 @@ export default function BlogDetail() {
               {/* Tags & Sharing */}
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 py-10 mt-12 border-t border-slate-100">
                 <div className="flex flex-wrap gap-2">
-                  {post.tags.map(tag => (
+                  {post.tags?.map(tag => (
                     <span key={tag} className="px-4 py-2 bg-slate-100 text-slate-500 rounded-xl text-xs font-bold uppercase tracking-widest">
                       #{tag}
                     </span>
@@ -231,7 +246,7 @@ export default function BlogDetail() {
               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/20 rounded-full blur-2xl -mr-16 -mt-16" />
               <div className="relative z-10">
                 <h4 className="text-2xl font-bold mb-4 uppercase tracking-tighter">Cần thợ ngay?</h4>
-                <p className="text-white/60 text-sm mb-8 leading-relaxed">Có mặt sau 30 phút tại Bảo Lộc. Kiểm tra khảo sát hoàn toàn miễn phí.</p>
+                <p className="text-white/60 text-sm mb-8 leading-relaxed">Có mặt sau 30 phút tại {appLocation || 'Bảo Lộc'}. Kiểm tra khảo sát hoàn toàn miễn phí.</p>
                 <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20 tracking-tight">
                   <Phone size={20} />
                   0389.011.315

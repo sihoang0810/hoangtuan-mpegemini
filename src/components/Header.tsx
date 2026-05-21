@@ -57,6 +57,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const routerLocation = useRouterLocation();
   const { location: appLocation, setShowPopup } = useAppLocation();
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
 
   const [siteSettings, setSiteSettings] = useState<CMSSiteSettings | null>(null);
   const [menus, setMenus] = useState<CMSMenu[]>([]);
@@ -112,7 +113,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo Section */}
-          <Link to="/" className="flex items-center gap-3 shrink-0">
+          <Link to={siteLocationPrefix} className="flex items-center gap-3 shrink-0">
             <div className="w-12 h-12 bg-brand-primary rounded-lg flex items-center justify-center shadow-lg shadow-brand-primary/20">
               <span className="text-white font-bold text-2xl uppercase">HT</span>
             </div>
@@ -135,10 +136,10 @@ export default function Header() {
               {navLinks.map((link) => (
                 <div key={link.name} className={link.hasDropdown ? 'group' : ''}>
                   <Link 
-                    to={link.href}
+                    to={`${siteLocationPrefix}${link.href === '/' ? '' : link.href}`}
                     className={`relative py-8 text-base font-bold transition-all whitespace-nowrap flex items-center gap-1 ${
-                      routerLocation.pathname.startsWith(link.href) && link.href !== '/' ? 'text-brand-primary' : 'text-brand-secondary hover:text-brand-primary'
-                    } ${routerLocation.pathname === '/' && link.href === '/' ? 'text-brand-primary' : ''}`}
+                      routerLocation.pathname.startsWith(`${siteLocationPrefix}${link.href === '/' ? '' : link.href}`) && link.href !== '/' ? 'text-brand-primary' : 'text-brand-secondary hover:text-brand-primary'
+                    } ${routerLocation.pathname === siteLocationPrefix ? 'text-brand-primary' : ''}`}
                   >
                     {link.name}
                     {link.hasDropdown && <ChevronDown size={14} className="group-hover:rotate-180 transition-transform" />}
@@ -161,7 +162,7 @@ export default function Header() {
                               {item.links.map((sublink) => (
                                 <li key={sublink.name}>
                                   <Link 
-                                    to={sublink.href}
+                                    to={`${siteLocationPrefix}${sublink.href}`}
                                     className="text-slate-600 hover:text-brand-primary flex flex-col transition-colors"
                                   >
                                     <span className="font-bold text-sm">{sublink.name}</span>
@@ -175,7 +176,7 @@ export default function Header() {
                       </div>
                       <div className="mt-8 pt-8 border-t border-slate-50 flex justify-center">
                         <Link 
-                          to="/dich-vu"
+                          to={`${siteLocationPrefix}/dich-vu`}
                           className="flex items-center gap-2 bg-brand-primary text-white px-8 py-3 rounded-full font-bold text-sm uppercase hover:scale-105 active:scale-95 transition-all shadow-lg shadow-brand-primary/20 tracking-widest"
                         >
                           Xem tất cả dịch vụ
@@ -221,41 +222,44 @@ export default function Header() {
             className="absolute top-full left-0 right-0 bg-white shadow-2xl border-t lg:hidden h-[calc(100vh-80px)] overflow-y-auto"
           >
             <div className="flex flex-col p-4 gap-4">
-              {navLinks.map((link) => (
-                <div key={link.name}>
-                  <Link 
-                    to={link.href}
-                    className={`text-lg font-bold py-2 flex justify-between items-center ${
-                      routerLocation.pathname.startsWith(link.href) && link.href !== '/' ? 'text-brand-primary' : 'text-brand-secondary'
-                    }`}
-                    onClick={() => !link.hasDropdown && setIsOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                  {link.hasDropdown && (
-                    <div className="pl-4 grid grid-cols-2 gap-4 mt-2">
-                       {SERVICE_MENU.map((item) => (
-                         <div key={item.title}>
-                           <span className="text-[10px] font-bold text-slate-400 block mb-2 tracking-widest uppercase">{item.title}</span>
-                           <ul className="space-y-1">
-                             {item.links.map((sublink) => (
-                               <li key={sublink.name}>
-                                 <Link 
-                                   to={sublink.href}
-                                   className="text-sm font-bold text-slate-600 block py-1"
-                                   onClick={() => setIsOpen(false)}
-                                 >
-                                   {sublink.name}
-                                 </Link>
-                               </li>
-                             ))}
-                           </ul>
-                         </div>
-                       ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+              {navLinks.map((link) => {
+                const targetLinkHref = `${siteLocationPrefix}${link.href === '/' ? '' : link.href}`;
+                return (
+                  <div key={link.name}>
+                    <Link 
+                      to={targetLinkHref}
+                      className={`text-lg font-bold py-2 flex justify-between items-center ${
+                        routerLocation.pathname.startsWith(targetLinkHref) && link.href !== '/' ? 'text-brand-primary' : 'text-brand-secondary'
+                      } ${routerLocation.pathname === siteLocationPrefix && link.href === '/' ? 'text-brand-primary' : ''}`}
+                      onClick={() => !link.hasDropdown && setIsOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                    {link.hasDropdown && (
+                      <div className="pl-4 grid grid-cols-2 gap-4 mt-2">
+                         {SERVICE_MENU.map((item) => (
+                           <div key={item.title}>
+                             <span className="text-[10px] font-bold text-slate-400 block mb-2 tracking-widest uppercase">{item.title}</span>
+                             <ul className="space-y-1">
+                               {item.links.map((sublink) => (
+                                 <li key={sublink.name}>
+                                   <Link 
+                                     to={`${siteLocationPrefix}${sublink.href}`}
+                                     className="text-sm font-bold text-slate-600 block py-1"
+                                     onClick={() => setIsOpen(false)}
+                                   >
+                                     {sublink.name}
+                                   </Link>
+                                 </li>
+                               ))}
+                             </ul>
+                           </div>
+                         ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
               <a 
                 href={`tel:${mainHotline.replace(/[.\s]/g, '')}`} 
                 className="flex items-center justify-center gap-2 bg-brand-primary text-white py-4 rounded-xl font-bold mt-2"

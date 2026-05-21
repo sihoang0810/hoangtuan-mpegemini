@@ -6,21 +6,28 @@ import BlogCard from '../components/BlogCard';
 import FinalCTA from '../components/FinalCTA';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { getBlogPosts, CMSBlogPost } from '../lib/sanity';
+import { useParams } from 'react-router-dom';
+import { useLocation } from '../context/LocationContext';
+import PageSEO from '../components/PageSEO';
 
 export default function BlogListing() {
+  const { locationId } = useParams();
+  const { location: appLocation } = useLocation();
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [dbPosts, setDbPosts] = useState<CMSBlogPost[]>([]);
 
   useEffect(() => {
     let active = true;
-    getBlogPosts().then(data => {
+    getBlogPosts(locationId).then(data => {
       if (active) setDbPosts(data);
     });
     return () => {
       active = false;
     };
-  }, []);
+  }, [locationId]);
 
   const postSource = dbPosts.length > 0 ? dbPosts : BLOG_POSTS;
 
@@ -36,10 +43,11 @@ export default function BlogListing() {
 
   return (
     <div className="pt-20">
+      <PageSEO pageType="general" />
       {/* Header & Breadcrumbs */}
       <div className="bg-slate-50 py-4 border-b border-slate-100">
         <div className="section-container">
-          <Breadcrumbs items={[{ label: 'Blog', active: true }]} />
+          <Breadcrumbs items={[{ label: 'Blog', href: `${siteLocationPrefix}/blog` }]} />
         </div>
       </div>
 

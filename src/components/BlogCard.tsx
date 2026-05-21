@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, Clock, ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { BlogPost } from '../data/blog';
+import { useLocation } from '../context/LocationContext';
 
 interface BlogCardProps {
   key?: string | number;
@@ -11,6 +12,9 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ post, index }: BlogCardProps) {
+  const { location: appLocation } = useLocation();
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -19,7 +23,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
       transition={{ delay: index * 0.1 }}
       className="group bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col h-full"
     >
-      <Link to={`/blog/${post.slug}`} className="relative h-64 overflow-hidden block">
+      <Link to={`${siteLocationPrefix}/blog/${post.slug}`} className="relative h-64 overflow-hidden block">
         <motion.img
           whileHover={{ scale: 1.1 }}
           transition={{ duration: 0.6 }}
@@ -46,7 +50,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           </div>
         </div>
         
-        <Link to={`/blog/${post.slug}`} className="block">
+        <Link to={`${siteLocationPrefix}/blog/${post.slug}`} className="block">
           <h3 className="text-xl font-bold text-brand-secondary mb-4 leading-tight group-hover:text-brand-primary transition-colors line-clamp-2 tracking-tight">
             {post.title}
           </h3>
@@ -58,7 +62,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
 
         <div className="mt-auto pt-6 border-t border-slate-50">
           <Link 
-            to={`/blog/${post.slug}`} 
+            to={`${siteLocationPrefix}/blog/${post.slug}`} 
             className="inline-flex items-center gap-2 text-brand-primary font-bold uppercase text-xs tracking-widest hover:gap-4 transition-all"
           >
             Đọc bài viết

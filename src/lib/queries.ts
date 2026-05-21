@@ -1,5 +1,5 @@
 /**
- * Sanity GROQ Queries for local repair service applet
+ * Sanity GROQ Queries for Hoàng Tuấn MPE - Multi-Location Architecture
  */
 
 // 1. Locations
@@ -12,8 +12,8 @@ export const locationsQuery = `*[_type == "location"] | order(id asc) {
   image
 }`;
 
-// 2. Homepage content
-export const homepageQuery = `*[_type == "homepage"][0] {
+// 2. Homepage content per location
+export const homepageQuery = `*[_type == "homepage" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId || !defined(location))] | order(_createdAt desc)[0] {
   _id,
   heroTitle,
   heroSubtitle,
@@ -47,8 +47,8 @@ export const serviceCategoriesQuery = `*[_type == "serviceCategory"] | order(id 
   color
 }`;
 
-// 4. Services
-export const servicesQuery = `*[_type == "service"] | order(_createdAt asc) {
+// 4. Services per location
+export const servicesQuery = `*[_type == "service" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt asc) {
   _id,
   id,
   slug,
@@ -71,7 +71,7 @@ export const servicesQuery = `*[_type == "service"] | order(_createdAt asc) {
   }
 }`;
 
-export const serviceBySlugQuery = `*[_type == "service" && slug == $slug][0] {
+export const serviceBySlugQuery = `*[_type == "service" && (slug == $slug || slug.current == $slug) && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
   _id,
   id,
   slug,
@@ -102,8 +102,8 @@ export const postCategoriesQuery = `*[_type == "postCategory"] {
   icon
 }`;
 
-// 6. Blog Posts
-export const postsQuery = `*[_type == "post"] | order(date desc) {
+// 6. Blog Posts per location
+export const postsQuery = `*[_type == "post" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(date desc) {
   _id,
   id,
   slug,
@@ -126,7 +126,7 @@ export const postsQuery = `*[_type == "post"] | order(date desc) {
   }
 }`;
 
-export const postBySlugQuery = `*[_type == "post" && slug == $slug][0] {
+export const postBySlugQuery = `*[_type == "post" && (slug == $slug || slug.current == $slug) && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
   _id,
   id,
   slug,
@@ -158,8 +158,8 @@ export const productCategoriesQuery = `*[_type == "productCategory"] | order(_cr
   icon
 }`;
 
-// 8. Products
-export const productsQuery = `*[_type == "product"] | order(_createdAt desc) {
+// 8. Products per location
+export const productsQuery = `*[_type == "product" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt desc) {
   _id,
   id,
   slug,
@@ -172,7 +172,7 @@ export const productsQuery = `*[_type == "product"] | order(_createdAt desc) {
   specs
 }`;
 
-export const productBySlugQuery = `*[_type == "product" && slug == $slug][0] {
+export const productBySlugQuery = `*[_type == "product" && (slug == $slug || slug.current == $slug) && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
   _id,
   id,
   slug,
@@ -185,8 +185,8 @@ export const productBySlugQuery = `*[_type == "product" && slug == $slug][0] {
   specs
 }`;
 
-// 9. Pricing Entries
-export const pricingQuery = `*[_type == "pricing"] | order(orderNo asc) {
+// 9. Pricing Entries per location
+export const pricingQuery = `*[_type == "pricing" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId || !defined(location))] | order(orderNo asc) {
   _id,
   title,
   price,
@@ -197,16 +197,16 @@ export const pricingQuery = `*[_type == "pricing"] | order(orderNo asc) {
   orderNo
 }`;
 
-// 10. FAQs
-export const faqsQuery = `*[_type == "faq"] | order(_createdAt asc) {
+// 10. FAQs per location
+export const faqsQuery = `*[_type == "faq" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt asc) {
   _id,
   question,
   answer,
   category
 }`;
 
-// 11. Testimonials
-export const testimonialsQuery = `*[_type == "testimonial"] | order(rating desc, _createdAt desc) {
+// 11. Testimonials per location
+export const testimonialsQuery = `*[_type == "testimonial" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(rating desc, _createdAt desc) {
   _id,
   name,
   role,
@@ -215,8 +215,8 @@ export const testimonialsQuery = `*[_type == "testimonial"] | order(rating desc,
   avatar
 }`;
 
-// 12. Reviews
-export const reviewsQuery = `*[_type == "review"] | order(_createdAt desc) {
+// 12. Reviews per location
+export const reviewsQuery = `*[_type == "review" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt desc) {
   _id,
   customerName,
   comment,
@@ -225,8 +225,8 @@ export const reviewsQuery = `*[_type == "review"] | order(_createdAt desc) {
   verifiedPurchase
 }`;
 
-// 13. Gallery
-export const galleryQuery = `*[_type == "gallery"] | order(_createdAt desc) {
+// 13. Gallery per location
+export const galleryQuery = `*[_type == "gallery" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt desc) {
   _id,
   title,
   image,
@@ -234,7 +234,7 @@ export const galleryQuery = `*[_type == "gallery"] | order(_createdAt desc) {
   caption
 }`;
 
-// 14. Menu Navigation
+// 14. Menu Navigation (Global with fallback)
 export const menusQuery = `*[_type == "menu"] | order(orderNo asc) {
   _id,
   title,
@@ -247,8 +247,8 @@ export const menusQuery = `*[_type == "menu"] | order(orderNo asc) {
   }
 }`;
 
-// 15. Footer Content
-export const footerQuery = `*[_type == "footer"][0] {
+// 15. Footer Content (Location-specific or fallback global)
+export const footerQuery = `*[_type == "footer" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId || !defined(location))] | order(_createdAt desc)[0] {
   _id,
   companyName,
   shortAbout,
@@ -264,8 +264,8 @@ export const footerQuery = `*[_type == "footer"][0] {
   copyrightText
 }`;
 
-// 16. Banners (Top bar alerts, etc)
-export const bannersQuery = `*[_type == "banner"] | order(_createdAt desc) {
+// 16. Banners per location
+export const bannersQuery = `*[_type == "banner" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt desc) {
   _id,
   title,
   text,
@@ -274,8 +274,8 @@ export const bannersQuery = `*[_type == "banner"] | order(_createdAt desc) {
   isActive
 }`;
 
-// 17. Popup Promotions
-export const popupsQuery = `*[_type == "popup" && isActive == true][0] {
+// 17. Popup Promotions per location
+export const popupsQuery = `*[_type == "popup" && isActive == true && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
   _id,
   title,
   subtitle,
@@ -286,8 +286,8 @@ export const popupsQuery = `*[_type == "popup" && isActive == true][0] {
   isActive
 }`;
 
-// 18. SEO Meta
-export const seoQuery = `*[_type == "seo" && pagePath == $path][0] {
+// 18. SEO Meta per path and location
+export const seoQuery = `*[_type == "seo" && pagePath == $path && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
   _id,
   pagePath,
   metaTitle,
@@ -297,8 +297,8 @@ export const seoQuery = `*[_type == "seo" && pagePath == $path][0] {
   keywords[]
 }`;
 
-// 19. Local Business Structured Data
-export const localBusinessQuery = `*[_type == "localBusiness"][0] {
+// 19. Local Business per location
+export const localBusinessQuery = `*[_type == "localBusiness" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
   _id,
   name,
   legalName,
@@ -323,8 +323,8 @@ export const localBusinessQuery = `*[_type == "localBusiness"][0] {
   }
 }`;
 
-// 20. Site Settings
-export const siteSettingsQuery = `*[_type == "siteSettings"][0] {
+// 20. Site Settings per location or global fallback
+export const siteSettingsQuery = `*[_type == "siteSettings" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId || !defined(location))] | order(_createdAt desc)[0] {
   _id,
   siteName,
   tagline,
@@ -335,8 +335,8 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0] {
   headerNotice
 }`;
 
-// 21. Contact Inquiries / Details
-export const contactQuery = `*[_type == "contact"][0] {
+// 21. Contact settings per location
+export const contactQuery = `*[_type == "contact" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
   _id,
   pageTitle,
   pageSubtitle,

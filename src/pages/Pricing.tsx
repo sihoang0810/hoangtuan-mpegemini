@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { SERVICES } from '../data/services';
 import FinalCTA from '../components/FinalCTA';
 import { FAQSection } from '../components/ExtraSections';
 import { BadgeCheck, Zap, Droplet, Video, Search } from 'lucide-react';
 import { motion } from 'motion/react';
 import { getServices, CMSService } from '../lib/sanity';
+import PageSEO from '../components/PageSEO';
 
 const PRICE_CATEGORIES = [
   { id: 'electrical', title: 'Điện dân dụng', icon: Zap, color: 'bg-blue-500' },
@@ -14,22 +16,24 @@ const PRICE_CATEGORIES = [
 ];
 
 export default function Pricing() {
+  const { locationId } = useParams();
   const [services, setServices] = useState<CMSService[]>([]);
 
   useEffect(() => {
     let active = true;
-    getServices().then(data => {
+    getServices(locationId).then(data => {
       if (active) setServices(data);
     });
     return () => {
       active = false;
     };
-  }, []);
+  }, [locationId]);
 
   const priceItems = services.length > 0 ? services : SERVICES;
 
   return (
     <div className="pt-24 md:pt-32">
+      <PageSEO pageType="general" />
       <section className="section-container bg-white">
         <div className="text-center mb-20">
           <motion.div 

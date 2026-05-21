@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShoppingBag, ChevronRight, Filter, Search, Phone, MessageCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { PRODUCTS, PRODUCT_CATEGORIES } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import { getProducts, CMSProduct } from '../lib/sanity';
+import { useLocation } from '../context/LocationContext';
+import PageSEO from '../components/PageSEO';
 
 export default function ProductListing() {
+  const { locationId } = useParams();
+  const { location: appLocation } = useLocation();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [dbProducts, setDbProducts] = useState<CMSProduct[]>([]);
 
   useEffect(() => {
     let active = true;
-    getProducts().then(data => {
+    getProducts(locationId).then(data => {
       if (active) setDbProducts(data);
     });
     return () => {
       active = false;
     };
-  }, []);
+  }, [locationId]);
 
   const productSource = dbProducts.length > 0 ? dbProducts : PRODUCTS;
 
@@ -33,6 +37,7 @@ export default function ProductListing() {
 
   return (
     <div className="pt-24 md:pt-32">
+      <PageSEO pageType="general" />
       {/* Hero Section */}
       <section className="bg-slate-900 py-24 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-primary/10 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />

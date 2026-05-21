@@ -3,12 +3,16 @@ import { ArrowRight, Tag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Product } from '../data/products';
+import { useLocation } from '../context/LocationContext';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const { location: appLocation } = useLocation();
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+
   return (
     <motion.div
       whileHover={{ y: -10 }}
@@ -42,7 +46,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="text-brand-primary font-bold">{product.price}</span>
           </div>
           <Link 
-            to={`/san-pham/${product.slug}`}
+            to={`${siteLocationPrefix}/san-pham/${product.slug}`}
             className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm"
             id={`view-details-${product.id}`}
           >

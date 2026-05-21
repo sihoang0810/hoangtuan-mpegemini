@@ -11,7 +11,6 @@ import Footer from './components/Footer';
 import TopBar from './components/TopBar';
 import FloatingContact from './components/FloatingContact';
 import LocationPopup from './components/LocationPopup';
-import PromoPopup from './components/PromoPopup';
 
 // Pages
 import Home from './pages/Home';
@@ -42,6 +41,18 @@ export default function App() {
           <Header />
           <main className="flex-grow">
             <Routes>
+              {/* Location Prefixed Routes */}
+              <Route path="/:locationId" element={<Home />} />
+              <Route path="/:locationId/dich-vu" element={<Services />} />
+              <Route path="/:locationId/dich-vu/:slug" element={<ServiceDetail />} />
+              <Route path="/:locationId/bang-gia" element={<Pricing />} />
+              <Route path="/:locationId/san-pham" element={<ProductListing />} />
+              <Route path="/:locationId/san-pham/:slug" element={<ProductDetail />} />
+              <Route path="/:locationId/blog" element={<BlogListing />} />
+              <Route path="/:locationId/blog/:slug" element={<BlogDetail />} />
+              <Route path="/:locationId/lien-he" element={<Contact />} />
+
+              {/* Standard Fallback Routes (handled by LocationContext Redirect) */}
               <Route path="/" element={<Home />} />
               <Route path="/dich-vu" element={<Services />} />
               <Route path="/dich-vu/:slug" element={<ServiceDetail />} />
@@ -56,7 +67,6 @@ export default function App() {
           <Footer />
           <FloatingContact />
           <LocationPopup />
-          <PromoPopup />
         </div>
       </LocationProvider>
     </Router>

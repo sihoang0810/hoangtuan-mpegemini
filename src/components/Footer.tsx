@@ -2,6 +2,7 @@ import { Facebook, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getFooter, CMSFooter } from '../lib/sanity';
+import { useLocation } from '../context/LocationContext';
 
 // Custom simple Zalo SVG icon
 const ZaloIcon = ({ size = 18 }: { size?: number }) => (
@@ -12,21 +13,23 @@ const ZaloIcon = ({ size = 18 }: { size?: number }) => (
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { locationId, location: appLocation } = useLocation();
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
   const [footerData, setFooterData] = useState<CMSFooter | null>(null);
 
   useEffect(() => {
     let active = true;
-    getFooter().then(data => {
+    getFooter(locationId).then(data => {
       if (active) setFooterData(data);
     });
     return () => {
       active = false;
     };
-  }, []);
+  }, [locationId]);
 
   const companyName = footerData?.companyName || 'Hoàng Tuấn MPE';
   const shortAbout = footerData?.shortAbout || 'Hoàng Tuấn MPE tự hào là đơn vị cung cấp dịch vụ sửa chữa điện nước và thiết bị điện MPE uy tín hàng đầu tại Việt Nam. Sự hài lòng của khách hàng là kim chỉ nam cho mọi hoạt động của chúng tôi.';
-  const address = footerData?.address || 'Hẻm 74 Trần Phú, Lộc Phát, Bảo Lộc, Lâm Đồng';
+  const address = footerData?.address || (locationId === 'hcm' ? 'Hồ Chí Minh, Việt Nam' : 'Hẻm 74 Trần Phú, Lộc Phát, Bảo Lộc, Lâm Đồng');
   const phone = footerData?.phone || '0389 011 315';
   const email = footerData?.email || 'contact@suadiennuoc.vn';
   const facebookUrl = footerData?.socialLinks?.facebook || 'https://facebook.com';
@@ -35,21 +38,21 @@ export default function Footer() {
   const copyrightText = footerData?.copyrightText || `© ${currentYear} ${companyName}. All rights reserved.`;
 
   const quickLinks = [
-    { name: 'Trang chủ', href: '/' },
-    { name: 'Dịch vụ', href: '/dich-vu' },
-    { name: 'Bảng giá', href: '/bang-gia' },
-    { name: 'Sản phẩm', href: '/san-pham' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Liên hệ', href: '/lien-he' },
+    { name: 'Trang chủ', href: `${siteLocationPrefix}` },
+    { name: 'Dịch vụ', href: `${siteLocationPrefix}/dich-vu` },
+    { name: 'Bảng giá', href: `${siteLocationPrefix}/bang-gia` },
+    { name: 'Sản phẩm', href: `${siteLocationPrefix}/san-pham` },
+    { name: 'Blog', href: `${siteLocationPrefix}/blog` },
+    { name: 'Liên hệ', href: `${siteLocationPrefix}/lien-he` },
   ];
 
   const serviceLinks = [
-    { name: 'Sửa điện', href: '/dich-vu/sua-dien' },
-    { name: 'Sửa chập điện', href: '/dich-vu/sua-chap-dien' },
-    { name: 'Sửa máy bơm', href: '/dich-vu/lap-may-bom' },
-    { name: 'Sửa rò rỉ nước', href: '/dich-vu/sua-ro-ri-nuoc' },
-    { name: 'Siêu âm đường ống', href: '/dich-vu/sieu-am-do-ong-am' },
-    { name: 'Lắp camera', href: '/dich-vu/lap-camera' },
+    { name: 'Sửa điện', href: `${siteLocationPrefix}/dich-vu/sua-dien` },
+    { name: 'Sửa chập điện', href: `${siteLocationPrefix}/dich-vu/sua-chap-dien` },
+    { name: 'Sửa máy bơm', href: `${siteLocationPrefix}/dich-vu/lap-may-bom` },
+    { name: 'Sửa rò rỉ nước', href: `${siteLocationPrefix}/dich-vu/sua-ro-ri-nuoc` },
+    { name: 'Siêu âm đường ống', href: `${siteLocationPrefix}/dich-vu/sieu-am-do-ong-am` },
+    { name: 'Lắp camera', href: `${siteLocationPrefix}/dich-vu/lap-camera` },
   ];
 
   return (

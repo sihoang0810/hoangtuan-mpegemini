@@ -22,6 +22,8 @@ import Testimonials from '../components/Testimonials';
 import FeaturedProducts from '../components/FeaturedProducts';
 import FinalCTA from '../components/FinalCTA';
 import { getServices, CMSService } from '../lib/sanity';
+import { useLocation } from '../context/LocationContext';
+import PageSEO from '../components/PageSEO';
 
 
 const CATEGORIES = [
@@ -69,6 +71,9 @@ interface CategorySectionProps {
 }
 
 const CategorySection: React.FC<CategorySectionProps> = ({ category, services }) => {
+  const { location: appLocation } = useLocation();
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+
   return (
     <section id={category.id} className="py-20 border-b border-slate-100 last:border-0">
       <div className="section-container">
@@ -141,7 +146,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
                   </div>
                 </div>
                 <Link 
-                  to={`/dich-vu/${service.slug}`}
+                  to={`${siteLocationPrefix}/dich-vu/${service.slug}`}
                   className="flex items-center justify-between font-bold text-brand-primary hover:gap-1 transition-all group/btn"
                 >
                   XEM CHI TIẾT
@@ -194,6 +199,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
 };
 
 export default function ServicesPage() {
+  const { location: appLocation } = useLocation();
   const [services, setServices] = useState<CMSService[]>([]);
 
   useEffect(() => {
@@ -211,6 +217,7 @@ export default function ServicesPage() {
 
   return (
     <div className="pt-20">
+      <PageSEO pageType="general" />
       {/* Hero Section */}
       <section className="relative py-24 md:py-32 overflow-hidden bg-brand-secondary">
         {/* Background Patterns */}
@@ -227,7 +234,7 @@ export default function ServicesPage() {
               className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white/10 text-brand-primary text-sm font-bold uppercase tracking-[0.2em] mb-8 border border-white/10"
             >
               <ShieldCheck size={16} />
-              Dịch vụ uy tín số 1 Bảo Lộc
+              Dịch vụ uy tín số 1 {appLocation || 'Bảo Lộc'}
             </motion.div>
             
             <motion.h1

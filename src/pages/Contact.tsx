@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, MessageSquare, Clock, Send } from 'lucide-react';
+import { useParams } from 'react-router-dom';
 import FinalCTA from '../components/FinalCTA';
 import { getContact, getIconComponent, CMSContact } from '../lib/sanity';
+import PageSEO from '../components/PageSEO';
 
 export default function Contact() {
+  const { locationId } = useParams();
   const [data, setData] = useState<CMSContact | null>(null);
 
   useEffect(() => {
     let active = true;
-    getContact().then(res => {
+    getContact(locationId).then(res => {
       if (active) setData(res);
     });
     return () => {
       active = false;
     };
-  }, []);
+  }, [locationId]);
 
   const pageTitle = data?.pageTitle || 'Liên Hệ Với Chúng Tôi';
   const pageSubtitle = data?.pageSubtitle || 'Dù là sự cố nhỏ hay nhu cầu thi công lớn, chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn 24/7. Hãy điền thông tin hoặc liên hệ trực tiếp qua hotline.';
@@ -28,6 +31,7 @@ export default function Contact() {
 
   return (
     <div className="pt-24 md:pt-32">
+      <PageSEO pageType="general" />
       <section className="section-container">
         <div className="grid lg:grid-cols-2 gap-20 items-start">
           <div>
