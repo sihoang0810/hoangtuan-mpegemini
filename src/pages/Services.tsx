@@ -21,7 +21,7 @@ import WhyChooseUs from '../components/WhyChooseUs';
 import Testimonials from '../components/Testimonials';
 import FeaturedProducts from '../components/FeaturedProducts';
 import FinalCTA from '../components/FinalCTA';
-import { getServices, CMSService } from '../lib/sanity';
+import { getServices, getServicesSync, CMSService } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 
@@ -200,7 +200,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
 
 export default function ServicesPage() {
   const { location: appLocation } = useLocation();
-  const [services, setServices] = useState<CMSService[]>([]);
+  const [services, setServices] = useState<CMSService[]>(() => getServicesSync());
 
   useEffect(() => {
     let active = true;

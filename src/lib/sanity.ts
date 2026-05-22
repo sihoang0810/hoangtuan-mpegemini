@@ -511,9 +511,20 @@ function mapLocalServiceToCMS(srv: LocalService): CMSService {
 /**
  * 5. Services Details filtered by location
  */
-export async function getServices(forcedLocationId?: string): Promise<CMSService[]> {
+export function getServicesSync(forcedLocationId?: string): CMSService[] {
+  const locId = forcedLocationId || getCurrentLocationId();
+  return LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
+}
+
+export function getServiceBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSService | null {
   const locId = forcedLocationId || getCurrentLocationId();
   const cmsFallback = LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
+  return cmsFallback.find(s => s.slug === slug) || null;
+}
+
+export async function getServices(forcedLocationId?: string): Promise<CMSService[]> {
+  const locId = forcedLocationId || getCurrentLocationId();
+  const cmsFallback = getServicesSync(locId);
   
   if (!isSanityConfigured) {
     logCmsStatus('service', false, 0);
@@ -532,8 +543,7 @@ export async function getServices(forcedLocationId?: string): Promise<CMSService
 
 export async function getServiceBySlug(slug: string | undefined, forcedLocationId?: string): Promise<CMSService | null> {
   const locId = forcedLocationId || getCurrentLocationId();
-  const cmsFallback = LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
-  const foundLocal = cmsFallback.find(s => s.slug === slug) || null;
+  const foundLocal = getServiceBySlugSync(slug, locId);
   
   if (!isSanityConfigured || !slug) return foundLocal;
   try {
@@ -669,9 +679,9 @@ function normalizeProductSpecs(p: any): CMSProduct {
   return p;
 }
 
-export async function getProducts(forcedLocationId?: string): Promise<CMSProduct[]> {
+export function getProductsSync(forcedLocationId?: string): CMSProduct[] {
   const locId = forcedLocationId || getCurrentLocationId();
-  const localProductsMapped: CMSProduct[] = LOCALIZED_PRODUCTS[locId] || fallbackProducts.map(p => ({
+  return LOCALIZED_PRODUCTS[locId] || fallbackProducts.map(p => ({
     id: p.id,
     slug: p.slug,
     name: p.name,
@@ -682,6 +692,16 @@ export async function getProducts(forcedLocationId?: string): Promise<CMSProduct
     features: p.features,
     specs: p.specs
   })).map(p => localizeProduct(p, locId));
+}
+
+export function getProductBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSProduct | null {
+  const list = getProductsSync(forcedLocationId);
+  return list.find(p => p.slug === slug) || null;
+}
+
+export async function getProducts(forcedLocationId?: string): Promise<CMSProduct[]> {
+  const locId = forcedLocationId || getCurrentLocationId();
+  const localProductsMapped = getProductsSync(locId);
 
   if (!isSanityConfigured) {
     logCmsStatus('product', false, 0);
@@ -700,19 +720,7 @@ export async function getProducts(forcedLocationId?: string): Promise<CMSProduct
 
 export async function getProductBySlug(slug: string | undefined, forcedLocationId?: string): Promise<CMSProduct | null> {
   const locId = forcedLocationId || getCurrentLocationId();
-  const localProductsMapped: CMSProduct[] = LOCALIZED_PRODUCTS[locId] || fallbackProducts.map(p => ({
-    id: p.id,
-    slug: p.slug,
-    name: p.name,
-    category: p.category,
-    description: p.description,
-    price: p.price,
-    image: p.image,
-    features: p.features,
-    specs: p.specs
-  })).map(p => localizeProduct(p, locId));
-
-  const foundLocal = localProductsMapped.find(p => p.slug === slug) || null;
+  const foundLocal = getProductBySlugSync(slug, locId);
   if (!isSanityConfigured || !slug) return foundLocal;
   try {
     const data = await client.fetch<CMSProduct>(productBySlugQuery, { slug, locationId: locId });
@@ -908,9 +916,9 @@ export async function getFooter(forcedLocationId?: string): Promise<CMSFooter> {
     shortAbout: locId === 'hcm'
       ? 'Hoàng Tuấn MPE cung cấp giải pháp sửa chữa điện nước, dò tìm rò rỉ nước siêu âm và lắp đặt camera giám sát chất lượng số 1 tại khu vực TP. Hồ Chí Minh.'
       : 'Hoàng Tuấn MPE cung cấp giải pháp sửa chữa điện nước, dò tìm rò rỉ nước siêu âm và lắp đặt camera giám sát chất lượng số 1 tại khu vực Bảo Lộc, Lâm Đồng.',
-    address: locId === 'hcm' ? '74 Trần Phú, Quận 1, TP. Hồ Chí Minh' : 'Hẻm 74 Trần Phú, Lộc Phát, Bảo Lộc, Lâm Đồng',
-    phone: '0389.011.315',
-    email: 'contact@hoangtuanmpe.com',
+    address: locId === 'hcm' ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng",
+    phone: '0389 011 315',
+    email: 'hoangtuanmpe@gmail.com',
     workingHours: 'Hỗ trợ 24/7 (Kể cả Chủ Nhật & Ngày Lễ)',
     socialLinks: {
       facebook: 'https://facebook.com',
@@ -1097,16 +1105,16 @@ export async function getLocalBusiness(forcedLocationId?: string): Promise<CMSLo
   const fallbackBiz: CMSLocalBusiness = LOCALIZED_BUSINESS_SCHEMA[locId] || {
     name: locId === 'hcm' ? 'Hoàng Tuấn MPE - Chi Nhánh Hồ Chí Minh' : 'Hoàng Tuấn MPE - Trụ Sở Bảo Lộc',
     legalName: locId === 'hcm' ? 'Công ty TNHH Hoàng Tuấn MPE Cơ Điện (TP.HCM)' : 'Công ty TNHH Hoàng Tuấn MPE Cơ Điện',
-    telephone: '0389.011.315',
+    telephone: '0389011315',
     address: locId === 'hcm' ? {
-      streetAddress: '74 Trần Phú',
-      addressLocality: 'Quận 1',
+      streetAddress: '528/17 Tô Ngọc Vân',
+      addressLocality: 'Tam Bình, Thủ Đức',
       addressRegion: 'TP. Hồ Chí Minh',
       postalCode: '70000',
       addressCountry: 'VN'
     } : {
-      streetAddress: '74 Trần Phú',
-      addressLocality: 'Bảo Lộc',
+      streetAddress: "279 B'Lao sire",
+      addressLocality: 'Phường 3, Bảo Lộc',
       addressRegion: 'Lâm Đồng',
       postalCode: '67000',
       addressCountry: 'VN'
@@ -1173,9 +1181,9 @@ export async function getContact(forcedLocationId?: string): Promise<CMSContact>
     pageTitle: `${locId === 'hcm' ? 'Hồ Chí Minh' : 'Bảo Lộc'} - Kết nối với Hoàng Tuấn MPE`,
     pageSubtitle: `Đội ngũ trực điện nước luôn sẵn sàng phục vụ quý khách tại ${locName} và khu vực lân cận. Đừng ngần ngại liên lạc qua hotline 24/7 hoặc tin nhắn Zalo.`,
     contactFields: [
-      { icon: 'Phone', label: 'Điện thoại 24/7', val: '0389.011.315', desc: 'Có mặt ngay sau 30 phút ròng rã' },
+      { icon: 'Phone', label: 'Điện thoại 24/7', val: '0389 011 315', desc: 'Có mặt ngay sau 30 phút' },
       { icon: 'MessageSquare', label: 'Zalo Chat', val: '0389011315', desc: 'Nhận báo giá và khảo sát ảnh tư vấn miễn phí' },
-      { icon: 'MapPin', label: 'Địa chỉ phục vụ', val: locId === 'hcm' ? '74 Trần Phú, Quận 1, TP. Hồ Chí Minh' : 'Hẻm 74 Trần Phú, Lộc Phát, Bảo Lộc, Lâm Đồng' },
+      { icon: 'MapPin', label: 'Địa chỉ phục vụ', val: locId === 'hcm' ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng" },
       { icon: 'Clock', label: 'Giờ làm việc', val: 'Mở cửa 24H ngày đêm, kể cả lễ và Tết nguyên đán' }
     ],
     mapEmbedUrl: locId === 'hcm' 

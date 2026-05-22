@@ -11,6 +11,13 @@ const ZaloIcon = ({ size = 18 }: { size?: number }) => (
   </svg>
 );
 
+// Custom simple TikTok SVG icon
+const TikTokIcon = ({ size = 18 }: { size?: number }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: size, height: size }}>
+    <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.2-.41-.43-.58-.67-.02 2.44-.01 4.88-.01 7.32-.03 1.25-.33 2.54-.95 3.63-.82 1.43-2.28 2.45-3.92 2.78-1.73.35-3.64.13-5.2-.68-1.57-.81-2.73-2.38-3.08-4.14-.4-1.93-.05-4.03 1.05-5.69 1.13-1.73 3.12-2.82 5.19-2.83.05 1.45.02 2.91.03 4.36-.67.03-1.37.11-1.99.39-.77.34-1.4 1.01-1.63 1.83-.34 1.14-.1 2.44.62 3.39.73.98 1.95 1.53 3.17 1.47 1.43-.03 2.78-.99 3.23-2.35.24-.65.29-1.36.27-2.05L12.53.02z" />
+  </svg>
+);
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const { locationId, location: appLocation, changeLocation } = useLocation();
@@ -29,12 +36,13 @@ export default function Footer() {
 
   const companyName = footerData?.companyName || 'Hoàng Tuấn MPE';
   const shortAbout = footerData?.shortAbout || 'Hoàng Tuấn MPE tự hào là đơn vị cung cấp dịch vụ sửa chữa điện nước và thiết bị điện MPE uy tín hàng đầu tại Việt Nam. Sự hài lòng của khách hàng là kim chỉ nam cho mọi hoạt động của chúng tôi.';
-  const address = footerData?.address || (locationId === 'hcm' ? 'Hồ Chí Minh, Việt Nam' : 'Hẻm 74 Trần Phú, Lộc Phát, Bảo Lộc, Lâm Đồng');
+  const address = footerData?.address || (locationId === 'hcm' ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng");
   const phone = footerData?.phone || '0389 011 315';
-  const email = footerData?.email || 'contact@suadiennuoc.vn';
+  const email = footerData?.email || 'hoangtuanmpe@gmail.com';
   const facebookUrl = footerData?.socialLinks?.facebook || 'https://facebook.com';
   const youtubeUrl = footerData?.socialLinks?.youtube || 'https://youtube.com';
   const zaloUrl = footerData?.socialLinks?.zalo || `https://zalo.me/${phone.replace(/[.\s]/g, '')}`;
+  const tiktokUrl = 'https://www.tiktok.com/@diennuoccamerabaoloc';
   const copyrightText = footerData?.copyrightText || `© ${currentYear} ${companyName}. All rights reserved.`;
 
   const quickLinks = [
@@ -79,6 +87,9 @@ export default function Footer() {
               </a>
               <a href={zaloUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all">
                 <ZaloIcon size={18} />
+              </a>
+              <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all" title="TikTok">
+                <TikTokIcon size={18} />
               </a>
             </div>
           </div>

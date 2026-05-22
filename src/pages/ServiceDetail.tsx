@@ -13,7 +13,7 @@ import {
 import ProcessTimeline, { FAQSection } from '../components/ExtraSections';
 import FinalCTA from '../components/FinalCTA';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { getServiceBySlug, getServices, getIconComponent, CMSService } from '../lib/sanity';
+import { getServiceBySlug, getServiceBySlugSync, getServices, getServicesSync, getIconComponent, CMSService } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 
@@ -23,9 +23,14 @@ const ServiceDetailTemplate = () => {
   const { location: appLocation } = useLocation();
   const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/baoloc';
 
-  const [service, setService] = useState<CMSService | null>(null);
-  const [relatedServices, setRelatedServices] = useState<CMSService[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [service, setService] = useState<CMSService | null>(() => getServiceBySlugSync(slug, locationId));
+  const [relatedServices, setRelatedServices] = useState<CMSService[]>(() => {
+    const srv = getServiceBySlugSync(slug, locationId);
+    if (!srv) return [];
+    const list = getServicesSync(locationId);
+    return list.filter(item => item.category === srv.category && item.slug !== srv.slug).slice(0, 3);
+  });
+  const [loading, setLoading] = useState(() => !getServiceBySlugSync(slug, locationId));
 
   // Scroll to top on slug change
   useEffect(() => {

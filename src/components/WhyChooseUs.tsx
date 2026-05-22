@@ -24,7 +24,7 @@ export default function WhyChooseUs() {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: Math.min(index * 0.05, 0.15), duration: 0.3 }}
                 className="flex items-start gap-4"
               >
                 <div className="w-12 h-12 shrink-0 bg-white shadow-md rounded-full flex items-center justify-center text-brand-primary">

@@ -18,7 +18,7 @@ import {
 import { PRODUCTS } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import { useEffect, useState } from 'react';
-import { getProductBySlug, getProducts, CMSProduct } from '../lib/sanity';
+import { getProductBySlug, getProductBySlugSync, getProducts, getProductsSync, CMSProduct } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 
@@ -28,15 +28,19 @@ export default function ProductDetail() {
   const { location: appLocation } = useLocation();
   const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/baoloc';
 
-  const [product, setProduct] = useState<CMSProduct | null>(null);
-  const [related, setRelated] = useState<CMSProduct[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState<CMSProduct | null>(() => getProductBySlugSync(slug, locationId));
+  const [related, setRelated] = useState<CMSProduct[]>(() => {
+    const prd = getProductBySlugSync(slug, locationId);
+    if (!prd) return [];
+    const list = getProductsSync(locationId);
+    return list.filter(p => p.category === prd.category && p.slug !== slug).slice(0, 3);
+  });
+  const [loading, setLoading] = useState(() => !getProductBySlugSync(slug, locationId));
 
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!slug) return;
 
-    setLoading(true);
     let active = true;
 
     getProductBySlug(slug, locationId).then(data => {

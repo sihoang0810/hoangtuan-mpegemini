@@ -4,7 +4,7 @@ import { ShoppingBag, ChevronRight, Filter, Search, Phone, MessageCircle } from 
 import { Link, useParams } from 'react-router-dom';
 import { PRODUCTS, PRODUCT_CATEGORIES } from '../data/products';
 import ProductCard from '../components/ProductCard';
-import { getProducts, CMSProduct } from '../lib/sanity';
+import { getProducts, getProductsSync, CMSProduct } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 
@@ -13,7 +13,7 @@ export default function ProductListing() {
   const { location: appLocation } = useLocation();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [dbProducts, setDbProducts] = useState<CMSProduct[]>([]);
+  const [dbProducts, setDbProducts] = useState<CMSProduct[]>(() => getProductsSync(locationId));
 
   useEffect(() => {
     let active = true;

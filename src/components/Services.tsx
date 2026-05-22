@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { getServices, getIconComponent, CMSService } from '../lib/sanity';
+import { getServices, getServicesSync, getIconComponent, CMSService } from '../lib/sanity';
 
 export default function Services() {
-  const [services, setServices] = useState<CMSService[]>([]);
+  const [services, setServices] = useState<CMSService[]>(() => getServicesSync());
 
   useEffect(() => {
     let active = true;
@@ -35,7 +35,7 @@ export default function Services() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: Math.min((index % 3) * 0.05, 0.15), duration: 0.3 }}
               className="group p-8 rounded-2xl bg-white border border-slate-100 shadow-xl shadow-slate-100 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all hover:-translate-y-2 flex flex-col h-full"
             >
               <div className="w-14 h-14 bg-brand-primary/10 text-brand-primary rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:text-white transition-colors">

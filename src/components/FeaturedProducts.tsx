@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { getProducts, CMSProduct } from '../lib/sanity';
+import { getProducts, getProductsSync, CMSProduct } from '../lib/sanity';
 import ProductCard from './ProductCard';
 
 export default function FeaturedProducts() {
-  const [products, setProducts] = useState<CMSProduct[]>([]);
+  const [products, setProducts] = useState<CMSProduct[]>(() => getProductsSync());
 
   useEffect(() => {
     let active = true;

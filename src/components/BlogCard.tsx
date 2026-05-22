@@ -20,7 +20,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
+      transition={{ delay: Math.min((index % 3) * 0.05, 0.15), duration: 0.3 }}
       className="group bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col h-full"
     >
       <Link to={`${siteLocationPrefix}/blog/${post.slug}`} className="relative h-64 overflow-hidden block">

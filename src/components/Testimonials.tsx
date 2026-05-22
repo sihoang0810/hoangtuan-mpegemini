@@ -32,7 +32,7 @@ export default function Testimonials() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: Math.min((index % 3) * 0.05, 0.15), duration: 0.3 }}
             className="p-8 rounded-3xl bg-white border border-slate-100 shadow-xl relative"
           >
             {/* Quote Icon Background */}

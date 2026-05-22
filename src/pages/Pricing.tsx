@@ -5,7 +5,7 @@ import FinalCTA from '../components/FinalCTA';
 import { FAQSection } from '../components/ExtraSections';
 import { BadgeCheck, Zap, Droplet, Video, Search } from 'lucide-react';
 import { motion } from 'motion/react';
-import { getServices, CMSService } from '../lib/sanity';
+import { getServices, getServicesSync, CMSService } from '../lib/sanity';
 import PageSEO from '../components/PageSEO';
 
 const PRICE_CATEGORIES = [
@@ -17,7 +17,7 @@ const PRICE_CATEGORIES = [
 
 export default function Pricing() {
   const { locationId } = useParams();
-  const [services, setServices] = useState<CMSService[]>([]);
+  const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationId));
 
   useEffect(() => {
     let active = true;

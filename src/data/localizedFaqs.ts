@@ -19,7 +19,7 @@ export const LOCALIZED_FAQS: { [key: string]: CMSFaq[] } = {
     },
     {
       question: "Thời gian thợ có mặt sau cuộc gọi ở Bảo Lộc là bao lâu?",
-      answer: "Dưới 30 phút. Nhờ lợi thế văn phòng chính đặt tại hẻm 74 Trần Phú, Lộc Phát, thợ di chuyển rất nhanh đến các khu vực Phường 1, Phường 2, Lộc Sơn, Blao, Lộc Tiến, B'Lao, Lộc Nga và ranh giới Bảo Lâm.",
+      answer: "Dưới 30 phút. Nhờ lợi thế văn phòng chính đặt tại 279 B'Lao sire, Phường 3, thợ di chuyển rất nhanh đến các khu vực Phường 1, Phường 2, Lộc Sơn, Blao, Lộc Tiến, B'Lao, Lộc Nga và ranh giới Bảo Lâm.",
       category: "Thời Gian Đáp Ứng"
     },
     {
