@@ -13,8 +13,8 @@ const ZaloIcon = ({ size = 18 }: { size?: number }) => (
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const { locationId, location: appLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+  const { locationId, location: appLocation, changeLocation } = useLocation();
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/baoloc';
   const [footerData, setFooterData] = useState<CMSFooter | null>(null);
 
   useEffect(() => {
@@ -136,6 +136,12 @@ export default function Footer() {
         <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
           <p>{copyrightText}</p>
           <div className="flex gap-8">
+            <button 
+              onClick={changeLocation} 
+              className="hover:text-brand-primary transition-colors cursor-pointer text-left focus:outline-none"
+            >
+              Đổi khu vực ({appLocation || 'Chưa chọn'})
+            </button>
             <Link to="/dieu-khoan" className="hover:text-brand-primary transition-colors">Điều khoản dịch vụ</Link>
             <Link to="/bao-mat" className="hover:text-brand-primary transition-colors">Chính sách bảo mật</Link>
           </div>

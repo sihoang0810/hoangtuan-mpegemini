@@ -72,7 +72,7 @@ interface CategorySectionProps {
 
 const CategorySection: React.FC<CategorySectionProps> = ({ category, services }) => {
   const { location: appLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/baoloc';
 
   return (
     <section id={category.id} className="py-20 border-b border-slate-100 last:border-0">
@@ -291,23 +291,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Categories Hub Menu */}
-      <div className="sticky top-20 bg-white/80 backdrop-blur-xl z-40 border-b border-slate-100 hidden md:block">
-        <div className="section-container py-4">
-          <div className="flex justify-center gap-8">
-            {CATEGORIES.map((cat) => (
-              <a 
-                key={cat.id} 
-                href={`#${cat.id}`}
-                className="flex items-center gap-2 font-bold text-xs uppercase tracking-widest text-slate-400 hover:text-brand-primary transition-colors"
-              >
-                <cat.icon size={16} />
-                {cat.title.replace('Dịch Vụ ', '')}
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
+
 
       {/* Main Service Categories */}
       <div className="bg-white">

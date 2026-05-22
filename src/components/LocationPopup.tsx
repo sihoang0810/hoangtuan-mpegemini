@@ -4,7 +4,7 @@ import { useLocation } from '../context/LocationContext';
 import { LOCATIONS as STATIC_LOCATIONS } from '../constants';
 
 export default function LocationPopup() {
-  const { showPopup, setLocation, locations } = useLocation();
+  const { showPopup, setLocation, locations, setShowPopup } = useLocation();
 
   const activeLocations = locations.length > 0 ? locations : STATIC_LOCATIONS;
 
@@ -31,12 +31,12 @@ export default function LocationPopup() {
               <h2 className="text-3xl font-bold text-brand-secondary mb-4">Chọn Khu Vực Của Bạn</h2>
               <p className="text-slate-500 mb-10">Chúng tôi sẽ hiển thị thông tin phù hợp với khu vực của bạn</p>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-6 mb-8">
                 {activeLocations.map((loc) => (
                   <button
                     key={loc.id}
                     onClick={() => setLocation(loc.name as any)}
-                    className="group relative flex flex-col items-center p-8 rounded-3xl border-2 border-slate-100 hover:border-brand-primary hover:bg-brand-primary/5 transition-all text-center animate-in fade-in zoom-in-95 duration-355"
+                    className="group relative flex flex-col items-center p-8 rounded-3xl border-2 border-slate-100 hover:border-brand-primary hover:bg-brand-primary/5 transition-all text-center animate-in fade-in zoom-in-95 duration-355 cursor-pointer"
                   >
                     <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:text-white transition-all">
                       <MapPin size={32} />
@@ -54,6 +54,18 @@ export default function LocationPopup() {
                     </div>
                   </button>
                 ))}
+              </div>
+
+              <div className="flex justify-center">
+                <button
+                  onClick={() => {
+                    sessionStorage.setItem('user-location-later', 'true');
+                    setShowPopup(false);
+                  }}
+                  className="px-8 py-3 rounded-full border border-slate-200 hover:border-brand-primary hover:text-brand-primary text-slate-500 font-bold text-sm transition-all focus:outline-none cursor-pointer duration-200"
+                >
+                  Để sau / Xem mặc định
+                </button>
               </div>
             </div>
 

@@ -109,7 +109,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
         name: biz.name,
         legalName: biz.legalName || biz.name,
         logo: biz.logo || 'https://hoangtuanmpe.com/logo.png',
-        url: window.location.origin + '/' + (locationId === 'hcm' ? 'ho-chi-minh' : 'bao-loc'),
+        url: window.location.origin + '/' + (locationId === 'hcm' ? 'ho-chi-minh' : 'baoloc'),
         telephone: biz.telephone || '0389.011.315',
         priceRange: biz.priceRange || '$$',
         address: biz.address ? {
@@ -141,15 +141,15 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
           '@type': 'ListItem',
           position: 1,
           name: appLocation || 'Bảo Lộc',
-          item: `${window.location.origin}/${locationId === 'hcm' ? 'ho-chi-minh' : 'bao-loc'}`
+          item: `${window.location.origin}/${locationId === 'hcm' ? 'ho-chi-minh' : 'baoloc'}`
         }
       ];
 
       // Build out sub-breadcrumbs
-      let cumulativePath = `/${locationId === 'hcm' ? 'ho-chi-minh' : 'bao-loc'}`;
+      let cumulativePath = `/${locationId === 'hcm' ? 'ho-chi-minh' : 'baoloc'}`;
       pathSegments.forEach((segment, idx) => {
         // Skip location prefix segment
-        if (idx === 0 && (segment === 'bao-loc' || segment === 'ho-chi-minh')) return;
+        if (idx === 0 && (segment === 'bao-loc' || segment === 'baoloc' || segment === 'ho-chi-minh')) return;
         
         cumulativePath += `/${segment}`;
         

@@ -337,7 +337,7 @@ export function getCurrentLocationId(): string {
   let detectedId = 'baoloc';
   if (prefix === 'ho-chi-minh') {
     detectedId = 'hcm';
-  } else if (prefix === 'bao-loc') {
+  } else if (prefix === 'bao-loc' || prefix === 'baoloc') {
     detectedId = 'baoloc';
   } else {
     // Try localStorage fallback
@@ -1027,7 +1027,7 @@ export async function getSeo(path: string, forcedLocationId?: string): Promise<C
               pagePath: path,
               metaTitle: srv.title,
               metaDescription: srv.shortDescription,
-              canonicalUrl: `https://hoangtuanmpe.com/${locId === 'hcm' ? 'ho-chi-minh' : 'bao-loc'}/dich-vu/${slug}`,
+              canonicalUrl: `https://hoangtuanmpe.com/${locId === 'hcm' ? 'ho-chi-minh' : 'baoloc'}/dich-vu/${slug}`,
               ogImage: srv.image,
               keywords: srv.features
             };
@@ -1039,7 +1039,7 @@ export async function getSeo(path: string, forcedLocationId?: string): Promise<C
               pagePath: path,
               metaTitle: `${prd.name} Chính Hãng Giá Tốt tại ${locName}`,
               metaDescription: prd.description.slice(0, 150),
-              canonicalUrl: `https://hoangtuanmpe.com/${locId === 'hcm' ? 'ho-chi-minh' : 'bao-loc'}/san-pham/${slug}`,
+              canonicalUrl: `https://hoangtuanmpe.com/${locId === 'hcm' ? 'ho-chi-minh' : 'baoloc'}/san-pham/${slug}`,
               ogImage: prd.image,
               keywords: prd.features
             };
@@ -1051,7 +1051,7 @@ export async function getSeo(path: string, forcedLocationId?: string): Promise<C
               pagePath: path,
               metaTitle: blg.title,
               metaDescription: blg.excerpt,
-              canonicalUrl: `https://hoangtuanmpe.com/${locId === 'hcm' ? 'ho-chi-minh' : 'bao-loc'}/blog/${slug}`,
+              canonicalUrl: `https://hoangtuanmpe.com/${locId === 'hcm' ? 'ho-chi-minh' : 'baoloc'}/blog/${slug}`,
               ogImage: blg.image,
               keywords: blg.tags
             };

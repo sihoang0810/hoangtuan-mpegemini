@@ -56,8 +56,8 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const routerLocation = useRouterLocation();
-  const { location: appLocation, setShowPopup } = useAppLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+  const { location: appLocation, changeLocation } = useAppLocation();
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/baoloc';
 
   const [siteSettings, setSiteSettings] = useState<CMSSiteSettings | null>(null);
   const [menus, setMenus] = useState<CMSMenu[]>([]);
@@ -193,7 +193,7 @@ export default function Header() {
           {/* Location Selector Button - Right */}
           <div className="hidden lg:block shrink-0">
             <button 
-              onClick={() => setShowPopup(true)}
+              onClick={changeLocation}
               className="flex items-center gap-3 bg-brand-primary text-white px-6 py-3 rounded-full font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer tracking-tight"
             >
               <MapPin size={22} />
