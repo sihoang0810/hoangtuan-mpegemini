@@ -21,7 +21,7 @@ const TikTokIcon = ({ size = 18 }: { size?: number }) => (
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const { locationId, location: appLocation, changeLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/baoloc';
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
   const [footerData, setFooterData] = useState<CMSFooter | null>(null);
 
   useEffect(() => {

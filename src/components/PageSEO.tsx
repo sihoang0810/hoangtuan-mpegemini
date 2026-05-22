@@ -102,6 +102,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       const schemas: any[] = [];
 
       // 5.1 LocalBusiness Schema
+      const finalSlug = (locationId === 'ho-chi-minh' || locationId === 'hcm') ? 'ho-chi-minh' : 'bao-loc';
       const localBusinessSchema = {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
@@ -109,7 +110,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
         name: biz.name,
         legalName: biz.legalName || biz.name,
         logo: biz.logo || 'https://hoangtuanmpe.com/logo.png',
-        url: window.location.origin + '/' + (locationId === 'hcm' ? 'ho-chi-minh' : 'baoloc'),
+        url: window.location.origin + '/' + finalSlug,
         telephone: biz.telephone || '0389.011.315',
         priceRange: biz.priceRange || '$$',
         address: biz.address ? {
@@ -141,12 +142,12 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
           '@type': 'ListItem',
           position: 1,
           name: appLocation || 'Bảo Lộc',
-          item: `${window.location.origin}/${locationId === 'hcm' ? 'ho-chi-minh' : 'baoloc'}`
+          item: `${window.location.origin}/${finalSlug}`
         }
       ];
 
       // Build out sub-breadcrumbs
-      let cumulativePath = `/${locationId === 'hcm' ? 'ho-chi-minh' : 'baoloc'}`;
+      let cumulativePath = `/${finalSlug}`;
       pathSegments.forEach((segment, idx) => {
         // Skip location prefix segment
         if (idx === 0 && (segment === 'bao-loc' || segment === 'baoloc' || segment === 'ho-chi-minh')) return;

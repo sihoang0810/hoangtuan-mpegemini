@@ -57,7 +57,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const routerLocation = useRouterLocation();
   const { location: appLocation, changeLocation } = useAppLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/baoloc';
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
 
   const [siteSettings, setSiteSettings] = useState<CMSSiteSettings | null>(null);
   const [menus, setMenus] = useState<CMSMenu[]>([]);

@@ -9,11 +9,12 @@ export const locationsQuery = `*[_type == "location"] | order(id asc) {
   name,
   hotline,
   description,
-  image
+  image,
+  "slug": slug.current
 }`;
 
 // 2. Homepage content per location
-export const homepageQuery = `*[_type == "homepage" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId || !defined(location))] | order(_createdAt desc)[0] {
+export const homepageQuery = `*[_type == "homepage" && location->slug.current == $locationSlug] | order(_createdAt desc)[0] {
   _id,
   heroTitle,
   heroSubtitle,
@@ -50,7 +51,7 @@ export const serviceCategoriesQuery = `*[_type == "serviceCategory"] | order(id 
 }`;
 
 // 4. Services per location
-export const servicesQuery = `*[_type == "service" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt asc) {
+export const servicesQuery = `*[_type == "service" && location->slug.current == $locationSlug] | order(_createdAt asc) {
   _id,
   id,
   slug,
@@ -73,7 +74,7 @@ export const servicesQuery = `*[_type == "service" && (location->id == $location
   }
 }`;
 
-export const serviceBySlugQuery = `*[_type == "service" && (slug == $slug || slug.current == $slug) && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
+export const serviceBySlugQuery = `*[_type == "service" && (slug == $slug || slug.current == $slug) && location->slug.current == $locationSlug][0] {
   _id,
   id,
   slug,
@@ -105,7 +106,7 @@ export const postCategoriesQuery = `*[_type == "postCategory"] {
 }`;
 
 // 6. Blog Posts per location
-export const postsQuery = `*[_type == "post" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(date desc) {
+export const postsQuery = `*[_type == "post" && location->slug.current == $locationSlug] | order(date desc) {
   _id,
   id,
   slug,
@@ -128,7 +129,7 @@ export const postsQuery = `*[_type == "post" && (location->id == $locationId || 
   }
 }`;
 
-export const postBySlugQuery = `*[_type == "post" && (slug == $slug || slug.current == $slug) && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
+export const postBySlugQuery = `*[_type == "post" && (slug == $slug || slug.current == $slug) && location->slug.current == $locationSlug][0] {
   _id,
   id,
   slug,
@@ -161,7 +162,7 @@ export const productCategoriesQuery = `*[_type == "productCategory"] | order(_cr
 }`;
 
 // 8. Products per location
-export const productsQuery = `*[_type == "product" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt desc) {
+export const productsQuery = `*[_type == "product" && location->slug.current == $locationSlug] | order(_createdAt desc) {
   _id,
   id,
   slug,
@@ -174,7 +175,7 @@ export const productsQuery = `*[_type == "product" && (location->id == $location
   specs
 }`;
 
-export const productBySlugQuery = `*[_type == "product" && (slug == $slug || slug.current == $slug) && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
+export const productBySlugQuery = `*[_type == "product" && (slug == $slug || slug.current == $slug) && location->slug.current == $locationSlug][0] {
   _id,
   id,
   slug,
@@ -188,7 +189,7 @@ export const productBySlugQuery = `*[_type == "product" && (slug == $slug || slu
 }`;
 
 // 9. Pricing Entries per location
-export const pricingQuery = `*[_type == "pricing" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId || !defined(location))] | order(orderNo asc) {
+export const pricingQuery = `*[_type == "pricing" && location->slug.current == $locationSlug] | order(orderNo asc) {
   _id,
   title,
   price,
@@ -200,7 +201,7 @@ export const pricingQuery = `*[_type == "pricing" && (location->id == $locationI
 }`;
 
 // 10. FAQs per location
-export const faqsQuery = `*[_type == "faq" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt asc) {
+export const faqsQuery = `*[_type == "faq" && location->slug.current == $locationSlug] | order(_createdAt asc) {
   _id,
   question,
   answer,
@@ -208,7 +209,7 @@ export const faqsQuery = `*[_type == "faq" && (location->id == $locationId || lo
 }`;
 
 // 11. Testimonials per location
-export const testimonialsQuery = `*[_type == "testimonial" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(rating desc, _createdAt desc) {
+export const testimonialsQuery = `*[_type == "testimonial" && location->slug.current == $locationSlug] | order(rating desc, _createdAt desc) {
   _id,
   name,
   role,
@@ -218,7 +219,7 @@ export const testimonialsQuery = `*[_type == "testimonial" && (location->id == $
 }`;
 
 // 12. Reviews per location
-export const reviewsQuery = `*[_type == "review" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt desc) {
+export const reviewsQuery = `*[_type == "review" && location->slug.current == $locationSlug] | order(_createdAt desc) {
   _id,
   customerName,
   comment,
@@ -228,7 +229,7 @@ export const reviewsQuery = `*[_type == "review" && (location->id == $locationId
 }`;
 
 // 13. Gallery per location
-export const galleryQuery = `*[_type == "gallery" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt desc) {
+export const galleryQuery = `*[_type == "gallery" && location->slug.current == $locationSlug] | order(_createdAt desc) {
   _id,
   title,
   image,
@@ -249,8 +250,8 @@ export const menusQuery = `*[_type == "menu"] | order(orderNo asc) {
   }
 }`;
 
-// 15. Footer Content (Location-specific or fallback global)
-export const footerQuery = `*[_type == "footer" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId || !defined(location))] | order(_createdAt desc)[0] {
+// 15. Footer Content (Location-specific)
+export const footerQuery = `*[_type == "footer" && location->slug.current == $locationSlug] | order(_createdAt desc)[0] {
   _id,
   companyName,
   shortAbout,
@@ -267,7 +268,7 @@ export const footerQuery = `*[_type == "footer" && (location->id == $locationId 
 }`;
 
 // 16. Banners per location
-export const bannersQuery = `*[_type == "banner" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)] | order(_createdAt desc) {
+export const bannersQuery = `*[_type == "banner" && location->slug.current == $locationSlug] | order(_createdAt desc) {
   _id,
   title,
   text,
@@ -277,7 +278,7 @@ export const bannersQuery = `*[_type == "banner" && (location->id == $locationId
 }`;
 
 // 17. Popup Promotions per location
-export const popupsQuery = `*[_type == "popup" && isActive == true && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
+export const popupsQuery = `*[_type == "popup" && isActive == true && location->slug.current == $locationSlug][0] {
   _id,
   title,
   subtitle,
@@ -289,7 +290,7 @@ export const popupsQuery = `*[_type == "popup" && isActive == true && (location-
 }`;
 
 // 18. SEO Meta per path and location
-export const seoQuery = `*[_type == "seo" && pagePath == $path && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
+export const seoQuery = `*[_type == "seo" && pagePath == $path && location->slug.current == $locationSlug][0] {
   _id,
   pagePath,
   metaTitle,
@@ -300,7 +301,7 @@ export const seoQuery = `*[_type == "seo" && pagePath == $path && (location->id 
 }`;
 
 // 19. Local Business per location
-export const localBusinessQuery = `*[_type == "localBusiness" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
+export const localBusinessQuery = `*[_type == "localBusiness" && location->slug.current == $locationSlug][0] {
   _id,
   name,
   legalName,
@@ -325,8 +326,8 @@ export const localBusinessQuery = `*[_type == "localBusiness" && (location->id =
   }
 }`;
 
-// 20. Site Settings per location or global fallback
-export const siteSettingsQuery = `*[_type == "siteSettings" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId || !defined(location))] | order(_createdAt desc)[0] {
+// 20. Site Settings per location
+export const siteSettingsQuery = `*[_type == "siteSettings" && location->slug.current == $locationSlug][0] {
   _id,
   siteName,
   tagline,
@@ -338,7 +339,7 @@ export const siteSettingsQuery = `*[_type == "siteSettings" && (location->id == 
 }`;
 
 // 21. Contact settings per location
-export const contactQuery = `*[_type == "contact" && (location->id == $locationId || location._ref == $locationId || location._ref == "location-" + $locationId)][0] {
+export const contactQuery = `*[_type == "contact" && location->slug.current == $locationSlug][0] {
   _id,
   pageTitle,
   pageSubtitle,

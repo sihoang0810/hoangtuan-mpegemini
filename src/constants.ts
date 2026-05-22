@@ -86,13 +86,13 @@ export const WHY_CHOOSE_US = [
 
 export const LOCATIONS = [
   {
-    id: 'baoloc',
+    id: 'bao-loc',
     name: 'Bảo Lộc',
     hotline: '0389.011.315',
     description: 'Trụ sở chính, hỗ trợ nhanh nhất khu vực Lâm Đồng.'
   },
   {
-    id: 'hcm',
+    id: 'ho-chi-minh',
     name: 'Hồ Chí Minh',
     hotline: '0389.011.315',
     description: 'Văn phòng đại diện, hỗ trợ khu vực các quận nội thành.'

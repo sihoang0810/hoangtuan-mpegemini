@@ -24,13 +24,13 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
   const routerLoc = useRouterLocation();
   const navigate = useNavigate();
 
-  // Map representation - use "baoloc" as requested by the user
+  // Map representation - use strictly canonical slugs
   const NAME_TO_ROUTE: Record<string, string> = {
-    'Bảo Lộc': 'baoloc',
+    'Bảo Lộc': 'bao-loc',
     'Hồ Chí Minh': 'ho-chi-minh',
   };
 
-  const locationId = location === 'Hồ Chí Minh' ? 'hcm' : 'baoloc';
+  const locationId = location === 'Hồ Chí Minh' ? 'ho-chi-minh' : 'bao-loc';
 
   // Load locations from CMS initially
   useEffect(() => {
@@ -43,10 +43,22 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
     const isConfirmed = sessionStorage.getItem('user-location-confirmed') || localStorage.getItem('user-location');
     const isLater = sessionStorage.getItem('user-location-later');
     
-    // Check if current URL already has prefix
+    // Intercept legacy URL prefixes and normalize to canonical
     const parts = window.location.pathname.split('/');
     const prefix = parts[1];
-    const validPrefixes = ['bao-loc', 'baoloc', 'ho-chi-minh'];
+    
+    if (prefix === 'baoloc' || prefix === 'bao_loc') {
+      parts[1] = 'bao-loc';
+      navigate(parts.join('/') + window.location.search, { replace: true });
+      return;
+    }
+    if (prefix === 'hochiminh' || prefix === 'hcm') {
+      parts[1] = 'ho-chi-minh';
+      navigate(parts.join('/') + window.location.search, { replace: true });
+      return;
+    }
+
+    const validPrefixes = ['bao-loc', 'ho-chi-minh'];
     const hasPrefix = validPrefixes.includes(prefix);
 
     // Show popup only if not confirmed, not skipped via 'Để sau' in this session, AND no location prefix exists in current URL
@@ -57,16 +69,26 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
     return () => {
       active = false;
     };
-  }, []);
+  }, [navigate]);
 
   // Synchronize route suffix with Location state
   useEffect(() => {
     const parts = routerLoc.pathname.split('/');
-    const prefix = parts[1]; // e.g. "bao-loc" or "baoloc" or "ho-chi-minh"
+    const prefix = parts[1]; // e.g. "bao-loc" or "ho-chi-minh"
 
-    const validPrefixes = ['bao-loc', 'baoloc', 'ho-chi-minh'];
+    const validPrefixes = ['bao-loc', 'ho-chi-minh'];
     const hasPrefix = validPrefixes.includes(prefix);
-    const savedLocation = localStorage.getItem('user-location');
+    
+    // Support legacy pre-saved values in localstorage and auto-normalize them
+    let savedLocation = localStorage.getItem('user-location');
+    if (savedLocation === 'baoloc' || savedLocation === 'bao_loc' || savedLocation === 'Bảo Lộc') {
+      savedLocation = 'bao-loc';
+      localStorage.setItem('user-location', 'bao-loc');
+    } else if (savedLocation === 'hcm' || savedLocation === 'hochiminh' || savedLocation === 'Hồ Chí Minh') {
+      savedLocation = 'ho-chi-minh';
+      localStorage.setItem('user-location', 'ho-chi-minh');
+    }
+
     const isLater = sessionStorage.getItem('user-location-later');
 
     if (hasPrefix) {
@@ -77,17 +99,16 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
       }
       // If we directly access a prefixed URL, mark as confirmed and save selection to localStorage
       sessionStorage.setItem('user-location-confirmed', 'true');
-      if (!savedLocation || savedLocation !== mappedName) {
-        localStorage.setItem('user-location', mappedName);
+      if (!savedLocation || savedLocation !== prefix) {
+        localStorage.setItem('user-location', prefix);
       }
     } else {
       // URL has no location prefix (e.g. "/" or "/dich-vu")
-      if (savedLocation) {
-        // Redirect to saved location prefix!
-        const targetPrefix = savedLocation === 'Hồ Chí Minh' ? 'ho-chi-minh' : 'baoloc';
-        let redirectPath = `/${targetPrefix}`;
+      if (savedLocation && validPrefixes.includes(savedLocation)) {
+        // Redirect to saved location prefix
+        let redirectPath = `/${savedLocation}`;
         if (routerLoc.pathname !== '/') {
-          redirectPath = `/${targetPrefix}${routerLoc.pathname}`;
+          redirectPath = `/${savedLocation}${routerLoc.pathname}`;
         }
         navigate(`${redirectPath}${routerLoc.search}`, { replace: true });
       } else {
@@ -103,22 +124,25 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
 
   const setLocation = (locName: Location) => {
     if (!locName) return;
-    setLocationState(locName);
-    localStorage.setItem('user-location', locName);
+    
+    const canonicalName = (locName === 'ho-chi-minh' || locName === 'Hồ Chí Minh' || locName === 'hcm' || locName === 'hochiminh' || locName === 'Hồ Chí Minh') ? 'Hồ Chí Minh' : 'Bảo Lộc';
+    const canonicalSlug = canonicalName === 'Hồ Chí Minh' ? 'ho-chi-minh' : 'bao-loc';
+    
+    setLocationState(canonicalName);
+    localStorage.setItem('user-location', canonicalSlug);
     sessionStorage.setItem('user-location-confirmed', 'true');
     setShowPopup(false);
 
     // Redirect current route to match selected location prefix
-    const routePrefix = NAME_TO_ROUTE[locName] || 'baoloc';
     const pathParts = routerLoc.pathname.split('/');
     const currentPrefix = pathParts[1];
 
-    if (currentPrefix === 'bao-loc' || currentPrefix === 'baoloc' || currentPrefix === 'ho-chi-minh') {
-      pathParts[1] = routePrefix;
+    if (currentPrefix === 'bao-loc' || currentPrefix === 'ho-chi-minh' || currentPrefix === 'baoloc' || currentPrefix === 'hcm') {
+      pathParts[1] = canonicalSlug;
       navigate(`${pathParts.join('/')}${routerLoc.search}`);
     } else {
       const remainingPath = routerLoc.pathname === '/' ? '' : routerLoc.pathname;
-      navigate(`/${routePrefix}${remainingPath}${routerLoc.search}`);
+      navigate(`/${canonicalSlug}${remainingPath}${routerLoc.search}`);
     }
   };
 
@@ -131,7 +155,7 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
     // Strip prefix from the current path to go to default raw URL first
     const pathParts = routerLoc.pathname.split('/');
     const prefix = pathParts[1];
-    if (prefix === 'bao-loc' || prefix === 'baoloc' || prefix === 'ho-chi-minh') {
+    if (prefix === 'bao-loc' || prefix === 'ho-chi-minh' || prefix === 'baoloc' || prefix === 'hcm') {
       pathParts.splice(1, 1);
     }
     const targetPath = pathParts.join('/') || '/';

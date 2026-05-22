@@ -26,7 +26,7 @@ export default function ProductDetail() {
   const { slug, locationId } = useParams<{ slug: string; locationId: string }>();
   const navigate = useNavigate();
   const { location: appLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/baoloc';
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
 
   const [product, setProduct] = useState<CMSProduct | null>(() => getProductBySlugSync(slug, locationId));
   const [related, setRelated] = useState<CMSProduct[]>(() => {

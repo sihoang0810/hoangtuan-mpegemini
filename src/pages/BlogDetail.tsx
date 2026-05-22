@@ -27,7 +27,7 @@ export default function BlogDetail() {
   const { slug, locationId } = useParams<{ slug: string; locationId: string }>();
   const navigate = useNavigate();
   const { location: appLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/baoloc';
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
 
   const [post, setPost] = useState<CMSBlogPost | null>(null);
   const [related, setRelated] = useState<CMSBlogPost[]>([]);

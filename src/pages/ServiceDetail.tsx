@@ -21,7 +21,7 @@ const ServiceDetailTemplate = () => {
   const { slug, locationId } = useParams();
   const navigate = useNavigate();
   const { location: appLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/baoloc';
+  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
 
   const [service, setService] = useState<CMSService | null>(() => getServiceBySlugSync(slug, locationId));
   const [relatedServices, setRelatedServices] = useState<CMSService[]>(() => {

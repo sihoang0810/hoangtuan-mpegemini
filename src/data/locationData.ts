@@ -21,7 +21,7 @@ export const locationData: Record<'baoloc' | 'hochiminh', LocationSpecificDetail
     seo: {
       title: "Dịch vụ Điện Nước & Camera tại Bảo Lộc – Hoàng Tuấn MPE",
       description: "Thợ cứu hộ sửa chữa hệ thống điện chập cháy, ống nước vỡ ngầm, lắp đặt camera an ninh uy tín hàng đầu tại Bảo Lộc Lâm Đồng. Phục vụ 24/7.",
-      canonical: "https://hoangtuanmpe.com/baoloc"
+      canonical: "https://hoangtuanmpe.com/bao-loc"
     },
     hero: {
       title: "Dịch Vụ Sửa Điện Nước, Lắp Camera Bảo Lộc",
