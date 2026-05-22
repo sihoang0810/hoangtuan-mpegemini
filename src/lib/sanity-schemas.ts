@@ -28,6 +28,8 @@ export const homepageSchema = {
     { name: 'heroVideoUrl', title: 'Hero Video URL', type: 'url' },
     { name: 'ctaText', title: 'CTA Button Text', type: 'string' },
     { name: 'ctaLink', title: 'CTA Button Link', type: 'string' },
+    { name: 'servicesHeading', title: 'Services Section Heading (Tiêu đề phụ dịch vụ)', type: 'string' },
+    { name: 'servicesSubtitle', title: 'Services Section Subtitle (Tiêu đề chính dịch vụ)', type: 'string' },
     {
       name: 'features',
       title: 'Key Features (Tính năng cốt lõi / Tại sao chọn)',

@@ -21,6 +21,8 @@ export const homepageQuery = `*[_type == "homepage" && (location->id == $locatio
   heroVideoUrl,
   ctaText,
   ctaLink,
+  servicesHeading,
+  servicesSubtitle,
   features[] {
     title,
     description,

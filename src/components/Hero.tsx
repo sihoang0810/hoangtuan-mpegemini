@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Phone, ArrowRight, ShieldCheck, Clock, CheckCircle2 } from 'lucide-react';
-import { getHomepageContent, CMSHomepage } from '../lib/sanity';
+import { getHomepageContent, getHomepageContentSync, CMSHomepage } from '../lib/sanity';
 
 export default function Hero() {
-  const [content, setContent] = useState<CMSHomepage | null>(null);
+  const [content, setContent] = useState<CMSHomepage>(() => getHomepageContentSync());
 
   useEffect(() => {
     let active = true;

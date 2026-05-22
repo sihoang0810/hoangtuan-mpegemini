@@ -75,6 +75,8 @@ export interface CMSHomepage {
   heroVideoUrl?: string;
   ctaText?: string;
   ctaLink?: string;
+  servicesHeading?: string;
+  servicesSubtitle?: string;
   features: {
     title: string;
     description: string;
@@ -310,11 +312,20 @@ export interface CMSContact {
 // Sanity Client Initialization
 // ---------------------------------------------------------
 
-const projectId = (import.meta as any).env.VITE_SANITY_PROJECT_ID;
-const dataset = (import.meta as any).env.VITE_SANITY_DATASET || 'production';
+// @ts-ignore
+const projectId = import.meta.env.VITE_SANITY_PROJECT_ID;
+// @ts-ignore
+const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
 
 // We check if projectId is valid or empty/default setting
 const isSanityConfigured = projectId && projectId !== 'your_sanity_project_id' && projectId.trim() !== '';
+
+console.log('%c[SANITY CONFIG STATUS]', 'background: #4f46e5; color: white; font-weight: bold; padding: 4px 8px; border-radius: 4px;', {
+  projectId,
+  dataset,
+  isSanityConfigured,
+  message: isSanityConfigured ? 'Sanity is active and initialized.' : 'Sanity is NOT configured correctly. Using offline fallback.'
+});
 
 export const client = createClient({
   projectId: isSanityConfigured ? projectId : 'placeholder-id',
@@ -358,6 +369,150 @@ function logCmsStatus(docType: string, isFromCms: boolean, count: number, err?: 
     console.log(`%c[CMS FALLBACK] Using local fallback for "${docType}" (Reason: ${err ? err.message || err : 'Sanity returned no records or is unconfigured'}).`, 'color: #ffaa11; font-weight: bold;');
   }
 }
+
+// ---------------------------------------------------------
+// Cache-First + Background Revalidation helpers
+// ---------------------------------------------------------
+
+/**
+ * Interface representing a structured cache entry.
+ */
+interface CacheItem<T> {
+  data: T;
+  timestamp: number;
+}
+
+/**
+ * Cache TTL configuration set to 24 hours in milliseconds.
+ */
+const CACHE_TTL = 24 * 60 * 60 * 1000;
+
+/**
+ * Helper to check if a specific cache key has expired or is missing.
+ */
+function isCacheExpired(key: string): boolean {
+  if (typeof window === 'undefined') return true;
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return true;
+    const item: CacheItem<any> = JSON.parse(raw);
+    if (!item || typeof item.timestamp !== 'number') return true;
+    return Date.now() - item.timestamp > CACHE_TTL;
+  } catch {
+    return true;
+  }
+}
+
+/**
+ * Helper to check if fresh fetched data is structurally different from cached data,
+ * preventing layout shifting / unnecessary React re-renders.
+ */
+function isDataDifferent(a: any, b: any): boolean {
+  return JSON.stringify(a) !== JSON.stringify(b);
+}
+
+/**
+ * Retrieves cached services from localStorage.
+ */
+export function getCachedServices(forcedLocationId?: string): CMSService[] | null {
+  if (typeof window === 'undefined') return null;
+  const locId = forcedLocationId || getCurrentLocationId();
+  try {
+    const raw = localStorage.getItem(`services_cache_${locId}`);
+    if (!raw) return null;
+    const item: CacheItem<CMSService[]> = JSON.parse(raw);
+    return item.data;
+  } catch (error) {
+    console.warn(`Error reading services cache for ${locId} from localStorage:`, error);
+    return null;
+  }
+}
+
+/**
+ * Saves current services to localStorage cache.
+ */
+export function saveServicesCache(forcedLocationId: string | undefined, data: CMSService[]): void {
+  if (typeof window === 'undefined') return;
+  const locId = forcedLocationId || getCurrentLocationId();
+  try {
+    const item: CacheItem<CMSService[]> = {
+      data,
+      timestamp: Date.now()
+    };
+    localStorage.setItem(`services_cache_${locId}`, JSON.stringify(item));
+  } catch (error) {
+    console.warn(`Error saving services cache for ${locId} to localStorage:`, error);
+  }
+}
+
+/**
+ * Retrieves cached products from localStorage.
+ */
+export function getCachedProducts(forcedLocationId?: string): CMSProduct[] | null {
+  if (typeof window === 'undefined') return null;
+  const locId = forcedLocationId || getCurrentLocationId();
+  try {
+    const raw = localStorage.getItem(`products_cache_${locId}`);
+    if (!raw) return null;
+    const item: CacheItem<CMSProduct[]> = JSON.parse(raw);
+    return item.data;
+  } catch (error) {
+    console.warn(`Error reading products cache for ${locId} from localStorage:`, error);
+    return null;
+  }
+}
+
+/**
+ * Saves current products to localStorage cache.
+ */
+export function saveProductsCache(forcedLocationId: string | undefined, data: CMSProduct[]): void {
+  if (typeof window === 'undefined') return;
+  const locId = forcedLocationId || getCurrentLocationId();
+  try {
+    const item: CacheItem<CMSProduct[]> = {
+      data,
+      timestamp: Date.now()
+    };
+    localStorage.setItem(`products_cache_${locId}`, JSON.stringify(item));
+  } catch (error) {
+    console.warn(`Error saving products cache for ${locId} to localStorage:`, error);
+  }
+}
+
+/**
+ * Retrieves cached homepage content from localStorage.
+ */
+export function getCachedHomepage(forcedLocationId?: string): CMSHomepage | null {
+  if (typeof window === 'undefined') return null;
+  const locId = forcedLocationId || getCurrentLocationId();
+  try {
+    const raw = localStorage.getItem(`homepage_cache_${locId}`);
+    if (!raw) return null;
+    const item: CacheItem<CMSHomepage> = JSON.parse(raw);
+    return item.data;
+  } catch (error) {
+    console.warn(`Error reading homepage cache for ${locId} from localStorage:`, error);
+    return null;
+  }
+}
+
+/**
+ * Saves current homepage content to localStorage cache.
+ */
+export function saveHomepageCache(forcedLocationId: string | undefined, data: CMSHomepage): void {
+  if (typeof window === 'undefined') return;
+  const locId = forcedLocationId || getCurrentLocationId();
+  try {
+    const item: CacheItem<CMSHomepage> = {
+      data,
+      timestamp: Date.now()
+    };
+    localStorage.setItem(`homepage_cache_${locId}`, JSON.stringify(item));
+  } catch (error) {
+    console.warn(`Error saving homepage cache for ${locId} to localStorage:`, error);
+  }
+}
+
 
 // Dynamic fallback text localizer to match active location
 function localizeText(text: string, locationId: string): string {
@@ -425,10 +580,13 @@ export async function getLocations(): Promise<CMSLocation[]> {
 /**
  * 2. Homepage Content
  */
-export async function getHomepageContent(forcedLocationId?: string): Promise<CMSHomepage> {
+export function getHomepageContentSync(forcedLocationId?: string): CMSHomepage {
   const locId = forcedLocationId || getCurrentLocationId();
-  
-  const localHomepageFallback: CMSHomepage = LOCALIZED_HOME[locId] || {
+  const cached = getCachedHomepage(locId);
+  if (cached) {
+    return cached;
+  }
+  return LOCALIZED_HOME[locId] || {
     heroTitle: locId === 'hcm' ? 'CẦN THỢ ĐIỆN NƯỚC HỒ CHÍ MINH?' : 'CẦN THỢ ĐIỆN NƯỚC BẢO LỘC?',
     heroSubtitle: locId === 'hcm' 
       ? 'Đội ngũ kỹ thuật viên Hoàng Tuấn MPE luôn trực chiến hỗ trợ 24/7 khẩn cấp, giải quyết triệt để sự cố sau 30 phút điện thoại tại Sài Gòn.'
@@ -451,19 +609,45 @@ export async function getHomepageContent(forcedLocationId?: string): Promise<CMS
       : 'Công ty Hoàng Tuấn MPE tự hào là một trong những đơn vị sửa chữa cơ điện lạnh và cung cấp thiết bị chiếu sáng, rò nước, lắp camera hàng đầu tại Bảo Lộc...',
     aboutImage: 'https://images.unsplash.com/photo-1504148455328-c39695b8a592?auto=format&fit=crop&q=80&w=800'
   };
+}
+
+export async function getHomepageContent(forcedLocationId?: string): Promise<CMSHomepage> {
+  const locId = forcedLocationId || getCurrentLocationId();
+  const currentData = getHomepageContentSync(locId);
 
   if (!isSanityConfigured) {
     logCmsStatus('homepage', false, 0);
-    return localHomepageFallback;
+    return currentData;
   }
+
+  const cacheKey = `homepage_cache_${locId}`;
+  const expired = isCacheExpired(cacheKey);
+
+  if (!expired) {
+    console.log(`%c[CACHE HIT] Homepage cache is fresh for region "${locId}". Revalidating in background to check for Sanity updates...`, 'color: #10b981; font-weight: 500;');
+  }
+
   try {
     const data = await client.fetch<CMSHomepage>(homepageQuery, { locationId: locId });
     const hasData = isValidObject(data);
+    console.log(`%c[SANITY FETCH HOMEPAGE] Result for "${locId}":`, 'color: #bfdbfe; background: #1e40af; font-weight: bold; padding: 2px 4px;', { hasData, data });
     logCmsStatus('homepage', hasData, hasData ? 1 : 0);
-    return hasData ? data : localHomepageFallback;
+
+    if (hasData) {
+      if (isDataDifferent(data, currentData)) {
+        console.log(`%c[BACKGROUND UPDATE] Homepage data has changed on Sanity. Overwriting cache and refreshing UI.`, 'color: #3b82f6; font-weight: bold;');
+        saveHomepageCache(locId, data);
+        return data;
+      } else {
+        console.log(`%c[BACKGROUND LOG] Sanity homepage data matches current cache. Re-marking fresh timestamp.`, 'color: #64748b;');
+        saveHomepageCache(locId, currentData);
+        return currentData;
+      }
+    }
+    return currentData;
   } catch (error) {
     logCmsStatus('homepage', false, 0, error);
-    return localHomepageFallback;
+    return currentData;
   }
 }
 
@@ -509,35 +693,68 @@ function mapLocalServiceToCMS(srv: LocalService): CMSService {
 }
 
 /**
- * 5. Services Details filtered by location
+ * 5. Services Details filtered by location (Cache-first implementation)
  */
 export function getServicesSync(forcedLocationId?: string): CMSService[] {
   const locId = forcedLocationId || getCurrentLocationId();
+  // 1. Try reading from the localStorage cache first
+  const cached = getCachedServices(locId);
+  if (cached && cached.length > 0) {
+    return cached;
+  }
+  // 2. Fall back to local localized schemas if cache is empty
   return LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
 }
 
 export function getServiceBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSService | null {
   const locId = forcedLocationId || getCurrentLocationId();
-  const cmsFallback = LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
-  return cmsFallback.find(s => s.slug === slug) || null;
+  const servicesList = getServicesSync(locId);
+  return servicesList.find(s => s.slug === slug) || null;
 }
 
 export async function getServices(forcedLocationId?: string): Promise<CMSService[]> {
   const locId = forcedLocationId || getCurrentLocationId();
-  const cmsFallback = getServicesSync(locId);
+  const currentData = getServicesSync(locId);
   
+  // If Sanity is not configured, gracefully deliver local / cached fallback
   if (!isSanityConfigured) {
     logCmsStatus('service', false, 0);
-    return cmsFallback;
+    return currentData;
   }
+
+  // Check cache expiration status
+  const cacheKey = `services_cache_${locId}`;
+  const expired = isCacheExpired(cacheKey);
+
+  if (!expired) {
+    console.log(`%c[CACHE HIT] Services cache is fresh for region "${locId}". Revalidating in background to check for Sanity updates...`, 'color: #10b981; font-weight: 500;');
+  }
+
   try {
+    // Perform background revalidation fetch directly from Sanity
     const data = await client.fetch<CMSService[]>(servicesQuery, { locationId: locId });
     const hasData = isValidArray(data);
+    console.log(`%c[SANITY FETCH SERVICES] Result for "${locId}":`, 'color: #34d399; background: #064e3b; font-weight: bold; padding: 2px 4px;', { hasData, count: hasData ? data.length : 0, data });
     logCmsStatus('service', hasData, hasData ? data.length : 0);
-    return hasData ? data : cmsFallback;
+    
+    if (hasData) {
+      // 3. Compare structurally to prevent UI flickering on redundant updates
+      if (isDataDifferent(data, currentData)) {
+        console.log(`%c[BACKGROUND UPDATE] Services data has changed on Sanity. Overwriting cache and refreshing UI.`, 'color: #3b82f6; font-weight: bold;');
+        saveServicesCache(locId, data);
+        return data;
+      } else {
+        console.log(`%c[BACKGROUND LOG] Sanity services data matches current cache. Re-marking fresh timestamp.`, 'color: #64748b;');
+        // Refresh timestamp of current content to renew its TTL
+        saveServicesCache(locId, currentData);
+        return currentData;
+      }
+    }
+    return currentData;
   } catch (error) {
+    // Network degradation or timeout: log error and maintain cache/fallback safety
     logCmsStatus('service', false, 0, error);
-    return cmsFallback;
+    return currentData;
   }
 }
 
@@ -546,11 +763,27 @@ export async function getServiceBySlug(slug: string | undefined, forcedLocationI
   const foundLocal = getServiceBySlugSync(slug, locId);
   
   if (!isSanityConfigured || !slug) return foundLocal;
+
+  // Utilize the full list cache state to skip background hit if cache is fresh
+  const cacheKey = `services_cache_${locId}`;
+  const expired = isCacheExpired(cacheKey);
+
+  if (!expired) {
+    console.log(`%c[CACHE HIT] Services cache is fresh for region "${locId}". Revalidating service slug "${slug}" in background...`, 'color: #10b981; font-weight: 500;');
+  }
+
   try {
     const data = await client.fetch<CMSService>(serviceBySlugQuery, { slug, locationId: locId });
     const hasData = isValidObject(data);
     logCmsStatus(`service-slug-${slug}`, hasData, hasData ? 1 : 0);
-    return hasData ? data : foundLocal;
+    
+    if (hasData) {
+      if (isDataDifferent(data, foundLocal)) {
+        return data;
+      }
+      return foundLocal;
+    }
+    return foundLocal;
   } catch (error) {
     logCmsStatus(`service-slug-${slug}`, false, 0, error);
     return foundLocal;
@@ -681,6 +914,12 @@ function normalizeProductSpecs(p: any): CMSProduct {
 
 export function getProductsSync(forcedLocationId?: string): CMSProduct[] {
   const locId = forcedLocationId || getCurrentLocationId();
+  // 1. Try reading from products localStorage cache first
+  const cached = getCachedProducts(locId);
+  if (cached && cached.length > 0) {
+    return cached;
+  }
+  // 2. Fall back to local localized schemas if cache is empty
   return LOCALIZED_PRODUCTS[locId] || fallbackProducts.map(p => ({
     id: p.id,
     slug: p.slug,
@@ -701,32 +940,78 @@ export function getProductBySlugSync(slug: string | undefined, forcedLocationId?
 
 export async function getProducts(forcedLocationId?: string): Promise<CMSProduct[]> {
   const locId = forcedLocationId || getCurrentLocationId();
-  const localProductsMapped = getProductsSync(locId);
+  const currentData = getProductsSync(locId);
 
+  // If Sanity is not configured, deliver fallback/cached products
   if (!isSanityConfigured) {
     logCmsStatus('product', false, 0);
-    return localProductsMapped;
+    return currentData;
   }
+
+  // Check cache expiration status
+  const cacheKey = `products_cache_${locId}`;
+  const expired = isCacheExpired(cacheKey);
+
+  if (!expired) {
+    console.log(`%c[CACHE HIT] Products cache is fresh for region "${locId}". Revalidating in background to check for Sanity updates...`, 'color: #10b981; font-weight: 500;');
+  }
+
   try {
+    // Perform background revalidation fetch directly from Sanity
     const data = await client.fetch<CMSProduct[]>(productsQuery, { locationId: locId });
     const hasData = isValidArray(data);
+    console.log(`%c[SANITY FETCH PRODUCTS] Result for "${locId}":`, 'color: #f43f5e; background: #4c0519; font-weight: bold; padding: 2px 4px;', { hasData, count: hasData ? data.length : 0, data });
     logCmsStatus('product', hasData, hasData ? data.length : 0);
-    return hasData ? data.map(normalizeProductSpecs) : localProductsMapped;
+
+    if (hasData) {
+      const normalized = data.map(normalizeProductSpecs);
+      // 3. Compare structurally to prevent UI flickering on redundant updates
+      if (isDataDifferent(normalized, currentData)) {
+        console.log(`%c[BACKGROUND UPDATE] Products data has changed on Sanity. Overwriting cache and refreshing UI.`, 'color: #3b82f6; font-weight: bold;');
+        saveProductsCache(locId, normalized);
+        return normalized;
+      } else {
+        console.log(`%c[BACKGROUND LOG] Sanity products data matches current cache. Re-marking fresh timestamp.`, 'color: #64748b;');
+        // Refresh timestamp of current content to renew its TTL
+        saveProductsCache(locId, currentData);
+        return currentData;
+      }
+    }
+    return currentData;
   } catch (error) {
+    // Network degradation or timeout: log error and maintain cache/fallback safety
     logCmsStatus('product', false, 0, error);
-    return localProductsMapped;
+    return currentData;
   }
 }
 
 export async function getProductBySlug(slug: string | undefined, forcedLocationId?: string): Promise<CMSProduct | null> {
   const locId = forcedLocationId || getCurrentLocationId();
   const foundLocal = getProductBySlugSync(slug, locId);
+  
   if (!isSanityConfigured || !slug) return foundLocal;
+
+  // Utilize the full list cache state to skip background hit if cache is fresh
+  const cacheKey = `products_cache_${locId}`;
+  const expired = isCacheExpired(cacheKey);
+
+  if (!expired) {
+    console.log(`%c[CACHE HIT] Products cache is fresh for region "${locId}". Revalidating product slug "${slug}" in background...`, 'color: #10b981; font-weight: 500;');
+  }
+
   try {
     const data = await client.fetch<CMSProduct>(productBySlugQuery, { slug, locationId: locId });
     const hasData = isValidObject(data);
     logCmsStatus(`product-slug-${slug}`, hasData, hasData ? 1 : 0);
-    return hasData ? normalizeProductSpecs(data) : foundLocal;
+    
+    if (hasData) {
+      const normalized = normalizeProductSpecs(data);
+      if (isDataDifferent(normalized, foundLocal)) {
+        return normalized;
+      }
+      return foundLocal;
+    }
+    return foundLocal;
   } catch (error) {
     logCmsStatus(`product-slug-${slug}`, false, 0, error);
     return foundLocal;

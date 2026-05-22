@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { getServices, getServicesSync, getIconComponent, CMSService } from '../lib/sanity';
+import { getServices, getServicesSync, getHomepageContent, getHomepageContentSync, getIconComponent, CMSService, CMSHomepage } from '../lib/sanity';
 
 export default function Services() {
   const [services, setServices] = useState<CMSService[]>(() => getServicesSync());
+  const [homepageContent, setHomepageContent] = useState<CMSHomepage>(() => getHomepageContentSync());
 
   useEffect(() => {
     let active = true;
     getServices().then((data) => {
       if (active) setServices(data);
+    });
+    getHomepageContent().then((data) => {
+      if (active) setHomepageContent(data);
     });
     return () => {
       active = false;
@@ -20,9 +24,11 @@ export default function Services() {
   return (
     <section id="services" className="section-container bg-white">
       <div className="text-center mb-16">
-        <h2 className="text-brand-primary font-bold tracking-widest uppercase mb-4">Dịch Vụ Của Chúng Tôi</h2>
+        <h2 className="text-brand-primary font-bold tracking-widest uppercase mb-4">
+          {homepageContent.servicesHeading || "Dịch Vụ Của Chúng Tôi"}
+        </h2>
         <h3 className="text-3xl md:text-5xl font-bold text-brand-secondary uppercase tracking-tighter">
-          Giải Pháp Toàn Diện Cho Gia Đình
+          {homepageContent.servicesSubtitle || "Giải Pháp Toàn Diện Cho Gia Đình"}
         </h3>
       </div>
 

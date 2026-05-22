@@ -16,6 +16,8 @@ export interface HomeContent {
   aboutImage: string;
   benefitHeading: string;
   benefits: string[];
+  servicesHeading?: string;
+  servicesSubtitle?: string;
 }
 
 export const LOCALIZED_HOME: { [key: string]: HomeContent } = {
@@ -61,7 +63,9 @@ export const LOCALIZED_HOME: { [key: string]: HomeContent } = {
       "Cam kết hoàn tiền 100% nếu sự cố chập điện hoặc rò rỉ nước không được giải quyết dứt điểm.",
       "Vật tư thiết bị điện MPE, bình nóng lạnh, camera Ezviz chính hãng chiết khấu cao.",
       "Hỗ trợ dọn dẹp mặt bằng thi công sạch sẽ gọn gàng trước khi bàn giao."
-    ]
+    ],
+    servicesHeading: "Dịch Vụ Của Chúng Tôi",
+    servicesSubtitle: "Giải Pháp Toàn Diện Cho Gia Đình"
   },
   hcm: {
     heroTitle: "DỊCH VỤ SỬA ĐIỆN NƯỚC TP.HCM KHẨN CẤP 24H - THỢ QUẬN HUYỆN CÓ MẶT NGAY",
@@ -105,6 +109,8 @@ export const LOCALIZED_HOME: { [key: string]: HomeContent } = {
       "Linh kiện thiết bị điện MPE và van khóa nước nhập khẩu chất lượng cao chống áp suất đô thị.",
       "Chính sách bảo hành điện tử nhanh chóng, quét QR nhận thông tin bảo trì trong 4H khẩn cấp.",
       "Tập trung bảo hộ lao động, giảm thiểu tối đa tiếng ồn và bụi bẩn khi thi công chung cư."
-    ]
+    ],
+    servicesHeading: "Dịch Vụ Chuyên Nghiệp TP.HCM",
+    servicesSubtitle: "Thợ Điện Nước Sửa Chữa Nhanh Chóng 24/7"
   }
 };
