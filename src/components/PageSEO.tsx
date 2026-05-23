@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation as useRouterLocation } from 'react-router-dom';
 import { useLocation as useAppLocation } from '../context/LocationContext';
+import { Helmet } from 'react-helmet-async';
 import { 
   getSeo, 
   getLocalBusiness, 
@@ -38,257 +39,203 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
     };
   }, [routerLoc.pathname, locationSlug]);
 
-  // Apply head updates
-  useEffect(() => {
-    if (!seo) return;
+  if (!seo || !biz) return null;
 
-    // Use current URL for canonical if canonicalUrl is not provided
-    const canonical = seo.canonicalUrl || window.location.href;
-    const ogImg = seo.ogImage || 'https://hoangtuanmpe.com/images/og-default.jpg';
+  const canonical = seo.canonicalUrl || window.location.href;
+  const ogImg = seo.ogImage || 'https://hoangtuanmpe.com/images/og-default.jpg';
+  const finalSlug = (locationSlug === 'ho-chi-minh' || locationSlug === 'hcm') ? 'ho-chi-minh' : 'bao-loc';
 
-    // 1. Title
-    document.title = seo.metaTitle;
+  const schemas: any[] = [];
 
-    // Helper functions to manage meta tags
-    const setMetaTag = (nameOrProperty: string, value: string, isProperty = false) => {
-      const attributeName = isProperty ? 'property' : 'name';
-      let element = document.querySelector(`meta[${attributeName}="${nameOrProperty}"]`);
-      if (!element) {
-        element = document.createElement('meta');
-        element.setAttribute(attributeName, nameOrProperty);
-        document.head.appendChild(element);
-      }
-      element.setAttribute('content', value);
-    };
+  // LocalBusiness Schema
+  const localBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `https://hoangtuanmpe.com/#local-business-${locationSlug}`,
+    name: biz.name,
+    legalName: biz.legalName || biz.name,
+    logo: biz.logo || 'https://hoangtuanmpe.com/logo.png',
+    url: window.location.origin + '/' + finalSlug,
+    telephone: biz.telephone || '0389.011.315',
+    priceRange: biz.priceRange || '$$',
+    address: biz.address ? {
+      '@type': 'PostalAddress',
+      streetAddress: biz.address.streetAddress,
+      addressLocality: biz.address.addressLocality,
+      addressRegion: biz.address.addressRegion,
+      postalCode: biz.address.postalCode,
+      addressCountry: biz.address.addressCountry || 'VN'
+    } : undefined,
+    geo: biz.geo ? {
+      '@type': 'GeoCoordinates',
+      latitude: biz.geo.latitude,
+      longitude: biz.geo.longitude
+    } : undefined,
+    openingHoursSpecification: biz.openingHoursSpecification?.map(spec => ({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: spec.dayOfWeek?.split('-') || ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: spec.opens || '00:00',
+      closes: spec.closes || '23:59'
+    }))
+  };
+  schemas.push(localBusinessSchema);
 
-    const setLinkCanonical = (href: string) => {
-      let element = document.querySelector('link[rel="canonical"]');
-      if (!element) {
-        element = document.createElement('link');
-        element.setAttribute('rel', 'canonical');
-        document.head.appendChild(element);
-      }
-      element.setAttribute('href', href);
-    };
-
-    // 2. Head Tags
-    setMetaTag('description', seo.metaDescription);
-    if (seo.keywords && seo.keywords.length > 0) {
-      setMetaTag('keywords', seo.keywords.join(', '));
+  // BreadcrumbList Schema
+  const pathSegments = routerLoc.pathname.split('/').filter(Boolean);
+  const breadcrumbItems = [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: locationSlug === 'ho-chi-minh' ? 'Hồ Chí Minh' : 'Bảo Lộc',
+      item: `${window.location.origin}/${finalSlug}`
     }
-    setLinkCanonical(canonical);
+  ];
 
-    // 3. OpenGraph Tags
-    setMetaTag('og:title', seo.metaTitle, true);
-    setMetaTag('og:description', seo.metaDescription, true);
-    setMetaTag('og:image', ogImg, true);
-    setMetaTag('og:type', pageType === 'article' ? 'article' : 'website', true);
-    setMetaTag('og:url', canonical, true);
+  let cumulativePath = `/${finalSlug}`;
+  pathSegments.forEach((segment, idx) => {
+    if (idx === 0 && (segment === 'bao-loc' || segment === 'baoloc' || segment === 'ho-chi-minh' || segment === 'hcm')) return;
+    
+    cumulativePath += `/${segment}`;
+    
+    let label = segment;
+    if (segment === 'dich-vu') label = 'Dịch vụ';
+    else if (segment === 'san-pham') label = 'Sản phẩm';
+    else if (segment === 'blog') label = 'Blog';
+    else if (segment === 'bang-gia') label = 'Bảng giá';
+    else if (segment === 'lien-he') label = 'Liên hệ';
+    else if (data && data.title) label = data.title;
+    else if (data && data.name) label = data.name;
 
-    // 4. Twitter Cards
-    setMetaTag('twitter:card', 'summary_large_image');
-    setMetaTag('twitter:title', seo.metaTitle);
-    setMetaTag('twitter:description', seo.metaDescription);
-    setMetaTag('twitter:image', ogImg);
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: breadcrumbItems.length + 1,
+      name: label,
+      item: window.location.origin + cumulativePath
+    });
+  });
 
-    // 5. JSON-LD Schemas injection
-    const injectJsonLd = () => {
-      // Remove old script tag
-      const existingScript = document.getElementById('json-ld-structured-data');
-      if (existingScript) existingScript.remove();
+  const breadcrumbListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems
+  };
+  schemas.push(breadcrumbListSchema);
 
-      if (!biz) return;
-
-      const schemas: any[] = [];
-
-      // 5.1 LocalBusiness Schema
-      const finalSlug = (locationSlug === 'ho-chi-minh' || locationSlug === 'ho-chi-minh') ? 'ho-chi-minh' : 'bao-loc';
-      const localBusinessSchema = {
-        '@context': 'https://schema.org',
+  // Service Schema
+  if (pageType === 'service' && data) {
+    const serviceSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      '@id': window.location.href,
+      name: data.title,
+      description: data.shortDescription || data.fullDescription,
+      provider: {
         '@type': 'LocalBusiness',
-        '@id': `https://hoangtuanmpe.com/#local-business-${locationSlug}`,
         name: biz.name,
-        legalName: biz.legalName || biz.name,
-        logo: biz.logo || 'https://hoangtuanmpe.com/logo.png',
-        url: window.location.origin + '/' + finalSlug,
-        telephone: biz.telephone || '0389.011.315',
-        priceRange: biz.priceRange || '$$',
-        address: biz.address ? {
-          '@type': 'PostalAddress',
-          streetAddress: biz.address.streetAddress,
-          addressLocality: biz.address.addressLocality,
-          addressRegion: biz.address.addressRegion,
-          postalCode: biz.address.postalCode,
-          addressCountry: biz.address.addressCountry || 'VN'
-        } : undefined,
-        geo: biz.geo ? {
-          '@type': 'GeoCoordinates',
-          latitude: biz.geo.latitude,
-          longitude: biz.geo.longitude
-        } : undefined,
-        openingHoursSpecification: biz.openingHoursSpecification?.map(spec => ({
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: spec.dayOfWeek?.split('-') || ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          opens: spec.opens || '00:00',
-          closes: spec.closes || '23:59'
-        }))
-      };
-      schemas.push(localBusinessSchema);
-
-      // 5.2 BreadcrumbList Schema
-      const pathSegments = routerLoc.pathname.split('/').filter(Boolean);
-      const breadcrumbItems = [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: locationSlug || 'Bảo Lộc',
-          item: `${window.location.origin}/${finalSlug}`
-        }
-      ];
-
-      // Build out sub-breadcrumbs
-      let cumulativePath = `/${finalSlug}`;
-      pathSegments.forEach((segment, idx) => {
-        // Skip location prefix segment
-        if (idx === 0 && (segment === 'bao-loc' || segment === 'baoloc' || segment === 'ho-chi-minh')) return;
-        
-        cumulativePath += `/${segment}`;
-        
-        let label = segment;
-        if (segment === 'dich-vu') label = 'Dịch vụ';
-        else if (segment === 'san-pham') label = 'Sản phẩm';
-        else if (segment === 'blog') label = 'Blog';
-        else if (segment === 'bang-gia') label = 'Bảng giá';
-        else if (segment === 'lien-he') label = 'Liên hệ';
-        else if (data && data.title) label = data.title;
-        else if (data && data.name) label = data.name;
-
-        breadcrumbItems.push({
-          '@type': 'ListItem',
-          position: breadcrumbItems.length + 1,
-          name: label,
-          item: window.location.origin + cumulativePath
-        });
-      });
-
-      const breadcrumbListSchema = {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: breadcrumbItems
-      };
-      schemas.push(breadcrumbListSchema);
-
-      // 5.3 Service Schema
-      if (pageType === 'service' && data) {
-        const serviceSchema = {
-          '@context': 'https://schema.org',
+        telephone: biz.telephone
+      },
+      areaServed: {
+        '@type': 'AdministrativeArea',
+        name: locationSlug === 'ho-chi-minh' ? 'Hồ Chí Minh' : 'Bảo Lộc'
+      },
+      offers: data.pricing?.map((p: any) => ({
+        '@type': 'Offer',
+        itemOffered: {
           '@type': 'Service',
-          '@id': window.location.href,
-          name: data.title,
-          description: data.shortDescription || data.fullDescription,
-          provider: {
-            '@type': 'LocalBusiness',
-            name: biz.name,
-            telephone: biz.telephone
-          },
-          areaServed: {
-            '@type': 'AdministrativeArea',
-            name: locationSlug || 'Bảo Lộc'
-          },
-          offers: data.pricing?.map((p: any) => ({
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: p.item
-            },
-            price: p.price.replace(/[^\d]/g, '') || '150000',
-            priceCurrency: 'VND'
-          }))
-        };
-        schemas.push(serviceSchema);
-      }
-
-      // 5.4 Product Schema
-      if (pageType === 'product' && data) {
-        const productSchema = {
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          '@id': window.location.href,
-          name: data.name,
-          image: data.image,
-          description: data.description,
-          offers: {
-            '@type': 'Offer',
-            price: data.price.replace(/[^\d]/g, '') || '500000',
-            priceCurrency: 'VND',
-            availability: 'https://schema.org/InStock'
-          }
-        };
-        schemas.push(productSchema);
-      }
-
-      // 5.5 Article Schema
-      if (pageType === 'article' && data) {
-        const articleSchema = {
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          '@id': window.location.href,
-          headline: data.title,
-          image: data.image,
-          datePublished: data.date,
-          author: {
-            '@type': 'Person',
-            name: data.author?.name || 'Administrator'
-          },
-          publisher: {
-            '@type': 'Organization',
-            name: biz.name,
-            logo: {
-              '@type': 'ImageObject',
-              url: biz.logo || 'https://hoangtuanmpe.com/logo.png'
-            }
-          },
-          description: data.excerpt
-        };
-        schemas.push(articleSchema);
-      }
-
-      // 5.6 FAQPage Schema
-      if (pageType === 'faq' && Array.isArray(data)) {
-        const faqSchema = {
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: data.map((item: any) => ({
-            '@type': 'Question',
-            name: item.question,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: item.answer
-            }
-          }))
-        };
-        schemas.push(faqSchema);
-      }
-
-      // Write consolidated schemas script tag
-      const script = document.createElement('script');
-      script.id = 'json-ld-structured-data';
-      script.type = 'application/ld+json';
-      script.innerHTML = JSON.stringify(schemas, null, 2);
-      document.head.appendChild(script);
-
-      // Console diagnostic output
-      console.log(`%c[SEO] Schema generated for pageType "${pageType}" at active region: "${locationSlug}"`, 'color: #38bdf8; font-weight: bold;');
+          name: p.item
+        },
+        price: p.price.replace(/[^\d]/g, '') || '150000',
+        priceCurrency: 'VND'
+      }))
     };
+    schemas.push(serviceSchema);
+  }
 
-    injectJsonLd();
-
-    return () => {
-      // Cleanup schemas script tag on unmount
-      const existingScript = document.getElementById('json-ld-structured-data');
-      if (existingScript) existingScript.remove();
+  // Product Schema
+  if (pageType === 'product' && data) {
+    const productSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      '@id': window.location.href,
+      name: data.name,
+      image: data.image,
+      description: data.description,
+      offers: {
+        '@type': 'Offer',
+        price: data.price.replace(/[^\d]/g, '') || '500000',
+        priceCurrency: 'VND',
+        availability: 'https://schema.org/InStock'
+      }
     };
-  }, [seo, biz, pageType, data]);
+    schemas.push(productSchema);
+  }
 
-  return null; // Side effect component
+  // Article Schema
+  if (pageType === 'article' && data) {
+    const articleSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      '@id': window.location.href,
+      headline: data.title,
+      image: data.image,
+      datePublished: data.date,
+      author: {
+        '@type': 'Person',
+        name: data.author?.name || 'Administrator'
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: biz.name,
+        logo: {
+          '@type': 'ImageObject',
+          url: biz.logo || 'https://hoangtuanmpe.com/logo.png'
+        }
+      },
+      description: data.excerpt
+    };
+    schemas.push(articleSchema);
+  }
+
+  // FAQPage Schema
+  if (pageType === 'faq' && Array.isArray(data)) {
+    const faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: data.map((item: any) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer
+        }
+      }))
+    };
+    schemas.push(faqSchema);
+  }
+
+  return (
+    <Helmet prioritizeSeoTags>
+      <title>{seo.metaTitle}</title>
+      <meta name="description" content={seo.metaDescription} />
+      {seo.keywords && seo.keywords.length > 0 && (
+        <meta name="keywords" content={seo.keywords.join(', ')} />
+      )}
+      <link rel="canonical" href={canonical} />
+
+      <meta property="og:title" content={seo.metaTitle} />
+      <meta property="og:description" content={seo.metaDescription} />
+      <meta property="og:image" content={ogImg} />
+      <meta property="og:type" content={pageType === 'article' ? 'article' : 'website'} />
+      <meta property="og:url" content={canonical} />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={seo.metaTitle} />
+      <meta name="twitter:description" content={seo.metaDescription} />
+      <meta name="twitter:image" content={ogImg} />
+
+      <script type="application/ld+json">
+        {JSON.stringify(schemas, null, 2)}
+      </script>
+    </Helmet>
+  );
 }

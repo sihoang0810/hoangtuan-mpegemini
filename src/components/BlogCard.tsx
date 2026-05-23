@@ -56,9 +56,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           </h3>
         </Link>
         
-        <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 font-medium">
-          {post.excerpt}
-        </p>
+        <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 font-medium" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
 
         <div className="mt-auto pt-6 border-t border-slate-50">
           <Link 

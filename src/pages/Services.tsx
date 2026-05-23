@@ -127,9 +127,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
                 <h3 className="text-xl font-bold text-brand-secondary mb-4 group-hover:text-brand-primary transition-colors tracking-tight">
                   {service.title}
                 </h3>
-                <p className="text-slate-500 text-sm mb-6 flex-1">
-                  {service.shortDescription}
-                </p>
+                <p className="text-slate-500 text-sm mb-6 flex-1" dangerouslySetInnerHTML={{ __html: service.shortDescription || '' }} />
                 <div className="space-y-3 mb-6">
                   {service.features.map((f, i) => (
                     <div key={i} className="flex items-center gap-2 text-xs font-bold text-brand-secondary">

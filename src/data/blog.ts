@@ -41,6 +41,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '6 phút',
     tags: ['chập điện', 'an toàn điện', 'sửa điện'],
     content: `
+      <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Nguyên nhân chập điện"/>
       <h2>Tại sao chập điện lại xảy ra?</h2>
       <p>Chập điện (ngắn mạch) xảy ra khi hai dây dẫn điện có điện thế khác nhau tiếp xúc trực tiếp với nhau mà không qua linh kiện tiêu thụ điện.</p>
       
@@ -72,7 +73,11 @@ export const BLOG_POSTS: BlogPost[] = [
     image: 'https://images.unsplash.com/photo-1558486012-817176f84c6d?auto=format&fit=crop&q=80&w=800',
     readTime: '5 phút',
     tags: ['aptomat', 'nhảy CB', 'sửa điện'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1558486012-817176f84c6d?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Aptomat bị nhảy liên tục"/>
+      <h2>Nguyên nhân và cách xử lý Aptomat bị nhảy liên tục</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   {
     id: 'b3',
@@ -85,7 +90,11 @@ export const BLOG_POSTS: BlogPost[] = [
     image: 'https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?auto=format&fit=crop&q=80&w=800',
     readTime: '7 phút',
     tags: ['điện âm tường', 'rò điện', 'dò điện'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Dấu hiệu điện âm tường bị hỏng"/>
+      <h2>Dấu hiệu hệ thống điện âm tường có vấn đề</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   
   // NƯỚC
@@ -100,7 +109,11 @@ export const BLOG_POSTS: BlogPost[] = [
     image: 'https://images.unsplash.com/photo-1504148455328-c39695b8a592?auto=format&fit=crop&q=80&w=800',
     readTime: '4 phút',
     tags: ['rò rỉ nước', 'tiết kiệm nước', 'sửa nước'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1504148455328-c39695b8a592?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Dấu hiệu rò rỉ nước âm tường"/>
+      <h2>Cách nhận biết rò rỉ nước âm tường kịp thời</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   {
     id: 'b5',
@@ -113,7 +126,11 @@ export const BLOG_POSTS: BlogPost[] = [
     image: 'https://images.unsplash.com/photo-1585704032915-c3400ca1f963?auto=format&fit=crop&q=80&w=800',
     readTime: '5 phút',
     tags: ['đồng hồ nước', 'rò rỉ nước'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1585704032915-c3400ca1f963?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Kiểm tra đường nước rò rỉ"/>
+      <h2>Hướng dẫn tự kiểm tra đường nước rò rỉ tại nhà</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   
   // CAMERA
@@ -128,7 +145,11 @@ export const BLOG_POSTS: BlogPost[] = [
     image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=800',
     readTime: '8 phút',
     tags: ['camera wifi', 'camera đầu ghi', 'an ninh'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Lắp camera wifi hay đầu ghi"/>
+      <h2>Nên lắp Camera Wifi hay Camera đầu ghi?</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   {
     id: 'b7',
@@ -141,7 +162,11 @@ export const BLOG_POSTS: BlogPost[] = [
     image: 'https://images.unsplash.com/photo-1521233013499-4d1193363e79?auto=format&fit=crop&q=80&w=800',
     readTime: '6 phút',
     tags: ['lắp camera', 'vị trí camera'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1521233013499-4d1193363e79?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Vị trí lắp đặt camera"/>
+      <h2>Các vị trí lắp đặt camera quan sát hiệu quả nhất</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   
   // SIÊU ÂM
@@ -156,7 +181,11 @@ export const BLOG_POSTS: BlogPost[] = [
     image: 'https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=800',
     readTime: '7 phút',
     tags: ['siêu âm nước', 'dò rò rỉ'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Dò rò rỉ nước âm tường là gì"/>
+      <h2>Tìm hiểu công nghệ dò rò rỉ nước âm tường</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   {
     id: 'b9',
@@ -169,7 +198,11 @@ export const BLOG_POSTS: BlogPost[] = [
     image: 'https://images.unsplash.com/photo-1581092921461-7dc1120dc955?auto=format&fit=crop&q=80&w=800',
     readTime: '6 phút',
     tags: ['máy dò rỉ', 'thiết bị hiện đại'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1581092921461-7dc1120dc955?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Thiết bị siêu âm hiện đại"/>
+      <h2>Khám phá thiết bị dò siêu âm hiện đại</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   {
     id: 'b10',
@@ -182,7 +215,11 @@ export const BLOG_POSTS: BlogPost[] = [
     image: 'https://images.unsplash.com/photo-1558230352-78d91c78494b?auto=format&fit=crop&q=80&w=800',
     readTime: '6 phút',
     tags: ['thay dây điện', 'an toàn điện'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1558230352-78d91c78494b?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Thay dây điện"/>
+      <h2>Khi nào nên thay mới toàn bộ hệ thống dây dẫn điện?</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   {
     id: 'b11',
@@ -192,10 +229,14 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Nước',
     date: '05/05/2024',
     author: { name: 'Minh Hoàng', role: 'Kỹ thuật viên' },
-    image: 'https://images.unsplash.com/photo-1585704032915-c3400ca1f963?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&q=80&w=800',
     readTime: '5 phút',
     tags: ['máy bơm', 'sửa nước'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Máy bơm yêú"/>
+      <h2>Nguyên nhân máy bơm nước lên yếu</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   {
     id: 'b12',
@@ -205,10 +246,14 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Camera',
     date: '01/05/2024',
     author: { name: 'Tuấn Camera', role: 'Chuyên gia' },
-    image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1560264280-88b68371db39?auto=format&fit=crop&q=80&w=800',
     readTime: '10 phút',
     tags: ['review camera', 'camera gia đình'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1560264280-88b68371db39?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Các loại camera tốt"/>
+      <h2>Review Top 5 Camera gia đình tốt nhất 2024</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   },
   {
     id: 'b13',
@@ -218,9 +263,13 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Dò Tìm',
     date: '28/04/2024',
     author: { name: 'Kỹ sư Hoàng', role: 'Chuyên gia siêu âm' },
-    image: 'https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1591154667182-14241c305948?auto=format&fit=crop&q=80&w=800',
     readTime: '5 phút',
     tags: ['siêu âm rò rỉ', 'hạn chế đục phá'],
-    content: `...`
+    content: `
+      <img src="https://images.unsplash.com/photo-1591154667182-14241c305948?auto=format&fit=crop&q=80&w=800" class="w-full h-[400px] object-cover rounded-xl mb-6 shadow-md" alt="Dò rò rỉ có cần đục không"/>
+      <h2>Dò rò rỉ nước có cần đục tường không?</h2>
+      <p class="leading-relaxed text-lg mb-6">Nội dung chi tiết đang được cập nhật...</p>
+    `
   }
 ];

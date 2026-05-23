@@ -205,6 +205,7 @@ export interface CMSProduct {
   image: string;
   features: string[];
   specs: { [key: string]: string };
+  gallery?: string[];
 }
 
 export interface CMSPricing {

@@ -123,9 +123,10 @@ const ServiceDetailTemplate = () => {
             <h1 className="text-4xl md:text-6xl font-bold text-brand-secondary mb-6 uppercase tracking-tighter leading-tight">
               {service.title}
             </h1>
-            <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-              {service.fullDescription}
-            </p>
+            <div 
+              className="text-xl text-slate-600 mb-8 leading-relaxed prose prose-slate max-w-none prose-p:text-slate-600"
+              dangerouslySetInnerHTML={{ __html: service.fullDescription || service.description || '' }}
+            />
             
             <div className="grid grid-cols-2 gap-4 mb-10">
               <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">

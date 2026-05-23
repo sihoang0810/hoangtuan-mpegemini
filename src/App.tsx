@@ -23,6 +23,8 @@ import BlogListing from './pages/BlogListing';
 import BlogDetail from './pages/BlogDetail';
 import Contact from './pages/Contact';
 
+import { HelmetProvider } from 'react-helmet-async';
+
 function ScrollToTop() {
   const { pathname } = useRouteLocation();
   useEffect(() => {
@@ -33,43 +35,45 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <Router>
-      <LocationProvider>
-        <ScrollToTop />
-        <div className="min-h-screen flex flex-col font-sans selection:bg-brand-primary selection:text-white">
-          <TopBar />
-          <Header />
-          <main className="flex-grow">
-            <Routes>
-              {/* Location Prefixed Routes */}
-              <Route path="/:locationSlug" element={<Home />} />
-              <Route path="/:locationSlug/dich-vu" element={<Services />} />
-              <Route path="/:locationSlug/dich-vu/:slug" element={<ServiceDetail />} />
-              <Route path="/:locationSlug/bang-gia" element={<Pricing />} />
-              <Route path="/:locationSlug/san-pham" element={<ProductListing />} />
-              <Route path="/:locationSlug/san-pham/:slug" element={<ProductDetail />} />
-              <Route path="/:locationSlug/blog" element={<BlogListing />} />
-              <Route path="/:locationSlug/blog/:slug" element={<BlogDetail />} />
-              <Route path="/:locationSlug/lien-he" element={<Contact />} />
+    <HelmetProvider>
+      <Router>
+        <LocationProvider>
+          <ScrollToTop />
+          <div className="min-h-screen flex flex-col font-sans selection:bg-brand-primary selection:text-white">
+            <TopBar />
+            <Header />
+            <main className="flex-grow">
+              <Routes>
+                {/* Location Prefixed Routes */}
+                <Route path="/:locationSlug" element={<Home />} />
+                <Route path="/:locationSlug/dich-vu" element={<Services />} />
+                <Route path="/:locationSlug/dich-vu/:slug" element={<ServiceDetail />} />
+                <Route path="/:locationSlug/bang-gia" element={<Pricing />} />
+                <Route path="/:locationSlug/san-pham" element={<ProductListing />} />
+                <Route path="/:locationSlug/san-pham/:slug" element={<ProductDetail />} />
+                <Route path="/:locationSlug/blog" element={<BlogListing />} />
+                <Route path="/:locationSlug/blog/:slug" element={<BlogDetail />} />
+                <Route path="/:locationSlug/lien-he" element={<Contact />} />
 
-              {/* Standard Fallback Routes (handled by LocationContext Redirect) */}
-              <Route path="/" element={<Home />} />
-              <Route path="/dich-vu" element={<Services />} />
-              <Route path="/dich-vu/:slug" element={<ServiceDetail />} />
-              <Route path="/bang-gia" element={<Pricing />} />
-              <Route path="/san-pham" element={<ProductListing />} />
-              <Route path="/san-pham/:slug" element={<ProductDetail />} />
-              <Route path="/blog" element={<BlogListing />} />
-              <Route path="/blog/:slug" element={<BlogDetail />} />
-              <Route path="/lien-he" element={<Contact />} />
-            </Routes>
-          </main>
-          <Footer />
-          <FloatingContact />
-          <LocationPopup />
-        </div>
-      </LocationProvider>
-    </Router>
+                {/* Standard Fallback Routes (handled by LocationContext Redirect) */}
+                <Route path="/" element={<Home />} />
+                <Route path="/dich-vu" element={<Services />} />
+                <Route path="/dich-vu/:slug" element={<ServiceDetail />} />
+                <Route path="/bang-gia" element={<Pricing />} />
+                <Route path="/san-pham" element={<ProductListing />} />
+                <Route path="/san-pham/:slug" element={<ProductDetail />} />
+                <Route path="/blog" element={<BlogListing />} />
+                <Route path="/blog/:slug" element={<BlogDetail />} />
+                <Route path="/lien-he" element={<Contact />} />
+              </Routes>
+            </main>
+            <Footer />
+            <FloatingContact />
+            <LocationPopup />
+          </div>
+        </LocationProvider>
+      </Router>
+    </HelmetProvider>
   );
 }
 

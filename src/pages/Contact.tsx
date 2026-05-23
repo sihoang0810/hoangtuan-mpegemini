@@ -4,9 +4,10 @@ import { useParams } from 'react-router-dom';
 import FinalCTA from '../components/FinalCTA';
 import { getContact, getIconComponent, CMSContact } from '../lib/sanity';
 import PageSEO from '../components/PageSEO';
+import { useLocation } from '../context/LocationContext';
 
 export default function Contact() {
-  
+  const { locationSlug } = useLocation();
   const [data, setData] = useState<CMSContact | null>(null);
 
   useEffect(() => {
@@ -36,9 +37,7 @@ export default function Contact() {
         <div className="grid lg:grid-cols-2 gap-20 items-start">
           <div>
             <h1 className="text-4xl md:text-6xl font-bold text-brand-secondary mb-8 uppercase tracking-tighter" dangerouslySetInnerHTML={{ __html: pageTitle.includes('Chúng Tôi') ? pageTitle.replace('Chúng Tôi', '<span class="text-brand-primary">Chúng Tôi</span>') : pageTitle }} />
-            <p className="text-lg text-slate-500 mb-12 leading-relaxed font-medium">
-              {pageSubtitle}
-            </p>
+            <p className="text-lg text-slate-500 mb-12 leading-relaxed font-medium" dangerouslySetInnerHTML={{ __html: pageSubtitle }} />
 
             <div className="space-y-8">
               {fields.map((item, idx) => {

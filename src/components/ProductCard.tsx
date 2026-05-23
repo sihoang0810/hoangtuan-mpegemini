@@ -36,9 +36,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <h3 className="text-xl font-bold text-brand-secondary mb-3 group-hover:text-brand-primary transition-colors line-clamp-2" id={`product-name-${product.id}`}>
           {product.name}
         </h3>
-        <p className="text-slate-500 text-sm mb-6 line-clamp-2 flex-grow">
-          {product.description}
-        </p>
+        <p className="text-slate-500 text-sm mb-6 line-clamp-2 flex-grow" dangerouslySetInnerHTML={{ __html: product.description || '' }} />
         
         <div className="flex items-center justify-between mt-auto pt-6 border-t border-slate-50">
           <div>

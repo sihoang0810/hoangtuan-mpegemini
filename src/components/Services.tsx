@@ -9,6 +9,7 @@ export default function Services() {
   const { locationSlug } = useLocation();
   const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationSlug));
   const [homepageContent, setHomepageContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationSlug));
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -26,6 +27,8 @@ export default function Services() {
     };
   }, [locationSlug]);
 
+  const displayedServices = showAll ? services : services.slice(0, 6);
+
   return (
     <section id="services" className="section-container bg-white">
       <div className="text-center mb-16">
@@ -38,7 +41,7 @@ export default function Services() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {services.map((service, index) => {
+        {displayedServices.map((service, index) => {
           const IconComponent = getIconComponent(service.icon);
           return (
             <motion.div
@@ -53,9 +56,7 @@ export default function Services() {
                 <IconComponent size={28} />
               </div>
               <h4 className="text-xl font-bold text-brand-secondary mb-3">{service.title}</h4>
-              <p className="text-slate-600 mb-6 line-clamp-3">
-                {service.shortDescription}
-              </p>
+              <p className="text-slate-600 mb-6 line-clamp-3" dangerouslySetInnerHTML={{ __html: service.shortDescription || '' }} />
               <Link 
                 to={`/${locationSlug}/dich-vu/${service.slug}`}
                 className="flex items-center gap-2 font-bold text-brand-primary group-hover:gap-3 transition-all mt-auto"
@@ -67,6 +68,18 @@ export default function Services() {
           );
         })}
       </div>
+
+      {!showAll && services.length > 6 && (
+        <div className="mt-12 text-center">
+          <button 
+            onClick={() => setShowAll(true)}
+            className="inline-flex items-center gap-2 bg-brand-secondary text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:bg-brand-primary hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+          >
+            Xem tất cả dịch vụ
+            <ArrowRight size={20} />
+          </button>
+        </div>
+      )}
     </section>
   );
 }

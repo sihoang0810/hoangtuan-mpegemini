@@ -20,7 +20,7 @@ const TikTokIcon = ({ size = 18 }: { size?: number }) => (
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const { locationSlug, setShowPopup } = useLocation();
+  const { locationSlug, changeLocation } = useLocation();
   const siteLocationPrefix = '/' + locationSlug;
   const [footerData, setFooterData] = useState<CMSFooter | null>(null);
 
@@ -148,7 +148,7 @@ export default function Footer() {
           <p>{copyrightText}</p>
           <div className="flex gap-8">
             <button 
-              onClick={() => setShowPopup(true)} 
+              onClick={changeLocation} 
               className="hover:text-brand-primary transition-colors cursor-pointer text-left focus:outline-none"
             >
               Đổi khu vực ({locationSlug || 'Chưa chọn'})

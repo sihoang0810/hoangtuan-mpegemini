@@ -48,9 +48,7 @@ export default function Hero() {
             
             <h1 className="text-4xl md:text-6xl font-bold text-brand-secondary leading-tight mb-6 tracking-tighter" dangerouslySetInnerHTML={{ __html: heroTitle.includes('\n') ? heroTitle.replace(/\n/g, '<br />') : heroTitle }} />
             
-            <p className="text-lg text-slate-600 mb-10 max-w-lg leading-relaxed">
-              {heroSubtitle}
-            </p>
+            <p className="text-lg text-slate-600 mb-10 max-w-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: heroSubtitle }} />
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="tel:0389011315" className="btn-primary flex items-center justify-center gap-2 text-lg">

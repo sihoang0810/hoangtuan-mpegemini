@@ -29,6 +29,7 @@ export default function ProductDetail() {
   const siteLocationPrefix = '/' + locationSlug;
 
   const [product, setProduct] = useState<CMSProduct | null>(() => getProductBySlugSync(slug, locationSlug));
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [related, setRelated] = useState<CMSProduct[]>(() => {
     const prd = getProductBySlugSync(slug, locationSlug);
     if (!prd) return [];
@@ -39,6 +40,7 @@ export default function ProductDetail() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setSelectedImage(null);
     if (!slug) return;
 
     let active = true;
@@ -90,6 +92,9 @@ export default function ProductDetail() {
     .filter(p => p.category === product.category && p.slug !== product.slug)
     .slice(0, 3);
 
+  const displayImage = selectedImage || product.image;
+  const galleryImages = product.gallery && product.gallery.length > 0 ? product.gallery : [product.image];
+
   return (
     <div className="pt-24 md:pt-32">
       <PageSEO pageType="product" data={product} />
@@ -109,7 +114,7 @@ export default function ProductDetail() {
           <span className="text-brand-primary truncate">{product.name}</span>
         </div>
       </div>
-
+ 
       <section className="section-container">
         {/* Back Button */}
         <button 
@@ -119,7 +124,7 @@ export default function ProductDetail() {
           <ArrowLeft size={20} className="group-hover:-translate-x-2 transition-transform" />
           QUAY LẠI
         </button>
-
+ 
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Gallery Placeholder */}
           <motion.div 
@@ -129,7 +134,7 @@ export default function ProductDetail() {
           >
             <div className="aspect-square bg-white rounded-[3rem] overflow-hidden border border-slate-100 shadow-2xl relative overflow-hidden group">
               <img 
-                src={product.image} 
+                src={displayImage} 
                 alt={product.name} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
@@ -141,11 +146,15 @@ export default function ProductDetail() {
               </div>
             </div>
             
-            {/* Thumbnails placeholder */}
+            {/* Thumbnails */}
             <div className="grid grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map(idx => (
-                <div key={idx} className={`aspect-square rounded-2xl border-2 overflow-hidden cursor-pointer transition-all ${idx === 1 ? 'border-brand-primary shadow-lg shadow-brand-primary/10' : 'border-transparent hover:border-slate-200'}`}>
-                  <img src={product.image} alt="thumbnail" className="w-full h-full object-cover" />
+              {galleryImages.map((img, idx) => (
+                <div 
+                  key={idx} 
+                  onClick={() => setSelectedImage(img)}
+                  className={`aspect-square rounded-2xl border-2 overflow-hidden cursor-pointer transition-all ${displayImage === img ? 'border-brand-primary shadow-lg shadow-brand-primary/10' : 'border-transparent hover:border-slate-200'}`}
+                >
+                  <img src={img} alt={`thumbnail-${idx}`} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
@@ -174,9 +183,10 @@ export default function ProductDetail() {
                   Bảo hành 12/24 tháng
                 </div>
               </div>
-              <p className="text-xl text-slate-600 leading-relaxed font-medium">
-                {product.description}
-              </p>
+              <div 
+                className="text-xl text-slate-600 leading-relaxed font-medium prose prose-slate max-w-none prose-p:text-slate-600"
+                dangerouslySetInnerHTML={{ __html: product.description || '' }}
+              />
             </motion.div>
 
             {/* Quick Actions */}

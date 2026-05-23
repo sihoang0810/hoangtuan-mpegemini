@@ -99,6 +99,7 @@ export default function ProductListing() {
                 </div>
                 <div className="space-y-2">
                   <button
+                    type="button"
                     onClick={() => setActiveCategory('all')}
                     className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl font-bold transition-all ${
                       activeCategory === 'all' 
@@ -112,6 +113,7 @@ export default function ProductListing() {
                   {PRODUCT_CATEGORIES.map((cat) => (
                     <button
                       key={cat.id}
+                      type="button"
                       onClick={() => setActiveCategory(cat.id)}
                       className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl font-bold transition-all ${
                         activeCategory === cat.id 
@@ -148,7 +150,7 @@ export default function ProductListing() {
           </aside>
 
           {/* Product Grid */}
-          <div className="lg:w-3/4">
+          <div className="lg:w-3/4 min-h-[600px] md:min-h-[800px]">
             <AnimatePresence mode="wait">
               {filteredProducts.length > 0 ? (
                 <motion.div 

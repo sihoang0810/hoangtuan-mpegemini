@@ -45,3 +45,7 @@
   }
 }
 
+/* User Focused Element - Requested to make compact or remove */
+div#root:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) {
+  display: none !important;
+}

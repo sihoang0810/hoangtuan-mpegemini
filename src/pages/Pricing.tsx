@@ -7,6 +7,7 @@ import { BadgeCheck, Zap, Droplet, Video, Search } from 'lucide-react';
 import { motion } from 'motion/react';
 import { getServices, getServicesSync, CMSService } from '../lib/sanity';
 import PageSEO from '../components/PageSEO';
+import { useLocation } from '../context/LocationContext';
 
 const PRICE_CATEGORIES = [
   { id: 'electrical', title: 'Điện dân dụng', icon: Zap, color: 'bg-blue-500' },
@@ -16,7 +17,7 @@ const PRICE_CATEGORIES = [
 ];
 
 export default function Pricing() {
-  
+  const { locationSlug } = useLocation();
   const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationSlug));
 
   useEffect(() => {
