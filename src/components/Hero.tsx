@@ -3,19 +3,22 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Phone, ArrowRight, ShieldCheck, Clock, CheckCircle2 } from 'lucide-react';
 import { getHomepageContent, getHomepageContentSync, CMSHomepage } from '../lib/sanity';
+import { useLocation } from '../context/LocationContext';
 
 export default function Hero() {
-  const [content, setContent] = useState<CMSHomepage>(() => getHomepageContentSync());
+  const { locationId } = useLocation();
+  const [content, setContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationId));
 
   useEffect(() => {
     let active = true;
-    getHomepageContent().then((data) => {
+    setContent(getHomepageContentSync(locationId));
+    getHomepageContent(locationId).then((data) => {
       if (active) setContent(data);
     });
     return () => {
       active = false;
     };
-  }, []);
+  }, [locationId]);
 
   const heroTitle = content?.heroTitle || 'Sửa Điện Nước';
   const heroSubtitle = content?.heroSubtitle || 'Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. Chúng tôi xử lý mọi sự cố từ nhỏ đến phức tạp với đội ngũ thợ tay nghề cao.';
@@ -54,7 +57,7 @@ export default function Hero() {
                 <Phone size={20} />
                 Gọi Ngay
               </a>
-              <Link to="/dich-vu" className="btn-outline flex items-center justify-center gap-2 text-lg">
+              <Link to={`/${locationId}/dich-vu`} className="btn-outline flex items-center justify-center gap-2 text-lg">
                 Xem Dịch Vụ
                 <ArrowRight size={20} />
               </Link>

@@ -16,8 +16,8 @@ export interface LocationSpecificDetails {
   mapUrl: string;
 }
 
-export const locationData: Record<'baoloc' | 'hochiminh', LocationSpecificDetails> = {
-  baoloc: {
+export const locationData: Record<'bao-loc' | 'ho-chi-minh', LocationSpecificDetails> = {
+  'bao-loc': {
     seo: {
       title: "Dịch vụ Điện Nước & Camera tại Bảo Lộc – Hoàng Tuấn MPE",
       description: "Thợ cứu hộ sửa chữa hệ thống điện chập cháy, ống nước vỡ ngầm, lắp đặt camera an ninh uy tín hàng đầu tại Bảo Lộc Lâm Đồng. Phục vụ 24/7.",
@@ -34,7 +34,7 @@ export const locationData: Record<'baoloc' | 'hochiminh', LocationSpecificDetail
     workingHours: "Thứ 2 - Chủ Nhật (Hotline cứu hộ trực ngày đêm 24/7)",
     mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15585.122177517173!2d107.80164609999999!3d11.549646049999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3173e91ff02aefcf%3A0xc3fa59902cf67d26!2zSOG6u20gNzQgVHLhuqduIFBow6osIEzhu5ljIFBow6F0LCBC4bqjbyBM4buZYywgTMOibSDEkOG7k25nLCBWaWV0bmFt!5e0!3m2!1svi!2svn!4v1652171452171"
   },
-  hochiminh: {
+  'ho-chi-minh': {
     seo: {
       title: "Dịch vụ Điện Nước & Dò Tìm Rò Rỉ Hồ Chí Minh – Hoàng Tuấn MPE",
       description: "Sửa chữa sự cố điện nước sụt lún, vỡ gầm, dò tìm rò rỉ nước ngầm tỉ mỉ bằng máy PQWT tại TPHCM. Bảo hành lâu dài, an toàn tuyệt đối.",

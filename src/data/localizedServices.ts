@@ -1,7 +1,7 @@
 import { CMSService } from '../lib/sanity';
 
 export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
-  baoloc: [
+  'bao-loc': [
     {
       id: "e1",
       slug: "sua-dien",
@@ -321,7 +321,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       ]
     }
   ],
-  hcm: [
+  'ho-chi-minh': [
     {
       id: "e1",
       slug: "sua-dien",

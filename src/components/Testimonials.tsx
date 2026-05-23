@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
 import { getTestimonials, CMSTestimonial } from '../lib/sanity';
+import { useLocation } from '../context/LocationContext';
 import { motion } from 'motion/react';
 
 export default function Testimonials() {
+  const { locationId } = useLocation();
   const [testimonials, setTestimonials] = useState<CMSTestimonial[]>([]);
 
   useEffect(() => {
     let active = true;
-    getTestimonials().then((data) => {
+    getTestimonials(locationId).then((data) => {
       if (active) setTestimonials(data);
     });
     return () => {
       active = false;
     };
-  }, []);
+  }, [locationId]);
 
   return (
     <section className="section-container bg-slate-50">

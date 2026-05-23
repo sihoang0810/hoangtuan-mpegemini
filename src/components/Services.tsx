@@ -3,23 +3,28 @@ import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getServices, getServicesSync, getHomepageContent, getHomepageContentSync, getIconComponent, CMSService, CMSHomepage } from '../lib/sanity';
+import { useLocation } from '../context/LocationContext';
 
 export default function Services() {
-  const [services, setServices] = useState<CMSService[]>(() => getServicesSync());
-  const [homepageContent, setHomepageContent] = useState<CMSHomepage>(() => getHomepageContentSync());
+  const { locationId } = useLocation();
+  const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationId));
+  const [homepageContent, setHomepageContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationId));
 
   useEffect(() => {
     let active = true;
-    getServices().then((data) => {
+    setServices(getServicesSync(locationId));
+    setHomepageContent(getHomepageContentSync(locationId));
+
+    getServices(locationId).then((data) => {
       if (active) setServices(data);
     });
-    getHomepageContent().then((data) => {
+    getHomepageContent(locationId).then((data) => {
       if (active) setHomepageContent(data);
     });
     return () => {
       active = false;
     };
-  }, []);
+  }, [locationId]);
 
   return (
     <section id="services" className="section-container bg-white">
@@ -52,7 +57,7 @@ export default function Services() {
                 {service.shortDescription}
               </p>
               <Link 
-                to={`/dich-vu/${service.slug}`}
+                to={`/${locationId}/dich-vu/${service.slug}`}
                 className="flex items-center gap-2 font-bold text-brand-primary group-hover:gap-3 transition-all mt-auto"
               >
                 Xem chi tiết

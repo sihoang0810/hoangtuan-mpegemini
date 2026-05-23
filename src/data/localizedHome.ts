@@ -21,7 +21,7 @@ export interface HomeContent {
 }
 
 export const LOCALIZED_HOME: { [key: string]: HomeContent } = {
-  baoloc: {
+  'bao-loc': {
     heroTitle: "DỊCH VỤ SỬA ĐIỆN NƯỚC BẢO LỘC UY TÍN - THỢ TRỰC CHIẾN 24/7",
     heroSubtitle: "Đội ngũ thợ điện nước Bảo Lộc chuyên nghiệp phục vụ nhanh chóng sau 15-30 phút gọi. Chuyên sửa chập điện, vỡ ống nước âm, dò rò rỉ nước ngầm tại Bảo Lộc, Lộc Phát, Lộc Sơn, Lộc Tiến và toàn khu vực Bảo Lâm - Lâm Đồng.",
     heroOverlayText: "THỢ ĐỊA PHƯƠNG - UY TÍN THƯƠNG HIỆU - KHÔNG VẼ VỜI CHI PHÍ",
@@ -67,7 +67,7 @@ export const LOCALIZED_HOME: { [key: string]: HomeContent } = {
     servicesHeading: "Dịch Vụ Của Chúng Tôi",
     servicesSubtitle: "Giải Pháp Toàn Diện Cho Gia Đình"
   },
-  hcm: {
+  'ho-chi-minh': {
     heroTitle: "DỊCH VỤ SỬA ĐIỆN NƯỚC TP.HCM KHẨN CẤP 24H - THỢ QUẬN HUYỆN CÓ MẶT NGAY",
     heroSubtitle: "Đội ngũ kỹ thuật viên Hoàng Tuấn MPE trực chiến 24/7 tại 24 quận huyện Sài Gòn. Chuyên thợ điện nước tphcm sửa chập điện âm tường, siêu âm rò rỉ nước ngầm cho tòa nhà và căn hộ tại Gò Vấp, Quận 1, Quận 7, Bình Thạnh, Thủ Đức...",
     heroOverlayText: "KHẨN CẤP 24U - AN TOÀN TUYỆT ĐỐI - TRANG THIẾT BỊ HIỆN ĐẠI",

@@ -1,7 +1,7 @@
 import { CMSProduct } from '../lib/sanity';
 
 export const LOCALIZED_PRODUCTS: { [key: string]: CMSProduct[] } = {
-  baoloc: [
+  'bao-loc': [
     {
       id: "p1",
       slug: "aptomat-mpe",
@@ -91,7 +91,7 @@ export const LOCALIZED_PRODUCTS: { [key: string]: CMSProduct[] } = {
       specs: { "Tải rà": "Độ sâu tối đa 2m", "Màn hiển": "Màn cảm ứng LED màu", "Tần số": "PQWT đa kênh" }
     }
   ],
-  hcm: [
+  'ho-chi-minh': [
     {
       id: "p1",
       slug: "aptomat-mpe",

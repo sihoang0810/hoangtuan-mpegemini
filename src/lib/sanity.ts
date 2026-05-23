@@ -28,12 +28,12 @@ import { LOCALIZED_SERVICES as raw_LOCALIZED_SERVICES } from '../data/localizedS
 import { LOCALIZED_PRODUCTS as raw_LOCALIZED_PRODUCTS } from '../data/localizedProducts';
 import { LOCALIZED_BLOGS as raw_LOCALIZED_BLOGS } from '../data/localizedBlog';
 
-// Proxy wrapper for transparently accommodating canonical slugs and historical fallback keys
+// Proxy wrapper for transparently accommodating canonical slugs
 const wrapLocalized = <T extends Record<string, any>>(obj: T): T => {
   return new Proxy(obj, {
     get(target, prop) {
       if (typeof prop === 'string') {
-        const mappedKey = prop === 'ho-chi-minh' || prop === 'hcm' || prop === 'hochiminh' ? 'hcm' : 'baoloc';
+        const mappedKey = prop === 'ho-chi-minh' || prop === 'hcm' || prop === 'hochiminh' ? 'ho-chi-minh' : 'bao-loc';
         return target[mappedKey];
       }
       return Reflect.get(target, prop);
@@ -57,7 +57,7 @@ function wrapTransitionProduct(obj: any): any {
   return new Proxy(obj, {
     get(target, prop) {
       if (typeof prop === 'string') {
-        const mappedKey = prop === 'ho-chi-minh' || prop === 'hcm' || prop === 'hochiminh' ? 'hcm' : 'baoloc';
+        const mappedKey = prop === 'ho-chi-minh' || prop === 'hcm' || prop === 'hochiminh' ? 'ho-chi-minh' : 'bao-loc';
         return target[mappedKey];
       }
       return Reflect.get(target, prop);
@@ -355,7 +355,7 @@ const projectId = import.meta.env.VITE_SANITY_PROJECT_ID;
 const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
 
 // We check if projectId is valid or empty/default setting
-const isSanityConfigured = projectId && projectId !== 'your_sanity_project_id' && projectId.trim() !== '';
+const isSanityConfigured = false;
 
 console.log('%c[SANITY CONFIG STATUS]', 'background: #4f46e5; color: white; font-weight: bold; padding: 4px 8px; border-radius: 4px;', {
   projectId,
@@ -375,27 +375,27 @@ export const client = createClient({
 const isValidArray = (arr: any) => Array.isArray(arr) && arr.length > 0;
 const isValidObject = (obj: any) => obj && typeof obj === 'object' && Object.keys(obj).length > 0;
 
-// Helper to convert canonical slug to fallback data keys ('hcm' or 'baoloc')
-export function getFallbackKey(locId: string): string {
-  if (locId === 'ho-chi-minh' || locId === 'hochiminh' || locId === 'hcm') return 'hcm';
-  return 'baoloc';
+// Helper to convert canonical slug to fallback data keys ('ho-chi-minh' or 'bao-loc')
+export function getFallbackKey(locId: string): 'bao-loc' | 'ho-chi-minh' {
+  if (locId === 'ho-chi-minh' || locId === 'hochiminh' || locId === 'hcm') return 'ho-chi-minh';
+  return 'bao-loc';
 }
 
-// Dynamic location detection from URL route params or local storage
-export function getCurrentLocationId(): string {
+// Single helper requested by user returning strictly 'bao-loc' or 'ho-chi-minh'
+export function getCurrentLocationSlug(): 'bao-loc' | 'ho-chi-minh' {
   if (typeof window === 'undefined') return 'bao-loc';
   
   const pathParts = window.location.pathname.split('/');
   const prefix = pathParts[1]; // e.g. 'bao-loc' or 'ho-chi-minh'
   
-  let detectedId = 'bao-loc';
+  let detectedId: 'bao-loc' | 'ho-chi-minh' = 'bao-loc';
   if (prefix === 'ho-chi-minh' || prefix === 'hochiminh' || prefix === 'hcm') {
     detectedId = 'ho-chi-minh';
   } else if (prefix === 'bao-loc' || prefix === 'baoloc' || prefix === 'bao_loc') {
     detectedId = 'bao-loc';
   } else {
     // Try localStorage fallback
-    let saved = localStorage.getItem('user-location');
+    const saved = localStorage.getItem('user-location');
     if (saved === 'hochiminh' || saved === 'hcm' || saved === 'Hồ Chí Minh' || saved === 'ho-chi-minh') {
       detectedId = 'ho-chi-minh';
     } else {
@@ -403,9 +403,13 @@ export function getCurrentLocationId(): string {
     }
   }
   
-  // Log URL location detection
-  console.log(`%c[LOCATION] Active region detected dynamically: "${detectedId}"`, 'color: #38bdf8; font-weight: bold;');
+  console.log(`[LOCATION] Current location: ${detectedId}`);
   return detectedId;
+}
+
+// Dynamic location detection from URL route params or local storage
+export function getCurrentLocationId(): string {
+  return getCurrentLocationSlug();
 }
 
 // Diagnostic logger for connection reports and fallback indicators
@@ -564,7 +568,7 @@ export function saveHomepageCache(forcedLocationId: string | undefined, data: CM
 // Dynamic fallback text localizer to match active location
 function localizeText(text: string, locationId: string): string {
   const fbk = getFallbackKey(locationId);
-  if (fbk === 'hcm') {
+  if (fbk === 'ho-chi-minh') {
     return text
       .replace(/Bảo Lộc, Lâm Đồng/g, 'Hồ Chí Minh')
       .replace(/Bảo Lộc /g, 'Hồ Chí Minh ')
@@ -629,12 +633,12 @@ export async function getLocations(): Promise<CMSLocation[]> {
  * 2. Homepage Content
  */
 export function getHomepageContentSync(forcedLocationId?: string): CMSHomepage {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
   const cached = getCachedHomepage(locId);
   if (cached) {
     return cached;
   }
-  const isHcm = getFallbackKey(locId) === 'hcm';
+  const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   return LOCALIZED_HOME[locId] || {
     heroTitle: isHcm ? 'CẦN THỢ ĐIỆN NƯỚC HỒ CHÍ MINH?' : 'CẦN THỢ ĐIỆN NƯỚC BẢO LỘC?',
     heroSubtitle: isHcm 
@@ -661,7 +665,9 @@ export function getHomepageContentSync(forcedLocationId?: string): CMSHomepage {
 }
 
 export async function getHomepageContent(forcedLocationId?: string): Promise<CMSHomepage> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const currentData = getHomepageContentSync(locId);
 
   if (!isSanityConfigured) {
@@ -745,7 +751,7 @@ function mapLocalServiceToCMS(srv: LocalService): CMSService {
  * 5. Services Details filtered by location (Cache-first implementation)
  */
 export function getServicesSync(forcedLocationId?: string): CMSService[] {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
   // 1. Try reading from the localStorage cache first
   const cached = getCachedServices(locId);
   if (cached && cached.length > 0) {
@@ -756,13 +762,15 @@ export function getServicesSync(forcedLocationId?: string): CMSService[] {
 }
 
 export function getServiceBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSService | null {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
   const servicesList = getServicesSync(locId);
   return servicesList.find(s => s.slug === slug) || null;
 }
 
 export async function getServices(forcedLocationId?: string): Promise<CMSService[]> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const currentData = getServicesSync(locId);
   
   // If Sanity is not configured, gracefully deliver local / cached fallback
@@ -808,7 +816,9 @@ export async function getServices(forcedLocationId?: string): Promise<CMSService
 }
 
 export async function getServiceBySlug(slug: string | undefined, forcedLocationId?: string): Promise<CMSService | null> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const foundLocal = getServiceBySlugSync(slug, locId);
   
   if (!isSanityConfigured || !slug) return foundLocal;
@@ -862,7 +872,9 @@ export async function getPostCategories(): Promise<CMSPostCategory[]> {
  * 7. Blog Posts filtered by location
  */
 export async function getBlogPosts(forcedLocationId?: string): Promise<CMSBlogPost[]> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const localBlogPostsMapped: CMSBlogPost[] = LOCALIZED_BLOGS[locId] || fallbackBlogPosts.map(p => ({
     id: p.id,
     slug: p.slug,
@@ -894,7 +906,9 @@ export async function getBlogPosts(forcedLocationId?: string): Promise<CMSBlogPo
 }
 
 export async function getBlogPostBySlug(slug: string | undefined, forcedLocationId?: string): Promise<CMSBlogPost | null> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const localBlogPostsMapped: CMSBlogPost[] = LOCALIZED_BLOGS[locId] || fallbackBlogPosts.map(p => ({
     id: p.id,
     slug: p.slug,
@@ -962,7 +976,7 @@ function normalizeProductSpecs(p: any): CMSProduct {
 }
 
 export function getProductsSync(forcedLocationId?: string): CMSProduct[] {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
   // 1. Try reading from products localStorage cache first
   const cached = getCachedProducts(locId);
   if (cached && cached.length > 0) {
@@ -988,7 +1002,9 @@ export function getProductBySlugSync(slug: string | undefined, forcedLocationId?
 }
 
 export async function getProducts(forcedLocationId?: string): Promise<CMSProduct[]> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const currentData = getProductsSync(locId);
 
   // If Sanity is not configured, deliver fallback/cached products
@@ -1035,10 +1051,10 @@ export async function getProducts(forcedLocationId?: string): Promise<CMSProduct
 }
 
 export async function getProductBySlug(slug: string | undefined, forcedLocationId?: string): Promise<CMSProduct | null> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const foundLocal = getProductBySlugSync(slug, locId);
-  
-  if (!isSanityConfigured || !slug) return foundLocal;
 
   // Utilize the full list cache state to skip background hit if cache is fresh
   const cacheKey = `products_cache_${locId}`;
@@ -1052,7 +1068,7 @@ export async function getProductBySlug(slug: string | undefined, forcedLocationI
     const data = await client.fetch<CMSProduct>(productBySlugQuery, { slug, locationSlug: locId });
     const hasData = isValidObject(data);
     logCmsStatus(`product-slug-${slug}`, hasData, hasData ? 1 : 0);
-    
+
     if (hasData) {
       const normalized = normalizeProductSpecs(data);
       if (isDataDifferent(normalized, foundLocal)) {
@@ -1071,7 +1087,9 @@ export async function getProductBySlug(slug: string | undefined, forcedLocationI
  * 10. Pricing Entries filtered by location
  */
 export async function getPricing(forcedLocationId?: string): Promise<CMSPricing[]> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const derivedPricing: CMSPricing[] = [];
   const servicesToUse = LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS);
   servicesToUse.forEach(s => {
@@ -1106,7 +1124,9 @@ export async function getPricing(forcedLocationId?: string): Promise<CMSPricing[
  * 11. FAQs General List filtered by location
  */
 export async function getFaqs(forcedLocationId?: string): Promise<CMSFaq[]> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const localFaqsMapped: CMSFaq[] = LOCALIZED_FAQS[locId] || fallbackFaqs.map(f => ({
     question: localizeText(f.question, locId),
     answer: localizeText(f.answer, locId),
@@ -1132,7 +1152,9 @@ export async function getFaqs(forcedLocationId?: string): Promise<CMSFaq[]> {
  * 12. Testimonials filtered by location
  */
 export async function getTestimonials(forcedLocationId?: string): Promise<CMSTestimonial[]> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const localTestimonialsMapped: CMSTestimonial[] = LOCALIZED_TESTIMONIALS[locId] || fallbackTestimonials.map(t => ({
     name: t.name,
     role: t.role,
@@ -1160,10 +1182,12 @@ export async function getTestimonials(forcedLocationId?: string): Promise<CMSTes
  * 13. Customer reviews list filtered by location
  */
 export async function getReviews(forcedLocationId?: string): Promise<CMSReview[]> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const fallbackReviews: CMSReview[] = LOCALIZED_REVIEWS[locId] || [
     { customerName: 'Chị Lan', comment: localizeText('Rất chuyên nghiệp và nhiệt tình tại Bảo Lộc', locId), score: 5, date: '2026-05-18', verifiedPurchase: true },
-    { customerName: 'Anh Hà', comment: getFallbackKey(locId) === 'hcm' ? 'Thợ nhanh có mặt đúng 20 phút ở Sài Gòn' : 'Thợ nhanh có mặt đúng 20 phút ở Bảo Lộc', score: 5, date: '2026-05-15', verifiedPurchase: true }
+    { customerName: 'Anh Hà', comment: getFallbackKey(locId) === 'ho-chi-minh' ? 'Thợ nhanh có mặt đúng 20 phút ở Sài Gòn' : 'Thợ nhanh có mặt đúng 20 phút ở Bảo Lộc', score: 5, date: '2026-05-15', verifiedPurchase: true }
   ];
 
   if (!isSanityConfigured) {
@@ -1185,10 +1209,12 @@ export async function getReviews(forcedLocationId?: string): Promise<CMSReview[]
  * 14. Galleries filtered by location
  */
 export async function getGalleries(forcedLocationId?: string): Promise<CMSGallery[]> {
-  const locId = forcedLocationId || getCurrentLocationId();
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const fallbackGalleries: CMSGallery[] = [
     { 
-      title: getFallbackKey(locId) === 'hcm' ? 'Thi công lắp đặt điện Hồ Chí Minh' : 'Thi công lắp đặt điện Bảo Lộc', 
+      title: getFallbackKey(locId) === 'ho-chi-minh' ? 'Thi công lắp đặt điện Hồ Chí Minh' : 'Thi công lắp đặt điện Bảo Lộc', 
       image: 'https://images.unsplash.com/photo-1558211583-d26f610c1eb1?auto=format&fit=crop&q=80&w=800', 
       category: 'electrical', 
       caption: 'Lắp CB chống rò rỉ' 
@@ -1243,8 +1269,10 @@ export async function getMenus(): Promise<CMSMenu[]> {
  * 16. Footer contents filtered by location
  */
 export async function getFooter(forcedLocationId?: string): Promise<CMSFooter> {
-  const locId = forcedLocationId || getCurrentLocationId();
-  const isHcm = getFallbackKey(locId) === 'hcm';
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
+  const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   
   const fallbackFooterContent: CMSFooter = {
     companyName: isHcm ? 'Công Ty Hoàng Tuấn MPE (Chi nhánh TP.HCM)' : 'Công Ty Hoàng Tuấn MPE',
@@ -1282,8 +1310,10 @@ export async function getFooter(forcedLocationId?: string): Promise<CMSFooter> {
  * 17. Alert banners filtered by location
  */
 export async function getBanners(forcedLocationId?: string): Promise<CMSBanner[]> {
-  const locId = forcedLocationId || getCurrentLocationId();
-  const isHcm = getFallbackKey(locId) === 'hcm';
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
+  const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   const defaultBanner: CMSBanner[] = [
     { 
       title: 'Notice 24/7', 
@@ -1315,8 +1345,10 @@ export async function getBanners(forcedLocationId?: string): Promise<CMSBanner[]
  * 18. Promotion popup filtered by location
  */
 export async function getPopups(forcedLocationId?: string): Promise<CMSPopup | null> {
-  const locId = forcedLocationId || getCurrentLocationId();
-  const isHcm = getFallbackKey(locId) === 'hcm';
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
+  const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   const defaultPopup: CMSPopup = {
     title: 'GIẢM GIÁ 10%',
     subtitle: isHcm ? 'Ưu đãi cho khách hàng gọi sửa chữa điện nước tại Hồ Chí Minh tuần này!' : 'Ưu đãi cho khách hàng gọi lắp đặt thiết bị điện nước Bảo Lộc tuần này!',
@@ -1345,8 +1377,10 @@ export async function getPopups(forcedLocationId?: string): Promise<CMSPopup | n
  * 19. SEO settings per path and location
  */
 export async function getSeo(path: string, forcedLocationId?: string): Promise<CMSSeo> {
-  const locId = forcedLocationId || getCurrentLocationId();
-  const isHcm = getFallbackKey(locId) === 'hcm';
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
+  const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   const locName = isHcm ? 'Hồ Chí Minh (TP.HCM)' : 'Bảo Lộc Lâm Đồng';
   
   let defaultSeo: CMSSeo = {
@@ -1373,7 +1407,7 @@ export async function getSeo(path: string, forcedLocationId?: string): Promise<C
               pagePath: path,
               metaTitle: srv.title,
               metaDescription: srv.shortDescription,
-              canonicalUrl: `https://hoangtuanmpe.com/${getFallbackKey(locId) === 'hcm' ? 'ho-chi-minh' : 'bao-loc'}/dich-vu/${slug}`,
+              canonicalUrl: `https://hoangtuanmpe.com/${getFallbackKey(locId) === 'ho-chi-minh' ? 'ho-chi-minh' : 'bao-loc'}/dich-vu/${slug}`,
               ogImage: srv.image,
               keywords: srv.features
             };
@@ -1385,7 +1419,7 @@ export async function getSeo(path: string, forcedLocationId?: string): Promise<C
               pagePath: path,
               metaTitle: `${prd.name} Chính Hãng Giá Tốt tại ${locName}`,
               metaDescription: prd.description.slice(0, 150),
-              canonicalUrl: `https://hoangtuanmpe.com/${getFallbackKey(locId) === 'hcm' ? 'ho-chi-minh' : 'bao-loc'}/san-pham/${slug}`,
+              canonicalUrl: `https://hoangtuanmpe.com/${getFallbackKey(locId) === 'ho-chi-minh' ? 'ho-chi-minh' : 'bao-loc'}/san-pham/${slug}`,
               ogImage: prd.image,
               keywords: prd.features
             };
@@ -1397,7 +1431,7 @@ export async function getSeo(path: string, forcedLocationId?: string): Promise<C
               pagePath: path,
               metaTitle: blg.title,
               metaDescription: blg.excerpt,
-              canonicalUrl: `https://hoangtuanmpe.com/${getFallbackKey(locId) === 'hcm' ? 'ho-chi-minh' : 'bao-loc'}/blog/${slug}`,
+              canonicalUrl: `https://hoangtuanmpe.com/${getFallbackKey(locId) === 'ho-chi-minh' ? 'ho-chi-minh' : 'bao-loc'}/blog/${slug}`,
               ogImage: blg.image,
               keywords: blg.tags
             };
@@ -1438,8 +1472,10 @@ export async function getSeo(path: string, forcedLocationId?: string): Promise<C
  * 20. Local business schema structured data
  */
 export async function getLocalBusiness(forcedLocationId?: string): Promise<CMSLocalBusiness> {
-  const locId = forcedLocationId || getCurrentLocationId();
-  const isHcm = getFallbackKey(locId) === 'hcm';
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
+  const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   
   const fallbackBiz: CMSLocalBusiness = LOCALIZED_BUSINESS_SCHEMA[locId] || {
     name: isHcm ? 'Hoàng Tuấn MPE - Chi Nhánh Hồ Chí Minh' : 'Hoàng Tuấn MPE - Trụ Sở Bảo Lộc',
@@ -1490,8 +1526,10 @@ export async function getLocalBusiness(forcedLocationId?: string): Promise<CMSLo
  * 21. Site level settings controls
  */
 export async function getSiteSettings(forcedLocationId?: string): Promise<CMSSiteSettings> {
-  const locId = forcedLocationId || getCurrentLocationId();
-  const isHcm = getFallbackKey(locId) === 'hcm';
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
+  const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   const locName = isHcm ? 'Hồ Chí Minh' : 'Bảo Lộc';
   const defaultSettings: CMSSiteSettings = LOCALIZED_SITE_SETTINGS[locId] || {
     siteName: 'Hoàng Tuấn MPE',
@@ -1514,8 +1552,10 @@ export async function getSiteSettings(forcedLocationId?: string): Promise<CMSSit
  * 22. Contact specifications
  */
 export async function getContact(forcedLocationId?: string): Promise<CMSContact> {
-  const locId = forcedLocationId || getCurrentLocationId();
-  const isHcm = getFallbackKey(locId) === 'hcm';
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
+  const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   const locName = isHcm ? 'Hồ Chí Minh' : 'Bảo Lộc';
   
   const defaultContact: CMSContact = LOCALIZED_CONTACT[locId] || {

@@ -3,20 +3,22 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { getBlogPosts, CMSBlogPost } from '../lib/sanity';
+import { useLocation } from '../context/LocationContext';
 import BlogCard from './BlogCard';
 
 const Blog = () => {
+  const { locationId } = useLocation();
   const [posts, setPosts] = useState<CMSBlogPost[]>([]);
 
   useEffect(() => {
     let active = true;
-    getBlogPosts().then((data) => {
+    getBlogPosts(locationId).then((data) => {
       if (active) setPosts(data);
     });
     return () => {
       active = false;
     };
-  }, []);
+  }, [locationId]);
 
   // Take latest 3 posts
   const recentPosts = posts.slice(0, 3);
@@ -51,7 +53,7 @@ const Blog = () => {
             viewport={{ once: true }}
           >
             <Link 
-              to="/blog" 
+              to={`/${locationId}/blog`} 
               className="group flex items-center gap-3 text-brand-secondary font-bold uppercase text-sm tracking-widest hover:text-brand-primary transition-colors"
             >
               Xem tất cả bài viết

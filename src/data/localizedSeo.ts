@@ -1,7 +1,7 @@
 import { CMSSeo, CMSLocalBusiness, CMSContact, CMSSiteSettings } from '../lib/sanity';
 
 export const LOCALIZED_SEO: { [key: string]: { [path: string]: CMSSeo } } = {
-  baoloc: {
+  'bao-loc': {
     "/": {
       pagePath: "/",
       metaTitle: "Thợ Điện Nước Bảo Lộc 24/7 | Sửa Chập Điện - Dò Rò Rỉ Nước Ngầm Lâm Đồng",
@@ -39,7 +39,7 @@ export const LOCALIZED_SEO: { [key: string]: { [path: string]: CMSSeo } } = {
       keywords: ["lien he tho dien bao loc", "so dien thoai sua ong nuoc bao loc", "dia chi sua dien nuoc bao loc"]
     }
   },
-  hcm: {
+  'ho-chi-minh': {
     "/": {
       pagePath: "/",
       metaTitle: "Thợ Điện Nước TP.HCM 24/7 | Sửa Chập Điện Sài Gòn - Siêu Âm Rò Rỉ Nước 4H",
@@ -80,7 +80,7 @@ export const LOCALIZED_SEO: { [key: string]: { [path: string]: CMSSeo } } = {
 };
 
 export const LOCALIZED_BUSINESS_SCHEMA: { [key: string]: CMSLocalBusiness } = {
-  baoloc: {
+  'bao-loc': {
     name: "Hoàng Tuấn MPE - Trụ Sở Sửa Điện Nước Bảo Lộc Lâm Đồng",
     legalName: "Công ty TNHH Hoàng Tuấn MPE Cơ Điện (Trụ sở chính Bảo Lộc)",
     telephone: "0389011315",
@@ -100,7 +100,7 @@ export const LOCALIZED_BUSINESS_SCHEMA: { [key: string]: CMSLocalBusiness } = {
       { dayOfWeek: "Monday-Sunday", opens: "00:00", closes: "23:59" }
     ]
   },
-  hcm: {
+  'ho-chi-minh': {
     name: "Hoàng Tuấn MPE - Chi Nhánh Sửa Điện Nước TP. Hồ Chí Minh",
     legalName: "Công ty TNHH Hoàng Tuấn MPE Cơ Điện (Chi nhánh TP.HCM)",
     telephone: "0389011315",
@@ -123,7 +123,7 @@ export const LOCALIZED_BUSINESS_SCHEMA: { [key: string]: CMSLocalBusiness } = {
 };
 
 export const LOCALIZED_CONTACT: { [key: string]: CMSContact } = {
-  baoloc: {
+  'bao-loc': {
     pageTitle: "BẢO LỘC - KẾT NỐI VỚI THỢ VẬN HÀNH HOÀNG TUẤN MPE",
     pageSubtitle: "Đội ngũ điều phối viên trực đài sương gió Bảo Lộc luôn túc trực, thợ bản địa di chuyển dốc đồi Lâm Đồng có mặt sau 15-30 phút gọi.",
     contactFields: [
@@ -134,7 +134,7 @@ export const LOCALIZED_CONTACT: { [key: string]: CMSContact } = {
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15582.478201504787!2d107.79586119999999!3d11.5435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3173e2a77af8b06d%3A0xe7bd193c6f66bd32!2zTOG7mWMgUGjDoXQsIELhuqNvIEzhu5ljLCBMw6JtIMSQ4buTbmcsIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1716301234567"
   },
-  hcm: {
+  'ho-chi-minh': {
     pageTitle: "TP.HCM - LIÊN HỆ ĐỘI KỸ SƯ HOÀNG TUẤN MPE SÀI GÒN",
     pageSubtitle: "Đội ngũ kỹ thuật viên rải rác phủ sóng 24 quận huyện Sài Gòn. Xử lý sửa chữa chập điện gia đình, rà siêu âm rò nước ngầm chuyên sâu đô thị.",
     contactFields: [
@@ -148,14 +148,14 @@ export const LOCALIZED_CONTACT: { [key: string]: CMSContact } = {
 };
 
 export const LOCALIZED_SITE_SETTINGS: { [key: string]: CMSSiteSettings } = {
-  baoloc: {
+  'bao-loc': {
     siteName: "Hoàng Tuấn MPE Bảo Lộc",
     tagline: "Thợ Điện Nước Bản Địa Bảo Lộc - Lắp Đặt Camera Lâm Đồng - Siêu Âm Dò Rò Rỉ Nước 24H Gia Đình",
     mainHotline: "0389 011 315",
     mainZalo: "https://zalo.me/0389011315",
     headerNotice: "Thợ túc trực dốc đèo Bảo Lộc có mặt khẩn cấp sau 15-30 phút gọi!"
   },
-  hcm: {
+  'ho-chi-minh': {
     siteName: "Hoàng Tuấn MPE TP.HCM",
     tagline: "Thợ sửa điện nước tphcm 24/7 - Dò tìm rò rỉ siêu âm Sài Gòn - Chuyên Sửa Chập Điện Âm Tường Đô Thị",
     mainHotline: "0389 011 315",

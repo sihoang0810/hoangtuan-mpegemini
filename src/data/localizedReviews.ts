@@ -1,7 +1,7 @@
 import { CMSTestimonial, CMSReview } from '../lib/sanity';
 
 export const LOCALIZED_REVIEWS: { [key: string]: CMSReview[] } = {
-  baoloc: [
+  'bao-loc': [
     {
       customerName: "Anh Nguyễn Đăng Khoa",
       comment: "Đuờng nhà tôi ở Phường 2 Bảo Lộc, bị chập điện giếng khoan bơm tưới cà phê lúc sập tối. Gọi điện thợ Hoàng Tuấn 20 phút sau có mặt ngay tắp lự. Tìm ra mạch chập nhanh gọn, sửa giá cả rất phải chăng. Sẽ ủng hộ lâu dài.",
@@ -38,7 +38,7 @@ export const LOCALIZED_REVIEWS: { [key: string]: CMSReview[] } = {
       verifiedPurchase: true
     }
   ],
-  hcm: [
+  'ho-chi-minh': [
     {
       customerName: "Chị Trần Thanh Lam",
       comment: "Sống ở chung cư Quận 7 mùa nắng nóng cực kinh khủng, bật đồng thời 3 cái máy lạnh thế là aptomat Panasonic nhảy két két cúp điện luôn. Khơi khơi nửa đêm gọi thợ điện nước HCM may rủi ai ngờ thợ có mặt sau 20 phút đổi ngay CB dòng rò chịu tải lớnPanasonic. Cứu tinh của cả nhà!",
@@ -78,7 +78,7 @@ export const LOCALIZED_REVIEWS: { [key: string]: CMSReview[] } = {
 };
 
 export const LOCALIZED_TESTIMONIALS: { [key: string]: CMSTestimonial[] } = {
-  baoloc: [
+  'bao-loc': [
     {
       name: "Anh Hoàng Nam",
       role: "Phường Lộc Phát, TP. Bảo Lộc",
@@ -101,7 +101,7 @@ export const LOCALIZED_TESTIMONIALS: { [key: string]: CMSTestimonial[] } = {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hung"
     }
   ],
-  hcm: [
+  'ho-chi-minh': [
     {
       name: "Chị Nguyễn Kiều Trang",
       role: "Khu Đô Thị Phú Mỹ Hưng, Quận 7",

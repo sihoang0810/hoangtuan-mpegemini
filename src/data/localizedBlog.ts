@@ -1,7 +1,7 @@
 import { BlogPost } from './blog';
 
 export const LOCALIZED_BLOGS: { [key: string]: BlogPost[] } = {
-  baoloc: [
+  'bao-loc': [
     {
       id: "b1_baoloc",
       slug: "chi-phi-sua-dien-bao-loc-moi-nhat",
@@ -88,7 +88,7 @@ export const LOCALIZED_BLOGS: { [key: string]: BlogPost[] } = {
       `
     }
   ],
-  hcm: [
+  'ho-chi-minh': [
     {
       id: "b1_hcm",
       slug: "gia-sua-dien-tphcm",

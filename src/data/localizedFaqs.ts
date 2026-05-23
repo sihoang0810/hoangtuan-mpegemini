@@ -1,7 +1,7 @@
 import { CMSFaq } from '../lib/sanity';
 
 export const LOCALIZED_FAQS: { [key: string]: CMSFaq[] } = {
-  baoloc: [
+  'bao-loc': [
     {
       question: "Hoàng Tuấn MPE có nhận sửa điện nước tại Bảo Lộc vào ban đêm không?",
       answer: "Có! Chúng tôi có đội thợ trực đêm 24/7 chuyên xử lý sự cố sửa điện Bảo Lộc khẩn cấp. Kể cả ngày lễ, Tết Nguyên Đán hay mưa lũ dầm dề tại Lâm Đồng, thợ vẫn có mặt đúng hẹn trong vòng 15-30 phút sau khi gọi.",
@@ -103,7 +103,7 @@ export const LOCALIZED_FAQS: { [key: string]: CMSFaq[] } = {
       category: "Quy Trình"
     }
   ],
-  hcm: [
+  'ho-chi-minh': [
     {
       question: "Thời gian thợ điện nước có mặt khẩn cấp tại các quận sầm uất TP.HCM là bao lâu?",
       answer: "Cam kết tối đa 30 phút, thông thường chỉ 15-20 phút tại các quận nội thành như Gò Vấp, Quận 1, Quận 3, Quận 10, Bình Thạnh nhờ mạng lưới thợ lành nghề phân bổ mật độ túc trực dày đặc.",
