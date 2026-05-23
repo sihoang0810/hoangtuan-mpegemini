@@ -6,19 +6,19 @@ import { getHomepageContent, getHomepageContentSync, CMSHomepage } from '../lib/
 import { useLocation } from '../context/LocationContext';
 
 export default function Hero() {
-  const { locationId } = useLocation();
-  const [content, setContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationId));
+  const { locationSlug } = useLocation();
+  const [content, setContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationSlug));
 
   useEffect(() => {
     let active = true;
-    setContent(getHomepageContentSync(locationId));
-    getHomepageContent(locationId).then((data) => {
+    setContent(getHomepageContentSync(locationSlug));
+    getHomepageContent(locationSlug).then((data) => {
       if (active) setContent(data);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   const heroTitle = content?.heroTitle || 'Sửa Điện Nước';
   const heroSubtitle = content?.heroSubtitle || 'Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. Chúng tôi xử lý mọi sự cố từ nhỏ đến phức tạp với đội ngũ thợ tay nghề cao.';
@@ -57,7 +57,7 @@ export default function Hero() {
                 <Phone size={20} />
                 Gọi Ngay
               </a>
-              <Link to={`/${locationId}/dich-vu`} className="btn-outline flex items-center justify-center gap-2 text-lg">
+              <Link to={`/${locationSlug}/dich-vu`} className="btn-outline flex items-center justify-center gap-2 text-lg">
                 Xem Dịch Vụ
                 <ArrowRight size={20} />
               </Link>

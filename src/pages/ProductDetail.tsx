@@ -23,19 +23,19 @@ import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 
 export default function ProductDetail() {
-  const { slug, locationId } = useParams<{ slug: string; locationId: string }>();
+  const { slug } = useParams<{ slug: string; locationSlug: string }>();
   const navigate = useNavigate();
-  const { location: appLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+  const { locationSlug } = useLocation();
+  const siteLocationPrefix = '/' + locationSlug;
 
-  const [product, setProduct] = useState<CMSProduct | null>(() => getProductBySlugSync(slug, locationId));
+  const [product, setProduct] = useState<CMSProduct | null>(() => getProductBySlugSync(slug, locationSlug));
   const [related, setRelated] = useState<CMSProduct[]>(() => {
-    const prd = getProductBySlugSync(slug, locationId);
+    const prd = getProductBySlugSync(slug, locationSlug);
     if (!prd) return [];
-    const list = getProductsSync(locationId);
+    const list = getProductsSync(locationSlug);
     return list.filter(p => p.category === prd.category && p.slug !== slug).slice(0, 3);
   });
-  const [loading, setLoading] = useState(() => !getProductBySlugSync(slug, locationId));
+  const [loading, setLoading] = useState(() => !getProductBySlugSync(slug, locationSlug));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,14 +43,14 @@ export default function ProductDetail() {
 
     let active = true;
 
-    getProductBySlug(slug, locationId).then(data => {
+    getProductBySlug(slug, locationSlug).then(data => {
       if (!active) return;
       setProduct(data);
       setLoading(false);
       
       // Load related products
       if (data) {
-        getProducts(locationId).then(allProducts => {
+        getProducts(locationSlug).then(allProducts => {
           if (!active) return;
           const cat = data.category || 'electrical';
           const rel = allProducts.filter(p => p.category === cat && p.slug !== slug).slice(0, 3);
@@ -62,7 +62,7 @@ export default function ProductDetail() {
     return () => {
       active = false;
     };
-  }, [slug, locationId]);
+  }, [slug, locationSlug]);
 
   if (loading) {
     return (
@@ -261,7 +261,7 @@ export default function ProductDetail() {
                   </div>
                 </div>
                 <p className="text-slate-600 leading-relaxed mb-8">
-                  Khi mua thiết bị tại Hoàng Tuấn MPE, khách hàng tại khu vực {appLocation || 'Bảo Lộc'} và lân cận sẽ được đội ngũ kỹ thuật viên tay nghề cao của chúng tôi hỗ trợ lắp đặt đúng tiêu chuẩn kỹ thuật, đảm bảo an toàn tuyệt đối và hiệu quả sử dụng cao nhất.
+                  Khi mua thiết bị tại Hoàng Tuấn MPE, khách hàng tại khu vực {locationSlug || 'Bảo Lộc'} và lân cận sẽ được đội ngũ kỹ thuật viên tay nghề cao của chúng tôi hỗ trợ lắp đặt đúng tiêu chuẩn kỹ thuật, đảm bảo an toàn tuyệt đối và hiệu quả sử dụng cao nhất.
                 </p>
                 <div className="flex gap-4">
                   <a href="tel:0389011315" className="bg-brand-primary text-white px-8 py-3 rounded-xl font-bold text-sm uppercase tracking-widest hover:scale-105 transition-all">Đặt thợ lắp ngay</a>

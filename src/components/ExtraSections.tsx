@@ -53,19 +53,19 @@ export default function ProcessTimeline() {
 import { useLocation } from '../context/LocationContext';
 
 export function FAQSection() {
-  const { locationId } = useLocation();
+  const { locationSlug } = useLocation();
   const [openIdx, setOpenIdx] = useState<number | null>(0);
   const [faqs, setFaqs] = useState<CMSFaq[]>([]);
 
   useEffect(() => {
     let active = true;
-    getFaqs(locationId).then(data => {
+    getFaqs(locationSlug).then(data => {
       if (active) setFaqs(data);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   const items = faqs.length > 0 ? faqs : FAQS;
 

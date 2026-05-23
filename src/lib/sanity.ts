@@ -395,9 +395,11 @@ export function getCurrentLocationSlug(): 'bao-loc' | 'ho-chi-minh' {
     detectedId = 'bao-loc';
   } else {
     // Try localStorage fallback
-    const saved = localStorage.getItem('user-location');
-    if (saved === 'hochiminh' || saved === 'hcm' || saved === 'Hồ Chí Minh' || saved === 'ho-chi-minh') {
+    const saved = localStorage.getItem('locationSlug');
+    if (saved === 'ho-chi-minh' || saved === 'hochiminh' || saved === 'hcm' || saved === 'Hồ Chí Minh') {
       detectedId = 'ho-chi-minh';
+    } else if (saved === 'bao-loc' || saved === 'baoloc' || saved === 'bao_loc' || saved === 'Bảo Lộc') {
+      detectedId = 'bao-loc';
     } else {
       detectedId = 'bao-loc';
     }
@@ -566,8 +568,8 @@ export function saveHomepageCache(forcedLocationId: string | undefined, data: CM
 
 
 // Dynamic fallback text localizer to match active location
-function localizeText(text: string, locationId: string): string {
-  const fbk = getFallbackKey(locationId);
+function localizeText(text: string, locationSlug: string): string {
+  const fbk = getFallbackKey(locationSlug);
   if (fbk === 'ho-chi-minh') {
     return text
       .replace(/Bảo Lộc, Lâm Đồng/g, 'Hồ Chí Minh')

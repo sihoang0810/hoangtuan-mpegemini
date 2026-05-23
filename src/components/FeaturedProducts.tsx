@@ -7,19 +7,19 @@ import { useLocation } from '../context/LocationContext';
 import ProductCard from './ProductCard';
 
 export default function FeaturedProducts() {
-  const { locationId } = useLocation();
-  const [products, setProducts] = useState<CMSProduct[]>(() => getProductsSync(locationId));
+  const { locationSlug } = useLocation();
+  const [products, setProducts] = useState<CMSProduct[]>(() => getProductsSync(locationSlug));
 
   useEffect(() => {
     let active = true;
-    setProducts(getProductsSync(locationId));
-    getProducts(locationId).then((data) => {
+    setProducts(getProductsSync(locationSlug));
+    getProducts(locationSlug).then((data) => {
       if (active) setProducts(data);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   const featuredProducts = products.slice(0, 3);
 
@@ -34,7 +34,7 @@ export default function FeaturedProducts() {
           </h3>
         </div>
         <Link 
-          to={`/${locationId}/san-pham`} 
+          to={`/${locationSlug}/san-pham`} 
           className="group flex items-center gap-2 text-brand-secondary font-bold uppercase text-sm tracking-widest hover:text-brand-primary transition-colors"
         >
           Xem tất cả sản phẩm
@@ -59,7 +59,7 @@ export default function FeaturedProducts() {
           </div>
         </div>
         <Link 
-          to={`/${locationId}/san-pham`}
+          to={`/${locationSlug}/san-pham`}
           className="bg-brand-primary text-white px-10 py-4 rounded-2xl font-bold uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-brand-primary/20"
         >
           Ghé thăm cửa hàng

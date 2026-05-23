@@ -24,10 +24,10 @@ import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 
 export default function BlogDetail() {
-  const { slug, locationId } = useParams<{ slug: string; locationId: string }>();
+  const { slug } = useParams<{ slug: string; locationSlug: string }>();
   const navigate = useNavigate();
-  const { location: appLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+  const { locationSlug } = useLocation();
+  const siteLocationPrefix = '/' + locationSlug;
 
   const [post, setPost] = useState<CMSBlogPost | null>(null);
   const [related, setRelated] = useState<CMSBlogPost[]>([]);
@@ -40,13 +40,13 @@ export default function BlogDetail() {
     setLoading(true);
     let active = true;
 
-    getBlogPostBySlug(slug, locationId).then(data => {
+    getBlogPostBySlug(slug, locationSlug).then(data => {
       if (!active) return;
       setPost(data);
       setLoading(false);
 
       if (data) {
-        getBlogPosts(locationId).then(allPosts => {
+        getBlogPosts(locationSlug).then(allPosts => {
           if (!active) return;
           const cat = data.category || 'Điện';
           const rel = allPosts.filter(p => p.category === cat && p.slug !== slug).slice(0, 3);
@@ -58,7 +58,7 @@ export default function BlogDetail() {
     return () => {
       active = false;
     };
-  }, [slug, locationId]);
+  }, [slug, locationSlug]);
 
   if (loading) {
     return (
@@ -246,7 +246,7 @@ export default function BlogDetail() {
               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/20 rounded-full blur-2xl -mr-16 -mt-16" />
               <div className="relative z-10">
                 <h4 className="text-2xl font-bold mb-4 uppercase tracking-tighter">Cần thợ ngay?</h4>
-                <p className="text-white/60 text-sm mb-8 leading-relaxed">Có mặt sau 30 phút tại {appLocation || 'Bảo Lộc'}. Kiểm tra khảo sát hoàn toàn miễn phí.</p>
+                <p className="text-white/60 text-sm mb-8 leading-relaxed">Có mặt sau 30 phút tại {locationSlug || 'Bảo Lộc'}. Kiểm tra khảo sát hoàn toàn miễn phí.</p>
                 <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20 tracking-tight">
                   <Phone size={20} />
                   0389.011.315

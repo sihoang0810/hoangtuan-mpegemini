@@ -71,8 +71,8 @@ interface CategorySectionProps {
 }
 
 const CategorySection: React.FC<CategorySectionProps> = ({ category, services }) => {
-  const { location: appLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+  const { locationSlug } = useLocation();
+  const siteLocationPrefix = '/' + locationSlug;
 
   return (
     <section id={category.id} className="py-20 border-b border-slate-100 last:border-0">
@@ -199,7 +199,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
 };
 
 export default function ServicesPage() {
-  const { location: appLocation } = useLocation();
+  const { locationSlug } = useLocation();
   const [services, setServices] = useState<CMSService[]>(() => getServicesSync());
 
   useEffect(() => {
@@ -234,7 +234,7 @@ export default function ServicesPage() {
               className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white/10 text-brand-primary text-sm font-bold uppercase tracking-[0.2em] mb-8 border border-white/10"
             >
               <ShieldCheck size={16} />
-              Dịch vụ uy tín số 1 {appLocation || 'Bảo Lộc'}
+              Dịch vụ uy tín số 1 {locationSlug || 'Bảo Lộc'}
             </motion.div>
             
             <motion.h1

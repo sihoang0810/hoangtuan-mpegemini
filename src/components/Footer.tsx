@@ -20,23 +20,23 @@ const TikTokIcon = ({ size = 18 }: { size?: number }) => (
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const { locationId, location: appLocation, changeLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+  const { locationSlug, setShowPopup } = useLocation();
+  const siteLocationPrefix = '/' + locationSlug;
   const [footerData, setFooterData] = useState<CMSFooter | null>(null);
 
   useEffect(() => {
     let active = true;
-    getFooter(locationId).then(data => {
+    getFooter(locationSlug).then(data => {
       if (active) setFooterData(data);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   const companyName = footerData?.companyName || 'Hoàng Tuấn MPE';
   const shortAbout = footerData?.shortAbout || 'Hoàng Tuấn MPE tự hào là đơn vị cung cấp dịch vụ sửa chữa điện nước và thiết bị điện MPE uy tín hàng đầu tại Việt Nam. Sự hài lòng của khách hàng là kim chỉ nam cho mọi hoạt động của chúng tôi.';
-  const address = footerData?.address || ((locationId === 'ho-chi-minh' || locationId === 'hcm') ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng");
+  const address = footerData?.address || ((locationSlug === 'ho-chi-minh' || locationSlug === 'ho-chi-minh') ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng");
   const phone = footerData?.phone || '0389 011 315';
   const email = footerData?.email || 'hoangtuanmpe@gmail.com';
   const facebookUrl = footerData?.socialLinks?.facebook || 'https://facebook.com';
@@ -148,10 +148,10 @@ export default function Footer() {
           <p>{copyrightText}</p>
           <div className="flex gap-8">
             <button 
-              onClick={changeLocation} 
+              onClick={() => setShowPopup(true)} 
               className="hover:text-brand-primary transition-colors cursor-pointer text-left focus:outline-none"
             >
-              Đổi khu vực ({appLocation || 'Chưa chọn'})
+              Đổi khu vực ({locationSlug || 'Chưa chọn'})
             </button>
             <Link to="/dieu-khoan" className="hover:text-brand-primary transition-colors">Điều khoản dịch vụ</Link>
             <Link to="/bao-mat" className="hover:text-brand-primary transition-colors">Chính sách bảo mật</Link>

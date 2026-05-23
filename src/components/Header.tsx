@@ -56,8 +56,8 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const routerLocation = useRouterLocation();
-  const { location: appLocation, changeLocation } = useAppLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+  const { locationSlug, setShowPopup } = useAppLocation();
+  const siteLocationPrefix = '/' + locationSlug;
 
   const [siteSettings, setSiteSettings] = useState<CMSSiteSettings | null>(null);
   const [menus, setMenus] = useState<CMSMenu[]>([]);
@@ -88,6 +88,7 @@ export default function Header() {
   const nameParts = siteName.split(' ');
   const displayBrand1 = nameParts.slice(0, 2).join(' ') || 'HOÀNG TUẤN';
   const displayBrand2 = nameParts.slice(2).join(' ') || 'MPE';
+  const mappedDisplayName = locationSlug === 'ho-chi-minh' ? 'Hồ Chí Minh' : 'Bảo Lộc';
 
   const rawNavLinks = [
     { name: 'Trang chủ', href: '/' },
@@ -119,10 +120,10 @@ export default function Header() {
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-xl text-brand-secondary uppercase leading-none whitespace-nowrap tracking-tight">
-                {displayBrand1}
+                HOÀNG TUẤN
               </span>
               <span className="font-bold text-xl text-brand-secondary uppercase leading-none whitespace-nowrap mt-0.5 tracking-tight">
-                {displayBrand2}
+                MPE
               </span>
               <span className="text-brand-primary text-[10px] font-bold tracking-[0.2em] uppercase mt-1 whitespace-nowrap">
                 TẬN NƠI 24/7
@@ -166,7 +167,7 @@ export default function Header() {
                                     className="text-slate-600 hover:text-brand-primary flex flex-col transition-colors"
                                   >
                                     <span className="font-bold text-sm">{sublink.name}</span>
-                                    <span className="text-[10px] text-slate-400 capitalize">tại {appLocation || 'Bảo Lộc'}</span>
+                                    <span className="text-[10px] text-slate-400 capitalize">tại {mappedDisplayName}</span>
                                   </Link>
                                 </li>
                               ))}
@@ -193,11 +194,11 @@ export default function Header() {
           {/* Location Selector Button - Right */}
           <div className="hidden lg:block shrink-0">
             <button 
-              onClick={changeLocation}
+              onClick={() => setShowPopup(true)}
               className="flex items-center gap-3 bg-brand-primary text-white px-6 py-3 rounded-full font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer tracking-tight"
             >
               <MapPin size={22} />
-              <span>{appLocation || 'Bảo Lộc'}</span>
+              <span>{mappedDisplayName}</span>
               <ChevronDown size={18} className="opacity-70" />
             </button>
           </div>

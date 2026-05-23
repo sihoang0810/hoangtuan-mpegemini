@@ -16,18 +16,18 @@ const PRICE_CATEGORIES = [
 ];
 
 export default function Pricing() {
-  const { locationId } = useParams();
-  const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationId));
+  
+  const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationSlug));
 
   useEffect(() => {
     let active = true;
-    getServices(locationId).then(data => {
+    getServices(locationSlug).then(data => {
       if (active) setServices(data);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   const priceItems = services.length > 0 ? services : SERVICES;
 

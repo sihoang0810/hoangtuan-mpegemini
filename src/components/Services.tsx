@@ -6,25 +6,25 @@ import { getServices, getServicesSync, getHomepageContent, getHomepageContentSyn
 import { useLocation } from '../context/LocationContext';
 
 export default function Services() {
-  const { locationId } = useLocation();
-  const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationId));
-  const [homepageContent, setHomepageContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationId));
+  const { locationSlug } = useLocation();
+  const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationSlug));
+  const [homepageContent, setHomepageContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationSlug));
 
   useEffect(() => {
     let active = true;
-    setServices(getServicesSync(locationId));
-    setHomepageContent(getHomepageContentSync(locationId));
+    setServices(getServicesSync(locationSlug));
+    setHomepageContent(getHomepageContentSync(locationSlug));
 
-    getServices(locationId).then((data) => {
+    getServices(locationSlug).then((data) => {
       if (active) setServices(data);
     });
-    getHomepageContent(locationId).then((data) => {
+    getHomepageContent(locationSlug).then((data) => {
       if (active) setHomepageContent(data);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   return (
     <section id="services" className="section-container bg-white">
@@ -57,7 +57,7 @@ export default function Services() {
                 {service.shortDescription}
               </p>
               <Link 
-                to={`/${locationId}/dich-vu/${service.slug}`}
+                to={`/${locationSlug}/dich-vu/${service.slug}`}
                 className="flex items-center gap-2 font-bold text-brand-primary group-hover:gap-3 transition-all mt-auto"
               >
                 Xem chi tiết

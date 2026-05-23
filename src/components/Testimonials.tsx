@@ -5,18 +5,18 @@ import { useLocation } from '../context/LocationContext';
 import { motion } from 'motion/react';
 
 export default function Testimonials() {
-  const { locationId } = useLocation();
+  const { locationSlug } = useLocation();
   const [testimonials, setTestimonials] = useState<CMSTestimonial[]>([]);
 
   useEffect(() => {
     let active = true;
-    getTestimonials(locationId).then((data) => {
+    getTestimonials(locationSlug).then((data) => {
       if (active) setTestimonials(data);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   return (
     <section className="section-container bg-slate-50">

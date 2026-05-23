@@ -11,9 +11,9 @@ import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 
 export default function BlogListing() {
-  const { locationId } = useParams();
-  const { location: appLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+  
+  const { locationSlug } = useLocation();
+  const siteLocationPrefix = '/' + locationSlug;
 
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -21,13 +21,13 @@ export default function BlogListing() {
 
   useEffect(() => {
     let active = true;
-    getBlogPosts(locationId).then(data => {
+    getBlogPosts(locationSlug).then(data => {
       if (active) setDbPosts(data);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   const postSource = dbPosts.length > 0 ? dbPosts : BLOG_POSTS;
 

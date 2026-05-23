@@ -42,15 +42,15 @@ export default function App() {
           <main className="flex-grow">
             <Routes>
               {/* Location Prefixed Routes */}
-              <Route path="/:locationId" element={<Home />} />
-              <Route path="/:locationId/dich-vu" element={<Services />} />
-              <Route path="/:locationId/dich-vu/:slug" element={<ServiceDetail />} />
-              <Route path="/:locationId/bang-gia" element={<Pricing />} />
-              <Route path="/:locationId/san-pham" element={<ProductListing />} />
-              <Route path="/:locationId/san-pham/:slug" element={<ProductDetail />} />
-              <Route path="/:locationId/blog" element={<BlogListing />} />
-              <Route path="/:locationId/blog/:slug" element={<BlogDetail />} />
-              <Route path="/:locationId/lien-he" element={<Contact />} />
+              <Route path="/:locationSlug" element={<Home />} />
+              <Route path="/:locationSlug/dich-vu" element={<Services />} />
+              <Route path="/:locationSlug/dich-vu/:slug" element={<ServiceDetail />} />
+              <Route path="/:locationSlug/bang-gia" element={<Pricing />} />
+              <Route path="/:locationSlug/san-pham" element={<ProductListing />} />
+              <Route path="/:locationSlug/san-pham/:slug" element={<ProductDetail />} />
+              <Route path="/:locationSlug/blog" element={<BlogListing />} />
+              <Route path="/:locationSlug/blog/:slug" element={<BlogDetail />} />
+              <Route path="/:locationSlug/lien-he" element={<Contact />} />
 
               {/* Standard Fallback Routes (handled by LocationContext Redirect) */}
               <Route path="/" element={<Home />} />

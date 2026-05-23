@@ -3,10 +3,12 @@ import { useLocation } from '../context/LocationContext';
 import { LOCATIONS as STATIC_LOCATIONS } from '../constants';
 
 export default function TopBar() {
-  const { location, setShowPopup, locations } = useLocation();
+  const { locationSlug, setShowPopup, locations } = useLocation();
   
   const activeLocations = locations.length > 0 ? locations : STATIC_LOCATIONS;
-  const currentLocationInfo = activeLocations.find(l => l.name === location) || activeLocations[0];
+  
+  const mappedDisplayName = locationSlug === 'ho-chi-minh' ? 'Hồ Chí Minh' : 'Bảo Lộc';
+  const currentLocationInfo = activeLocations.find(l => l.name === mappedDisplayName) || activeLocations[0];
   const displayHotline = currentLocationInfo?.hotline || '0389.011.315';
 
   return (
@@ -31,7 +33,7 @@ export default function TopBar() {
             className="flex items-center gap-2 hover:text-brand-primary transition-colors cursor-pointer"
           >
             <MapPin size={14} className="text-brand-primary" />
-            <span className="whitespace-nowrap">Khu vực: {location || 'Bảo Lộc'}</span>
+            <span className="whitespace-nowrap">Khu vực: {mappedDisplayName}</span>
             <ChevronDown size={14} className="opacity-50" />
           </button>
         </div>

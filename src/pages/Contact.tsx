@@ -6,18 +6,18 @@ import { getContact, getIconComponent, CMSContact } from '../lib/sanity';
 import PageSEO from '../components/PageSEO';
 
 export default function Contact() {
-  const { locationId } = useParams();
+  
   const [data, setData] = useState<CMSContact | null>(null);
 
   useEffect(() => {
     let active = true;
-    getContact(locationId).then(res => {
+    getContact(locationSlug).then(res => {
       if (active) setData(res);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   const pageTitle = data?.pageTitle || 'Liên Hệ Với Chúng Tôi';
   const pageSubtitle = data?.pageSubtitle || 'Dù là sự cố nhỏ hay nhu cầu thi công lớn, chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn 24/7. Hãy điền thông tin hoặc liên hệ trực tiếp qua hotline.';
@@ -25,7 +25,7 @@ export default function Contact() {
   const fields = data?.contactFields || [
     { icon: 'Phone', label: 'Hotline Kỹ Thuật (24/7)', val: '0389 011 315', desc: 'Có mặt ngay sau 30 phút' },
     { icon: 'Mail', label: 'Email Hỗ Trợ', val: 'hoangtuanmpe@gmail.com', desc: 'Phản hồi chi tiết cực nhanh' },
-    { icon: 'MapPin', label: 'Trụ sở phục vụ', val: (locationId === 'ho-chi-minh' || locationId === 'hcm') ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng", desc: (locationId === 'ho-chi-minh' || locationId === 'hcm') ? 'Chi nhánh Hồ Chí Minh phục vụ 24/7' : 'Trụ sở chính Bảo Lộc phục vụ 24/7' },
+    { icon: 'MapPin', label: 'Trụ sở phục vụ', val: (locationSlug === 'ho-chi-minh' || locationSlug === 'ho-chi-minh') ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng", desc: (locationSlug === 'ho-chi-minh' || locationSlug === 'ho-chi-minh') ? 'Chi nhánh Hồ Chí Minh phục vụ 24/7' : 'Trụ sở chính Bảo Lộc phục vụ 24/7' },
     { icon: 'Clock', label: 'Giờ làm việc', val: '24/7/365', desc: 'Làm việc cả ngày lễ & chủ nhật' },
   ];
 

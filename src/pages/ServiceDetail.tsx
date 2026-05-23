@@ -18,19 +18,19 @@ import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 
 const ServiceDetailTemplate = () => {
-  const { slug, locationId } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
-  const { location: appLocation } = useLocation();
-  const siteLocationPrefix = appLocation === 'Hồ Chí Minh' ? '/ho-chi-minh' : '/bao-loc';
+  const { locationSlug } = useLocation();
+  const siteLocationPrefix = '/' + locationSlug;
 
-  const [service, setService] = useState<CMSService | null>(() => getServiceBySlugSync(slug, locationId));
+  const [service, setService] = useState<CMSService | null>(() => getServiceBySlugSync(slug, locationSlug));
   const [relatedServices, setRelatedServices] = useState<CMSService[]>(() => {
-    const srv = getServiceBySlugSync(slug, locationId);
+    const srv = getServiceBySlugSync(slug, locationSlug);
     if (!srv) return [];
-    const list = getServicesSync(locationId);
+    const list = getServicesSync(locationSlug);
     return list.filter(item => item.category === srv.category && item.slug !== srv.slug).slice(0, 3);
   });
-  const [loading, setLoading] = useState(() => !getServiceBySlugSync(slug, locationId));
+  const [loading, setLoading] = useState(() => !getServiceBySlugSync(slug, locationSlug));
 
   // Scroll to top on slug change
   useEffect(() => {
@@ -42,7 +42,7 @@ const ServiceDetailTemplate = () => {
     let active = true;
     setLoading(true);
     
-    getServiceBySlug(slug, locationId).then(data => {
+    getServiceBySlug(slug, locationSlug).then(data => {
       if (!active) return;
       setService(data);
       setLoading(false);
@@ -51,12 +51,12 @@ const ServiceDetailTemplate = () => {
     return () => {
       active = false;
     };
-  }, [slug, locationId]);
+  }, [slug, locationSlug]);
 
   useEffect(() => {
     if (!service) return;
     let active = true;
-    getServices(locationId).then(list => {
+    getServices(locationSlug).then(list => {
       if (!active) return;
       setRelatedServices(
         list.filter(s => s.category === service.category && s.slug !== service.slug).slice(0, 3)
@@ -65,7 +65,7 @@ const ServiceDetailTemplate = () => {
     return () => {
       active = false;
     };
-  }, [service, locationId]);
+  }, [service, locationSlug]);
 
   if (loading) {
     return (
@@ -252,7 +252,7 @@ const ServiceDetailTemplate = () => {
               <div className="sticky top-24 space-y-8">
                 <div className="bg-brand-secondary p-8 rounded-[2.5rem] text-white">
                   <h3 className="text-xl font-bold mb-4 uppercase">Cần thợ ngay?</h3>
-                  <p className="text-white/70 text-sm mb-6">Đội ngũ kỹ thuật trực 24/7 tại khu vực {appLocation || 'Bảo Lộc'} và lân cận.</p>
+                  <p className="text-white/70 text-sm mb-6">Đội ngũ kỹ thuật trực 24/7 tại khu vực {locationSlug || 'Bảo Lộc'} và lân cận.</p>
                   <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all">
                     <Phone size={20} />
                     0389.011.315

@@ -15,7 +15,7 @@ interface PageSEOProps {
 
 export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
   const routerLoc = useRouterLocation();
-  const { locationId, location: appLocation } = useAppLocation();
+  const { locationSlug } = useAppLocation();
   const [seo, setSeo] = useState<CMSSeo | null>(null);
   const [biz, setBiz] = useState<CMSLocalBusiness | null>(null);
 
@@ -24,19 +24,19 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
     let active = true;
     
     // Fetch SEO metadata matched to path and location
-    getSeo(routerLoc.pathname, locationId).then(data => {
+    getSeo(routerLoc.pathname, locationSlug).then(data => {
       if (active) setSeo(data);
     });
 
     // Fetch local business metadata matched to location
-    getLocalBusiness(locationId).then(data => {
+    getLocalBusiness(locationSlug).then(data => {
       if (active) setBiz(data);
     });
 
     return () => {
       active = false;
     };
-  }, [routerLoc.pathname, locationId]);
+  }, [routerLoc.pathname, locationSlug]);
 
   // Apply head updates
   useEffect(() => {
@@ -102,11 +102,11 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       const schemas: any[] = [];
 
       // 5.1 LocalBusiness Schema
-      const finalSlug = (locationId === 'ho-chi-minh' || locationId === 'hcm') ? 'ho-chi-minh' : 'bao-loc';
+      const finalSlug = (locationSlug === 'ho-chi-minh' || locationSlug === 'ho-chi-minh') ? 'ho-chi-minh' : 'bao-loc';
       const localBusinessSchema = {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
-        '@id': `https://hoangtuanmpe.com/#local-business-${locationId}`,
+        '@id': `https://hoangtuanmpe.com/#local-business-${locationSlug}`,
         name: biz.name,
         legalName: biz.legalName || biz.name,
         logo: biz.logo || 'https://hoangtuanmpe.com/logo.png',
@@ -141,7 +141,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
         {
           '@type': 'ListItem',
           position: 1,
-          name: appLocation || 'Bảo Lộc',
+          name: locationSlug || 'Bảo Lộc',
           item: `${window.location.origin}/${finalSlug}`
         }
       ];
@@ -193,7 +193,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
           },
           areaServed: {
             '@type': 'AdministrativeArea',
-            name: appLocation || 'Bảo Lộc'
+            name: locationSlug || 'Bảo Lộc'
           },
           offers: data.pricing?.map((p: any) => ({
             '@type': 'Offer',
@@ -278,7 +278,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       document.head.appendChild(script);
 
       // Console diagnostic output
-      console.log(`%c[SEO] Schema generated for pageType "${pageType}" at active region: "${locationId}"`, 'color: #38bdf8; font-weight: bold;');
+      console.log(`%c[SEO] Schema generated for pageType "${pageType}" at active region: "${locationSlug}"`, 'color: #38bdf8; font-weight: bold;');
     };
 
     injectJsonLd();

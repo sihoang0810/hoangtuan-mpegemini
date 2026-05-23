@@ -7,18 +7,18 @@ import { useLocation } from '../context/LocationContext';
 import BlogCard from './BlogCard';
 
 const Blog = () => {
-  const { locationId } = useLocation();
+  const { locationSlug } = useLocation();
   const [posts, setPosts] = useState<CMSBlogPost[]>([]);
 
   useEffect(() => {
     let active = true;
-    getBlogPosts(locationId).then((data) => {
+    getBlogPosts(locationSlug).then((data) => {
       if (active) setPosts(data);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   // Take latest 3 posts
   const recentPosts = posts.slice(0, 3);
@@ -53,7 +53,7 @@ const Blog = () => {
             viewport={{ once: true }}
           >
             <Link 
-              to={`/${locationId}/blog`} 
+              to={`/${locationSlug}/blog`} 
               className="group flex items-center gap-3 text-brand-secondary font-bold uppercase text-sm tracking-widest hover:text-brand-primary transition-colors"
             >
               Xem tất cả bài viết

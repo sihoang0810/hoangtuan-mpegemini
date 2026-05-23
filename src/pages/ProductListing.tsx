@@ -9,21 +9,21 @@ import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 
 export default function ProductListing() {
-  const { locationId } = useParams();
-  const { location: appLocation } = useLocation();
+  
+  const { locationSlug } = useLocation();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [dbProducts, setDbProducts] = useState<CMSProduct[]>(() => getProductsSync(locationId));
+  const [dbProducts, setDbProducts] = useState<CMSProduct[]>(() => getProductsSync(locationSlug));
 
   useEffect(() => {
     let active = true;
-    getProducts(locationId).then(data => {
+    getProducts(locationSlug).then(data => {
       if (active) setDbProducts(data);
     });
     return () => {
       active = false;
     };
-  }, [locationId]);
+  }, [locationSlug]);
 
   const productSource = dbProducts.length > 0 ? dbProducts : PRODUCTS;
 
