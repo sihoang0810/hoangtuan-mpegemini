@@ -45,7 +45,7 @@ export default function Testimonials() {
             </div>
 
             <div className="flex gap-1 mb-6">
-              {[...Array(testimonial.rating)].map((_, i) => (
+              {[...Array(Math.max(0, Math.min(5, Math.floor(Number(testimonial.rating) || 5))))].map((_, i) => (
                 <Star key={i} size={18} fill="#F97316" className="text-brand-accent" />
               ))}
             </div>
