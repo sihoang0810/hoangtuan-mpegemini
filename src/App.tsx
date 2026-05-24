@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 import { LocationProvider } from './context/LocationContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import TopBar from './components/TopBar';
 import FloatingContact from './components/FloatingContact';
 import LocationPopup from './components/LocationPopup';
 
@@ -40,7 +39,6 @@ export default function App() {
         <LocationProvider>
           <ScrollToTop />
           <div className="min-h-screen flex flex-col font-sans selection:bg-brand-primary selection:text-white">
-            <TopBar />
             <Header />
             <main className="flex-grow">
               <Routes>

@@ -14,6 +14,8 @@ export default function ProductListing() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [dbProducts, setDbProducts] = useState<CMSProduct[]>(() => getProductsSync(locationSlug));
+  const [visibleAllCount, setVisibleAllCount] = useState(4);
+  const [visibleCategoryCount, setVisibleCategoryCount] = useState(12);
 
   useEffect(() => {
     let active = true;
@@ -25,6 +27,28 @@ export default function ProductListing() {
     };
   }, [locationSlug]);
 
+  useEffect(() => {
+    setVisibleAllCount(4);
+    setVisibleCategoryCount(12);
+    
+    // Smooth scroll to the product list section when category or search changes (not on first load)
+    if (window.scrollY > 100) {
+      const element = document.getElementById('product-list-section');
+      if (element) {
+        const offset = 80; // height of sticky header
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [activeCategory, searchQuery]);
+
   const productSource = dbProducts.length > 0 ? dbProducts : PRODUCTS;
 
   const filteredProducts = productSource.filter(product => {
@@ -32,6 +56,13 @@ export default function ProductListing() {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          product.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
+  });
+
+  const displayedProducts = filteredProducts.slice(0, visibleCategoryCount);
+
+  const hasMoreInAll = activeCategory === 'all' && PRODUCT_CATEGORIES.some(cat => {
+    const categoryProducts = filteredProducts.filter(p => p.category === cat.id);
+    return categoryProducts.length > visibleAllCount;
   });
 
 
@@ -87,7 +118,7 @@ export default function ProductListing() {
       </section>
 
       {/* Categories & Listing */}
-      <section className="section-container bg-slate-50">
+      <section id="product-list-section" className="section-container bg-slate-50">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar Filters */}
           <aside className="lg:w-1/4">
@@ -153,17 +184,82 @@ export default function ProductListing() {
           <div className="lg:w-3/4 min-h-[600px] md:min-h-[800px]">
             <AnimatePresence mode="wait">
               {filteredProducts.length > 0 ? (
-                <motion.div 
-                  key={activeCategory + searchQuery}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="grid md:grid-cols-2 xl:grid-cols-3 gap-8"
-                >
-                  {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
-                </motion.div>
+                <div className="space-y-12">
+                  {activeCategory === 'all' ? (
+                    <div className="space-y-16">
+                      {PRODUCT_CATEGORIES.map((cat) => {
+                        const categoryProducts = filteredProducts.filter(p => p.category === cat.id);
+                        if (categoryProducts.length === 0) return null;
+                        
+                        const chunk = categoryProducts.slice(0, visibleAllCount);
+                        
+                        return (
+                          <motion.div 
+                            key={cat.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="space-y-6"
+                          >
+                            <div className="flex items-center gap-3 border-b border-slate-200/60 pb-4">
+                              <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary">
+                                <cat.icon size={20} />
+                              </div>
+                              <div>
+                                <h3 className="text-xl font-bold text-brand-secondary uppercase tracking-tight">{cat.title}</h3>
+                                <p className="text-xs text-slate-400 mt-0.5">{cat.description}</p>
+                              </div>
+                              <span className="text-xs font-bold text-brand-primary bg-brand-primary/10 px-3 py-1 rounded-full ml-auto">
+                                {categoryProducts.length} sản phẩm
+                              </span>
+                            </div>
+                            
+                            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+                              {chunk.map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                              ))}
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <motion.div 
+                      key={activeCategory + searchQuery}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      className="grid md:grid-cols-2 xl:grid-cols-3 gap-8"
+                    >
+                      {displayedProducts.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                      ))}
+                    </motion.div>
+                  )}
+
+                  {activeCategory === 'all' && hasMoreInAll && (
+                    <div className="flex justify-center pt-4">
+                      <button
+                        type="button"
+                        onClick={() => setVisibleAllCount((prev) => prev + 4)}
+                        className="px-8 py-4 bg-brand-primary text-white font-bold rounded-2xl hover:bg-brand-primary/90 transition-all shadow-lg shadow-brand-primary/20 hover:scale-105 active:scale-95 uppercase tracking-wider text-sm cursor-pointer"
+                      >
+                        Xem thêm sản phẩm
+                      </button>
+                    </div>
+                  )}
+
+                  {activeCategory !== 'all' && filteredProducts.length > visibleCategoryCount && (
+                    <div className="flex justify-center pt-4">
+                      <button
+                        type="button"
+                        onClick={() => setVisibleCategoryCount((prev) => prev + 12)}
+                        className="px-8 py-4 bg-brand-primary text-white font-bold rounded-2xl hover:bg-brand-primary/90 transition-all shadow-lg shadow-brand-primary/20 hover:scale-105 active:scale-95 uppercase tracking-wider text-sm cursor-pointer"
+                      >
+                        Xem thêm sản phẩm
+                      </button>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <motion.div 
                   initial={{ opacity: 0 }}
