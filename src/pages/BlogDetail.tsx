@@ -62,7 +62,8 @@ export default function BlogDetail() {
 
   if (loading) {
     return (
-      <div className="pt-40 pb-20 text-center min-h-[60vh] flex flex-col justify-center items-center">
+      <div className="pt-40 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+        <PageSEO pageType="general" />
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary mb-4" />
         <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Đang tải chi tiết bài viết...</p>
       </div>
@@ -71,7 +72,8 @@ export default function BlogDetail() {
 
   if (!post) {
     return (
-      <div className="pt-32 pb-20 text-center">
+      <div className="pt-32 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+        <PageSEO pageType="general" />
         <div className="section-container">
           <h1 className="text-3xl font-bold text-brand-secondary mb-4 uppercase">Bài viết không tồn tại</h1>
           <p className="text-slate-500 mb-8">Nội dung bạn đang tìm kiếm có thể đã bị xóa hoặc thay đổi địa chỉ.</p>
@@ -97,6 +99,7 @@ export default function BlogDetail() {
               { label: 'Blog', href: `${siteLocationPrefix}/blog` },
               { label: post.title, active: true }
             ]} 
+            homeHref={siteLocationPrefix}
           />
         </div>
       </div>

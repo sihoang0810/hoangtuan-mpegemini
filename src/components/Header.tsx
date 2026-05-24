@@ -5,59 +5,51 @@ import { Link, useLocation as useRouterLocation } from 'react-router-dom';
 import { useLocation as useAppLocation } from '../context/LocationContext';
 import { getSiteSettings, getMenus, CMSSiteSettings, CMSMenu } from '../lib/sanity';
 
-const SERVICE_MENU = [
-  {
-    title: 'ĐIỆN',
-    icon: Zap,
-    color: 'text-blue-500',
-    links: [
-      { name: 'Sửa điện', href: '/dich-vu/sua-dien' },
-      { name: 'Sửa chập điện', href: '/dich-vu/sua-chap-dien' },
-      { name: 'Sửa aptomat', href: '/dich-vu/sua-aptomat' },
-      { name: 'Lắp đặt điện', href: '/dich-vu/lap-dat-dien' },
-    ]
-  },
-  {
-    title: 'NƯỚC',
-    icon: Droplet,
-    color: 'text-cyan-500',
-    links: [
-      { name: 'Sửa nước', href: '/dich-vu/sua-nuoc' },
-      { name: 'Lắp máy bơm', href: '/dich-vu/lap-may-bom' },
-      { name: 'Sửa rò rỉ nước', href: '/dich-vu/sua-ro-ri-nuoc' },
-      { name: 'Sửa ống nước âm', href: '/dich-vu/sua-ong-nuoc-am' },
-    ]
-  },
-  {
-    title: 'CAMERA',
-    icon: Video,
-    color: 'text-indigo-500',
-    links: [
-      { name: 'Lắp camera', href: '/dich-vu/lap-camera' },
-      { name: 'Sửa camera', href: '/dich-vu/sua-camera' },
-      { name: 'Camera gia đình', href: '/dich-vu/camera-gia-dinh' },
-      { name: 'Camera cửa hàng', href: '/dich-vu/camera-cua-hang' },
-    ]
-  },
-  {
-    title: 'DÒ TÌM',
-    icon: Search,
-    color: 'text-amber-500',
-    links: [
-      { name: 'Dò rò rỉ nước', href: '/dich-vu/do-ro-ri-nuoc' },
-      { name: 'Siêu âm dò ống âm', href: '/dich-vu/sieu-am-do-ong-am' },
-      { name: 'Dò đường nước âm', href: '/dich-vu/do-duong-nuoc-am' },
-      { name: 'Dò điện âm tường', href: '/dich-vu/do-duong-dien-am-tuong' },
-    ]
-  }
-];
-
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const routerLocation = useRouterLocation();
   const { locationSlug, changeLocation } = useAppLocation();
   const siteLocationPrefix = '/' + locationSlug;
+
+  const SERVICE_MENU = [
+    {
+      title: 'ĐIỆN', icon: Zap, color: 'text-blue-500',
+      links: [
+        { name: 'Sửa điện', href: `${siteLocationPrefix}/dich-vu/sua-dien` },
+        { name: 'Sửa chập điện', href: `${siteLocationPrefix}/dich-vu/sua-chap-dien` },
+        { name: 'Sửa aptomat', href: `${siteLocationPrefix}/dich-vu/sua-aptomat` },
+        { name: 'Lắp đặt điện', href: `${siteLocationPrefix}/dich-vu/lap-dat-dien` },
+      ]
+    },
+    {
+      title: 'NƯỚC', icon: Droplet, color: 'text-cyan-500',
+      links: [
+        { name: 'Sửa nước', href: `${siteLocationPrefix}/dich-vu/sua-nuoc` },
+        { name: 'Lắp máy bơm', href: `${siteLocationPrefix}/dich-vu/lap-may-bom` },
+        { name: 'Sửa rò rỉ nước', href: `${siteLocationPrefix}/dich-vu/sua-ro-ri-nuoc` },
+        { name: 'Siêu âm đường ống', href: `${siteLocationPrefix}/dich-vu/sieu-am-do-ong-am` },
+      ]
+    },
+    {
+      title: 'CAMERA', icon: Video, color: 'text-indigo-500',
+      links: [
+        { name: 'Lắp camera', href: `${siteLocationPrefix}/dich-vu/lap-camera` },
+        { name: 'Sửa camera', href: `${siteLocationPrefix}/dich-vu/sua-camera` },
+        { name: 'Camera gia đình', href: `${siteLocationPrefix}/dich-vu/camera-gia-dinh` },
+        { name: 'Camera cửa hàng', href: `${siteLocationPrefix}/dich-vu/camera-cua-hang` },
+      ]
+    },
+    {
+      title: 'DÒ TÌM', icon: Search, color: 'text-amber-500',
+      links: [
+        { name: 'Dò rò rỉ nước', href: `${siteLocationPrefix}/dich-vu/do-ro-ri-nuoc` },
+        { name: 'Siêu âm dò ống âm', href: `${siteLocationPrefix}/dich-vu/sieu-am-do-ong-am` },
+        { name: 'Dò đường nước âm', href: `${siteLocationPrefix}/dich-vu/do-duong-nuoc-am` },
+        { name: 'Dò điện âm tường', href: `${siteLocationPrefix}/dich-vu/do-duong-dien-am-tuong` },
+      ]
+    }
+  ];
 
   const [siteSettings, setSiteSettings] = useState<CMSSiteSettings | null>(null);
   const [menus, setMenus] = useState<CMSMenu[]>([]);
@@ -163,7 +155,7 @@ export default function Header() {
                               {item.links.map((sublink) => (
                                 <li key={sublink.name}>
                                   <Link 
-                                    to={`${siteLocationPrefix}${sublink.href}`}
+                                    to={sublink.href}
                                     className="text-slate-600 hover:text-brand-primary flex flex-col transition-colors"
                                   >
                                     <span className="font-bold text-sm">{sublink.name}</span>
@@ -245,7 +237,7 @@ export default function Header() {
                                {item.links.map((sublink) => (
                                  <li key={sublink.name}>
                                    <Link 
-                                     to={`${siteLocationPrefix}${sublink.href}`}
+                                     to={sublink.href}
                                      className="text-sm font-bold text-slate-600 block py-1"
                                      onClick={() => setIsOpen(false)}
                                    >

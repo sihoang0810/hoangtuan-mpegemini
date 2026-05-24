@@ -297,7 +297,7 @@ export default function ServicesPage() {
           <CategorySection 
             key={cat.id} 
             category={cat} 
-            services={items.filter(s => s.category === cat.id)} 
+            services={items.filter(s => s.category === cat.id || (cat.id === 'detection' && s.category === 'leakage'))} 
           />
         ))}
       </div>

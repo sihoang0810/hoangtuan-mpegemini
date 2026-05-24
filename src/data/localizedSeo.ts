@@ -97,7 +97,7 @@ export const LOCALIZED_BUSINESS_SCHEMA: { [key: string]: CMSLocalBusiness } = {
     },
     priceRange: "$$",
     openingHoursSpecification: [
-      { dayOfWeek: "Monday-Sunday", opens: "00:00", closes: "23:59" }
+      { dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], opens: "00:00", closes: "23:59" }
     ]
   },
   'ho-chi-minh': {
@@ -117,7 +117,7 @@ export const LOCALIZED_BUSINESS_SCHEMA: { [key: string]: CMSLocalBusiness } = {
     },
     priceRange: "$$",
     openingHoursSpecification: [
-      { dayOfWeek: "Monday-Sunday", opens: "00:00", closes: "23:59" }
+      { dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], opens: "00:00", closes: "23:59" }
     ]
   }
 };

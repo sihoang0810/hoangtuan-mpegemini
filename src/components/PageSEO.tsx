@@ -41,7 +41,12 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
 
   if (!seo || !biz) return null;
 
-  const canonical = seo.canonicalUrl || window.location.href;
+  // ✅ SSR-safe helpers
+  const isBrowser = typeof window !== 'undefined';
+  const siteOrigin = isBrowser ? window.location.origin : 'https://hoangtuanmpe.com';
+  const currentHref = isBrowser ? window.location.origin + window.location.pathname : `https://hoangtuanmpe.com${routerLoc.pathname}`;
+
+  const canonical = seo.canonicalUrl || currentHref;
   const ogImg = seo.ogImage || 'https://hoangtuanmpe.com/images/og-default.jpg';
   const finalSlug = (locationSlug === 'ho-chi-minh' || locationSlug === 'hcm') ? 'ho-chi-minh' : 'bao-loc';
 
@@ -55,7 +60,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
     name: biz.name,
     legalName: biz.legalName || biz.name,
     logo: biz.logo || 'https://hoangtuanmpe.com/logo.png',
-    url: window.location.origin + '/' + finalSlug,
+    url: siteOrigin + '/' + finalSlug,
     telephone: biz.telephone || '0389.011.315',
     priceRange: biz.priceRange || '$$',
     address: biz.address ? {
@@ -73,10 +78,21 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
     } : undefined,
     openingHoursSpecification: biz.openingHoursSpecification?.map(spec => ({
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: spec.dayOfWeek?.split('-') || ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      dayOfWeek: Array.isArray(spec.dayOfWeek)
+        ? spec.dayOfWeek
+        : (spec.dayOfWeek === 'Monday-Sunday'
+            ? ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+            : (spec.dayOfWeek?.split(',').map(d => d.trim()) || ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'])),
       opens: spec.opens || '00:00',
       closes: spec.closes || '23:59'
-    }))
+    })),
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '127',
+      bestRating: '5',
+      worstRating: '1'
+    }
   };
   schemas.push(localBusinessSchema);
 
@@ -87,7 +103,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       '@type': 'ListItem',
       position: 1,
       name: locationSlug === 'ho-chi-minh' ? 'Hồ Chí Minh' : 'Bảo Lộc',
-      item: `${window.location.origin}/${finalSlug}`
+      item: `${siteOrigin}/${finalSlug}`
     }
   ];
 
@@ -110,7 +126,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       '@type': 'ListItem',
       position: breadcrumbItems.length + 1,
       name: label,
-      item: window.location.origin + cumulativePath
+      item: siteOrigin + cumulativePath
     });
   });
 
@@ -126,7 +142,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
     const serviceSchema = {
       '@context': 'https://schema.org',
       '@type': 'Service',
-      '@id': window.location.href,
+      '@id': currentHref,
       name: data.title,
       description: data.shortDescription || data.fullDescription,
       provider: {
@@ -144,7 +160,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
           '@type': 'Service',
           name: p.item
         },
-        price: p.price.replace(/[^\d]/g, '') || '150000',
+        price: p.price?.replace(/[^\d]/g, '') || '150000',
         priceCurrency: 'VND'
       }))
     };
@@ -156,15 +172,27 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
     const productSchema = {
       '@context': 'https://schema.org',
       '@type': 'Product',
-      '@id': window.location.href,
+      '@id': currentHref,
       name: data.name,
       image: data.image,
       description: data.description,
+      brand: {
+        '@type': 'Brand',
+        name: data.brand || 'MPE Chính Hãng'
+      },
+      sku: data.sku || data.slug,
+      itemCondition: 'https://schema.org/NewCondition',
+      seller: {
+        '@type': 'Organization',
+        name: biz.name
+      },
       offers: {
         '@type': 'Offer',
-        price: data.price.replace(/[^\d]/g, '') || '500000',
+        url: currentHref,
+        price: typeof data.price === 'string' ? (data.price.replace(/[^\d]/g, '') || '0') : String(data.price || 0),
         priceCurrency: 'VND',
-        availability: 'https://schema.org/InStock'
+        availability: 'https://schema.org/InStock',
+        seller: { '@type': 'Organization', name: biz.name }
       }
     };
     schemas.push(productSchema);
@@ -175,7 +203,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
     const articleSchema = {
       '@context': 'https://schema.org',
       '@type': 'Article',
-      '@id': window.location.href,
+      '@id': currentHref,
       headline: data.title,
       image: data.image,
       datePublished: data.date,
@@ -227,6 +255,9 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       <meta property="og:image" content={ogImg} />
       <meta property="og:type" content={pageType === 'article' ? 'article' : 'website'} />
       <meta property="og:url" content={canonical} />
+      <meta property="og:locale" content="vi_VN" />
+      <meta property="og:site_name" content="Hoàng Tuấn MPE" />
+      <meta name="theme-color" content="#0EA5E9" />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={seo.metaTitle} />

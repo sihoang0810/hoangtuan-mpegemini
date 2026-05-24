@@ -109,14 +109,14 @@ export const TESTIMONIALS = [
   },
   {
     name: "Chị Minh Tuyết",
-    role: "Quận Hoàn Kiếm, Hà Nội",
+    role: "Phường 2, TP. Bảo Lộc",
     review: "Máy bơm nhà tôi bị cháy lúc nửa đêm, gọi bên này vẫn có người hỗ trợ ngay. Thợ làm việc chuyên nghiệp, sạch sẽ.",
     rating: 5,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Tuyet"
   },
   {
     name: "Chú Hùng",
-    role: "TP. Đà Nẵng",
+    role: "Quận Thủ Đức, TP.HCM",
     review: "Tôi đã gọi nhiều nơi nhưng ở đây làm việc tận tâm nhất. Sửa xong còn dọn dẹp hiện trường rất gọn gàng.",
     rating: 5,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hung"

@@ -36,7 +36,9 @@ export default function Footer() {
 
   const companyName = footerData?.companyName || 'Hoàng Tuấn MPE';
   const shortAbout = footerData?.shortAbout || 'Hoàng Tuấn MPE tự hào là đơn vị cung cấp dịch vụ sửa chữa điện nước và thiết bị điện MPE uy tín hàng đầu tại Việt Nam. Sự hài lòng của khách hàng là kim chỉ nam cho mọi hoạt động của chúng tôi.';
-  const address = footerData?.address || ((locationSlug === 'ho-chi-minh' || locationSlug === 'ho-chi-minh') ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng");
+  const address = footerData?.address || (locationSlug === 'ho-chi-minh'
+    ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh'
+    : "279 B'Lao, Phường 3, Bảo Lộc, Lâm Đồng");
   const phone = footerData?.phone || '0389 011 315';
   const email = footerData?.email || 'hoangtuanmpe@gmail.com';
   const facebookUrl = footerData?.socialLinks?.facebook || 'https://facebook.com';

@@ -69,7 +69,8 @@ const ServiceDetailTemplate = () => {
 
   if (loading) {
     return (
-      <div className="pt-40 pb-20 text-center min-h-[60vh] flex flex-col justify-center items-center">
+      <div className="pt-40 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+        <PageSEO pageType="general" />
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary mb-4" />
         <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Đang tải chi tiết dịch vụ...</p>
       </div>
@@ -78,7 +79,8 @@ const ServiceDetailTemplate = () => {
 
   if (!service) {
     return (
-      <div className="pt-32 pb-20 text-center">
+      <div className="pt-32 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+        <PageSEO pageType="general" />
         <AlertCircle size={64} className="mx-auto text-brand-primary mb-6 animate-pulse" />
         <h1 className="text-3xl font-bold text-brand-secondary mb-4 uppercase">Không tìm thấy dịch vụ</h1>
         <p className="text-slate-500 mb-8">Dịch vụ bạn đang tìm kiếm không tồn tại hoặc đã bị thay đổi.</p>
@@ -103,6 +105,7 @@ const ServiceDetailTemplate = () => {
               { label: 'Dịch vụ', href: `${siteLocationPrefix}/dich-vu` },
               { label: service.title, active: true }
             ]} 
+            homeHref={siteLocationPrefix}
           />
         </div>
       </div>

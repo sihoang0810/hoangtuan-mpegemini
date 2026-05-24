@@ -68,7 +68,8 @@ export default function ProductDetail() {
 
   if (loading) {
     return (
-      <div className="pt-40 pb-20 text-center min-h-[60vh] flex flex-col justify-center items-center">
+      <div className="pt-40 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+        <PageSEO pageType="general" />
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary mb-4" />
         <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Đang tải chi tiết sản phẩm...</p>
       </div>
@@ -77,7 +78,8 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <div className="pt-32 pb-20 text-center">
+      <div className="pt-32 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+        <PageSEO pageType="general" />
         <AlertCircle size={64} className="mx-auto text-brand-primary mb-6 animate-pulse" />
         <h1 className="text-3xl font-bold text-brand-secondary mb-4 uppercase">Sản phẩm không tồn tại</h1>
         <p className="text-slate-500 mb-8">Sản phẩm bạn đang tìm kiếm có thể đã tạm hết hàng hoặc thay đổi địa chỉ.</p>

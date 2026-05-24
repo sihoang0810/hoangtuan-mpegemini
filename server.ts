@@ -14,6 +14,12 @@ async function startServer() {
   }
   app.use(prerender);
 
+  // Core static file providers for ultra-resilient image assets delivery
+  // Serve the public directory directly to ensure images and static files bypass any Vite middleware hiccups
+  app.use(express.static(path.join(process.cwd(), 'public')));
+  app.use('/product-images', express.static(path.join(process.cwd(), 'public', 'product-images')));
+  app.use('/product-images', express.static(path.join(process.cwd(), 'product-images')));
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

@@ -17,6 +17,10 @@ export default function ProductListing() {
   const [visibleAllCount, setVisibleAllCount] = useState(4);
   const [visibleCategoryCount, setVisibleCategoryCount] = useState(12);
 
+  const titleText = locationSlug === 'ho-chi-minh'
+    ? 'Hồ Chí Minh - Cửa Hàng Thiết Bị Điện Nước Camera MPE Chính Hãng Hoàng Tuấn'
+    : 'Bảo Lộc - Cửa Hàng Thiết Bị Điện Nước Camera MPE Chính Hãng Hoàng Tuấn';
+
   useEffect(() => {
     let active = true;
     getProducts(locationSlug).then(data => {
@@ -67,7 +71,8 @@ export default function ProductListing() {
 
 
   return (
-    <div className="pt-24 md:pt-32">
+    <div className="pt-24 md:pt-32 min-h-[80vh]">
+      <h1 className="sr-only font-bold text-slate-900 border-none outline-none">{titleText}</h1>
       <PageSEO pageType="general" />
       {/* Hero Section */}
       <section className="bg-slate-900 py-24 relative overflow-hidden">

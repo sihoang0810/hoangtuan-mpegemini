@@ -2,6 +2,11 @@ import { createClient } from '@sanity/client';
 import * as LucideIcons from 'lucide-react';
 import React from 'react';
 
+const devLog = (...args: any[]) => {
+  // @ts-ignore
+  if (import.meta.env.DEV) console.log(...args);
+};
+
 // Import local fallback data sources
 import { 
   LOCATIONS as fallbackLocations, 
@@ -318,7 +323,7 @@ export interface CMSLocalBusiness {
   };
   priceRange?: string;
   openingHoursSpecification?: {
-    dayOfWeek?: string;
+    dayOfWeek?: string | string[];
     opens?: string;
     closes?: string;
   }[];
@@ -356,9 +361,14 @@ const projectId = import.meta.env.VITE_SANITY_PROJECT_ID;
 const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
 
 // We check if projectId is valid or empty/default setting
-const isSanityConfigured = false;
+const isSanityConfigured = !!(
+  projectId &&
+  projectId !== '' &&
+  projectId !== 'placeholder-id' &&
+  projectId.length > 5
+);
 
-console.log('%c[SANITY CONFIG STATUS]', 'background: #4f46e5; color: white; font-weight: bold; padding: 4px 8px; border-radius: 4px;', {
+devLog('%c[SANITY CONFIG STATUS]', 'background: #4f46e5; color: white; font-weight: bold; padding: 4px 8px; border-radius: 4px;', {
   projectId,
   dataset,
   isSanityConfigured,
@@ -406,7 +416,7 @@ export function getCurrentLocationSlug(): 'bao-loc' | 'ho-chi-minh' {
     }
   }
   
-  console.log(`[LOCATION] Current location: ${detectedId}`);
+  devLog(`[LOCATION] Current location: ${detectedId}`);
   return detectedId;
 }
 
@@ -418,9 +428,9 @@ export function getCurrentLocationId(): string {
 // Diagnostic logger for connection reports and fallback indicators
 function logCmsStatus(docType: string, isFromCms: boolean, count: number, err?: any) {
   if (isFromCms) {
-    console.log(`%c[CMS CONNECTED] Loaded "${docType}" successfully from Sanity. Records: ${count}`, 'color: #00dd66; font-weight: bold;');
+    devLog(`%c[CMS CONNECTED] Loaded "${docType}" successfully from Sanity. Records: ${count}`, 'color: #00dd66; font-weight: bold;');
   } else {
-    console.log(`%c[CMS FALLBACK] Using local fallback for "${docType}" (Reason: ${err ? err.message || err : 'Sanity returned no records or is unconfigured'}).`, 'color: #ffaa11; font-weight: bold;');
+    devLog(`%c[CMS FALLBACK] Using local fallback for "${docType}" (Reason: ${err ? err.message || err : 'Sanity returned no records or is unconfigured'}).`, 'color: #ffaa11; font-weight: bold;');
   }
 }
 
@@ -637,9 +647,15 @@ export async function getLocations(): Promise<CMSLocation[]> {
  */
 export function getHomepageContentSync(forcedLocationId?: string): CMSHomepage {
   const locId = forcedLocationId || getCurrentLocationSlug();
-  const cached = getCachedHomepage(locId);
-  if (cached) {
-    return cached;
+  if (isSanityConfigured) {
+    const cached = getCachedHomepage(locId);
+    if (cached) {
+      return cached;
+    }
+  } else {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(`homepage_cache_${locId}`);
+    }
   }
   const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   return LOCALIZED_HOME[locId] || {
@@ -756,9 +772,15 @@ function mapLocalServiceToCMS(srv: LocalService): CMSService {
 export function getServicesSync(forcedLocationId?: string): CMSService[] {
   const locId = forcedLocationId || getCurrentLocationSlug();
   // 1. Try reading from the localStorage cache first
-  const cached = getCachedServices(locId);
-  if (cached && cached.length > 0) {
-    return cached;
+  if (isSanityConfigured) {
+    const cached = getCachedServices(locId);
+    if (cached && cached.length > 0) {
+      return cached;
+    }
+  } else {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(`services_cache_${locId}`);
+    }
   }
   // 2. Fall back to local localized schemas if cache is empty
   return LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
@@ -981,9 +1003,15 @@ function normalizeProductSpecs(p: any): CMSProduct {
 export function getProductsSync(forcedLocationId?: string): CMSProduct[] {
   const locId = forcedLocationId || getCurrentLocationSlug();
   // 1. Try reading from products localStorage cache first
-  const cached = getCachedProducts(locId);
-  if (cached && cached.length > 0) {
-    return cached;
+  if (isSanityConfigured) {
+    const cached = getCachedProducts(locId);
+    if (cached && cached.length > 0) {
+      return cached;
+    }
+  } else {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(`products_cache_${locId}`);
+    }
   }
   // 2. Fall back to local localized schemas if cache is empty
   return LOCALIZED_PRODUCTS[locId] || fallbackProducts.map(p => ({
@@ -1058,6 +1086,8 @@ export async function getProductBySlug(slug: string | undefined, forcedLocationI
   console.log(`[LOCATION] Current location: ${locId}`);
   console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const foundLocal = getProductBySlugSync(slug, locId);
+
+  if (!isSanityConfigured || !slug) return foundLocal;
 
   // Utilize the full list cache state to skip background hit if cache is fresh
   const cacheKey = `products_cache_${locId}`;
@@ -1381,8 +1411,8 @@ export async function getPopups(forcedLocationId?: string): Promise<CMSPopup | n
  */
 export async function getSeo(path: string, forcedLocationId?: string): Promise<CMSSeo> {
   const locId = forcedLocationId || getCurrentLocationSlug();
-  console.log(`[LOCATION] Current location: ${locId}`);
-  console.log(`[CMS QUERY] locationSlug: ${locId}`);
+  devLog(`[LOCATION] Current location: ${locId}`);
+  devLog(`[CMS QUERY] locationSlug: ${locId}`);
   const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   const locName = isHcm ? 'Hồ Chí Minh (TP.HCM)' : 'Bảo Lộc Lâm Đồng';
   
@@ -1395,11 +1425,24 @@ export async function getSeo(path: string, forcedLocationId?: string): Promise<C
       : ['thợ điện bảo lộc', 'sửa điện nước lâm đồng', 'dò tìm rò rỉ nước', 'lắp camera bảo lộc']
   };
 
+  // ✅ THÊM: Strip location prefix khỏi path trước khi lookup
+  const LOCATION_PREFIXES = ['/bao-loc', '/ho-chi-minh', '/hcm', '/baoloc'];
+  let cleanPath = path;
+  for (const prefix of LOCATION_PREFIXES) {
+    if (cleanPath.startsWith(prefix)) {
+      cleanPath = cleanPath.slice(prefix.length) || '/';
+      break;
+    }
+  }
+
   if (LOCALIZED_SEO[locId]) {
-    if (LOCALIZED_SEO[locId][path]) {
-      defaultSeo = LOCALIZED_SEO[locId][path];
+    if (LOCALIZED_SEO[locId][cleanPath]) {
+      defaultSeo = {
+        ...LOCALIZED_SEO[locId][cleanPath],
+        pagePath: path
+      };
     } else {
-      const parts = path.split('/');
+      const parts = cleanPath.split('/');
       if (parts.length === 3) {
         const type = parts[1];
         const slug = parts[2];
@@ -1452,7 +1495,7 @@ export async function getSeo(path: string, forcedLocationId?: string): Promise<C
   }
 
   const logAndAddMeta = (seo: CMSSeo) => {
-    console.log(`%c[SEO] Custom SEO metadata resolved for path "${path}" at "${locId}": ${seo.metaTitle}`, 'color: #f43f5e; font-weight: bold;');
+    devLog(`%c[SEO] Custom SEO metadata resolved for path "${path}" at "${locId}": ${seo.metaTitle}`, 'color: #f43f5e; font-weight: bold;');
     return seo;
   };
 
@@ -1506,7 +1549,7 @@ export async function getLocalBusiness(forcedLocationId?: string): Promise<CMSLo
     },
     priceRange: '$$',
     openingHoursSpecification: [
-      { dayOfWeek: 'Monday-Sunday', opens: '00:00', closes: '23:59' }
+      { dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], opens: '00:00', closes: '23:59' }
     ]
   };
 
@@ -1556,8 +1599,8 @@ export async function getSiteSettings(forcedLocationId?: string): Promise<CMSSit
  */
 export async function getContact(forcedLocationId?: string): Promise<CMSContact> {
   const locId = forcedLocationId || getCurrentLocationSlug();
-  console.log(`[LOCATION] Current location: ${locId}`);
-  console.log(`[CMS QUERY] locationSlug: ${locId}`);
+  devLog(`[LOCATION] Current location: ${locId}`);
+  devLog(`[CMS QUERY] locationSlug: ${locId}`);
   const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
   const locName = isHcm ? 'Hồ Chí Minh' : 'Bảo Lộc';
   
@@ -1571,8 +1614,8 @@ export async function getContact(forcedLocationId?: string): Promise<CMSContact>
       { icon: 'Clock', label: 'Giờ làm việc', val: 'Mở cửa 24H ngày đêm, kể cả lễ và Tết nguyên đán' }
     ],
     mapEmbedUrl: isHcm 
-      ? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.51786591041rem!2d106.699!3d10.776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f4w!2zUXXhuq1uIDEsIEjhu5MgQ2jDrSBNaW5oLCBWaWV0bmFt!5e0!3m2!1sen!2s'
-      : 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15582.478201504787!2d107.79586119999999!3d11.5435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3173e2a77af8b06d%3A0xe7bd193c6f66bd32!2zTOG7mWMgUGjDoXQsIELhuqNvIEzhu5ljLCBMw6JtIMSQ4buTbmcsIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1716301234567!5m2!1sen!2s'
+      ? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.518!2d106.69841!3d10.77636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527f0de0e3e8d%3A0x1c6f5e5e8e8e8e8e!2zNTI4LzE3IFTDkyBOZ+G7jWMgVsOibiwgVGFtIELDrG5oLCBUaOG7pyDEkOG7qWMsIFRQLiBIQ00!5e0!3m2!1svi!2svn!4v1716301234567!5m2!1svi!2svn'
+      : 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15582.478!2d107.79586!3d11.5435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3173e2a77af8b06d%3A0xe7bd193c6f66bd32!2zQuG6o28gTOG7mWMsIEzDom0gxJDhu5NuZywgVmlldG5hbQ!5e0!3m2!1svi!2svn!4v1716301234568!5m2!1svi!2svn'
   };
 
   if (!isSanityConfigured) {
