@@ -33,7 +33,7 @@ export default function Pricing() {
   const priceItems = services.length > 0 ? services : SERVICES;
 
   return (
-    <div className="pt-24 md:pt-32">
+    <div id="pricing" className="pt-24 md:pt-32">
       <PageSEO pageType="general" />
       <section className="section-container bg-white">
         <div className="text-center mb-20">

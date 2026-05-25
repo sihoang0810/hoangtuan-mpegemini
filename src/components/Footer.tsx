@@ -34,8 +34,15 @@ export default function Footer() {
     };
   }, [locationSlug]);
 
-  const companyName = footerData?.companyName || 'Hoàng Tuấn MPE';
-  const shortAbout = footerData?.shortAbout || 'Hoàng Tuấn MPE tự hào là đơn vị cung cấp dịch vụ sửa chữa điện nước và thiết bị điện MPE uy tín hàng đầu tại Việt Nam. Sự hài lòng của khách hàng là kim chỉ nam cho mọi hoạt động của chúng tôi.';
+  // Always use "Hoàng Tuấn MPE" instead of "Công ty..." since it is a personal/family service
+  const companyName = 'Hoàng Tuấn MPE';
+  
+  const rawShortAbout = footerData?.shortAbout || 'Hoàng Tuấn MPE tự hào là đơn vị cung cấp dịch vụ sửa chữa điện nước và thiết bị điện MPE uy tín hàng đầu tại Việt Nam. Sự hài lòng của khách hàng là kim chỉ nam cho mọi hoạt động của chúng tôi.';
+  // Sanitize shortAbout to keep it aligned with "not a company"
+  const shortAbout = rawShortAbout
+    .replace(/Công ty TNHH/gi, 'Dịch vụ')
+    .replace(/Công ty/gi, 'Dịch vụ');
+
   const address = footerData?.address || (locationSlug === 'ho-chi-minh'
     ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh'
     : "279 B'Lao, Phường 3, Bảo Lộc, Lâm Đồng");
@@ -45,7 +52,11 @@ export default function Footer() {
   const youtubeUrl = footerData?.socialLinks?.youtube || 'https://youtube.com';
   const zaloUrl = footerData?.socialLinks?.zalo || `https://zalo.me/${phone.replace(/[.\s]/g, '')}`;
   const tiktokUrl = 'https://www.tiktok.com/@diennuoccamerabaoloc';
-  const copyrightText = footerData?.copyrightText || `© ${currentYear} ${companyName}. All rights reserved.`;
+  
+  const rawCopyrightText = footerData?.copyrightText || `© ${currentYear} ${companyName}. All rights reserved.`;
+  const copyrightText = rawCopyrightText
+    .replace(/Công ty TNHH/gi, 'Hoàng Tuấn MPE')
+    .replace(/Công ty/gi, 'Hoàng Tuấn MPE');
 
   const quickLinks = [
     { name: 'Trang chủ', href: `${siteLocationPrefix}` },
@@ -155,8 +166,8 @@ export default function Footer() {
             >
               Đổi khu vực ({locationSlug || 'Chưa chọn'})
             </button>
-            <Link to="/dieu-khoan" className="hover:text-brand-primary transition-colors">Điều khoản dịch vụ</Link>
-            <Link to="/bao-mat" className="hover:text-brand-primary transition-colors">Chính sách bảo mật</Link>
+            <Link to={`${siteLocationPrefix}/dieu-khoan`} className="hover:text-brand-primary transition-colors">Điều khoản dịch vụ</Link>
+            <Link to={`${siteLocationPrefix}/bao-mat`} className="hover:text-brand-primary transition-colors">Chính sách bảo mật</Link>
           </div>
         </div>
       </div>

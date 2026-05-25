@@ -71,7 +71,7 @@ export default function ProductListing() {
 
 
   return (
-    <div className="pt-24 md:pt-32 min-h-[80vh]">
+    <div id="products" className="pt-20 min-h-[80vh]">
       <h1 className="sr-only font-bold text-slate-900 border-none outline-none">{titleText}</h1>
       <PageSEO pageType="general" />
       {/* Hero Section */}

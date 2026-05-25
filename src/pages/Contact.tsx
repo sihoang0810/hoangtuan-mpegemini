@@ -57,7 +57,7 @@ export default function Contact() {
   ];
 
   return (
-    <div className="pt-24 md:pt-32">
+    <div id="contact" className="pt-24 md:pt-32">
       <PageSEO pageType="general" />
       <section className="section-container">
         <div className="grid lg:grid-cols-2 gap-20 items-start">

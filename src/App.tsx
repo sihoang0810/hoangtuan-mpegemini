@@ -21,6 +21,8 @@ import ProductDetail from './pages/ProductDetail';
 import BlogListing from './pages/BlogListing';
 import BlogDetail from './pages/BlogDetail';
 import Contact from './pages/Contact';
+import TermsOfService from './pages/TermsOfService';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -52,6 +54,8 @@ export default function App() {
                 <Route path="/:locationSlug/blog" element={<BlogListing />} />
                 <Route path="/:locationSlug/blog/:slug" element={<BlogDetail />} />
                 <Route path="/:locationSlug/lien-he" element={<Contact />} />
+                <Route path="/:locationSlug/dieu-khoan" element={<TermsOfService />} />
+                <Route path="/:locationSlug/bao-mat" element={<PrivacyPolicy />} />
 
                 {/* Standard Fallback Routes (handled by LocationContext Redirect) */}
                 <Route path="/" element={<Home />} />
@@ -63,6 +67,8 @@ export default function App() {
                 <Route path="/blog" element={<BlogListing />} />
                 <Route path="/blog/:slug" element={<BlogDetail />} />
                 <Route path="/lien-he" element={<Contact />} />
+                <Route path="/dieu-khoan" element={<TermsOfService />} />
+                <Route path="/bao-mat" element={<PrivacyPolicy />} />
               </Routes>
             </main>
             <Footer />

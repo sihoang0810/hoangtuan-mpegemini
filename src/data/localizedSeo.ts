@@ -82,7 +82,7 @@ export const LOCALIZED_SEO: { [key: string]: { [path: string]: CMSSeo } } = {
 export const LOCALIZED_BUSINESS_SCHEMA: { [key: string]: CMSLocalBusiness } = {
   'bao-loc': {
     name: "Hoàng Tuấn MPE - Trụ Sở Sửa Điện Nước Bảo Lộc Lâm Đồng",
-    legalName: "Công ty TNHH Hoàng Tuấn MPE Cơ Điện (Trụ sở chính Bảo Lộc)",
+    legalName: "Hoàng Tuấn MPE Cơ Điện (Trụ sở chính Bảo Lộc)",
     telephone: "0389011315",
     address: {
       streetAddress: "279 B'Lao sire",
@@ -102,7 +102,7 @@ export const LOCALIZED_BUSINESS_SCHEMA: { [key: string]: CMSLocalBusiness } = {
   },
   'ho-chi-minh': {
     name: "Hoàng Tuấn MPE - Chi Nhánh Sửa Điện Nước TP. Hồ Chí Minh",
-    legalName: "Công ty TNHH Hoàng Tuấn MPE Cơ Điện (Chi nhánh TP.HCM)",
+    legalName: "Hoàng Tuấn MPE Cơ Điện (Chi nhánh TP.HCM)",
     telephone: "0389011315",
     address: {
       streetAddress: "528/17 Tô Ngọc Vân",

@@ -677,8 +677,8 @@ export function getHomepageContentSync(forcedLocationId?: string): CMSHomepage {
     ],
     aboutHeading: isHcm ? 'Về Hoàng Tuấn MPE (TP.HCM)' : 'Về Hoàng Tuấn MPE',
     aboutContent: isHcm
-      ? 'Công ty Hoàng Tuấn MPE tự hào là một trong những đơn vị sửa chữa cơ điện lạnh và cung cấp thiết bị chiếu sáng, rò nước, lắp camera hàng đầu tại Hồ Chí Minh...'
-      : 'Công ty Hoàng Tuấn MPE tự hào là một trong những đơn vị sửa chữa cơ điện lạnh và cung cấp thiết bị chiếu sáng, rò nước, lắp camera hàng đầu tại Bảo Lộc...',
+      ? 'Dịch vụ Hoàng Tuấn MPE tự hào là một trong những đơn vị sửa chữa cơ điện lạnh và cung cấp thiết bị chiếu sáng, rò nước, lắp camera hàng đầu tại Hồ Chí Minh...'
+      : 'Dịch vụ Hoàng Tuấn MPE tự hào là một trong những đơn vị sửa chữa cơ điện lạnh và cung cấp thiết bị chiếu sáng, rò nước, lắp camera hàng đầu tại Bảo Lộc...',
     aboutImage: 'https://images.unsplash.com/photo-1504148455328-c39695b8a592?auto=format&fit=crop&q=80&w=800'
   };
 }
@@ -1525,7 +1525,7 @@ export async function getLocalBusiness(forcedLocationId?: string): Promise<CMSLo
   
   const fallbackBiz: CMSLocalBusiness = LOCALIZED_BUSINESS_SCHEMA[locId] || {
     name: isHcm ? 'Hoàng Tuấn MPE - Chi Nhánh Hồ Chí Minh' : 'Hoàng Tuấn MPE - Trụ Sở Bảo Lộc',
-    legalName: isHcm ? 'Công ty TNHH Hoàng Tuấn MPE Cơ Điện (TP.HCM)' : 'Công ty TNHH Hoàng Tuấn MPE Cơ Điện',
+    legalName: isHcm ? 'Hoàng Tuấn MPE Cơ Điện (TP.HCM)' : 'Hoàng Tuấn MPE Cơ Điện',
     telephone: '0389011315',
     address: isHcm ? {
       streetAddress: '528/17 Tô Ngọc Vân',

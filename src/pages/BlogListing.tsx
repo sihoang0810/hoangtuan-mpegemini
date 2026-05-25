@@ -42,7 +42,7 @@ export default function BlogListing() {
 
 
   return (
-    <div className="pt-20">
+    <div id="blog" className="pt-20">
       <PageSEO pageType="general" />
 
       <section className="bg-white py-16 md:py-24">

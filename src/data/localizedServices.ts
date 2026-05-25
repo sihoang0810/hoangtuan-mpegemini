@@ -182,7 +182,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       shortDescription: "Lắp đặt ráp bồn vệ sinh, lavabo hoa văn dốc đồi, sen cây tắm ấm nóng chính hiệu cho bà con Bảo Lộc.",
       fullDescription: `
         <h1>Thợ Thiết Kế Thi Công Ráp Thiết Bị Vệ Sinh Nước Sạch Homestay Bảo Lộc</h1>
-        <p>Gắn bồn rửa bồn tắm vòi tắm thư giãn nghỉ ngơi giữa lòng đồi Bảo Lộc. Công ty lắp đặt thiết bị vệ sinh nhập khẩu chiết khấu cho khách hàng, gia cố không rêu mốc bảo hành uy tín tận dốc nhà bạn.</p>
+        <p>Gắn bồn rửa bồn tắm vòi tắm thư giãn nghỉ ngơi giữa lòng đồi Bảo Lộc. Dịch vụ Hoàng Tuấn MPE lắp đặt thiết bị vệ sinh nhập khẩu chiết khấu cho khách hàng, gia cố không rêu mốc bảo hành uy tín tận dốc nhà bạn.</p>
       `,
       icon: "Settings",
       category: "plumbing",

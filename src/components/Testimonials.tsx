@@ -19,7 +19,7 @@ export default function Testimonials() {
   }, [locationSlug]);
 
   return (
-    <section className="section-container bg-slate-50">
+    <section id="testimonials" className="section-container bg-slate-50">
       <div className="text-center mb-16">
         <h2 className="text-brand-primary font-bold tracking-widest uppercase mb-4">Ý Kiến Khách Hàng</h2>
         <h3 className="text-3xl md:text-4xl font-bold text-brand-secondary">

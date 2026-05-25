@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Phone, CheckCircle, MessageSquare, Wrench, ShieldCheck, UserCheck } from 'lucide-react';
+import { Phone, CheckCircle, MessageSquare, Wrench, ShieldCheck, UserCheck, ChevronDown, ChevronUp } from 'lucide-react';
 import { FAQS } from '../data/faqs';
 import { useState, useEffect } from 'react';
 import { getFaqs, CMSFaq } from '../lib/sanity';
@@ -56,6 +56,7 @@ export function FAQSection() {
   const { locationSlug } = useLocation();
   const [openIdx, setOpenIdx] = useState<number | null>(0);
   const [faqs, setFaqs] = useState<CMSFaq[]>([]);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -68,6 +69,7 @@ export function FAQSection() {
   }, [locationSlug]);
 
   const items = faqs.length > 0 ? faqs : FAQS;
+  const displayedItems = showAll ? items : items.slice(0, 8);
 
   return (
     <section className="section-container bg-white">
@@ -91,7 +93,7 @@ export function FAQSection() {
         </div>
 
         <div className="space-y-4">
-          {items.map((faq, idx) => (
+          {displayedItems.map((faq, idx) => (
             <div 
               key={idx}
               className={`rounded-2xl border transition-all ${
@@ -116,6 +118,25 @@ export function FAQSection() {
               )}
             </div>
           ))}
+
+          {items.length > 8 && (
+            <div className="pt-4 text-center">
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand-primary/5 text-brand-primary hover:bg-brand-primary hover:text-white transition-all duration-300 font-bold text-sm rounded-2xl w-full sm:w-auto justify-center"
+              >
+                {showAll ? (
+                  <>
+                    Thu gọn <ChevronUp size={16} />
+                  </>
+                ) : (
+                  <>
+                    Xem thêm ({items.length - 8} câu hỏi khác) <ChevronDown size={16} />
+                  </>
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

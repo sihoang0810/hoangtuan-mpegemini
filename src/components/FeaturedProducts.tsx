@@ -25,7 +25,7 @@ export default function FeaturedProducts() {
 
 
   return (
-    <section className="section-container bg-slate-50">
+    <section id="products" className="section-container bg-slate-50">
       <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
         <div>
           <h2 className="text-brand-primary font-bold tracking-widest uppercase mb-4">Cửa Hàng Thiết Bị</h2>
