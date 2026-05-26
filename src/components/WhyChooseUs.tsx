@@ -1,16 +1,17 @@
 import { motion } from 'motion/react';
 import { WHY_CHOOSE_US } from '../constants';
 
-export default function WhyChooseUs() {
+export default function WhyChooseUs({ cmsData }: { cmsData?: any }) {
+  const heading = cmsData?.heading || "Tại Sao Chọn Chúng Tôi";
+  const subheading = cmsData?.subheading || "Dịch Vụ Uy Tín, Chất Lượng Hàng Đầu";
+
   return (
     <section className="section-container bg-slate-50">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
         <div>
-          <h2 className="text-brand-primary font-bold tracking-widest uppercase mb-4">Tại Sao Chọn Chúng Tôi</h2>
-          <h3 className="text-3xl md:text-4xl font-bold text-brand-secondary mb-8">
-            Dịch Vụ Uy Tín, <br />
-            Chất Lượng Hàng Đầu
-          </h3>
+          <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">{heading}</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-brand-secondary mb-8" dangerouslySetInnerHTML={{ __html: subheading.replace(/\n/g, '<br />') }} />
+
           <p className="text-lg text-slate-600 mb-10 leading-relaxed">
             Chúng tôi hiểu rằng sự cố điện nước có thể gây ra nhiều phiền toái. 
             Đó là lý do tại sao chúng tôi xây dựng quy trình làm việc chuyên nghiệp, 
@@ -42,10 +43,14 @@ export default function WhyChooseUs() {
         <div className="relative">
           <div className="aspect-[4/5] bg-brand-primary/10 rounded-3xl overflow-hidden shadow-2xl relative">
             <img 
-              src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=800" 
+              src="/images/og-default.jpg" 
               alt="Repair professional" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
+              loading="lazy"
+              decoding="async"
+              width={800}
+              height={1000}
             />
           </div>
           {/* Overlay Stat */}

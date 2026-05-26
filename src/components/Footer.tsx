@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getFooter, CMSFooter } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
+import logoUrl from '../assets/images/hoang_tuan_logo_1779774192464.png';
 
 // Custom simple Zalo SVG icon
 const ZaloIcon = ({ size = 18 }: { size?: number }) => (
@@ -82,11 +83,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Company Info */}
           <div className="space-y-6">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-brand-primary rounded-lg flex items-center justify-center text-white shadow-lg shadow-brand-primary/20">
-                <span className="font-bold text-xl uppercase">HT</span>
+            <div className="flex items-center gap-2 group cursor-pointer inline-flex w-auto">
+              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-white shadow-md shadow-brand-primary/10 overflow-hidden shrink-0 group-hover:scale-105 transition-transform duration-300 pointer-events-none">
+                <img src={logoUrl} alt="Hoàng Tuấn Logo" className="w-full h-full object-cover mix-blend-multiply" />
               </div>
-              <span className="font-bold text-xl text-white uppercase tracking-tighter">{companyName}</span>
+              <span className="font-bold text-xl text-white uppercase tracking-tighter group-hover:text-brand-primary transition-colors">{companyName}</span>
             </div>
             <p className="text-slate-400 leading-relaxed text-sm font-medium">
               {shortAbout}
@@ -168,6 +169,7 @@ export default function Footer() {
             </button>
             <Link to={`${siteLocationPrefix}/dieu-khoan`} className="hover:text-brand-primary transition-colors">Điều khoản dịch vụ</Link>
             <Link to={`${siteLocationPrefix}/bao-mat`} className="hover:text-brand-primary transition-colors">Chính sách bảo mật</Link>
+            <Link to="/studio" className="hover:text-emerald-400 transition-colors font-semibold flex items-center gap-1"><span className="text-xs">⚡</span> Sanity Studio</Link>
           </div>
         </div>
       </div>

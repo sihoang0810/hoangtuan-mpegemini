@@ -42,7 +42,7 @@ export default function Pricing() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-500 text-xs font-bold rounded-full mb-6 uppercase tracking-widest"
           >
-            Bảng giá 2024
+            Bảng giá {new Date().getFullYear()}
           </motion.div>
           <h1 className="text-4xl md:text-7xl font-bold text-brand-secondary mb-8 uppercase tracking-tighter">
             Bảng Giá <span className="text-brand-primary">Dịch Vụ</span>

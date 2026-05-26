@@ -1,37 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PageSEO from '../components/PageSEO';
-import Hero from '../components/Hero';
-import Services from '../components/Services';
-import WhyChooseUs from '../components/WhyChooseUs';
-import FeaturedProducts from '../components/FeaturedProducts';
-import Testimonials from '../components/Testimonials';
-import Blog from '../components/Blog';
-import FinalCTA from '../components/FinalCTA';
-import ProcessTimeline, { FAQSection } from '../components/ExtraSections';
+import PageBuilderRenderer from '../components/PageBuilderRenderer';
 import { useLocation } from '../context/LocationContext';
+import { getHomepageContent, getHomepageContentSync, CMSHomepage } from '../lib/sanity';
+import FinalCTA from '../components/FinalCTA';
 
 export default function Home() {
   const { locationSlug } = useLocation();
+  const [content, setContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationSlug));
+
+  useEffect(() => {
+    let active = true;
+    setContent(getHomepageContentSync(locationSlug));
+    getHomepageContent(locationSlug).then((data) => {
+      if (active && data) setContent(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, [locationSlug]);
+
   const titleText = locationSlug === 'ho-chi-minh'
     ? 'Hoàng Tuấn MPE - Dịch Vụ Sửa Điện Nước Camera Uy Tín Tại Hồ Chí Minh'
     : 'Hoàng Tuấn MPE - Dịch Vụ Sửa Điện Nước Camera Uy Tín Tại Bảo Lộc, Lâm Đồng';
 
+  // Extract page builder sections with fallback to empty array
+  // If sections structure does not exist yet in Sanity document, PageBuilderRenderer falls back to the default order
+  // @ts-ignore
+  const sections = content?.sections;
+
   return (
     <div className="min-h-[80vh] flex flex-col justify-between">
-      {/* Hidden SEO h1 to guarantee perfect crawler indexing */}
-      <h1 className="sr-only font-bold text-slate-900 border-none outline-none">{titleText}</h1>
       <PageSEO pageType="home" />
       <div className="flex-1">
-        <Hero />
-        <Services />
-        <WhyChooseUs />
-        <ProcessTimeline />
-        <FeaturedProducts />
-        <Testimonials />
-        <Blog />
-        <FAQSection />
+        <PageBuilderRenderer sections={sections} locationSlug={locationSlug} />
       </div>
-      <FinalCTA />
+      {(!sections || sections.length === 0) && <FinalCTA />}
     </div>
   );
 }
+

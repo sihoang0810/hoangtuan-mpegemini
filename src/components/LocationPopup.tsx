@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { MapPin, Phone, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, ArrowRight, X } from 'lucide-react';
 import { useLocation } from '../context/LocationContext';
 import { LOCATIONS as STATIC_LOCATIONS } from '../constants';
 
@@ -17,6 +17,10 @@ export default function LocationPopup() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={() => {
+              sessionStorage.setItem('user-location-later', 'true');
+              setShowPopup(false);
+            }}
             className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
           />
 
@@ -27,6 +31,18 @@ export default function LocationPopup() {
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="relative bg-white w-full max-w-2xl rounded-[2.5rem] overflow-hidden shadow-2xl"
           >
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                sessionStorage.setItem('user-location-later', 'true');
+                setShowPopup(false);
+              }}
+              className="absolute top-6 right-6 z-[110] w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-full flex items-center justify-center shadow-md transition-all border border-slate-200 hover:scale-105 active:scale-95 cursor-pointer"
+              aria-label="Đóng"
+              type="button"
+            >
+              <X size={20} />
+            </button>
             <div className="p-8 md:p-12 text-center">
               <h2 className="text-3xl font-bold text-brand-secondary mb-4">Chọn Khu Vực Của Bạn</h2>
               <p className="text-slate-500 mb-10">Chúng tôi sẽ hiển thị thông tin phù hợp với khu vực của bạn</p>

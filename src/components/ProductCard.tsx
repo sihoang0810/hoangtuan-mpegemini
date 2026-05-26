@@ -23,6 +23,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           src={product.image} 
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          loading="lazy"
+          decoding="async"
+          width={400}
+          height={300}
         />
         <div className="absolute top-4 left-4">
           <span className="bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-lg flex items-center gap-2">

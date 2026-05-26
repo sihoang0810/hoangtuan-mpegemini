@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Phone, CheckCircle, MessageSquare, Wrench, ShieldCheck, UserCheck, ChevronDown, ChevronUp } from 'lucide-react';
 import { FAQS } from '../data/faqs';
 import { useState, useEffect } from 'react';
@@ -16,10 +16,10 @@ export default function ProcessTimeline() {
   return (
     <section className="section-container bg-slate-50">
       <div className="text-center mb-16">
-        <h2 className="text-brand-primary font-bold tracking-widest uppercase mb-4">Quy Trình Làm Việc</h2>
-        <h3 className="text-3xl md:text-4xl font-bold text-brand-secondary">
+        <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">Quy Trình Làm Việc</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-brand-secondary">
           Sửa Chữa Chuyên Nghiệp Trong 4 Bước
-        </h3>
+        </h2>
       </div>
 
       <div className="grid md:grid-cols-4 gap-8 relative">
@@ -75,10 +75,10 @@ export function FAQSection() {
     <section className="section-container bg-white">
       <div className="grid lg:grid-cols-2 gap-16 items-start">
         <div>
-          <h2 className="text-brand-primary font-bold tracking-widest uppercase mb-4">Hỏi Đáp Thường Gặp</h2>
-          <h3 className="text-3xl md:text-4xl font-bold text-brand-secondary mb-8">
+          <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">Hỏi Đáp Thường Gặp</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-brand-secondary mb-8">
             Giải Đáp Thắc Mắc <br />Cho Khách Hàng
-          </h3>
+          </h2>
           <p className="text-lg text-slate-600 mb-10 leading-relaxed">
             Chúng tôi tập hợp những câu hỏi phổ biến nhất để giúp bạn hiểu rõ hơn về quy trình và cam kết dịch vụ của chúng tôi.
           </p>
@@ -98,7 +98,7 @@ export function FAQSection() {
               key={idx}
               className={`rounded-2xl border transition-all ${
                 openIdx === idx ? 'border-brand-primary bg-slate-50 shadow-sm' : 'border-slate-100 bg-white'
-              }`}
+               }`}
             >
               <button
                 onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
@@ -107,15 +107,28 @@ export function FAQSection() {
                 <span className={`font-bold transition-colors ${openIdx === idx ? 'text-brand-primary' : 'text-brand-secondary'}`}>
                   {faq.question}
                 </span>
-                <div className={`transition-transform duration-300 ${openIdx === idx ? 'rotate-180' : ''}`}>
-                  <CheckCircle size={20} className={openIdx === idx ? 'text-brand-primary' : 'text-slate-300'} />
+                <div className="shrink-0 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition-all">
+                  <ChevronDown 
+                    size={16} 
+                    className={`transition-transform duration-300 text-slate-500 ${openIdx === idx ? 'rotate-180 text-brand-primary' : ''}`} 
+                  />
                 </div>
               </button>
-              {openIdx === idx && (
-                <div className="p-6 pt-0 text-slate-600 leading-relaxed border-t border-brand-primary/10 mt-0">
-                  {faq.answer}
-                </div>
-              )}
+              <AnimatePresence initial={false}>
+                {openIdx === idx && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <div className="p-6 pt-0 text-slate-600 leading-relaxed border-t border-brand-primary/10 mt-0">
+                      {faq.answer}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
 

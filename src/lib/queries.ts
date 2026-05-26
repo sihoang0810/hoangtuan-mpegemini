@@ -37,7 +37,21 @@ export const homepageQuery = `*[_type == "homepage" && location->slug.current ==
   aboutContent,
   aboutImage,
   benefitHeading,
-  benefits[]
+  benefits[],
+  sections[] {
+    _type,
+    _key,
+    isActive,
+    heading,
+    subheading,
+    heroTitle,
+    heroSubtitle,
+    heroOverlayText,
+    heroVideoUrl,
+    ctaText,
+    ctaLink,
+    phone
+  }
 }`;
 
 // 3. Service Categories

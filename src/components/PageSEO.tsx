@@ -8,6 +8,7 @@ import {
   CMSSeo, 
   CMSLocalBusiness 
 } from '../lib/sanity';
+import { LOCALIZED_SEO, LOCALIZED_BUSINESS_SCHEMA } from '../data/localizedSeo';
 
 interface PageSEOProps {
   pageType?: 'home' | 'service' | 'product' | 'article' | 'faq' | 'general';
@@ -39,16 +40,63 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
     };
   }, [routerLoc.pathname, locationSlug]);
 
-  if (!seo || !biz) return null;
+  // ✅ Synchronous Fallback Calculations (Guarantees SEO Tags Never Block / Return Null)
+  const fallback_location = (locationSlug as string === 'ho-chi-minh' || locationSlug as string === 'hcm') ? 'ho-chi-minh' : 'bao-loc';
+
+  // Clean path to match static local SEO
+  let cleanPath = routerLoc.pathname;
+  if (cleanPath.startsWith('/bao-loc')) cleanPath = cleanPath.slice(8);
+  else if (cleanPath.startsWith('/ho-chi-minh')) cleanPath = cleanPath.slice(12);
+  else if (cleanPath.startsWith('/hcm')) cleanPath = cleanPath.slice(4);
+  if (!cleanPath) cleanPath = '/';
+
+  const localSeoFallback = LOCALIZED_SEO[fallback_location][cleanPath] || LOCALIZED_SEO[fallback_location]['/'];
+  const localBizFallback = LOCALIZED_BUSINESS_SCHEMA[fallback_location];
+
+  let fallbackSeo: CMSSeo = {
+    pagePath: routerLoc.pathname,
+    metaTitle: localSeoFallback?.metaTitle || 'Hoàng Tuấn MPE | Thợ Sửa Điện Nước Uy Tín Giá Rẻ',
+    metaDescription: localSeoFallback?.metaDescription || 'Dịch vụ sửa chữa điện nước, tìm rò rỉ nước ngầm, lắp camera an ninh chất lượng cao của Hoàng Tuấn MPE.',
+    keywords: localSeoFallback?.keywords || []
+  };
+
+  const locName = fallback_location === 'ho-chi-minh' ? 'TP.HCM' : 'Bảo Lộc';
+
+  if (pageType === 'service' && data) {
+    fallbackSeo = {
+      pagePath: routerLoc.pathname,
+      metaTitle: `${data.title || 'Dịch vụ'} | Hoàng Tuấn MPE ${locName}`,
+      metaDescription: data.shortDescription || `Thợ sửa cơ điện, thiết bị nước, ${data.title} uy tín chất lượng hàng đầu tại khu vực ${locName}.`,
+      keywords: [data.title, 'sua dien lock', `sua dien ${fallback_location}`, `sua nuoc ${fallback_location}`]
+    };
+  } else if (pageType === 'product' && data) {
+    fallbackSeo = {
+      pagePath: routerLoc.pathname,
+      metaTitle: `${data.name || data.title || 'Sản phẩm'} chính hãng | Hoàng Tuấn MPE ${locName}`,
+      metaDescription: (data.description || data.shortDescription || `Sản phẩm ${data.name || data.title} chính hãng, lắp đặt tận nơi giá tốt tại ${locName}.`).substring(0, 160),
+      keywords: [data.name || data.title, `thiet bi dien ${fallback_location}`, `thiet bi nuoc ${fallback_location}`]
+    };
+  } else if (pageType === 'article' && data) {
+    fallbackSeo = {
+      pagePath: routerLoc.pathname,
+      metaTitle: `${data.title || 'Tin tức'} | Cẩm nang Hoàng Tuấn MPE ${locName}`,
+      metaDescription: (data.excerpt || data.shortDescription || `Chia sẻ kinh nghiệm sửa điện nước dân dụng thực tế, an toàn của Hoàng Tuấn MPE tại ${locName}.`).substring(0, 160),
+      keywords: data.tags || [data.title, 'meo vat gia dinh', locName]
+    };
+  }
+
+  // Choose loaded state vs fallback state
+  const activeSeo = seo || fallbackSeo;
+  const activeBiz = biz || localBizFallback;
 
   // ✅ SSR-safe helpers
   const isBrowser = typeof window !== 'undefined';
   const siteOrigin = isBrowser ? window.location.origin : 'https://hoangtuanmpe.com';
   const currentHref = isBrowser ? window.location.origin + window.location.pathname : `https://hoangtuanmpe.com${routerLoc.pathname}`;
 
-  const canonical = seo.canonicalUrl || currentHref;
-  const ogImg = seo.ogImage || 'https://hoangtuanmpe.com/images/og-default.jpg';
-  const finalSlug = (locationSlug === 'ho-chi-minh' || locationSlug === 'hcm') ? 'ho-chi-minh' : 'bao-loc';
+  const canonical = activeSeo.canonicalUrl || currentHref;
+  const ogImg = activeSeo.ogImage || 'https://hoangtuanmpe.com/images/og-default.jpg';
+  const finalSlug = (locationSlug === 'ho-chi-minh' || (locationSlug as string) === 'hcm') ? 'ho-chi-minh' : 'bao-loc';
 
   const schemas: any[] = [];
 
@@ -57,26 +105,26 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': `https://hoangtuanmpe.com/#local-business-${locationSlug}`,
-    name: biz.name,
-    legalName: biz.legalName || biz.name,
-    logo: biz.logo || 'https://hoangtuanmpe.com/logo.png',
+    name: activeBiz.name,
+    legalName: activeBiz.legalName || activeBiz.name,
+    logo: activeBiz.logo || 'https://hoangtuanmpe.com/logo.png',
     url: siteOrigin + '/' + finalSlug,
-    telephone: biz.telephone || '0389.011.315',
-    priceRange: biz.priceRange || '$$',
-    address: biz.address ? {
+    telephone: activeBiz.telephone || '0389.011.315',
+    priceRange: activeBiz.priceRange || '$$',
+    address: activeBiz.address ? {
       '@type': 'PostalAddress',
-      streetAddress: biz.address.streetAddress,
-      addressLocality: biz.address.addressLocality,
-      addressRegion: biz.address.addressRegion,
-      postalCode: biz.address.postalCode,
-      addressCountry: biz.address.addressCountry || 'VN'
+      streetAddress: activeBiz.address.streetAddress,
+      addressLocality: activeBiz.address.addressLocality,
+      addressRegion: activeBiz.address.addressRegion,
+      postalCode: activeBiz.address.postalCode,
+      addressCountry: activeBiz.address.addressCountry || 'VN'
     } : undefined,
-    geo: biz.geo ? {
+    geo: activeBiz.geo ? {
       '@type': 'GeoCoordinates',
-      latitude: biz.geo.latitude,
-      longitude: biz.geo.longitude
+      latitude: activeBiz.geo.latitude,
+      longitude: activeBiz.geo.longitude
     } : undefined,
-    openingHoursSpecification: biz.openingHoursSpecification?.map(spec => ({
+    openingHoursSpecification: activeBiz.openingHoursSpecification?.map(spec => ({
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: Array.isArray(spec.dayOfWeek)
         ? spec.dayOfWeek
@@ -147,8 +195,8 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       description: data.shortDescription || data.fullDescription,
       provider: {
         '@type': 'LocalBusiness',
-        name: biz.name,
-        telephone: biz.telephone
+        name: activeBiz.name,
+        telephone: activeBiz.telephone
       },
       areaServed: {
         '@type': 'AdministrativeArea',
@@ -184,7 +232,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       itemCondition: 'https://schema.org/NewCondition',
       seller: {
         '@type': 'Organization',
-        name: biz.name
+        name: activeBiz.name
       },
       offers: {
         '@type': 'Offer',
@@ -192,7 +240,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
         price: typeof data.price === 'string' ? (data.price.replace(/[^\d]/g, '') || '0') : String(data.price || 0),
         priceCurrency: 'VND',
         availability: 'https://schema.org/InStock',
-        seller: { '@type': 'Organization', name: biz.name }
+        seller: { '@type': 'Organization', name: activeBiz.name }
       }
     };
     schemas.push(productSchema);
@@ -213,10 +261,10 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       },
       publisher: {
         '@type': 'Organization',
-        name: biz.name,
+        name: activeBiz.name,
         logo: {
           '@type': 'ImageObject',
-          url: biz.logo || 'https://hoangtuanmpe.com/logo.png'
+          url: activeBiz.logo || 'https://hoangtuanmpe.com/logo.png'
         }
       },
       description: data.excerpt
@@ -243,15 +291,15 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
 
   return (
     <Helmet prioritizeSeoTags>
-      <title>{seo.metaTitle}</title>
-      <meta name="description" content={seo.metaDescription} />
-      {seo.keywords && seo.keywords.length > 0 && (
-        <meta name="keywords" content={seo.keywords.join(', ')} />
+      <title>{activeSeo.metaTitle}</title>
+      <meta name="description" content={activeSeo.metaDescription} />
+      {activeSeo.keywords && activeSeo.keywords.length > 0 && (
+        <meta name="keywords" content={activeSeo.keywords.join(', ')} />
       )}
       <link rel="canonical" href={canonical} />
 
-      <meta property="og:title" content={seo.metaTitle} />
-      <meta property="og:description" content={seo.metaDescription} />
+      <meta property="og:title" content={activeSeo.metaTitle} />
+      <meta property="og:description" content={activeSeo.metaDescription} />
       <meta property="og:image" content={ogImg} />
       <meta property="og:type" content={pageType === 'article' ? 'article' : 'website'} />
       <meta property="og:url" content={canonical} />
@@ -260,8 +308,8 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       <meta name="theme-color" content="#0EA5E9" />
 
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={seo.metaTitle} />
-      <meta name="twitter:description" content={seo.metaDescription} />
+      <meta name="twitter:title" content={activeSeo.metaTitle} />
+      <meta name="twitter:description" content={activeSeo.metaDescription} />
       <meta name="twitter:image" content={ogImg} />
 
       <script type="application/ld+json">

@@ -120,6 +120,34 @@ export const TESTIMONIALS = [
     review: "Tôi đã gọi nhiều nơi nhưng ở đây làm việc tận tâm nhất. Sửa xong còn dọn dẹp hiện trường rất gọn gàng.",
     rating: 5,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hung"
+  },
+  {
+    name: "Chị Khánh Vân",
+    role: "Khu biệt thự Lộc Thanh, Bảo Lộc",
+    review: "Tôi rất hài lòng với gói dịch vụ bảo trì lò sưởi và hệ thống điện nước thông minh của Hoàng Tuấn. Đội ngũ nhiệt tình chăm sóc.",
+    rating: 5,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Van"
+  },
+  {
+    name: "Chị Hồng Hạnh",
+    role: "Quận 3, TP. Hồ Chí Minh",
+    review: "Chập điện sập CB giữa trưa nắng ngắt cả điều hòa, may nhờ thợ Hoàng Tuấn sang thay thế dây chịu nhiệt cấp tốc. Chuyên nghiệp bậc nhất Sài Gòn.",
+    rating: 5,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hong"
+  },
+  {
+    name: "Cô Mỹ Hạnh",
+    role: "Đường Hà Giang, Bảo Lộc",
+    review: "Bồn nước bị rò rỉ âm không rõ lý do, Hoàng Tuấn cho thợ dùng máy phát hiện rò rỉ siêu âm dò đúng góc nhà tắm. Bảo hành uy tín 12 tháng rất an tâm.",
+    rating: 5,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hanh"
+  },
+  {
+    name: "Cô Bích Liên",
+    role: "Quận Phú Nhuận, TP.HCM",
+    review: "Sửa trần đèn MPE phòng khách sang xịn mịn. Thợ làm việc cẩn thận, bọc phủ che chắn sàn và tủ gỗ không để dính một hạt bụi thạch cao.",
+    rating: 5,
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lien"
   }
 ];
 

@@ -2,27 +2,40 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Gift } from 'lucide-react';
 import { getPopups, CMSPopup } from '../lib/sanity';
+import { useLocation } from '../context/LocationContext';
 
 export default function PromoPopup() {
+  const { showPopup } = useLocation();
   const [popup, setPopup] = useState<CMSPopup | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    if (showPopup) {
+      // Don't show or schedule the promo popup if location chooser is active
+      setIsVisible(false);
+      return;
+    }
+
     let active = true;
+    let timerId: NodeJS.Timeout;
+
     getPopups().then(data => {
       if (!active) return;
       if (data && data.isActive) {
         setPopup(data);
-        const timer = setTimeout(() => {
+        // Enforce a minimum delay of 15 seconds for optimal SEO/Core Web Vitals and UX
+        const finalDelay = Math.max(data.delaySeconds || 3, 15);
+        timerId = setTimeout(() => {
           setIsVisible(true);
-        }, (data.delaySeconds || 3) * 1000);
-        return () => clearTimeout(timer);
+        }, finalDelay * 1000);
       }
     });
+
     return () => {
       active = false;
+      if (timerId) clearTimeout(timerId);
     };
-  }, []);
+  }, [showPopup]);
 
   if (!popup) return null;
 
@@ -75,6 +88,10 @@ export default function PromoPopup() {
                   alt={popup.title}
                   referrerPolicy="no-referrer"
                   className="w-full h-44 object-cover rounded-2xl border border-slate-100 shadow-inner"
+                  loading="lazy"
+                  decoding="async"
+                  width={512}
+                  height={176}
                 />
               </div>
             )}

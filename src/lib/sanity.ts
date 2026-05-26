@@ -133,6 +133,7 @@ export interface CMSHomepage {
   aboutImage?: string;
   benefitHeading?: string;
   benefits?: string[];
+  sections?: any[];
 }
 
 export interface CMSServiceCategory {
@@ -378,7 +379,8 @@ devLog('%c[SANITY CONFIG STATUS]', 'background: #4f46e5; color: white; font-weig
 export const client = createClient({
   projectId: isSanityConfigured ? projectId : 'placeholder-id',
   dataset: dataset,
-  useCdn: false, // Set to false to bypass CDN edge caching and load live edits instantly
+  // @ts-ignore
+  useCdn: import.meta.env.PROD || true, // Enable optimal CDN edge caching in production
   apiVersion: '2026-05-21', // Use current ISO date
 });
 
@@ -658,7 +660,7 @@ export function getHomepageContentSync(forcedLocationId?: string): CMSHomepage {
     }
   }
   const isHcm = getFallbackKey(locId) === 'ho-chi-minh';
-  return LOCALIZED_HOME[locId] || {
+  const baseData = (LOCALIZED_HOME[locId] || {
     heroTitle: isHcm ? 'CẦN THỢ ĐIỆN NƯỚC HỒ CHÍ MINH?' : 'CẦN THỢ ĐIỆN NƯỚC BẢO LỘC?',
     heroSubtitle: isHcm 
       ? 'Đội ngũ kỹ thuật viên Hoàng Tuấn MPE luôn trực chiến hỗ trợ 24/7 khẩn cấp, giải quyết triệt để sự cố sau 30 phút điện thoại tại Sài Gòn.'
@@ -680,7 +682,47 @@ export function getHomepageContentSync(forcedLocationId?: string): CMSHomepage {
       ? 'Dịch vụ Hoàng Tuấn MPE tự hào là một trong những đơn vị sửa chữa cơ điện lạnh và cung cấp thiết bị chiếu sáng, rò nước, lắp camera hàng đầu tại Hồ Chí Minh...'
       : 'Dịch vụ Hoàng Tuấn MPE tự hào là một trong những đơn vị sửa chữa cơ điện lạnh và cung cấp thiết bị chiếu sáng, rò nước, lắp camera hàng đầu tại Bảo Lộc...',
     aboutImage: 'https://images.unsplash.com/photo-1504148455328-c39695b8a592?auto=format&fit=crop&q=80&w=800'
-  };
+  }) as CMSHomepage;
+
+  // Live synchronization support: overlay custom edits saved offline via our Elementor Builder
+  if (typeof window !== 'undefined') {
+    const savedHtmlEdits = localStorage.getItem('SANITY_MOCK_ELEMENTOR_DB');
+    if (savedHtmlEdits) {
+      try {
+        const parsedDb = JSON.parse(savedHtmlEdits);
+        const editedData = parsedDb[locId];
+        if (editedData) {
+          return {
+            ...baseData,
+            heroTitle: editedData.heroTitle || baseData.heroTitle,
+            heroSubtitle: editedData.heroSubtitle || baseData.heroSubtitle,
+            heroOverlayText: editedData.heroOverlayText || baseData.heroOverlayText,
+            aboutHeading: editedData.whyChooseUsTitle || baseData.aboutHeading,
+            aboutContent: editedData.whyChooseUsSubtitle || baseData.aboutContent || baseData.aboutContent,
+            stats: Array.isArray(editedData.stats) ? editedData.stats.map((s: any) => ({
+              value: s.value,
+              label: s.label
+            })) : baseData.stats,
+            features: Array.isArray(editedData.reasons) ? editedData.reasons.map((r: any) => ({
+              title: r.title,
+              description: r.desc,
+              icon: r.icon || 'CheckCircle'
+            })) : baseData.features,
+            benefits: [
+              editedData.badge1 || (baseData.benefits && baseData.benefits[0]) || 'Khảo sát 0đ',
+              editedData.badge2 || (baseData.benefits && baseData.benefits[1]) || 'Măng máy rà siêu âm',
+              editedData.badge3 || (baseData.benefits && baseData.benefits[2]) || 'Bảo hành đầy đủ',
+              ...((baseData.benefits && baseData.benefits.slice(3)) || [])
+            ]
+          };
+        }
+      } catch (e) {
+        console.warn('Could not parse live builder edits:', e);
+      }
+    }
+  }
+
+  return baseData;
 }
 
 export async function getHomepageContent(forcedLocationId?: string): Promise<CMSHomepage> {
@@ -783,7 +825,25 @@ export function getServicesSync(forcedLocationId?: string): CMSService[] {
     }
   }
   // 2. Fall back to local localized schemas if cache is empty
-  return LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
+  const baseServices = LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
+
+  // Live synchronization support for service list edits from Elementor Builder
+  if (typeof window !== 'undefined') {
+    const savedHtmlEdits = localStorage.getItem('SANITY_MOCK_ELEMENTOR_DB');
+    if (savedHtmlEdits) {
+      try {
+        const parsedDb = JSON.parse(savedHtmlEdits);
+        const editedServices = parsedDb[locId]?.services;
+        if (editedServices && Array.isArray(editedServices)) {
+          return editedServices;
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }
+
+  return baseServices;
 }
 
 export function getServiceBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSService | null {
@@ -1160,11 +1220,31 @@ export async function getFaqs(forcedLocationId?: string): Promise<CMSFaq[]> {
   const locId = forcedLocationId || getCurrentLocationSlug();
   console.log(`[LOCATION] Current location: ${locId}`);
   console.log(`[CMS QUERY] locationSlug: ${locId}`);
-  const localFaqsMapped: CMSFaq[] = LOCALIZED_FAQS[locId] || fallbackFaqs.map(f => ({
+  let localFaqsMapped: CMSFaq[] = LOCALIZED_FAQS[locId] || fallbackFaqs.map(f => ({
     question: localizeText(f.question, locId),
     answer: localizeText(f.answer, locId),
     category: 'Chung'
   }));
+
+  // Synchronize dynamic offline visual edits for FAQS
+  if (typeof window !== 'undefined') {
+    const savedHtmlEdits = localStorage.getItem('SANITY_MOCK_ELEMENTOR_DB');
+    if (savedHtmlEdits) {
+      try {
+        const parsedDb = JSON.parse(savedHtmlEdits);
+        const editedData = parsedDb[locId];
+        if (editedData && Array.isArray(editedData.faqs)) {
+          localFaqsMapped = editedData.faqs.map((f: any) => ({
+            question: f.question,
+            answer: f.answer,
+            category: 'Chung'
+          }));
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }
 
   if (!isSanityConfigured) {
     logCmsStatus('faq', false, 0);
@@ -1617,6 +1697,26 @@ export async function getContact(forcedLocationId?: string): Promise<CMSContact>
       ? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.518!2d106.69841!3d10.77636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527f0de0e3e8d%3A0x1c6f5e5e8e8e8e8e!2zNTI4LzE3IFTDkyBOZ+G7jWMgVsOibiwgVGFtIELDrG5oLCBUaOG7pyDEkOG7qWMsIFRQLiBIQ00!5e0!3m2!1svi!2svn!4v1716301234567!5m2!1svi!2svn'
       : 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15582.478!2d107.79586!3d11.5435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3173e2a77af8b06d%3A0xe7bd193c6f66bd32!2zQuG6o28gTOG7mWMsIEzDom0gxJDhu5NuZywgVmlldG5hbQ!5e0!3m2!1svi!2svn!4v1716301234568!5m2!1svi!2svn'
   };
+
+  // Live synchronization support from Elementor Builder for Contact Page
+  if (typeof window !== 'undefined') {
+    const savedHtmlEdits = localStorage.getItem('SANITY_MOCK_ELEMENTOR_DB');
+    if (savedHtmlEdits) {
+      try {
+        const parsedDb = JSON.parse(savedHtmlEdits);
+        const editedContact = parsedDb[locId]?.contact;
+        if (editedContact) {
+          defaultContact.pageTitle = editedContact.pageTitle || defaultContact.pageTitle;
+          defaultContact.pageSubtitle = editedContact.pageSubtitle || defaultContact.pageSubtitle;
+          if (Array.isArray(editedContact.contactFields)) {
+            defaultContact.contactFields = editedContact.contactFields;
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }
 
   if (!isSanityConfigured) {
     logCmsStatus('contact', false, 0);

@@ -6,7 +6,7 @@ import { getProducts, getProductsSync, CMSProduct } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 import ProductCard from './ProductCard';
 
-export default function FeaturedProducts() {
+export default function FeaturedProducts({ cmsData }: { cmsData?: any }) {
   const { locationSlug } = useLocation();
   const [products, setProducts] = useState<CMSProduct[]>(() => getProductsSync(locationSlug));
 
@@ -22,17 +22,17 @@ export default function FeaturedProducts() {
   }, [locationSlug]);
 
   const featuredProducts = products.slice(0, 3);
-
+  const heading = cmsData?.heading || "Cửa Hàng Thiết Bị";
+  const subheading = cmsData?.subheading || "Sản Phẩm Nổi Bật";
 
   return (
     <section id="products" className="section-container bg-slate-50">
       <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
         <div>
-          <h2 className="text-brand-primary font-bold tracking-widest uppercase mb-4">Cửa Hàng Thiết Bị</h2>
-          <h3 className="text-3xl md:text-5xl font-bold text-brand-secondary uppercase tracking-tighter">
-            Sản Phẩm <span className="text-brand-primary">Nổi Bật</span>
-          </h3>
+          <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">{heading}</p>
+          <h2 className="text-3xl md:text-5xl font-bold text-brand-secondary uppercase tracking-tighter" dangerouslySetInnerHTML={{ __html: subheading.replace(/Nổi Bật/g, '<span class="text-brand-primary">Nổi Bật</span>') }} />
         </div>
+
         <Link 
           to={`/${locationSlug}/san-pham`} 
           className="group flex items-center gap-2 text-brand-secondary font-bold uppercase text-sm tracking-widest hover:text-brand-primary transition-colors"

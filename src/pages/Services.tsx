@@ -115,9 +115,13 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
             >
               <div className="h-48 bg-slate-100 relative group-hover:scale-105 transition-transform duration-500 overflow-hidden">
                 <img 
-                  src={`https://images.unsplash.com/photo-${service.id === 'e1' ? '1558211583-d26f610c1eb1' : service.id === 'p1' ? '1585704032938-164741364232' : service.id === 'c1' ? '1557597774-9d273605dfa9' : '1504148455328-c39695b8a592'}?auto=format&fit=crop&q=80&w=800`}
+                  src="/images/og-default.jpg"
                   alt={service.title}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                  width={400}
+                  height={200}
                 />
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-brand-primary uppercase">
                   {category.title}
@@ -312,8 +316,8 @@ export default function ServicesPage() {
         
         <div className="section-container relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-brand-primary font-bold tracking-widest uppercase mb-4">Trang Thiết Bị</h2>
-            <h3 className="text-3xl md:text-5xl font-bold uppercase">Thiết Bị Dò Tìm Hiện Đại Nhất</h3>
+            <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">Trang Thiết Bị</p>
+            <h2 className="text-3xl md:text-5xl font-bold uppercase">Thiết Bị Dò Tìm Hiện Đại Nhất</h2>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -343,7 +347,15 @@ export default function ServicesPage() {
                 className="bg-white/5 rounded-3xl p-8 border border-white/10 group hover:border-brand-primary/30 transition-all text-center"
               >
                 <div className="w-full h-40 bg-slate-800 rounded-2xl mb-8 overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
-                  <img src={item.img} alt={item.title} className="w-full h-full object-cover" />
+                  <img 
+                    src="/images/og-default.jpg" 
+                    alt={item.title} 
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                    width={400}
+                    height={200}
+                  />
                 </div>
                 <h4 className="text-xl font-bold mb-3">{item.title}</h4>
                 <p className="text-slate-400 text-sm">{item.desc}</p>

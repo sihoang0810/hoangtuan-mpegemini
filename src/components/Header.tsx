@@ -4,10 +4,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation as useRouterLocation } from 'react-router-dom';
 import { useLocation as useAppLocation } from '../context/LocationContext';
 import { getSiteSettings, getMenus, CMSSiteSettings, CMSMenu } from '../lib/sanity';
+import logoUrl from '../assets/images/hoang_tuan_logo_1779774192464.png';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showSticky, setShowSticky] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const routerLocation = useRouterLocation();
   const { locationSlug, changeLocation } = useAppLocation();
   const siteLocationPrefix = '/' + locationSlug;
@@ -127,22 +130,32 @@ export default function Header() {
     });
 
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 20);
+
+      if (currentScrollY > 100) {
+        if (currentScrollY > lastScrollY) {
+          setShowSticky(false); // Hide on scroll deviation downwards
+        } else {
+          setShowSticky(true);  // Pop back on scrolling upwards
+        }
+      } else {
+        setShowSticky(true);
+      }
+      setLastScrollY(currentScrollY);
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       active = false;
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [lastScrollY]);
 
   const siteName = siteSettings?.siteName || 'Hoàng Tuấn MPE';
   const mainHotline = siteSettings?.mainHotline || '0389 011 315';
   const headerNotice = siteSettings?.headerNotice || 'Hỗ trợ khẩn cấp 24/7: Thợ trực chiến có mặt sau 30 phút!';
 
-  const nameParts = siteName.split(' ');
-  const displayBrand1 = nameParts.slice(0, 2).join(' ') || 'HOÀNG TUẤN';
-  const displayBrand2 = nameParts.slice(2).join(' ') || 'MPE';
   const mappedDisplayName = locationSlug === 'ho-chi-minh' ? 'Hồ Chí Minh' : 'Bảo Lộc';
 
   const rawNavLinks = [
@@ -171,6 +184,8 @@ export default function Header() {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || routerLocation.pathname !== '/' ? 'bg-white shadow-md' : 'bg-white'
+      } ${
+        !showSticky ? '-translate-y-full md:translate-y-0' : 'translate-y-0'
       }`}
     >
       {/* Top Black Announcement Bar */}
@@ -199,18 +214,18 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo Section */}
-          <Link to={siteLocationPrefix} className="flex items-center gap-3 shrink-0">
-            <div className="w-12 h-12 bg-brand-primary rounded-lg flex items-center justify-center shadow-lg shadow-brand-primary/20">
-              <span className="text-white font-bold text-2xl uppercase">HT</span>
+          <Link to={siteLocationPrefix} className="flex items-center gap-2 sm:gap-3 shrink-0 group">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-lg flex items-center justify-center shadow-md shadow-brand-primary/10 shrink-0 overflow-hidden border border-slate-100 group-hover:scale-105 transition-transform">
+              <img src={logoUrl} alt="Hoàng Tuấn Logo" className="w-full h-full object-cover mix-blend-multiply" />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-xl text-brand-secondary uppercase leading-none whitespace-nowrap tracking-tight">
+              <span className="font-bold text-sm sm:text-base md:text-xl text-brand-secondary uppercase leading-none whitespace-nowrap tracking-tight group-hover:text-brand-primary transition-colors">
                 HOÀNG TUẤN
               </span>
-              <span className="font-bold text-xl text-brand-secondary uppercase leading-none whitespace-nowrap mt-0.5 tracking-tight">
+              <span className="font-bold text-sm sm:text-base md:text-xl text-brand-secondary uppercase leading-none whitespace-nowrap mt-0.5 tracking-tight">
                 MPE
               </span>
-              <span className="text-brand-primary text-[10px] font-bold tracking-[0.2em] uppercase mt-1 whitespace-nowrap">
+              <span className="text-brand-primary text-[8px] sm:text-[10px] font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase mt-0.5 sm:mt-1 whitespace-nowrap">
                 TẬN NƠI 24/7
               </span>
             </div>
@@ -240,45 +255,46 @@ export default function Header() {
                       }`} />
                     </Link>
 
-                  {/* Mega Menu Dropdown */}
-                  {link.hasDropdown && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-5xl bg-white shadow-2xl border-t border-slate-100 rounded-b-[2rem] p-8 hidden group-hover:block animate-in fade-in slide-in-from-top-4 duration-300">
-                      <div className="grid grid-cols-4 gap-8">
-                        {SERVICE_MENU.map((item) => (
-                          <div key={item.title}>
-                            <div className={`flex items-center gap-2 font-bold mb-4 ${item.color}`}>
-                              <item.icon size={20} />
-                              <span className="tracking-widest uppercase text-xs">{item.title}</span>
+                    {/* Mega Menu Dropdown */}
+                    {link.hasDropdown && (
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-5xl bg-white shadow-2xl border-t border-slate-100 rounded-b-[2rem] p-8 hidden group-hover:block animate-in fade-in slide-in-from-top-4 duration-300">
+                        <div className="grid grid-cols-4 gap-8">
+                          {SERVICE_MENU.map((item) => (
+                            <div key={item.title}>
+                              <div className={`flex items-center gap-2 font-bold mb-4 ${item.color}`}>
+                                <item.icon size={20} />
+                                <span className="tracking-widest uppercase text-xs">{item.title}</span>
+                              </div>
+                              <ul className="space-y-3">
+                                {item.links.map((sublink) => (
+                                  <li key={sublink.name}>
+                                    <Link 
+                                      to={sublink.href}
+                                      className="text-slate-600 hover:text-brand-primary flex flex-col transition-colors"
+                                    >
+                                      <span className="font-bold text-sm">{sublink.name}</span>
+                                      <span className="text-[10px] text-slate-400 capitalize">tại {mappedDisplayName}</span>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
-                            <ul className="space-y-3">
-                              {item.links.map((sublink) => (
-                                <li key={sublink.name}>
-                                  <Link 
-                                    to={sublink.href}
-                                    className="text-slate-600 hover:text-brand-primary flex flex-col transition-colors"
-                                  >
-                                    <span className="font-bold text-sm">{sublink.name}</span>
-                                    <span className="text-[10px] text-slate-400 capitalize">tại {mappedDisplayName}</span>
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
+                        <div className="mt-8 pt-8 border-t border-slate-50 flex justify-center">
+                          <Link 
+                            to={`${siteLocationPrefix}/dich-vu`}
+                            className="flex items-center gap-2 bg-brand-primary text-white px-8 py-3 rounded-full font-bold text-sm uppercase hover:scale-105 active:scale-95 transition-all shadow-lg shadow-brand-primary/20 tracking-widest"
+                          >
+                            Xem tất cả dịch vụ
+                            <ArrowRight size={18} />
+                          </Link>
+                        </div>
                       </div>
-                      <div className="mt-8 pt-8 border-t border-slate-50 flex justify-center">
-                        <Link 
-                          to={`${siteLocationPrefix}/dich-vu`}
-                          className="flex items-center gap-2 bg-brand-primary text-white px-8 py-3 rounded-full font-bold text-sm uppercase hover:scale-105 active:scale-95 transition-all shadow-lg shadow-brand-primary/20 tracking-widest"
-                        >
-                          Xem tất cả dịch vụ
-                          <ArrowRight size={18} />
-                        </Link>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );})}
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </nav>
 
@@ -314,7 +330,7 @@ export default function Header() {
             className="absolute top-full left-0 right-0 bg-white shadow-2xl border-t lg:hidden h-[calc(100vh-80px)] overflow-y-auto"
           >
             <div className="flex flex-col p-4 gap-4">
-               {navLinks.map((link) => {
+              {navLinks.map((link) => {
                 const active = getIsActive(link.href, link.name);
                 const targetLinkHref = link.href === '/' ? siteLocationPrefix : `${siteLocationPrefix}${link.href}`;
                 return (
@@ -334,26 +350,32 @@ export default function Header() {
                       {link.name}
                     </Link>
                     {link.hasDropdown && (
-                      <div className="pl-4 grid grid-cols-2 gap-4 mt-2">
-                         {SERVICE_MENU.map((item) => (
-                           <div key={item.title}>
-                             <span className="text-[10px] font-bold text-slate-400 block mb-2 tracking-widest uppercase">{item.title}</span>
-                             <ul className="space-y-1">
-                               {item.links.map((sublink) => (
-                                 <li key={sublink.name}>
-                                   <Link 
-                                     to={sublink.href}
-                                     className="text-sm font-bold text-slate-600 block py-1"
-                                     onClick={() => setIsOpen(false)}
-                                   >
-                                     {sublink.name}
-                                   </Link>
-                                 </li>
-                               ))}
-                             </ul>
-                           </div>
-                         ))}
-                      </div>
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                        className="pl-4 grid grid-cols-2 gap-4 mt-2 overflow-hidden"
+                      >
+                        {SERVICE_MENU.map((item) => (
+                          <div key={item.title}>
+                            <span className="text-[10px] font-bold text-slate-400 block mb-1 tracking-widest uppercase">{item.title}</span>
+                            <ul className="space-y-1">
+                              {item.links.map((sublink) => (
+                                <li key={sublink.name}>
+                                  <Link 
+                                    to={sublink.href}
+                                    className="text-sm font-bold text-slate-600 hover:text-brand-primary block py-1"
+                                    onClick={() => setIsOpen(false)}
+                                  >
+                                    {sublink.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </motion.div>
                     )}
                   </div>
                 );

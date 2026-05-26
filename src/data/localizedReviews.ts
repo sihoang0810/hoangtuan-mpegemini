@@ -99,6 +99,34 @@ export const LOCALIZED_TESTIMONIALS: { [key: string]: CMSTestimonial[] } = {
       review: "Tư vấn lắp bộ camera IP giám sát dâu tằm vườn trà của tôi hoạt động mượt 24/24 qua app điện thoại. Thợ Bảo Lộc thi công kéo cáp an toàn, giá rẻ hơn hẳn các đơn vị khác.",
       rating: 5,
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hung"
+    },
+    {
+      name: "Chị Khánh Vân",
+      role: "Khu biệt thự Lộc Thanh, Bảo Lộc",
+      review: "Tôi rất hài lòng với gói dịch vụ bảo trì lò sưởi và hệ thống điện nước thông minh của Hoàng Tuấn. Đội ngũ nhiệt tình chăm sóc, tư vấn thiết bị MPE chính hãng tiết kiệm điện.",
+      rating: 5,
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Van"
+    },
+    {
+      name: "Anh Quốc Bảo",
+      role: "Hồ Đồng Nai, TP. Bảo Lộc",
+      review: "Camera lắp đặt xung quanh hồ quán cafe của tôi xem đêm rõ mồn một. Thợ đi dây bọc ống luồn siêu đẹp mắt, chống chịu sương mù độ cao cực tốt.",
+      rating: 5,
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Bao"
+    },
+    {
+      name: "Cô Mỹ Hạnh",
+      role: "Đường Hà Giang, Bảo Lộc",
+      review: "Bồn nước bị rò rỉ âm không rõ lý do, Hoàng Tuấn cho thợ dùng máy phát hiện rò rỉ siêu âm dò đúng góc nhà tắm. Bảo hành uy tín 12 tháng rất an tâm.",
+      rating: 5,
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hanh"
+    },
+    {
+      name: "Anh Minh Triết",
+      role: "Trần Phú, TP. Bảo Lộc",
+      review: "Thực sự ấn tượng với tốc độ có mặt của Hoàng Tuấn. Chỉ 15 phút sau khi nhảy CB tổng vào ngày lễ là thợ đã tới khắc phục xong an toàn.",
+      rating: 5,
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Triet"
     }
   ],
   'ho-chi-minh': [
@@ -122,6 +150,34 @@ export const LOCALIZED_TESTIMONIALS: { [key: string]: CMSTestimonial[] } = {
       review: "Thay ổ cắm âm tường dòng MPE chống va đập cho văn phòng đại diện Quận 1. Đội ngũ kỹ sư cơ điện làm việc chuẩn chỉ, xuất hóa đơn VAT nhanh chóng.",
       rating: 5,
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Tam"
+    },
+    {
+      name: "Anh Hoàng Bách",
+      role: "Thảo Điền, Quận 2, TP.HCM",
+      review: "Lắp camera thông minh có cảnh báo AI ban đêm rất nhạy. Thợ cài đặt ứng dụng cho điện thoại của cả gia đình nhiệt tình, giấu dây cực thẩm mỹ.",
+      rating: 5,
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Bach"
+    },
+    {
+      name: "Chị Hồng Hạnh",
+      role: "Quận 3, TP. Hồ Chí Minh",
+      review: "Chập điện sập CB giữa trưa nắng ngắt cả điều hòa, may nhờ thợ Hoàng Tuấn sang thay thế dây chịu nhiệt cấp tốc. Chuyên nghiệp bậc nhất Sài Gòn.",
+      rating: 5,
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hong"
+    },
+    {
+      name: "Chú Quốc Cường",
+      role: "Bình Thạnh, TP. Hồ Chí Minh",
+      review: "Hệ thống ống nước chôn âm nền của quán phở bị rò rỉ thất thoát nước nặng. Hoàng Tuấn đem máy siêu âm rò tìm đúng khớp chữ T nứt vỡ dưới bê tông.",
+      rating: 5,
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Cuong"
+    },
+    {
+      name: "Cô Bích Liên",
+      role: "Quận Phú Nhuận, TP.HCM",
+      review: "Sửa trần đèn MPE phòng khách sang xịn mịn. Thợ làm việc cẩn thận, bọc phủ che chắn sàn và tủ gỗ không để dính một hạt bụi thạch cao.",
+      rating: 5,
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lien"
     }
   ]
 };

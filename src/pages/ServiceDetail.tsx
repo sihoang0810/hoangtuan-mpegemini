@@ -128,7 +128,7 @@ const ServiceDetailTemplate = () => {
             </h1>
             <div 
               className="text-xl text-slate-600 mb-8 leading-relaxed prose prose-slate max-w-none prose-p:text-slate-600"
-              dangerouslySetInnerHTML={{ __html: service.fullDescription || service.description || '' }}
+              dangerouslySetInnerHTML={{ __html: service.fullDescription || service.shortDescription || '' }}
             />
             
             <div className="grid grid-cols-2 gap-4 mb-10">
@@ -167,9 +167,13 @@ const ServiceDetailTemplate = () => {
           >
             <div className="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl">
               <img 
-                src={service.image || `https://images.unsplash.com/photo-${service.id.startsWith('e') ? '1621905251189-08b45d6a269e' : service.id.startsWith('p') ? '1585704032938-164741364232' : service.id.startsWith('c') ? '1557597774-9d273605dfa9' : '1504148455328-c39695b8a592'}?auto=format&fit=crop&q=80&w=1200`}
+                src={service.image || '/images/og-default.jpg'}
                 alt={service.title}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+                width={800}
+                height={600}
               />
             </div>
             {/* Decal */}

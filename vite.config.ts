@@ -7,6 +7,29 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss()],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react-dom') || id.includes('react/')) {
+                return 'vendor-react';
+              }
+              if (id.includes('react-router') || id.includes('@remix-run')) {
+                return 'vendor-router';
+              }
+              if (id.includes('motion/react') || id.includes('framer-motion') || id.includes('motion')) {
+                return 'vendor-motion';
+              }
+              if (id.includes('sanity') || id.includes('@sanity')) {
+                return 'vendor-sanity';
+              }
+              return 'vendor-lib';
+            }
+          }
+        }
+      }
+    },
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
       'import.meta.env.VITE_SANITY_PROJECT_ID': JSON.stringify(env.VITE_SANITY_PROJECT_ID || ''),

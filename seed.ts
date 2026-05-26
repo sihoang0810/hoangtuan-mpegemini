@@ -198,6 +198,16 @@ const seedDocuments: any[] = [
     aboutContent: 'Công ty Hoàng Tuấn MPE tự hào là một trong những đơn vị sửa chữa cơ điện nước hàng đầu tại khu vực Lâm Đồng. Chúng tôi chuyên cung cấp dịch vụ chất lượng cao về điện gia dụng, dò tìm rò rỉ nước ngầm bằng sóng siêu âm hiện đại mang thương hiệu PQWT và lắp đặt thiết bị gia an ninh thông minh. Sự tin dùng của quý khách là động lực phát triển vững mạnh lâu dài của đội ngũ.',
     aboutImage: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=800',
     benefitHeading: 'Cam kết chất lượng dịch vụ của chúng tôi',
+    sections: [
+      { _type: 'heroSection', _key: 's-hero', isActive: true, heroTitle: 'SỬA ĐIỆN NƯỚC\nHOÀNG TUẤN MPE', heroSubtitle: 'Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. Chúng tôi dò tìm và xử lý triệt để mọi sự cố điện, rò nước tại Bảo Lộc chỉ từ 15-30 phút.', heroOverlayText: 'CỨU HỘ KHẨN CẤP 24/7' },
+      { _type: 'servicesSection', _key: 's-services', isActive: true, heading: 'Dịch Vụ Của Chúng Tôi', subheading: 'Giải Pháp Toàn Diện Cho Gia Đình' },
+      { _type: 'whyChooseUsSection', _key: 's-whychooseus', isActive: true, heading: 'Tại Sao Chọn Chúng Tôi', subheading: 'Dịch Vụ Uy Tín, Chất Lượng Hàng Đầu' },
+      { _type: 'processTimelineSection', _key: 's-processtimeline', isActive: true, heading: 'Quy Trình Phục Vụ', subheading: 'Các Bước Chuyên Nghiệp Để Xử Lý Sự Cố Điện Nước' },
+      { _type: 'featuredProductsSection', _key: 's-featuredproducts', isActive: true, heading: 'Cửa Hàng Thiết Bị', subheading: 'Sản Phẩm Nổi Bật' },
+      { _type: 'testimonialsSection', _key: 's-testimonials', isActive: true, heading: 'Ý Kiến Khách Hàng', subheading: 'Khách Hàng Nói Gì Về Chúng Tôi' },
+      { _type: 'blogSection', _key: 's-blog', isActive: true, heading: 'Kinh Nghiệm & Mẹo Vặt', subheading: 'Chia Sẻ Kiến Thức Sửa Chữa Thường Ngày' },
+      { _type: 'faqSection', _key: 's-faq', isActive: true, heading: 'Nhưng Câu Hỏi Thường Gặp', subheading: 'Thông Tin Cần Biết Về Quy Trình & Giá Cả' },
+    ],
     benefits: [
       'Cam kết thợ tay nghề chuẩn 100%, đào tạo chính quy an toàn điện nước.',
       'Sử dụng 100% vật tư chính hãng MPE bền bỉ cao cấp, bảo hành dài hạn.',

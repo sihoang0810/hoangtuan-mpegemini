@@ -5,11 +5,12 @@ import { Phone, ArrowRight, ShieldCheck, Clock, CheckCircle2 } from 'lucide-reac
 import { getHomepageContent, getHomepageContentSync, CMSHomepage } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 
-export default function Hero() {
+export default function Hero({ cmsData }: { cmsData?: any }) {
   const { locationSlug } = useLocation();
   const [content, setContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationSlug));
 
   useEffect(() => {
+    if (cmsData) return; // Skip fetch if data is injected directly (e.g. Page Builder or preview mode)
     let active = true;
     setContent(getHomepageContentSync(locationSlug));
     getHomepageContent(locationSlug).then((data) => {
@@ -18,11 +19,12 @@ export default function Hero() {
     return () => {
       active = false;
     };
-  }, [locationSlug]);
+  }, [locationSlug, cmsData]);
 
-  const heroTitle = content?.heroTitle || 'Sửa Điện Nước';
-  const heroSubtitle = content?.heroSubtitle || 'Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. Chúng tôi xử lý mọi sự cố từ nhỏ đến phức tạp với đội ngũ thợ tay nghề cao.';
-  const overlayText = content?.heroOverlayText || 'SẴN SÀNG PHỤC VỤ 24/7';
+  const heroTitle = cmsData?.heroTitle || content?.heroTitle || 'Sửa Điện Nước';
+  const heroSubtitle = cmsData?.heroSubtitle || content?.heroSubtitle || 'Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. Chúng tôi xử lý mọi sự cố từ nhỏ đến phức tạp với đội ngũ thợ tay nghề cao.';
+  const overlayText = cmsData?.heroOverlayText || content?.heroOverlayText || 'SẴN SÀNG PHỤC VỤ 24/7';
+
 
   return (
     <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-slate-50">
@@ -96,10 +98,14 @@ export default function Hero() {
                 </div>
               </div>
               <img 
-                src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800" 
-                alt="Electrician working" 
-                className="w-full h-full object-cover mix-blend-overlay opacity-60"
+                src="/images/real_hero_repair.png" 
+                alt="Thợ Sửa Chữa Chuyên Nghiệp" 
+                className="w-full h-full object-cover opacity-95 transition-opacity duration-300"
                 referrerPolicy="no-referrer"
+                loading="eager"
+                fetchPriority="high"
+                width={800}
+                height={800}
               />
             </div>
             
