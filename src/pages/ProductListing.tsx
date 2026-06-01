@@ -101,7 +101,7 @@ export default function ProductListing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-xl text-slate-400 font-medium leading-relaxed mb-10"
+              className="text-xl text-slate-500 font-medium leading-relaxed mb-10"
             >
               Cung cấp đầy đủ các thiết bị điện, nước, camera và máy dò rò rỉ rước hiện đại nhất. 
               Cam kết chính hãng, bảo hành dài hạn.
@@ -173,7 +173,7 @@ export default function ProductListing() {
                 <div className="space-y-4">
                   <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-xl font-bold hover:scale-105 transition-all">
                     <Phone size={18} />
-                    0389.011.315
+                    0389 011 315
                   </a>
                   <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-white text-brand-primary w-full py-4 rounded-xl font-bold hover:scale-105 transition-all">
                     <MessageCircle size={18} />
@@ -210,7 +210,7 @@ export default function ProductListing() {
                               </div>
                               <div>
                                 <h3 className="text-xl font-bold text-brand-secondary uppercase tracking-tight">{cat.title}</h3>
-                                <p className="text-xs text-slate-400 mt-0.5">{cat.description}</p>
+                                <p className="text-xs text-slate-500 mt-0.5">{cat.description}</p>
                               </div>
                               <span className="text-xs font-bold text-brand-primary bg-brand-primary/10 px-3 py-1 rounded-full ml-auto">
                                 {categoryProducts.length} sản phẩm

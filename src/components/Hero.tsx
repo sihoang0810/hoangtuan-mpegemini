@@ -4,30 +4,41 @@ import { motion } from 'motion/react';
 import { Phone, ArrowRight, ShieldCheck, Clock, CheckCircle2 } from 'lucide-react';
 import { getHomepageContent, getHomepageContentSync, CMSHomepage } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
+import InlineEdit from './InlineEdit';
 
-export default function Hero({ cmsData }: { cmsData?: any }) {
+export default function Hero({ 
+  cmsData,
+  isEditable = false,
+  onUpdateDraftField
+}: { 
+  cmsData?: any;
+  isEditable?: boolean;
+  onUpdateDraftField?: (field: string, value: any) => void;
+}) {
   const { locationSlug } = useLocation();
   const [content, setContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationSlug));
 
   useEffect(() => {
-    if (cmsData) return; // Skip fetch if data is injected directly (e.g. Page Builder or preview mode)
     let active = true;
     setContent(getHomepageContentSync(locationSlug));
-    getHomepageContent(locationSlug).then((data) => {
-      if (active) setContent(data);
-    });
+    if (!cmsData) {
+      getHomepageContent(locationSlug).then((data) => {
+        if (active && data) setContent(data);
+      });
+    }
     return () => {
       active = false;
     };
   }, [locationSlug, cmsData]);
 
-  const heroTitle = cmsData?.heroTitle || content?.heroTitle || 'Sửa Điện Nước';
-  const heroSubtitle = cmsData?.heroSubtitle || content?.heroSubtitle || 'Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. Chúng tôi xử lý mọi sự cố từ nhỏ đến phức tạp với đội ngũ thợ tay nghề cao.';
-  const overlayText = cmsData?.heroOverlayText || content?.heroOverlayText || 'SẴN SÀNG PHỤC VỤ 24/7';
+  const heroTitle = cmsData?.heroTitle !== undefined ? cmsData.heroTitle : (content?.heroTitle || 'Sửa Điện Nước');
+  const heroSubtitle = cmsData?.heroSubtitle !== undefined ? cmsData.heroSubtitle : (content?.heroSubtitle || 'Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. Chúng tôi xử lý mọi sự cố từ nhỏ đến phức tạp với đội ngũ thợ tay nghề cao.');
+  const overlayText = cmsData?.heroOverlayText !== undefined ? cmsData.heroOverlayText : (content?.heroOverlayText || 'SẴN SÀNG PHỤC VỤ 24/7');
+  const heroImage = cmsData?.heroImage || (content as any)?.heroImage || "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=1200";
 
 
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-slate-50">
+    <section className="relative pt-20 pb-16 md:pt-28 md:pb-20 overflow-hidden bg-slate-50">
       {/* Background Shapes */}
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-brand-accent/5 rounded-full blur-3xl pointer-events-none" />
@@ -40,17 +51,37 @@ export default function Hero({ cmsData }: { cmsData?: any }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-full text-sm font-bold mb-6">
-              <span className="relative flex h-2 w-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-full text-sm font-bold mb-6 select-none">
+              <span className="relative flex h-2 w-2 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
               </span>
-              {overlayText}
+              <InlineEdit 
+                value={overlayText}
+                isEditable={isEditable}
+                onSave={(val) => onUpdateDraftField?.('heroOverlayText', val)}
+                className="font-bold text-sm tracking-wide uppercase"
+                element="span"
+              />
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-bold text-brand-secondary leading-tight mb-6 tracking-tighter" dangerouslySetInnerHTML={{ __html: heroTitle.includes('\n') ? heroTitle.replace(/\n/g, '<br />') : heroTitle }} />
+            <InlineEdit 
+              value={heroTitle}
+              isEditable={isEditable}
+              onSave={(val) => onUpdateDraftField?.('heroTitle', val)}
+              className="text-4xl md:text-6xl font-bold text-brand-secondary leading-tight mb-6 tracking-tighter block"
+              element="h1"
+              multiline={true}
+            />
             
-            <p className="text-lg text-slate-600 mb-10 max-w-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: heroSubtitle }} />
+            <InlineEdit 
+              value={heroSubtitle}
+              isEditable={isEditable}
+              onSave={(val) => onUpdateDraftField?.('heroSubtitle', val)}
+              className="text-lg text-slate-600 mb-10 max-w-lg leading-relaxed block"
+              element="p"
+              multiline={true}
+            />
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="tel:0389011315" className="btn-primary flex items-center justify-center gap-2 text-lg">
@@ -98,7 +129,7 @@ export default function Hero({ cmsData }: { cmsData?: any }) {
                 </div>
               </div>
               <img 
-                src="/images/real_hero_repair.png" 
+                src={heroImage} 
                 alt="Thợ Sửa Chữa Chuyên Nghiệp" 
                 className="w-full h-full object-cover opacity-95 transition-opacity duration-300"
                 referrerPolicy="no-referrer"

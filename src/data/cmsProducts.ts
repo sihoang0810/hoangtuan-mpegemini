@@ -100,14 +100,32 @@ export const CMS_PRODUCTS: CmsProduct[] = CORE_PRODUCTS_METADATAList.map((item, 
   // Transform specs structure
   const specifications = item.specs.map(([k, v]) => ({ key: k, value: v }));
   
-  // Use locally optimized WebP paths directly to satisfy the image requirements
-  const defaultImg = `/product-images/${item.slug}/featured.webp`;
-  const listGalleries = [
-    `/product-images/${item.slug}/featured.webp`,
-    `/product-images/${item.slug}/gallery-1.webp`,
-    `/product-images/${item.slug}/gallery-2.webp`,
-    `/product-images/${item.slug}/gallery-3.webp`
-  ];
+  // Assign Unsplash image based on category
+  let defaultImg = '';
+  let listGalleries: string[] = [];
+  
+  if (item.cat === 'camera') {
+    defaultImg = 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=800';
+    listGalleries = [
+      'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1560264280-88b68371db39?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1521233013499-4d1193363e79?auto=format&fit=crop&q=80&w=800'
+    ];
+  } else if (item.cat === 'electrical') {
+    defaultImg = 'https://images.unsplash.com/photo-1558230352-78d91c78494b?auto=format&fit=crop&q=80&w=800';
+    listGalleries = [
+      'https://images.unsplash.com/photo-1558230352-78d91c78494b?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?auto=format&fit=crop&q=80&w=800'
+    ];
+  } else {
+    defaultImg = 'https://images.unsplash.com/photo-1585704032915-c3400ca1f963?auto=format&fit=crop&q=80&w=800';
+    listGalleries = [
+      'https://images.unsplash.com/photo-1585704032915-c3400ca1f963?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&q=80&w=800'
+    ];
+  }
 
   // Applications
   const applications = [

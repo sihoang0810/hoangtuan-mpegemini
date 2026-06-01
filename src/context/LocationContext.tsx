@@ -25,6 +25,7 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
   const [locationSlugState, setLocationSlugState] = useState<LocationSlug>(LOCATION_BAO_LOC);
   const [showPopupState, setShowPopupState] = useState(true);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const hasInteractedRef = React.useRef(false);
   const [locations, setLocations] = useState<CMSLocation[]>([]);
   
   const routerLoc = useRouterLocation();
@@ -36,6 +37,7 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
     setShowPopupState(show);
     if (!show) {
       setHasInteracted(true);
+      hasInteractedRef.current = true;
     }
   };
 
@@ -69,6 +71,7 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
     const prefix = parts[1]; // e.g. "bao-loc" or "ho-chi-minh"
 
     const isUrlPrefixOk = prefix === LOCATION_BAO_LOC || prefix === LOCATION_HO_CHI_MINH;
+
     const hasLegacyPrefix = prefix === 'hcm' || prefix === 'hochiminh' || prefix === 'baoloc' || prefix === 'bao_loc';
 
     if (hasLegacyPrefix) {
@@ -100,12 +103,12 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
         navigate(`${redirectPath}${routerLoc.search}`, { replace: true });
       } else {
         // No saved location and no prefix in URL. SHOW POPUP
-        if (!hasInteracted) {
+        if (!hasInteractedRef.current) {
           setShowPopupState(true);
         }
       }
     }
-  }, [routerLoc.pathname, locationSlugState, navigate, hasInteracted]);
+  }, [routerLoc.pathname, locationSlugState, navigate]);
 
   const setLocation = (locName: LocationSlug | string) => {
     if (!locName) return;

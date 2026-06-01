@@ -6,6 +6,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation as useRouteLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { LocationProvider } from './context/LocationContext';
+import { LOCATION_BAO_LOC, LOCATION_HO_CHI_MINH } from './lib/location';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import FloatingContact from './components/FloatingContact';
@@ -24,6 +25,8 @@ import Contact from './pages/Contact';
 import TermsOfService from './pages/TermsOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 
+import NotFound from './pages/NotFound';
+
 import { HelmetProvider } from 'react-helmet-async';
 
 function ScrollToTop() {
@@ -36,6 +39,18 @@ function ScrollToTop() {
 
 function AppContent() {
   const location = useRouteLocation();
+  const parts = location.pathname.split('/');
+  const prefix = parts[1]; // e.g. "bao-loc" or "ho-chi-minh"
+  const isUrlPrefixOk = prefix === LOCATION_BAO_LOC || prefix === LOCATION_HO_CHI_MINH;
+
+  if (!isUrlPrefixOk) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center relative overflow-hidden font-sans">
+        <div className="absolute inset-0 bg-[radial-gradient(#439bf1_0.05rem,transparent_0.05rem)] [background-size:1.5rem_1.5rem] opacity-[0.05]" />
+        <LocationPopup />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-brand-primary selection:text-white">
@@ -55,7 +70,7 @@ function AppContent() {
           <Route path="/:locationSlug/dieu-khoan" element={<TermsOfService />} />
           <Route path="/:locationSlug/bao-mat" element={<PrivacyPolicy />} />
 
-          {/* Standard Fallback Routes (handled by LocationContext Redirect) */}
+          {/* Fallback endpoints which redirect instantly */}
           <Route path="/" element={<Home />} />
           <Route path="/dich-vu" element={<Services />} />
           <Route path="/dich-vu/:slug" element={<ServiceDetail />} />
@@ -67,6 +82,9 @@ function AppContent() {
           <Route path="/lien-he" element={<Contact />} />
           <Route path="/dieu-khoan" element={<TermsOfService />} />
           <Route path="/bao-mat" element={<PrivacyPolicy />} />
+
+          {/* 404 Not Found */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
@@ -80,14 +98,10 @@ export default function App() {
   return (
     <HelmetProvider>
       <Router>
-        <Routes>
-          <Route path="*" element={
-            <LocationProvider>
-              <ScrollToTop />
-              <AppContent />
-            </LocationProvider>
-          } />
-        </Routes>
+        <LocationProvider>
+          <ScrollToTop />
+          <AppContent />
+        </LocationProvider>
       </Router>
     </HelmetProvider>
   );

@@ -35,7 +35,7 @@ export const LOCALIZED_SEO: { [key: string]: { [path: string]: CMSSeo } } = {
     "/lien-he": {
       pagePath: "/lien-he",
       metaTitle: "Liên Hệ Công Ty Hoàng Tuấn MPE Bảo Lộc | Thợ Điện Nước 24/7",
-      metaDescription: "Liên hệ Hotline sửa chữa khẩn cấp 24/7 tại Bảo Lộc: 0389 011 315. Văn phòng: 279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng. Bản đồ và Zalo chỉ dẫn chi tiết.",
+      metaDescription: "Liên hệ Hotline sửa chữa khẩn cấp 24/7 tại Bảo Lộc: 0389 011 315. Văn phòng: 279 B'Lao Sire, Phường 3, Bảo Lộc, Lâm Đồng. Bản đồ và Zalo chỉ dẫn chi tiết.",
       keywords: ["lien he tho dien bao loc", "so dien thoai sua ong nuoc bao loc", "dia chi sua dien nuoc bao loc"]
     }
   },
@@ -73,7 +73,7 @@ export const LOCALIZED_SEO: { [key: string]: { [path: string]: CMSSeo } } = {
     "/lien-he": {
       pagePath: "/lien-he",
       metaTitle: "Liên Hệ Văn Phòng Hoàng Tuấn MPE TP.HCM | Sửa Điện Nước 24H",
-      metaDescription: "Số điện thoại thợ điện nước TP.HCM trực đêm khẩn cấp: 0389 011 315. Trụ sở: 528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh. Bản đồ dẫn đường và kết nối Zalo nhanh.",
+      metaDescription: "Số điện thoại thợ điện nước TP.HCM trực đêm khẩn cấp: 0389 011 315. Trụ sở: 528/17 Tô Ngọc Vân, Phường Tam Bình, Thủ Đức, TP. Hồ Chí Minh. Bản đồ dẫn đường và kết nối Zalo nhanh.",
       keywords: ["so dien thoai tho dien tphcm", "dia chi sua ong nuoc sai gon", "lien he sua chua co dien lanh hcm"]
     }
   }
@@ -81,12 +81,12 @@ export const LOCALIZED_SEO: { [key: string]: { [path: string]: CMSSeo } } = {
 
 export const LOCALIZED_BUSINESS_SCHEMA: { [key: string]: CMSLocalBusiness } = {
   'bao-loc': {
-    name: "Hoàng Tuấn MPE - Trụ Sở Sửa Điện Nước Bảo Lộc Lâm Đồng",
-    legalName: "Hoàng Tuấn MPE Cơ Điện (Trụ sở chính Bảo Lộc)",
-    telephone: "0389011315",
+    name: "Hoàng Tuấn MPE",
+    legalName: "Hoàng Tuấn MPE Cơ Điện",
+    telephone: "0389 011 315",
     address: {
-      streetAddress: "279 B'Lao sire",
-      addressLocality: "Phường 3, Bảo Lộc",
+      streetAddress: "279 B'Lao Sire",
+      addressLocality: "Bảo Lộc",
       addressRegion: "Lâm Đồng",
       postalCode: "67000",
       addressCountry: "VN"
@@ -95,25 +95,31 @@ export const LOCALIZED_BUSINESS_SCHEMA: { [key: string]: CMSLocalBusiness } = {
       latitude: 11.545,
       longitude: 107.808
     },
+    areaServed: {
+      districts: ["Bảo Lộc", "Bảo Lâm", "Di Linh", "Đạ Huoai"]
+    },
     priceRange: "$$",
     openingHoursSpecification: [
       { dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], opens: "00:00", closes: "23:59" }
     ]
   },
   'ho-chi-minh': {
-    name: "Hoàng Tuấn MPE - Chi Nhánh Sửa Điện Nước TP. Hồ Chí Minh",
-    legalName: "Hoàng Tuấn MPE Cơ Điện (Chi nhánh TP.HCM)",
-    telephone: "0389011315",
+    name: "Hoàng Tuấn MPE",
+    legalName: "Hoàng Tuấn MPE Cơ Điện",
+    telephone: "0389 011 315",
     address: {
-      streetAddress: "528/17 Tô Ngọc Vân",
-      addressLocality: "Tam Bình, Thủ Đức",
+      streetAddress: "528/17 Tô Ngọc Vân, Phường Tam Bình",
+      addressLocality: "Thủ Đức",
       addressRegion: "TP. Hồ Chí Minh",
       postalCode: "70000",
       addressCountry: "VN"
     },
     geo: {
-      latitude: 10.776,
-      longitude: 106.701
+      latitude: 10.8523,
+      longitude: 106.7441
+    },
+    areaServed: {
+      districts: ["Thủ Đức", "Quận 1", "Quận 2", "Quận 3", "Quận 7", "Gò Vấp", "Bình Thạnh"]
     },
     priceRange: "$$",
     openingHoursSpecification: [
@@ -129,7 +135,7 @@ export const LOCALIZED_CONTACT: { [key: string]: CMSContact } = {
     contactFields: [
       { icon: "Phone", label: "Điện thoại 24/7", val: "0389 011 315", desc: "Không nghỉ trưa, túc trực cả ngày lễ và Tết" },
       { icon: "MessageSquare", label: "Zalo Chat Bảo Lộc", val: "0389011315", desc: "Gửi hình ảnh sự cố nhận tư vấn báo giá ngay" },
-      { icon: "MapPin", label: "Địa chỉ Trụ sở Bảo Lộc", val: "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng" },
+      { icon: "MapPin", label: "Địa chỉ Trụ sở Bảo Lộc", val: "279 B'Lao Sire, Phường 3, Bảo Lộc, Lâm Đồng" },
       { icon: "Clock", label: "Giờ làm việc Lâm Đồng", val: "Mở cửa xuyên suốt 24H từ thứ 2 đến chủ nhật" }
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15582.478201504787!2d107.79586119999999!3d11.5435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3173e2a77af8b06d%3A0xe7bd193c6f66bd32!2zTOG7mWMgUGjDoXQsIELhuqNvIEzhu5ljLCBMw6JtIMSQ4buTbmcsIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1716301234567"
@@ -140,7 +146,7 @@ export const LOCALIZED_CONTACT: { [key: string]: CMSContact } = {
     contactFields: [
       { icon: "Phone", label: "Hotline Khẩn Cấp TP.HCM", val: "0389 011 315", desc: "Phản hồi kết nối kỹ sư dự án trực tiếp 24/24" },
       { icon: "MessageSquare", label: "Zalo Cơ Điện Sài Gòn", val: "0389011315", desc: "Khảo sát tư vấn trực tuyến giảm giá gói thi công 10%" },
-      { icon: "MapPin", label: "Trụ sở chi nhánh Sài Gòn", val: "528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh" },
+      { icon: "MapPin", label: "Trụ sở chi nhánh Sài Gòn", val: "528/17 Tô Ngọc Vân, Phường Tam Bình, Thủ Đức, TP. Hồ Chí Minh" },
       { icon: "Clock", label: "Giờ phục vụ đô thị", val: "Phục vụ ngày lẫn đêm 24/7/365, có thợ trực trực tết" }
     ],
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.51786591041rem!2d106.699!3d10.776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f4w!2zUXXhuq1uIDEsIEjhu5MgQ2jDrSBNaW5oLCBWaWV0bmFt!5e0!3m2!1sen"

@@ -21,7 +21,13 @@ export default function FeaturedProducts({ cmsData }: { cmsData?: any }) {
     };
   }, [locationSlug]);
 
-  const featuredProducts = products.slice(0, 3);
+  const featuredProducts = [...products]
+    .sort((a, b) => {
+      const aPinned = (a as any).isPinned ? 1 : 0;
+      const bPinned = (b as any).isPinned ? 1 : 0;
+      return bPinned - aPinned;
+    })
+    .slice(0, 3);
   const heading = cmsData?.heading || "Cửa Hàng Thiết Bị";
   const subheading = cmsData?.subheading || "Sản Phẩm Nổi Bật";
 

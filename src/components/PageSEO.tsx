@@ -95,7 +95,7 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
   const currentHref = isBrowser ? window.location.origin + window.location.pathname : `https://hoangtuanmpe.com${routerLoc.pathname}`;
 
   const canonical = activeSeo.canonicalUrl || currentHref;
-  const ogImg = activeSeo.ogImage || 'https://hoangtuanmpe.com/images/og-default.jpg';
+  const ogImg = activeSeo.ogImage || 'https://images.unsplash.com/photo-1542013936-6533e14cb263?auto=format&fit=crop&q=80&w=1200';
   const finalSlug = (locationSlug === 'ho-chi-minh' || (locationSlug as string) === 'hcm') ? 'ho-chi-minh' : 'bao-loc';
 
   const schemas: any[] = [];
@@ -103,13 +103,13 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
   // LocalBusiness Schema
   const localBusinessSchema = {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@type': ['LocalBusiness', 'ElectricalContractor', 'Plumber'],
     '@id': `https://hoangtuanmpe.com/#local-business-${locationSlug}`,
     name: activeBiz.name,
     legalName: activeBiz.legalName || activeBiz.name,
     logo: activeBiz.logo || 'https://hoangtuanmpe.com/logo.png',
     url: siteOrigin + '/' + finalSlug,
-    telephone: activeBiz.telephone || '0389.011.315',
+    telephone: activeBiz.telephone || '0389 011 315',
     priceRange: activeBiz.priceRange || '$$',
     address: activeBiz.address ? {
       '@type': 'PostalAddress',
@@ -124,6 +124,10 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       latitude: activeBiz.geo.latitude,
       longitude: activeBiz.geo.longitude
     } : undefined,
+    areaServed: activeBiz.areaServed?.districts ? activeBiz.areaServed.districts.map(district => ({
+      '@type': 'AdministrativeArea',
+      name: district
+    })) : undefined,
     openingHoursSpecification: activeBiz.openingHoursSpecification?.map(spec => ({
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: Array.isArray(spec.dayOfWeek)

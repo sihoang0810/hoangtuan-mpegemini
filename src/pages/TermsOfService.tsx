@@ -22,7 +22,7 @@ export default function TermsOfService() {
           <p className="text-slate-500 font-medium text-base md:text-lg">
             Áp dụng cho mọi hoạt động sửa chữa, cung cấp thiết bị và thi công cơ điện nước tại khu vực Bảo Lộc (Lâm Đồng) và TP. Hồ Chí Minh.
           </p>
-          <div className="flex flex-wrap gap-4 mt-6 text-xs text-slate-400 font-mono">
+          <div className="flex flex-wrap gap-4 mt-6 text-xs text-slate-500 font-mono">
             <span className="flex items-center gap-1.5">
               <Calendar size={14} />
               Cập nhật lần cuối: 24/05/2026
@@ -252,7 +252,7 @@ export default function TermsOfService() {
 
           </div>
 
-          <div className="mt-12 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-medium">
+          <div className="mt-12 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
             <span>© {currentYear} Hoàng Tuấn MPE. Tài liệu điều khoản kỹ thuật lưu hành nội bộ và công cộng.</span>
             <div className="flex gap-4">
               <a href="#top" className="text-brand-primary hover:underline">Về đầu trang</a>

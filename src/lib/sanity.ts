@@ -164,6 +164,7 @@ export interface CMSService {
     question: string;
     answer: string;
   }[];
+  isPinned?: boolean;
 }
 
 export interface CMSPostCategory {
@@ -178,7 +179,7 @@ export interface CMSBlogPost {
   title: string;
   excerpt: string;
   content: string;
-  category: 'Điện' | 'Nước' | 'Camera' | 'Dò Tìm';
+  category: string;
   date: string;
   author: {
     name: string;
@@ -192,6 +193,7 @@ export interface CMSBlogPost {
     question: string;
     answer: string;
   }[];
+  isPinned?: boolean;
 }
 
 export interface CMSProductCategory {
@@ -205,13 +207,14 @@ export interface CMSProduct {
   id: string;
   slug: string;
   name: string;
-  category: 'electrical' | 'plumbing' | 'camera' | 'leak-detection';
+  category: 'electrical' | 'plumbing' | 'camera' | 'leak-detection' | 'detection';
   description: string;
   price: string;
   image: string;
-  features: string[];
-  specs: { [key: string]: string };
+  features?: string[];
+  specs?: { [key: string]: string };
   gallery?: string[];
+  isPinned?: boolean;
 }
 
 export interface CMSPricing {
@@ -321,6 +324,9 @@ export interface CMSLocalBusiness {
   geo?: {
     latitude?: number;
     longitude?: number;
+  };
+  areaServed?: {
+    districts: string[];
   };
   priceRange?: string;
   openingHoursSpecification?: {
@@ -713,7 +719,8 @@ export function getHomepageContentSync(forcedLocationId?: string): CMSHomepage {
               editedData.badge2 || (baseData.benefits && baseData.benefits[1]) || 'Măng máy rà siêu âm',
               editedData.badge3 || (baseData.benefits && baseData.benefits[2]) || 'Bảo hành đầy đủ',
               ...((baseData.benefits && baseData.benefits.slice(3)) || [])
-            ]
+            ],
+            sections: editedData.sections || baseData.sections
           };
         }
       } catch (e) {
@@ -956,11 +963,10 @@ export async function getPostCategories(): Promise<CMSPostCategory[]> {
 /**
  * 7. Blog Posts filtered by location
  */
-export async function getBlogPosts(forcedLocationId?: string): Promise<CMSBlogPost[]> {
+export function getBlogPostsSync(forcedLocationId?: string): CMSBlogPost[] {
   const locId = forcedLocationId || getCurrentLocationSlug();
-  console.log(`[LOCATION] Current location: ${locId}`);
-  console.log(`[CMS QUERY] locationSlug: ${locId}`);
-  const localBlogPostsMapped: CMSBlogPost[] = LOCALIZED_BLOGS[locId] || fallbackBlogPosts.map(p => ({
+  const locData = (LOCALIZED_BLOGS as any)[locId];
+  const basePosts = locData && locData.posts ? locData.posts : fallbackBlogPosts.map(p => ({
     id: p.id,
     slug: p.slug,
     title: p.title,
@@ -975,18 +981,43 @@ export async function getBlogPosts(forcedLocationId?: string): Promise<CMSBlogPo
     faq: p.faq
   })).map(b => localizeBlogPost(b, locId));
 
+  // Live synchronization support for blog post edits from Elementor Builder
+  if (typeof window !== 'undefined') {
+    const savedHtmlEdits = localStorage.getItem('SANITY_MOCK_ELEMENTOR_DB');
+    if (savedHtmlEdits) {
+      try {
+        const parsedDb = JSON.parse(savedHtmlEdits);
+        const editedPosts = parsedDb[locId]?.posts;
+        if (editedPosts && Array.isArray(editedPosts)) {
+          return editedPosts;
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }
+
+  return basePosts;
+}
+
+export async function getBlogPosts(forcedLocationId?: string): Promise<CMSBlogPost[]> {
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  console.log(`[LOCATION] Current location: ${locId}`);
+  console.log(`[CMS QUERY] locationSlug: ${locId}`);
+  const currentData = getBlogPostsSync(locId);
+
   if (!isSanityConfigured) {
     logCmsStatus('post', false, 0);
-    return localBlogPostsMapped;
+    return currentData;
   }
   try {
     const data = await client.fetch<CMSBlogPost[]>(postsQuery, { locationSlug: locId });
     const hasData = isValidArray(data);
     logCmsStatus('post', hasData, hasData ? data.length : 0);
-    return hasData ? data : localBlogPostsMapped;
+    return hasData ? data : currentData;
   } catch (error) {
     logCmsStatus('post', false, 0, error);
-    return localBlogPostsMapped;
+    return currentData;
   }
 }
 
@@ -994,22 +1025,9 @@ export async function getBlogPostBySlug(slug: string | undefined, forcedLocation
   const locId = forcedLocationId || getCurrentLocationSlug();
   console.log(`[LOCATION] Current location: ${locId}`);
   console.log(`[CMS QUERY] locationSlug: ${locId}`);
-  const localBlogPostsMapped: CMSBlogPost[] = LOCALIZED_BLOGS[locId] || fallbackBlogPosts.map(p => ({
-    id: p.id,
-    slug: p.slug,
-    title: p.title,
-    excerpt: p.excerpt,
-    content: p.content,
-    category: p.category,
-    date: p.date,
-    author: p.author,
-    image: p.image,
-    readTime: p.readTime,
-    tags: p.tags,
-    faq: p.faq
-  })).map(b => localizeBlogPost(b, locId));
+  const postsList = getBlogPostsSync(locId);
 
-  const foundLocal = localBlogPostsMapped.find(p => p.slug === slug) || null;
+  const foundLocal = postsList.find(p => p.slug === slug) || null;
   if (!isSanityConfigured || !slug) return foundLocal;
   try {
     const data = await client.fetch<CMSBlogPost>(postBySlugQuery, { slug, locationSlug: locId });
@@ -1074,7 +1092,7 @@ export function getProductsSync(forcedLocationId?: string): CMSProduct[] {
     }
   }
   // 2. Fall back to local localized schemas if cache is empty
-  return LOCALIZED_PRODUCTS[locId] || fallbackProducts.map(p => ({
+  const baseProducts = LOCALIZED_PRODUCTS[locId] || fallbackProducts.map(p => ({
     id: p.id,
     slug: p.slug,
     name: p.name,
@@ -1085,6 +1103,24 @@ export function getProductsSync(forcedLocationId?: string): CMSProduct[] {
     features: p.features,
     specs: p.specs
   })).map(p => localizeProduct(p, locId));
+
+  // Live synchronization support for product list edits from Elementor Builder
+  if (typeof window !== 'undefined') {
+    const savedHtmlEdits = localStorage.getItem('SANITY_MOCK_ELEMENTOR_DB');
+    if (savedHtmlEdits) {
+      try {
+        const parsedDb = JSON.parse(savedHtmlEdits);
+        const editedProducts = parsedDb[locId]?.products;
+        if (editedProducts && Array.isArray(editedProducts)) {
+          return editedProducts;
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }
+
+  return baseProducts;
 }
 
 export function getProductBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSProduct | null {
@@ -1392,7 +1428,7 @@ export async function getFooter(forcedLocationId?: string): Promise<CMSFooter> {
     shortAbout: isHcm
       ? 'Hoàng Tuấn MPE cung cấp giải pháp sửa chữa điện nước, dò tìm rò rỉ nước siêu âm và lắp đặt camera giám sát chất lượng số 1 tại khu vực TP. Hồ Chí Minh.'
       : 'Hoàng Tuấn MPE cung cấp giải pháp sửa chữa điện nước, dò tìm rò rỉ nước siêu âm và lắp đặt camera giám sát chất lượng số 1 tại khu vực Bảo Lộc, Lâm Đồng.',
-    address: isHcm ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng",
+    address: isHcm ? '528/17 Tô Ngọc Vân, Phường Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao Sire, Phường 3, Bảo Lộc, Lâm Đồng",
     phone: '0389 011 315',
     email: 'hoangtuanmpe@gmail.com',
     workingHours: 'Hỗ trợ 24/7 (Kể cả Chủ Nhật & Ngày Lễ)',
@@ -1551,7 +1587,9 @@ export async function getSeo(path: string, forcedLocationId?: string): Promise<C
             };
           }
         } else if (type === 'blog') {
-          const blg = (LOCALIZED_BLOGS[locId] || []).find(b => b.slug === slug);
+          const locData = (LOCALIZED_BLOGS as any)[locId];
+          const postsList: CMSBlogPost[] = locData && locData.posts ? locData.posts : [];
+          const blg = postsList.find(b => b.slug === slug);
           if (blg) {
             defaultSeo = {
               pagePath: path,
@@ -1614,7 +1652,7 @@ export async function getLocalBusiness(forcedLocationId?: string): Promise<CMSLo
       postalCode: '70000',
       addressCountry: 'VN'
     } : {
-      streetAddress: "279 B'Lao sire",
+      streetAddress: "279 B'Lao Sire",
       addressLocality: 'Phường 3, Bảo Lộc',
       addressRegion: 'Lâm Đồng',
       postalCode: '67000',
@@ -1660,7 +1698,7 @@ export async function getSiteSettings(forcedLocationId?: string): Promise<CMSSit
   const defaultSettings: CMSSiteSettings = LOCALIZED_SITE_SETTINGS[locId] || {
     siteName: 'Hoàng Tuấn MPE',
     tagline: `Điện nước & Camera chính hãng, siêu âm dò tìm rò rỉ nước 24/7 tại ${locName}`,
-    mainHotline: '0389.011.315',
+    mainHotline: '0389 011 315',
     mainZalo: 'https://zalo.me/0389011315',
     headerNotice: `Hỗ trợ khẩn cấp 24/7: Thợ lành nghề có mặt sau 30 phút tại ${locName}!`
   };
@@ -1690,7 +1728,7 @@ export async function getContact(forcedLocationId?: string): Promise<CMSContact>
     contactFields: [
       { icon: 'Phone', label: 'Điện thoại 24/7', val: '0389 011 315', desc: 'Có mặt ngay sau 30 phút' },
       { icon: 'MessageSquare', label: 'Zalo Chat', val: '0389011315', desc: 'Nhận báo giá và khảo sát ảnh tư vấn miễn phí' },
-      { icon: 'MapPin', label: 'Địa chỉ phục vụ', val: isHcm ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng" },
+      { icon: 'MapPin', label: 'Địa chỉ phục vụ', val: isHcm ? '528/17 Tô Ngọc Vân, Phường Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao Sire, Phường 3, Bảo Lộc, Lâm Đồng" },
       { icon: 'Clock', label: 'Giờ làm việc', val: 'Mở cửa 24H ngày đêm, kể cả lễ và Tết nguyên đán' }
     ],
     mapEmbedUrl: isHcm 

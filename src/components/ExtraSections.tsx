@@ -102,7 +102,9 @@ export function FAQSection() {
             >
               <button
                 onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
-                className="w-full text-left p-6 flex justify-between items-center gap-4"
+                aria-expanded={openIdx === idx}
+                aria-controls={`faq-answer-${idx}`}
+                className="w-full text-left p-6 flex justify-between items-center gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
               >
                 <span className={`font-bold transition-colors ${openIdx === idx ? 'text-brand-primary' : 'text-brand-secondary'}`}>
                   {faq.question}
@@ -117,6 +119,7 @@ export function FAQSection() {
               <AnimatePresence initial={false}>
                 {openIdx === idx && (
                   <motion.div
+                    id={`faq-answer-${idx}`}
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}

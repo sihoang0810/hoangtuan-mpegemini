@@ -19,7 +19,7 @@ export const LOCALIZED_FAQS: { [key: string]: CMSFaq[] } = {
     },
     {
       question: "Thời gian thợ có mặt sau cuộc gọi ở Bảo Lộc là bao lâu?",
-      answer: "Dưới 30 phút. Nhờ lợi thế văn phòng chính đặt tại 279 B'Lao sire, Phường 3, thợ di chuyển rất nhanh đến các khu vực Phường 1, Phường 2, Lộc Sơn, Blao, Lộc Tiến, B'Lao, Lộc Nga và ranh giới Bảo Lâm.",
+      answer: "Dưới 30 phút. Nhờ lợi thế văn phòng chính đặt tại 279 B'Lao Sire, Phường 3, thợ di chuyển rất nhanh đến các khu vực Phường 1, Phường 2, Lộc Sơn, Blao, Lộc Tiến, B'Lao, Lộc Nga và ranh giới Bảo Lâm.",
       category: "Thời Gian Đáp Ứng"
     },
     {
@@ -94,7 +94,7 @@ export const LOCALIZED_FAQS: { [key: string]: CMSFaq[] } = {
     },
     {
       question: "Tôi có thể liên hệ bảo hành dịch vụ thông qua kênh nào?",
-      answer: "Bất kể lúc nào bạn cũng có thể gọi trực tiếp hotline 0389.011.315 hoặc quét mã Zalo in trên hóa đơn dịch vụ của chúng tôi để yêu cầu bảo hành tận tâm nhanh nhất.",
+      answer: "Bất kể lúc nào bạn cũng có thể gọi trực tiếp hotline 0389 011 315 hoặc quét mã Zalo in trên hóa đơn dịch vụ của chúng tôi để yêu cầu bảo hành tận tâm nhanh nhất.",
       category: "Bảo Hành"
     },
     {

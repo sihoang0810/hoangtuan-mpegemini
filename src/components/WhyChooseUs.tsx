@@ -1,16 +1,39 @@
 import { motion } from 'motion/react';
 import { WHY_CHOOSE_US } from '../constants';
+import InlineEdit from './InlineEdit';
 
-export default function WhyChooseUs({ cmsData }: { cmsData?: any }) {
-  const heading = cmsData?.heading || "Tại Sao Chọn Chúng Tôi";
-  const subheading = cmsData?.subheading || "Dịch Vụ Uy Tín, Chất Lượng Hàng Đầu";
+export default function WhyChooseUs({ 
+  cmsData,
+  isEditable = false,
+  onUpdateDraftField
+}: { 
+  cmsData?: any;
+  isEditable?: boolean;
+  onUpdateDraftField?: (field: string, value: any) => void;
+}) {
+  const heading = cmsData?.whyChooseUsTitle !== undefined ? cmsData.whyChooseUsTitle : (cmsData?.heading || "Tại Sao Chọn Chúng Tôi");
+  const subheading = cmsData?.whyChooseUsSubtitle !== undefined ? cmsData.whyChooseUsSubtitle : (cmsData?.subheading || "Dịch Vụ Uy Tín, Chất Lượng Hàng Đầu");
 
   return (
     <section className="section-container bg-slate-50">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
         <div>
-          <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">{heading}</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-brand-secondary mb-8" dangerouslySetInnerHTML={{ __html: subheading.replace(/\n/g, '<br />') }} />
+          <InlineEdit 
+            value={heading}
+            isEditable={isEditable}
+            onSave={(val) => onUpdateDraftField?.('whyChooseUsTitle', val)}
+            className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs block"
+            element="p"
+          />
+          
+          <InlineEdit 
+            value={subheading}
+            isEditable={isEditable}
+            onSave={(val) => onUpdateDraftField?.('whyChooseUsSubtitle', val)}
+            className="text-3xl md:text-4xl font-bold text-brand-secondary mb-8 block"
+            element="h2"
+            multiline={true}
+          />
 
           <p className="text-lg text-slate-600 mb-10 leading-relaxed">
             Chúng tôi hiểu rằng sự cố điện nước có thể gây ra nhiều phiền toái. 
@@ -43,8 +66,8 @@ export default function WhyChooseUs({ cmsData }: { cmsData?: any }) {
         <div className="relative">
           <div className="aspect-[4/5] bg-brand-primary/10 rounded-3xl overflow-hidden shadow-2xl relative">
             <img 
-              src="/images/og-default.jpg" 
-              alt="Repair professional" 
+              src="https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=800" 
+              alt="Thợ sửa chữa chuyên nghiệp đang thi công" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
               loading="lazy"

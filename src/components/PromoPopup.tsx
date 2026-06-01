@@ -62,7 +62,8 @@ export default function PromoPopup() {
             {/* Close Button */}
             <button
               onClick={() => setIsVisible(false)}
-              className="absolute top-4 right-4 z-20 w-10 h-10 bg-white/80 hover:bg-white text-slate-800 rounded-full flex items-center justify-center shadow-md transition-all border border-slate-100 hover:scale-105 active:scale-95"
+              aria-label="Đóng bảng quảng cáo"
+              className="absolute top-4 right-4 z-20 w-10 h-10 bg-white/80 hover:bg-white text-slate-800 rounded-full flex items-center justify-center shadow-md transition-all border border-slate-100 hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
             >
               <X size={20} />
             </button>
@@ -107,7 +108,7 @@ export default function PromoPopup() {
               >
                 {popup.ctaText || 'Nhận ưu đãi'}
               </a>
-              <p className="text-[10px] text-slate-400 font-medium uppercase tracking-[0.1em] mt-3">
+              <p className="text-[10px] text-slate-500 font-medium uppercase tracking-[0.1em] mt-3">
                 * Ưu đãi áp dụng có giới hạn trong tuần
               </p>
             </div>

@@ -14,7 +14,7 @@ interface BreadcrumbsProps {
 
 export default function Breadcrumbs({ items, homeHref = '/' }: BreadcrumbsProps) {
   return (
-    <nav className="flex items-center gap-2 text-sm font-bold text-slate-400 overflow-x-auto whitespace-nowrap pb-1 no-scrollbar">
+    <nav className="flex items-center gap-2 text-sm font-bold text-slate-500 overflow-x-auto whitespace-nowrap pb-1 no-scrollbar">
       <Link to={homeHref} className="hover:text-brand-primary transition-colors flex items-center gap-1">
         <Home size={14} />
       </Link>

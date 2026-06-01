@@ -1,9 +1,10 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
-  --color-brand-primary: #0EA5E9;
+  --color-brand-primary: #0284c7;
   --color-brand-secondary: #0F172A;
-  --color-brand-accent: #F97316;
+  --color-brand-accent: #ea580c;
   
   --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
 }

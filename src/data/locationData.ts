@@ -27,8 +27,8 @@ export const locationData: Record<'bao-loc' | 'ho-chi-minh', LocationSpecificDet
       title: "Dịch Vụ Sửa Điện Nước, Lắp Camera Bảo Lộc",
       subtitle: "Khắc phục triệt để sự cố điện nước khẩn cấp tại Lâm Đồng. Đội ngũ thợ trực chiến 24/7 có mặt sau 30 phút!"
     },
-    address: "279 B'Lao sire, Phường 3, Bảo Lộc, Lâm Đồng",
-    phone: "0389011315",
+    address: "279 B'Lao Sire, Phường 3, Bảo Lộc, Lâm Đồng",
+    phone: "0389 011 315",
     email: "hoangtuanmpe@gmail.com",
     tiktokUrl: "https://www.tiktok.com/@diennuoccamerabaoloc",
     workingHours: "Thứ 2 - Chủ Nhật (Hotline cứu hộ trực ngày đêm 24/7)",
@@ -44,8 +44,8 @@ export const locationData: Record<'bao-loc' | 'ho-chi-minh', LocationSpecificDet
       title: "Dịch Vụ Sửa Điện Nước, Siêu Âm Dò Rò Rỉ TPHCM",
       subtitle: "Công nghệ rà tìm rò rỉ nước ngầm chuyên nghiệp tại Hồ Chí Minh, xử lý tận gốc tình trạng mất nước và hóa đơn vọt triệu."
     },
-    address: "528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh",
-    phone: "0389011315",
+    address: "528/17 Tô Ngọc Vân, Phường Tam Bình, Thủ Đức, TP. Hồ Chí Minh",
+    phone: "0389 011 315",
     email: "hoangtuanmpe@gmail.com",
     tiktokUrl: "https://www.tiktok.com/@diennuoccamerabaoloc",
     workingHours: "Thứ 2 - Chủ Nhật (Hotline cứu hộ trực ngày đêm 24/7)",

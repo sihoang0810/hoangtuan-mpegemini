@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getServices, getServicesSync, getHomepageContent, getHomepageContentSync, getIconComponent, CMSService, CMSHomepage } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
+import InlineEdit from './InlineEdit';
 
-export default function Services({ cmsData }: { cmsData?: any }) {
+export default function Services({ 
+  cmsData,
+  isEditable = false,
+  onUpdateDraftField,
+  onUpdateServiceField
+}: { 
+  cmsData?: any;
+  isEditable?: boolean;
+  onUpdateDraftField?: (field: string, value: any) => void;
+  onUpdateServiceField?: (serviceId: string, field: string, value: string) => void;
+}) {
   const { locationSlug } = useLocation();
+  const navigate = useNavigate();
   const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationSlug));
   const [homepageContent, setHomepageContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationSlug));
   const [showAll, setShowAll] = useState(false);
@@ -36,9 +48,15 @@ export default function Services({ cmsData }: { cmsData?: any }) {
     };
   }, [locationSlug]);
 
-  const displayedServices = showAll ? services : services.slice(0, 6);
-  const servicesHeading = cmsData?.heading || homepageContent.servicesHeading || "Dịch Vụ Của Chúng Tôi";
-  const servicesSubtitle = cmsData?.subheading || homepageContent.servicesSubtitle || "Giải Pháp Toàn Diện Cho Gia Đình";
+  const activeServices = cmsData?.services || services;
+  const sortedServices = [...activeServices].sort((a, b) => {
+    const aPinned = (a as any).isPinned ? 1 : 0;
+    const bPinned = (b as any).isPinned ? 1 : 0;
+    return bPinned - aPinned;
+  });
+  const displayedServices = showAll ? sortedServices : sortedServices.slice(0, 6);
+  const servicesHeading = cmsData?.servicesHeading !== undefined ? cmsData.servicesHeading : (cmsData?.heading || homepageContent.servicesHeading || "Dịch Vụ Của Chúng Tôi");
+  const servicesSubtitle = cmsData?.servicesSubtitle !== undefined ? cmsData.servicesSubtitle : (cmsData?.subheading || homepageContent.servicesSubtitle || "Giải Pháp Toàn Diện Cho Gia Đình");
 
   const ServiceSkeleton = () => (
     <div className="animate-pulse p-8 rounded-2xl bg-white border border-slate-100 shadow-xl flex flex-col h-full">
@@ -56,16 +74,29 @@ export default function Services({ cmsData }: { cmsData?: any }) {
   return (
     <section id="services" className="section-container bg-white">
       <div className="text-center mb-16">
-        <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">
-          {servicesHeading}
-        </p>
-        <h2 className="text-3xl md:text-5xl font-bold text-brand-secondary uppercase tracking-tighter">
-          {servicesSubtitle}
-        </h2>
+        <div className="inline-block">
+          <InlineEdit 
+            value={servicesHeading}
+            isEditable={isEditable}
+            onSave={(val) => onUpdateDraftField?.('servicesHeading', val)}
+            className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs block"
+            element="p"
+          />
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <InlineEdit 
+            value={servicesSubtitle}
+            isEditable={isEditable}
+            onSave={(val) => onUpdateDraftField?.('servicesSubtitle', val)}
+            className="text-3xl md:text-5xl font-bold text-brand-secondary uppercase tracking-tighter block"
+            element="h2"
+            multiline={true}
+          />
+        </div>
       </div>
 
 
-      {services.length === 0 ? (
+      {activeServices.length === 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {Array.from({ length: 6 }).map((_, idx) => (
             <ServiceSkeleton key={idx} />
@@ -82,13 +113,35 @@ export default function Services({ cmsData }: { cmsData?: any }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: Math.min((index % 3) * 0.05, 0.15), duration: 0.3 }}
-                className="group p-8 rounded-2xl bg-white border border-slate-100 shadow-xl shadow-slate-100 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all hover:-translate-y-2 flex flex-col h-full"
+                onClick={(e) => {
+                  if (isEditable) return;
+                  // If they clicked an inline edit field or link, let it handle itself
+                  if ((e.target as HTMLElement).tagName === 'A' || (e.target as HTMLElement).tagName === 'BUTTON') return;
+                  navigate(`/${locationSlug}/dich-vu/${service.slug}`);
+                }}
+                className={`group p-8 rounded-2xl bg-white border border-slate-100 shadow-xl shadow-slate-100 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all hover:-translate-y-2 flex flex-col h-full ${!isEditable ? 'cursor-pointer' : ''}`}
               >
                 <div className="w-14 h-14 bg-brand-primary/10 text-brand-primary rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:text-white transition-colors">
                   <IconComponent size={28} />
                 </div>
-                <h4 className="text-xl font-bold text-brand-secondary mb-3">{service.title}</h4>
-                <p className="text-slate-600 mb-6 line-clamp-3" dangerouslySetInnerHTML={{ __html: service.shortDescription || '' }} />
+                
+                <InlineEdit 
+                  value={service.title}
+                  isEditable={isEditable}
+                  onSave={(val) => onUpdateServiceField?.(service.id, 'title', val)}
+                  className="text-xl font-bold text-brand-secondary mb-3 block"
+                  element="h4"
+                />
+
+                <InlineEdit 
+                  value={service.shortDescription || ''}
+                  isEditable={isEditable}
+                  onSave={(val) => onUpdateServiceField?.(service.id, 'shortDescription', val)}
+                  className="text-slate-600 mb-6 line-clamp-3 block"
+                  element="p"
+                  multiline={true}
+                />
+                
                 <Link 
                   to={`/${locationSlug}/dich-vu/${service.slug}`}
                   className="flex items-center gap-2 font-bold text-brand-primary group-hover:gap-3 transition-all mt-auto"
@@ -102,7 +155,7 @@ export default function Services({ cmsData }: { cmsData?: any }) {
         </div>
       )}
 
-      {!showAll && services.length > 6 && (
+      {!showAll && activeServices.length > 6 && (
         <div className="mt-12 text-center">
           <button 
             onClick={() => setShowAll(true)}

@@ -6,7 +6,7 @@ export interface BlogPost {
   title: string;
   excerpt: string;
   content: string;
-  category: 'Điện' | 'Nước' | 'Camera' | 'Dò Tìm';
+  category: string;
   date: string;
   author: {
     name: string;

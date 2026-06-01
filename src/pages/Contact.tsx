@@ -52,7 +52,7 @@ export default function Contact() {
   const fields = data?.contactFields || [
     { icon: 'Phone', label: 'Hotline Kỹ Thuật (24/7)', val: '0389 011 315', desc: 'Có mặt ngay sau 30 phút' },
     { icon: 'Mail', label: 'Email Hỗ Trợ', val: 'hoangtuanmpe@gmail.com', desc: 'Phản hồi chi tiết cực nhanh' },
-    { icon: 'MapPin', label: 'Trụ sở phục vụ', val: (locationSlug === 'ho-chi-minh') ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao, Phường 3, Bảo Lộc, Lâm Đồng", desc: (locationSlug === 'ho-chi-minh') ? 'Chi nhánh Hồ Chí Minh phục vụ 24/7' : 'Trụ sở chính Bảo Lộc phục vụ 24/7' },
+    { icon: 'MapPin', label: 'Trụ sở phục vụ', val: (locationSlug === 'ho-chi-minh') ? '528/17 Tô Ngọc Vân, Phường Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao Sire, Phường 3, Bảo Lộc, Lâm Đồng", desc: (locationSlug === 'ho-chi-minh') ? 'Chi nhánh Hồ Chí Minh phục vụ 24/7' : 'Trụ sở chính Bảo Lộc phục vụ 24/7' },
     { icon: 'Clock', label: 'Giờ làm việc', val: '24/7/365', desc: 'Làm việc cả ngày lễ & chủ nhật' },
   ];
 
@@ -74,7 +74,7 @@ export default function Contact() {
                       <IconComponent size={28} />
                     </div>
                     <div>
-                      <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">{item.label}</span>
+                      <span className="block text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">{item.label}</span>
                       <span className="block text-xl font-bold text-brand-secondary mb-1">{item.val}</span>
                       {item.desc && <span className="block text-slate-500 text-sm font-medium">{item.desc}</span>}
                     </div>
@@ -118,7 +118,7 @@ export default function Contact() {
                    <Send size={24} />
                    {submitting ? 'Đang gửi...' : 'Gửi Yêu Cầu Qua Zalo'}
                  </button>
-                 <p className="text-xs text-center text-slate-400">Hoặc gọi trực tiếp: <a href="tel:0389011315" className="text-brand-primary font-bold">0389 011 315</a> (24/7)</p>
+                 <p className="text-xs text-center text-slate-500">Hoặc gọi trực tiếp: <a href="tel:0389011315" className="text-brand-primary font-bold">0389 011 315</a> (24/7)</p>
                </form>
              )}
           </div>

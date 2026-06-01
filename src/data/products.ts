@@ -4,12 +4,12 @@ export interface Product {
   id: string;
   slug: string;
   name: string;
-  category: 'electrical' | 'plumbing' | 'camera' | 'leak-detection';
+  category: 'electrical' | 'plumbing' | 'camera' | 'leak-detection' | 'detection';
   description: string;
   price: string;
   image: string;
-  features: string[];
-  specs: { [key: string]: string };
+  features?: string[];
+  specs?: { [key: string]: string };
 }
 
 export const PRODUCT_CATEGORIES = [

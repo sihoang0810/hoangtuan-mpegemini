@@ -45,8 +45,8 @@ export default function Footer() {
     .replace(/Công ty/gi, 'Dịch vụ');
 
   const address = footerData?.address || (locationSlug === 'ho-chi-minh'
-    ? '528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh'
-    : "279 B'Lao, Phường 3, Bảo Lộc, Lâm Đồng");
+    ? '528/17 Tô Ngọc Vân, Phường Tam Bình, Thủ Đức, TP. Hồ Chí Minh'
+    : "279 B'Lao Sire, Phường 3, Bảo Lộc, Lâm Đồng");
   const phone = footerData?.phone || '0389 011 315';
   const email = footerData?.email || 'hoangtuanmpe@gmail.com';
   const facebookUrl = footerData?.socialLinks?.facebook || 'https://facebook.com';
@@ -89,7 +89,7 @@ export default function Footer() {
               </div>
               <span className="font-bold text-xl text-white uppercase tracking-tighter group-hover:text-brand-primary transition-colors">{companyName}</span>
             </div>
-            <p className="text-slate-400 leading-relaxed text-sm font-medium">
+            <p className="text-slate-500 leading-relaxed text-sm font-medium">
               {shortAbout}
             </p>
             <div className="flex gap-4">
@@ -158,18 +158,15 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+          <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
           <p>{copyrightText}</p>
-          <div className="flex gap-8">
-            <button 
-              onClick={changeLocation} 
-              className="hover:text-brand-primary transition-colors cursor-pointer text-left focus:outline-none"
-            >
-              Đổi khu vực ({locationSlug || 'Chưa chọn'})
-            </button>
-            <Link to={`${siteLocationPrefix}/dieu-khoan`} className="hover:text-brand-primary transition-colors">Điều khoản dịch vụ</Link>
-            <Link to={`${siteLocationPrefix}/bao-mat`} className="hover:text-brand-primary transition-colors">Chính sách bảo mật</Link>
-            <Link to="/studio" className="hover:text-emerald-400 transition-colors font-semibold flex items-center gap-1"><span className="text-xs">⚡</span> Sanity Studio</Link>
+          <div className="flex gap-8 items-center flex-wrap justify-center">
+            <span className="text-slate-600 hidden lg:inline-block">Khu vực:</span>
+            <Link to="/ho-chi-minh" className="hover:text-brand-primary transition-colors font-medium">TP. Hồ Chí Minh</Link>
+            <Link to="/bao-loc" className="hover:text-brand-primary transition-colors font-medium">Bảo Lộc</Link>
+            <span className="w-1 h-1 bg-slate-700 rounded-full hidden md:block"></span>
+            <Link to={`${siteLocationPrefix}/dieu-khoan`} className="hover:text-brand-primary transition-colors">Điều khoản</Link>
+            <Link to={`${siteLocationPrefix}/bao-mat`} className="hover:text-brand-primary transition-colors">Bảo mật</Link>
           </div>
         </div>
       </div>

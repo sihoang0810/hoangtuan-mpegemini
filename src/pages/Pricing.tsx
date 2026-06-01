@@ -4,21 +4,22 @@ import { SERVICES } from '../data/services';
 import FinalCTA from '../components/FinalCTA';
 import { FAQSection } from '../components/ExtraSections';
 import { BadgeCheck, Zap, Droplet, Video, Search } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { getServices, getServicesSync, CMSService } from '../lib/sanity';
 import PageSEO from '../components/PageSEO';
 import { useLocation } from '../context/LocationContext';
 
 const PRICE_CATEGORIES = [
-  { id: 'electrical', title: 'Điện dân dụng', icon: Zap, color: 'bg-blue-500' },
-  { id: 'plumbing', title: 'Nước dân dụng', icon: Droplet, color: 'bg-cyan-500' },
-  { id: 'camera', title: 'Camera an ninh', icon: Video, color: 'bg-indigo-500' },
-  { id: 'detection', title: 'Siêu âm dò tìm', icon: Search, color: 'bg-amber-500' },
+  { id: 'electrical', title: 'Điện dân dụng', icon: Zap, color: 'bg-blue-500', textColor: 'text-blue-500' },
+  { id: 'plumbing', title: 'Nước dân dụng', icon: Droplet, color: 'bg-cyan-500', textColor: 'text-cyan-500' },
+  { id: 'camera', title: 'Camera an ninh', icon: Video, color: 'bg-indigo-500', textColor: 'text-indigo-500' },
+  { id: 'detection', title: 'Siêu âm dò tìm', icon: Search, color: 'bg-amber-500', textColor: 'text-amber-500' },
 ];
 
 export default function Pricing() {
   const { locationSlug } = useLocation();
   const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationSlug));
+  const [activeTab, setActiveTab] = useState(PRICE_CATEGORIES[0].id);
 
   useEffect(() => {
     let active = true;
@@ -36,7 +37,7 @@ export default function Pricing() {
     <div id="pricing" className="pt-24 md:pt-32">
       <PageSEO pageType="general" />
       <section className="section-container bg-white">
-        <div className="text-center mb-20">
+        <div className="text-center mb-16">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -52,53 +53,82 @@ export default function Pricing() {
           </p>
         </div>
 
-        <div className="space-y-16">
-          {PRICE_CATEGORIES.map((cat, i) => (
-            <motion.div 
-              key={cat.id} 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-[3rem] p-4 md:p-1 border border-slate-100 shadow-2xl shadow-slate-200/50"
+        {/* Tabs Row */}
+        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8 overflow-x-auto pb-4 no-scrollbar">
+          {PRICE_CATEGORIES.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveTab(cat.id)}
+              className={`flex items-center justify-center gap-3 px-6 py-4 rounded-2xl font-bold whitespace-nowrap transition-all sm:flex-1 min-w-[200px] border focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary ${
+                activeTab === cat.id 
+                  ? 'bg-brand-primary text-white border-brand-primary shadow-xl shadow-brand-primary/20 scale-105 sm:scale-100' 
+                  : 'bg-white text-slate-600 border-slate-100 hover:bg-slate-50 hover:border-slate-300'
+              }`}
             >
-              <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-12">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-                  <div className="flex items-center gap-6">
-                    <div className={`w-16 h-16 ${cat.color} rounded-2xl flex items-center justify-center text-white shadow-xl shadow-slate-200`}>
-                      <cat.icon size={32} />
-                    </div>
-                    <div>
-                      <h2 className="text-3xl font-bold text-brand-secondary uppercase">{cat.title}</h2>
-                      <p className="text-slate-400 font-bold text-xs uppercase tracking-widest mt-1">Hỗ trợ 24/7 • Bảo hành 12 tháng</p>
-                    </div>
-                  </div>
-                  <a href="tel:0389011315" className="bg-brand-primary text-white px-8 py-3 rounded-xl font-bold hover:scale-105 transition-all text-center">
-                    Nhận báo giá
-                  </a>
-                </div>
-                
-                <div className="grid lg:grid-cols-2 gap-8">
-                  {priceItems.filter(s => s.category === cat.id).map(service => (
-                    <div key={service.id} className="bg-white p-8 rounded-3xl border border-slate-100 group hover:border-brand-primary/30 transition-all">
-                      <h3 className="text-xl font-bold text-brand-secondary mb-6 pb-4 border-b border-slate-50 flex justify-between items-center">
-                        {service.title}
-                        <div className="w-1.5 h-1.5 bg-brand-primary rounded-full" />
-                      </h3>
-                      <div className="space-y-4">
-                        {service.pricing.map((p, idx) => (
-                          <div key={idx} className="flex justify-between items-center gap-4 group/row">
-                            <span className="text-slate-600 font-bold text-sm group-hover/row:text-brand-primary transition-colors">{p.item}</span>
-                            <div className="flex-grow border-b border-dotted border-slate-200" />
-                            <span className="text-brand-primary font-bold text-sm whitespace-nowrap bg-brand-primary/5 px-3 py-1 rounded-lg">{p.price}</span>
-                          </div>
-                        ))}
+              <div className={`${activeTab === cat.id ? 'text-white' : cat.textColor} transition-colors`}>
+                <cat.icon size={24} />
+              </div>
+              <span className="uppercase text-sm tracking-widest">{cat.title}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Content Area */}
+        <div className="bg-white rounded-[3rem] p-4 md:p-1 border border-slate-100 shadow-2xl shadow-slate-200/50 min-h-[400px]">
+          <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden">
+            <AnimatePresence mode="wait">
+              {PRICE_CATEGORIES.map(cat => cat.id === activeTab && (
+                <motion.div
+                  key={cat.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+                    <div className="flex items-center gap-6">
+                      <div className={`w-16 h-16 ${cat.color} rounded-2xl flex items-center justify-center text-white shadow-xl shadow-slate-200`}>
+                        <cat.icon size={32} />
+                      </div>
+                      <div>
+                        <h2 className="text-3xl font-bold text-brand-secondary uppercase">{cat.title}</h2>
+                        <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">Hỗ trợ 24/7 • Bảo hành 12 tháng</p>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                    <a href="tel:0389011315" className="bg-brand-primary text-white px-8 py-3 rounded-xl font-bold hover:scale-105 transition-all text-center whitespace-nowrap">
+                      Nhận báo giá
+                    </a>
+                  </div>
+                  
+                  <div className="grid lg:grid-cols-2 gap-8">
+                    {priceItems.filter(s => s.category === cat.id).map(service => (
+                      <div key={service.id} className="bg-white p-8 rounded-3xl border border-slate-100 group hover:border-brand-primary/30 transition-all shadow-sm shadow-slate-100">
+                        <h3 className="text-xl font-bold text-brand-secondary mb-6 pb-4 border-b border-slate-50 flex justify-between items-center">
+                          {service.title}
+                          <div className="w-1.5 h-1.5 bg-brand-primary rounded-full transition-transform group-hover:scale-150" />
+                        </h3>
+                        <div className="space-y-4">
+                          {service.pricing.map((p, idx) => (
+                            <div key={idx} className="flex justify-between items-center gap-4 group/row">
+                              <span className="text-slate-600 font-bold text-sm group-hover/row:text-brand-primary transition-colors">{p.item}</span>
+                              <div className="flex-grow border-b border-dotted border-slate-200 group-hover/row:border-brand-primary/30 transition-colors" />
+                              <span className="text-brand-primary font-bold text-sm whitespace-nowrap bg-brand-primary/5 px-3 py-1 rounded-lg border border-brand-primary/10">{p.price}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {priceItems.filter(s => s.category === cat.id).length === 0 && (
+                      <div className="col-span-1 lg:col-span-2 text-center py-12 text-slate-500 font-medium bg-white rounded-3xl border border-slate-100">
+                        Chưa có dữ liệu bảng giá cho hạng mục này. Vui lòng liên hệ để được bão giá trực tiếp.
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
 
         <div className="mt-20 bg-brand-primary text-white p-12 md:p-20 rounded-[4rem] text-center relative overflow-hidden shadow-2xl shadow-brand-primary/30">
@@ -118,7 +148,7 @@ export default function Pricing() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <a href="tel:0389011315" className="w-full sm:w-auto bg-brand-secondary text-white text-2xl px-12 py-6 rounded-2xl font-bold hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase">
-                Gọi Ngay: 0389.011.315
+                Gọi Ngay: 0389 011 315
               </a>
               <a href="https://zalo.me/0389011315" className="w-full sm:w-auto bg-white text-brand-primary text-2xl px-12 py-6 rounded-2xl font-bold hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase">
                 Hotline Zalo

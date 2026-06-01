@@ -97,7 +97,7 @@ export default function BlogDetail() {
           <Breadcrumbs 
             items={[
               { label: 'Blog', href: `${siteLocationPrefix}/blog` },
-              { label: post.title, active: true }
+              { label: post?.title || 'Bài viết', active: true }
             ]} 
             homeHref={siteLocationPrefix}
           />
@@ -114,32 +114,32 @@ export default function BlogDetail() {
             >
               <div className="flex items-center gap-3 text-brand-primary font-bold uppercase text-xs tracking-widest mb-6">
                 <Hash size={14} />
-                {post.category}
+                {post?.category || 'Chưa phân loại'}
               </div>
               
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-brand-secondary mb-8 leading-[1.1] tracking-tighter uppercase">
-                {post.title}
+                {post?.title || 'Đang cập nhật'}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-6 py-6 border-y border-slate-100 mb-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
+              <div className="flex flex-wrap items-center gap-6 py-6 border-y border-slate-100 mb-10 text-sm font-bold text-slate-500 uppercase tracking-widest">
                 <div className="flex items-center gap-2">
                   <User size={16} className="text-brand-primary" />
-                  <span className="text-brand-secondary">{post.author?.name || 'Hoàng Tuấn MPE'}</span>
+                  <span className="text-brand-secondary">{post?.author?.name || 'Hoàng Tuấn MPE'}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar size={16} className="text-brand-primary" />
-                  {post.date}
+                  {post?.date || 'Đang cập nhật'}
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock size={16} className="text-brand-primary" />
-                  {post.readTime}
+                  {post?.readTime || ''}
                 </div>
               </div>
 
               <div className="aspect-video bg-slate-100 rounded-[3rem] overflow-hidden mb-12 shadow-2xl shadow-slate-200">
                 <img 
-                  src={post.image} 
-                  alt={post.title} 
+                  src={post?.image || 'https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=1200'} 
+                  alt={post?.title || 'Bài viết'} 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -160,7 +160,7 @@ export default function BlogDetail() {
 
               {/* Real Content Rendering */}
               <div className="prose prose-lg max-w-none prose-slate prose-headings:text-brand-secondary prose-headings:font-bold prose-headings:uppercase prose-headings:tracking-tighter prose-strong:text-brand-secondary prose-a:text-brand-primary prose-img:rounded-[2rem] blog-content">
-                <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                <div dangerouslySetInnerHTML={{ __html: post?.content || '<p>Nội dung đang được cập nhật...</p>' }} />
                 
                 {/* FAQ specific to blog */}
                 <div className="mt-20 p-10 bg-brand-secondary rounded-[3rem] text-white">
@@ -188,15 +188,15 @@ export default function BlogDetail() {
                   ))}
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Chia sẻ:</span>
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Chia sẻ:</span>
                   <div className="flex gap-2">
-                    <button className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 hover:bg-brand-primary hover:text-white transition-all">
+                    <button aria-label="Chia sẻ qua Facebook" className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-500 hover:bg-brand-primary hover:text-white transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary">
                       <Facebook size={18} />
                     </button>
-                    <button className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 hover:bg-brand-primary hover:text-white transition-all">
+                    <button aria-label="Chia sẻ qua Twitter" className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-500 hover:bg-brand-primary hover:text-white transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary">
                       <Twitter size={18} />
                     </button>
-                    <button className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 hover:bg-brand-primary hover:text-white transition-all">
+                    <button aria-label="Sao chép liên kết" className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-500 hover:bg-brand-primary hover:text-white transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary">
                       <LinkIcon size={18} />
                     </button>
                   </div>
@@ -252,7 +252,7 @@ export default function BlogDetail() {
                 <p className="text-white/60 text-sm mb-8 leading-relaxed">Có mặt sau 30 phút tại {locationSlug || 'Bảo Lộc'}. Kiểm tra khảo sát hoàn toàn miễn phí.</p>
                 <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20 tracking-tight">
                   <Phone size={20} />
-                  0389.011.315
+                  0389 011 315
                 </a>
               </div>
             </div>

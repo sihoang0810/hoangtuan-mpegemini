@@ -20,8 +20,14 @@ const Blog = () => {
     };
   }, [locationSlug]);
 
-  // Take latest 3 posts
-  const recentPosts = posts.slice(0, 3);
+  // Take latest 3 posts, checking for pinned highlights first
+  const recentPosts = [...posts]
+    .sort((a, b) => {
+      const aPinned = (a as any).isPinned ? 1 : 0;
+      const bPinned = (b as any).isPinned ? 1 : 0;
+      return bPinned - aPinned;
+    })
+    .slice(0, 3);
 
 
   return (

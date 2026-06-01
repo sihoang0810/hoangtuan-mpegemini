@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
           <p className="text-slate-500 font-medium text-base md:text-lg">
             Cam kết tôn trọng quyền riêng tư, bảo mật thông tin liên lạc và dữ liệu thực tế tại thực địa của bà con khách hàng Việt Nam.
           </p>
-          <div className="flex flex-wrap gap-4 mt-6 text-xs text-slate-400 font-mono">
+          <div className="flex flex-wrap gap-4 mt-6 text-xs text-slate-500 font-mono">
             <span className="flex items-center gap-1.5">
               <Calendar size={14} />
               Cập nhật lần cuối: 24/05/2026
@@ -192,15 +192,15 @@ export default function PrivacyPolicy() {
                 <ul className="list-none pl-0 space-y-1.5 font-medium">
                   <li>• Điện thoại tiếp nhận: <a href="tel:0389011315" className="text-brand-primary font-bold hover:underline">0389 011 315</a> (Hoạt động cả chủ nhật và ngày lễ)</li>
                   <li>• Thư điện tử: <a href="mailto:hoangtuanmpe@gmail.com" className="text-brand-primary font-bold hover:underline">hoangtuanmpe@gmail.com</a></li>
-                  <li>• Văn phòng Bảo Lộc: 279 B'Lao, Phường 3, Bảo Lộc, Lâm Đồng</li>
-                  <li>• Văn phòng TP.HCM: 528/17 Tô Ngọc Vân, Tam Bình, Thủ Đức, TP. Hồ Chí Minh</li>
+                  <li>• Văn phòng Bảo Lộc: 279 B'Lao Sire, Phường 3, Bảo Lộc, Lâm Đồng</li>
+                  <li>• Văn phòng TP.HCM: 528/17 Tô Ngọc Vân, Phường Tam Bình, Thủ Đức, TP. Hồ Chí Minh</li>
                 </ul>
               </div>
             </section>
 
           </div>
 
-          <div className="mt-12 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-medium">
+          <div className="mt-12 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
             <span>© {currentYear} Hoàng Tuấn MPE. Tài liệu bảo vệ quyền riêng tư người tiêu dùng dịch vụ kỹ thuật.</span>
             <div className="flex gap-4">
               <a href="#top" className="text-brand-primary hover:underline">Về đầu trang</a>

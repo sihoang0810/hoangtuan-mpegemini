@@ -201,11 +201,18 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                         mass: 0.8,
                       }}
                       onClick={() => {
-                        if (!isCenter) {
+                        if (!isCenter) setActiveIndex(idx);
+                      }}
+                      onKeyDown={(e) => {
+                        if ((e.key === 'Enter' || e.key === ' ') && !isCenter) {
+                          e.preventDefault();
                           setActiveIndex(idx);
                         }
                       }}
-                      className={`w-[360px] p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between h-[360px] cursor-pointer select-none transition-colors duration-300 ${
+                      tabIndex={isCenter ? -1 : 0}
+                      role="button"
+                      aria-label={`Xem đánh giá của ${testimonial.name}`}
+                      className={`w-[360px] p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between h-[360px] cursor-pointer select-none transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-brand-primary ${
                         isCenter
                           ? 'bg-white border-2 border-brand-primary ring-8 ring-brand-primary/5'
                           : 'bg-white/75 border border-slate-100 hover:bg-white hover:opacity-100'
@@ -233,7 +240,7 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                         </div>
 
                         <p className={`mb-6 leading-relaxed font-semibold italic relative z-10 text-sm xl:text-base transition-colors duration-300 ${
-                          isCenter ? 'text-slate-700' : 'text-slate-400'
+                          isCenter ? 'text-slate-700' : 'text-slate-500'
                         }`}>
                           "{testimonial.review}"
                         </p>
@@ -243,7 +250,7 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                         <TestimonialAvatar src={testimonial.avatar} name={testimonial.name} />
                         <div>
                           <h4 className="font-extrabold text-brand-secondary leading-tight text-sm xl:text-base">{testimonial.name}</h4>
-                          <p className="text-[10px] xl:text-xs text-slate-400 font-bold mt-1 tracking-wider uppercase">{testimonial.role}</p>
+                          <p className="text-[10px] xl:text-xs text-slate-500 font-bold mt-1 tracking-wider uppercase">{testimonial.role}</p>
                         </div>
                       </div>
                     </motion.div>
@@ -285,7 +292,7 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                     <TestimonialAvatar src={testimonials[activeIndex].avatar} name={testimonials[activeIndex].name} />
                     <div>
                       <h4 className="font-extrabold text-brand-secondary leading-tight">{testimonials[activeIndex].name}</h4>
-                      <p className="text-xs text-slate-400 font-bold mt-0.5 uppercase tracking-wider">{testimonials[activeIndex].role}</p>
+                      <p className="text-xs text-slate-500 font-bold mt-0.5 uppercase tracking-wider">{testimonials[activeIndex].role}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -298,15 +305,15 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 justify-between items-center px-2 md:px-4 hidden sm:flex pointer-events-none z-30">
             <button 
               onClick={handlePrev}
-              aria-label="Previous review"
-              className="w-12 h-12 rounded-full bg-white hover:bg-brand-primary text-slate-700 hover:text-white flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all pointer-events-auto cursor-pointer border border-slate-100"
+              aria-label="Đánh giá trước đó"
+              className="w-12 h-12 rounded-full bg-white hover:bg-brand-primary text-slate-700 hover:text-white flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all pointer-events-auto cursor-pointer border border-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
             >
               <ChevronLeft size={24} />
             </button>
             <button 
               onClick={handleNext}
-              aria-label="Next review"
-              className="w-12 h-12 rounded-full bg-white hover:bg-brand-primary text-slate-700 hover:text-white flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all pointer-events-auto cursor-pointer border border-slate-100"
+              aria-label="Đánh giá tiếp theo"
+              className="w-12 h-12 rounded-full bg-white hover:bg-brand-primary text-slate-700 hover:text-white flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all pointer-events-auto cursor-pointer border border-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
             >
               <ChevronRight size={24} />
             </button>
@@ -320,8 +327,8 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                 <button
                   key={idx}
                   onClick={() => setActiveIndex(idx)}
-                  aria-label={`Go to slide ${idx + 1}`}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                  aria-label={`Chuyển đến đánh giá số ${idx + 1}`}
+                  className={`h-2.5 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 ${
                     isActive 
                       ? 'w-8 bg-brand-primary shadow-sm shadow-brand-primary/40' 
                       : 'w-2.5 bg-slate-200 hover:bg-slate-300'

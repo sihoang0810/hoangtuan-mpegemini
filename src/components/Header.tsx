@@ -3,6 +3,7 @@ import { Menu, X, PhoneCall, MapPin, ChevronDown, Zap, Droplet, Video, Search, A
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation as useRouterLocation } from 'react-router-dom';
 import { useLocation as useAppLocation } from '../context/LocationContext';
+import { locationData } from '../data/locationData';
 import { getSiteSettings, getMenus, CMSSiteSettings, CMSMenu } from '../lib/sanity';
 import logoUrl from '../assets/images/hoang_tuan_logo_1779774192464.png';
 
@@ -145,12 +146,20 @@ export default function Header() {
       setLastScrollY(currentScrollY);
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
       active = false;
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, isOpen]);
 
   const siteName = siteSettings?.siteName || 'Hoàng Tuấn MPE';
   const mainHotline = siteSettings?.mainHotline || '0389 011 315';
@@ -200,7 +209,9 @@ export default function Header() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span className="text-slate-200 tracking-tight text-[11px] sm:text-[12px]">{headerNotice}</span>
+            <span className="text-slate-200 tracking-tight text-[11px] sm:text-[12px] whitespace-nowrap overflow-hidden text-ellipsis max-w-[250px] sm:max-w-none">
+              Địa chỉ: {locationSlug && (locationSlug === 'ho-chi-minh' || locationSlug === 'bao-loc') ? locationData[locationSlug as 'ho-chi-minh' | 'bao-loc'].address : (locationSlug === 'ho-chi-minh' ? '528/17 Tô Ngọc Vân, Phường Tam Bình, Thủ Đức, TP. Hồ Chí Minh' : "279 B'Lao Sire, Phường 3, Bảo Lộc, Lâm Đồng")}
+            </span>
           </div>
           <div className="flex items-center gap-4 text-slate-300 text-[11px] sm:text-[12px]">
             <a href={`tel:${mainHotline.replace(/[.\s]/g, '')}`} className="hover:text-brand-primary transition-colors flex items-center gap-1.5 py-0.5">
@@ -273,7 +284,7 @@ export default function Header() {
                                       className="text-slate-600 hover:text-brand-primary flex flex-col transition-colors"
                                     >
                                       <span className="font-bold text-sm">{sublink.name}</span>
-                                      <span className="text-[10px] text-slate-400 capitalize">tại {mappedDisplayName}</span>
+                                      <span className="text-[10px] text-slate-500 capitalize">tại {mappedDisplayName}</span>
                                     </Link>
                                   </li>
                                 ))}
@@ -312,8 +323,11 @@ export default function Header() {
 
           {/* Mobile Toggle */}
           <button 
-            className="lg:hidden text-brand-secondary p-2 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors"
+            className="lg:hidden text-brand-secondary p-2 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Menu"
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -324,6 +338,10 @@ export default function Header() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation Menu"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -359,7 +377,7 @@ export default function Header() {
                       >
                         {SERVICE_MENU.map((item) => (
                           <div key={item.title}>
-                            <span className="text-[10px] font-bold text-slate-400 block mb-1 tracking-widest uppercase">{item.title}</span>
+                            <span className="text-[10px] font-bold text-slate-500 block mb-1 tracking-widest uppercase">{item.title}</span>
                             <ul className="space-y-1">
                               {item.links.map((sublink) => (
                                 <li key={sublink.name}>

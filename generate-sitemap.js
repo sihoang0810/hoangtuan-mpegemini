@@ -158,6 +158,16 @@ function generate() {
   const outputPath = path.join(outputDir, 'sitemap.xml');
   fs.writeFileSync(outputPath, xml, 'utf8');
   console.log(`Successfully generated dynamic sitemap with ${xml.split('<url>').length - 1} links to ${outputPath}`);
+
+  const distDir = path.join(process.cwd(), 'dist');
+  if (fs.existsSync(distDir)) {
+    try {
+      fs.writeFileSync(path.join(distDir, 'sitemap.xml'), xml, 'utf8');
+      console.log(`Successfully mirrored dynamic sitemap to dist/sitemap.xml`);
+    } catch (distErr) {
+      console.error(`Failed to mirror sitemap to dist:`, distErr);
+    }
+  }
 }
 
 generate();

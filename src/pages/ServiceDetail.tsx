@@ -135,14 +135,14 @@ const ServiceDetailTemplate = () => {
               <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                 <Clock className="text-brand-primary" size={24} />
                 <div>
-                  <div className="text-[10px] text-slate-400 font-bold uppercase">Hỗ trợ</div>
+                  <div className="text-[10px] text-slate-500 font-bold uppercase">Hỗ trợ</div>
                   <div className="font-bold text-brand-secondary">30 Phút có mặt</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                 <ShieldCheck className="text-brand-primary" size={24} />
                 <div>
-                  <div className="text-[10px] text-slate-400 font-bold uppercase">Bảo trì</div>
+                  <div className="text-[10px] text-slate-500 font-bold uppercase">Bảo trì</div>
                   <div className="font-bold text-brand-secondary">Bảo hành 12th</div>
                 </div>
               </div>
@@ -151,7 +151,7 @@ const ServiceDetailTemplate = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 active:scale-95 transition-all uppercase">
                 <Phone size={20} />
-                Gọi Ngay 0389.011.315
+                Gọi Ngay 0389 011 315
               </a>
               <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-8 py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition-all uppercase">
                 <MessageCircle size={20} />
@@ -167,7 +167,7 @@ const ServiceDetailTemplate = () => {
           >
             <div className="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl">
               <img 
-                src={service.image || '/images/og-default.jpg'}
+                src={service.image || 'https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=1200'}
                 alt={service.title}
                 className="w-full h-full object-cover"
                 loading="lazy"
@@ -179,7 +179,7 @@ const ServiceDetailTemplate = () => {
             {/* Decal */}
             <div className="absolute -bottom-6 -left-6 bg-brand-secondary text-white p-8 rounded-3xl shadow-xl max-w-[200px]">
               <div className="text-4xl font-bold mb-1">100%</div>
-              <div className="text-xs font-bold uppercase tracking-widest text-slate-400">Cam kết hài lòng</div>
+              <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Cam kết hài lòng</div>
             </div>
           </motion.div>
         </div>
@@ -238,13 +238,13 @@ const ServiceDetailTemplate = () => {
                           <tr key={idx} className="hover:bg-slate-50 transition-colors">
                             <td className="px-6 py-4 font-bold text-slate-600">{p.item}</td>
                             <td className="px-6 py-4 font-bold text-brand-primary uppercase">{p.price}</td>
-                            <td className="px-6 py-4 text-slate-400 text-sm font-bold uppercase">{p.unit || 'mục'}</td>
+                            <td className="px-6 py-4 text-slate-500 text-sm font-bold uppercase">{p.unit || 'mục'}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
-                  <p className="mt-6 text-xs text-slate-400">
+                  <p className="mt-6 text-xs text-slate-500">
                     * Giá trên mang tính chất tham khảo. Đơn giá thực tế sẽ được kỹ thuật viên báo sau khi khảo sát hiện trạng trực tiếp.
                   </p>
                 </div>
@@ -263,7 +263,7 @@ const ServiceDetailTemplate = () => {
                   <p className="text-white/70 text-sm mb-6">Đội ngũ kỹ thuật trực 24/7 tại khu vực {locationSlug || 'Bảo Lộc'} và lân cận.</p>
                   <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all">
                     <Phone size={20} />
-                    0389.011.315
+                    0389 011 315
                   </a>
                   <div className="mt-6 flex items-center justify-center gap-4 text-xs font-bold text-white/50">
                     <div className="flex items-center gap-1"><Clock size={14}/> 30 Phút</div>

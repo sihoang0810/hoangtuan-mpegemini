@@ -33,9 +33,10 @@ export default function BlogListing() {
 
   const filteredPosts = useMemo(() => {
     return postSource.filter(post => {
-      const matchesCategory = activeCategory === 'all' || post.category === BLOG_CATEGORIES.find(c => c.id === activeCategory)?.title;
-      const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                           post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+      const catTitle = BLOG_CATEGORIES.find(c => c.id === activeCategory)?.title;
+      const matchesCategory = activeCategory === 'all' || (post?.category || '') === catTitle;
+      const matchesSearch = (post?.title || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
+                           (post?.excerpt || '').toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, searchQuery, postSource]);
@@ -83,7 +84,7 @@ export default function BlogListing() {
 
             {/* Search */}
             <div className="relative w-full lg:w-96 group">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={20} />
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-brand-primary transition-colors" size={20} />
               <input 
                 type="text"
                 placeholder="Tìm kiếm bài viết..."

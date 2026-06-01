@@ -19,7 +19,7 @@ export default function LocationPopup() {
             exit={{ opacity: 0 }}
             onClick={() => {
               sessionStorage.setItem('user-location-later', 'true');
-              setShowPopup(false);
+              setLocation('bao-loc');
             }}
             className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
           />
@@ -35,10 +35,10 @@ export default function LocationPopup() {
             <button
               onClick={() => {
                 sessionStorage.setItem('user-location-later', 'true');
-                setShowPopup(false);
+                setLocation('bao-loc');
               }}
-              className="absolute top-6 right-6 z-[110] w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-full flex items-center justify-center shadow-md transition-all border border-slate-200 hover:scale-105 active:scale-95 cursor-pointer"
-              aria-label="Đóng"
+              className="absolute top-6 right-6 z-[110] w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-full flex items-center justify-center shadow-md transition-all border border-slate-200 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
+              aria-label="Đóng bảng chọn khu vực"
               type="button"
             >
               <X size={20} />
@@ -76,7 +76,7 @@ export default function LocationPopup() {
                 <button
                   onClick={() => {
                     sessionStorage.setItem('user-location-later', 'true');
-                    setShowPopup(false);
+                    setLocation('bao-loc');
                   }}
                   className="px-8 py-3 rounded-full border border-slate-200 hover:border-brand-primary hover:text-brand-primary text-slate-500 font-bold text-sm transition-all focus:outline-none cursor-pointer duration-200"
                 >
@@ -87,7 +87,7 @@ export default function LocationPopup() {
 
             {/* Side Note */}
             <div className="bg-slate-50 p-6 text-center border-t border-slate-100">
-              <p className="text-slate-400 text-xs font-medium">
+              <p className="text-slate-500 text-xs font-medium">
                 * Bạn có thể thay đổi khu vực bất cứ lúc nào tại phần đầu trang web.
               </p>
             </div>

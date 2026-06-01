@@ -27,6 +27,7 @@
     "node_modules",
     "dist",
     "schema-types",
-    "sanity"
+    "sanity",
+    "scripts"
   ]
 }

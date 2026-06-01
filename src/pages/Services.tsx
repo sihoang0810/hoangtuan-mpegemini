@@ -115,7 +115,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
             >
               <div className="h-48 bg-slate-100 relative group-hover:scale-105 transition-transform duration-500 overflow-hidden">
                 <img 
-                  src="/images/og-default.jpg"
+                  src={service.image || "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800"}
                   alt={service.title}
                   className="w-full h-full object-cover"
                   loading="lazy"
@@ -141,10 +141,10 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
                   ))}
                 </div>
                 <div className="bg-slate-50 p-4 rounded-2xl mb-6">
-                  <span className="text-xs text-slate-400 block mb-1">Giá tham khảo</span>
+                  <span className="text-xs text-slate-500 block mb-1">Giá tham khảo</span>
                   <div className="flex items-baseline gap-1">
                     <span className="text-xl font-bold text-brand-secondary">{service.pricing[0].price}</span>
-                    <span className="text-xs text-slate-400">/{service.pricing[0].unit || 'lầu'}</span>
+                    <span className="text-xs text-slate-500">/{service.pricing[0].unit || 'lầu'}</span>
                   </div>
                 </div>
                 <Link 
@@ -191,7 +191,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
               </tbody>
             </table>
           </div>
-          <div className="mt-8 text-xs text-slate-400">
+          <div className="mt-8 text-xs text-slate-500">
             * Lưu ý: Giá trên chỉ mang tính chất tham khảo. Quý khách vui lòng liên hệ để được thợ kiểm tra và báo giá thực tế chính xác nhất.
           </div>
         </div>
@@ -279,7 +279,7 @@ export default function ServicesPage() {
             >
               <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-primary text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-2xl shadow-brand-primary/40 hover:scale-105 active:scale-95 transition-all uppercase">
                 <Phone size={24} />
-                Gọi Ngay 0389.011.315
+                Gọi Ngay 0389 011 315
               </a>
               <div className="flex gap-4">
                  {['#electrical', '#plumbing', '#camera', '#detection'].map((href, i) => (
@@ -348,7 +348,7 @@ export default function ServicesPage() {
               >
                 <div className="w-full h-40 bg-slate-800 rounded-2xl mb-8 overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
                   <img 
-                    src="/images/og-default.jpg" 
+                    src={item.img || "https://images.unsplash.com/photo-1542013936-6533e14cb263?auto=format&fit=crop&q=80&w=800"} 
                     alt={item.title} 
                     className="w-full h-full object-cover"
                     loading="lazy"
@@ -358,7 +358,7 @@ export default function ServicesPage() {
                   />
                 </div>
                 <h4 className="text-xl font-bold mb-3">{item.title}</h4>
-                <p className="text-slate-400 text-sm">{item.desc}</p>
+                <p className="text-slate-500 text-sm">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -390,7 +390,7 @@ export default function ServicesPage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-secondary text-white px-10 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-all shadow-xl">
                 <Phone size={24} />
-                0389.011.315
+                0389 011 315
               </a>
               <a href="https://zalo.me/0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-white text-brand-primary px-10 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-all shadow-xl">
                 <MessageCircle size={24} />

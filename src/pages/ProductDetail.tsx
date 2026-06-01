@@ -104,12 +104,12 @@ export default function ProductDetail() {
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b border-slate-100 py-4">
         <div className="max-w-7xl mx-auto px-4 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
-          <Link to={siteLocationPrefix} className="text-slate-400 hover:text-brand-primary transition-colors flex items-center gap-1">
+          <Link to={siteLocationPrefix} className="text-slate-500 hover:text-brand-primary transition-colors flex items-center gap-1">
             <Home size={14} />
             Trang chủ
           </Link>
           <ChevronRight size={12} className="text-slate-300" />
-          <Link to={`${siteLocationPrefix}/san-pham`} className="text-slate-400 hover:text-brand-primary transition-colors">
+          <Link to={`${siteLocationPrefix}/san-pham`} className="text-slate-500 hover:text-brand-primary transition-colors">
             Sản phẩm
           </Link>
           <ChevronRight size={12} className="text-slate-300" />
@@ -121,7 +121,7 @@ export default function ProductDetail() {
         {/* Back Button */}
         <button 
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-slate-400 font-bold mb-12 hover:text-brand-primary transition-colors group"
+          className="flex items-center gap-2 text-slate-500 font-bold mb-12 hover:text-brand-primary transition-colors group"
         >
           <ArrowLeft size={20} className="group-hover:-translate-x-2 transition-transform" />
           QUAY LẠI
@@ -156,7 +156,7 @@ export default function ProductDetail() {
                   onClick={() => setSelectedImage(img)}
                   className={`aspect-square rounded-2xl border-2 overflow-hidden cursor-pointer transition-all ${displayImage === img ? 'border-brand-primary shadow-lg shadow-brand-primary/10' : 'border-transparent hover:border-slate-200'}`}
                 >
-                  <img src={img} alt={`thumbnail-${idx}`} className="w-full h-full object-cover" />
+                  <img src={img} alt={`Hình thu nhỏ ${product.name || 'sản phẩm'} ${idx + 1}`} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
@@ -177,7 +177,7 @@ export default function ProductDetail() {
               </h1>
               <div className="flex items-center gap-4 py-6 border-y border-slate-100 mb-8">
                 <div>
-                  <span className="text-xs text-slate-400 block font-bold uppercase tracking-widest mb-1">Giá bán</span>
+                  <span className="text-xs text-slate-500 block font-bold uppercase tracking-widest mb-1">Giá bán</span>
                   <span className="text-3xl md:text-4xl font-bold text-brand-primary">{product.price}</span>
                 </div>
                 <div className="ml-auto flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-brand-secondary font-bold text-sm">
@@ -195,7 +195,7 @@ export default function ProductDetail() {
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 transition-all uppercase">
                 <Phone size={24} />
-                Đặt Mua: 0389.011.315
+                Đặt Mua: 0389 011 315
               </a>
               <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-8 py-5 rounded-2xl font-bold text-lg hover:opacity-90 transition-all uppercase">
                 <MessageCircle size={24} />
@@ -253,7 +253,7 @@ export default function ProductDetail() {
                   <div className="space-y-4">
                     {Object.entries(product.specs).map(([key, value], idx) => (
                       <div key={idx} className="flex justify-between items-center py-4 border-b border-slate-100 last:border-0 hover:bg-slate-50 px-4 rounded-lg transition-colors">
-                        <span className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">{key}</span>
+                        <span className="text-slate-500 font-bold uppercase text-[10px] tracking-widest">{key}</span>
                         <span className="text-brand-secondary font-bold">{value}</span>
                       </div>
                     ))}
@@ -288,7 +288,7 @@ export default function ProductDetail() {
                 <p className="text-white/60 text-sm mb-10 leading-relaxed">Nếu bạn là đại lý hoặc cần mua số lượng lớn cho công trình, hãy liên hệ để có giá tốt nhất thị trường.</p>
                 <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-5 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20">
                   <Phone size={20} />
-                  0389.011.315
+                  0389 011 315
                 </a>
               </div>
               
@@ -307,7 +307,7 @@ export default function ProductDetail() {
                     </Link>
                   ))}
                   {relatedProducts.length === 0 && (
-                    <p className="text-xs text-slate-400 text-center font-medium">Chưa có sản phẩm tương tự.</p>
+                    <p className="text-xs text-slate-500 text-center font-medium">Chưa có sản phẩm tương tự.</p>
                   )}
                 </div>
                 <Link to={`${siteLocationPrefix}/san-pham`} className="block text-center text-brand-primary font-bold uppercase text-[10px] tracking-widest mt-10 hover:underline">
