@@ -16,6 +16,8 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { getServiceBySlug, getServiceBySlugSync, getServices, getServicesSync, getIconComponent, CMSService } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
+import { LOCATIONS } from '../constants';
+import OptimizedImage from '../components/OptimizedImage';
 
 const ServiceDetailTemplate = () => {
   const { slug } = useParams();
@@ -91,6 +93,9 @@ const ServiceDetailTemplate = () => {
     );
   }
 
+  const locationConfig = LOCATIONS.find(l => l.id === locationSlug) || LOCATIONS[0];
+  const locName = locationConfig.name;
+
   const ServiceIcon = getIconComponent(service.icon);
 
   return (
@@ -103,7 +108,7 @@ const ServiceDetailTemplate = () => {
           <Breadcrumbs 
             items={[
               { label: 'Dịch vụ', href: `${siteLocationPrefix}/dich-vu` },
-              { label: service.title, active: true }
+              { label: `${service.title} ${locName}`, active: true }
             ]} 
             homeHref={siteLocationPrefix}
           />
@@ -123,8 +128,8 @@ const ServiceDetailTemplate = () => {
                 {service.category === 'electrical' ? 'Điện dân dụng' : service.category === 'plumbing' ? 'Nước dân dụng' : service.category === 'camera' ? 'Camera an ninh' : 'Siêu âm rò rỉ'}
               </span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-brand-secondary mb-6 uppercase tracking-tighter leading-tight">
-              {service.title}
+            <h1 className="text-4xl md:text-5xl font-bold text-brand-secondary mb-6 uppercase tracking-tighter leading-tight">
+              Dịch vụ {service.title} Tại {locName} — Thợ Uy Tín 24/7
             </h1>
             <div 
               className="text-xl text-slate-600 mb-8 leading-relaxed prose prose-slate max-w-none prose-p:text-slate-600"
@@ -153,7 +158,7 @@ const ServiceDetailTemplate = () => {
                 <Phone size={20} />
                 Gọi Ngay 0389 011 315
               </a>
-              <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-8 py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition-all uppercase">
+              <a href={`https://zalo.me/0389011315?text=${encodeURIComponent(`Chào Hoàng Tuấn MPE, tôi cần tư vấn dịch vụ ${service.title} tại ${locName}`)}`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-8 py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition-all uppercase">
                 <MessageCircle size={20} />
                 Chat Zalo
               </a>
@@ -165,21 +170,20 @@ const ServiceDetailTemplate = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="relative"
           >
-            <div className="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl">
-              <img 
-                src={service.image || 'https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=1200'}
-                alt={service.title}
-                className="w-full h-full object-cover"
-                loading="lazy"
-                decoding="async"
+            <div className="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl bg-slate-100">
+              <OptimizedImage 
+                src={service.image}
+                alt={`${service.title} tại ${locName} - Hoàng Tuấn MPE`}
                 width={800}
                 height={600}
+                priority={true}
+                className="w-full h-full"
               />
             </div>
             {/* Decal */}
             <div className="absolute -bottom-6 -left-6 bg-brand-secondary text-white p-8 rounded-3xl shadow-xl max-w-[200px]">
               <div className="text-4xl font-bold mb-1">100%</div>
-              <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Cam kết hài lòng</div>
+              <div className="text-xs font-bold uppercase tracking-widest text-white/50">Cam kết hài lòng</div>
             </div>
           </motion.div>
         </div>
@@ -195,7 +199,7 @@ const ServiceDetailTemplate = () => {
               <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/50">
                 <h2 className="text-2xl font-bold text-brand-secondary mb-8 uppercase flex items-center gap-3">
                   <CheckCircle2 className="text-brand-primary" />
-                  Ưu điểm dịch vụ
+                  Ưu điểm sửa chữa tại Hoàng Tuấn MPE
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
                   {service.features?.map((feature, idx) => (
@@ -222,14 +226,14 @@ const ServiceDetailTemplate = () => {
                 <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/50">
                   <h2 className="text-2xl font-bold text-brand-secondary mb-8 uppercase flex items-center gap-3">
                     <Wrench className="text-brand-primary" />
-                    Bảng giá tham khảo
+                    Bảng giá {service.title} tại {locName}
                   </h2>
                   <div className="overflow-hidden border border-slate-100 rounded-2xl">
                     <table className="w-full text-left">
                       <thead className="bg-slate-50">
                         <tr>
-                          <th className="px-6 py-4 font-bold text-brand-secondary">Hạng mục</th>
-                          <th className="px-6 py-4 font-bold text-brand-secondary">Đơn giá</th>
+                          <th className="px-6 py-4 font-bold text-brand-secondary">Hạng mục chi tiết</th>
+                          <th className="px-6 py-4 font-bold text-brand-secondary">Đơn giá tham khảo</th>
                           <th className="px-6 py-4 font-bold text-brand-secondary">Đơn vị</th>
                         </tr>
                       </thead>
@@ -244,8 +248,8 @@ const ServiceDetailTemplate = () => {
                       </tbody>
                     </table>
                   </div>
-                  <p className="mt-6 text-xs text-slate-500">
-                    * Giá trên mang tính chất tham khảo. Đơn giá thực tế sẽ được kỹ thuật viên báo sau khi khảo sát hiện trạng trực tiếp.
+                  <p className="mt-6 text-xs text-slate-500 italic">
+                    * Lưu ý: Giá trên mang tính chất tham khảo cho khu vực {locName}. Đơn giá thực tế sẽ được thợ báo trực tiếp sau khi khảo sát miễn phí.
                   </p>
                 </div>
               )}
@@ -259,22 +263,22 @@ const ServiceDetailTemplate = () => {
               {/* Sticky Contact Card */}
               <div className="sticky top-24 space-y-8">
                 <div className="bg-brand-secondary p-8 rounded-[2.5rem] text-white">
-                  <h3 className="text-xl font-bold mb-4 uppercase">Cần thợ ngay?</h3>
-                  <p className="text-white/70 text-sm mb-6">Đội ngũ kỹ thuật trực 24/7 tại khu vực {locationSlug || 'Bảo Lộc'} và lân cận.</p>
+                  <h3 className="text-xl font-bold mb-4 uppercase">Cần thợ {locName} ngay?</h3>
+                  <p className="text-white/70 text-sm mb-6">Đội ngũ kỹ thuật trực 24/7 tại khu vực {locName} và lân cận Lâm Đồng / TPHCM.</p>
                   <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all">
                     <Phone size={20} />
                     0389 011 315
                   </a>
                   <div className="mt-6 flex items-center justify-center gap-4 text-xs font-bold text-white/50">
                     <div className="flex items-center gap-1"><Clock size={14}/> 30 Phút</div>
-                    <div className="flex items-center gap-1"><ShieldCheck size={14}/> Bảo hành</div>
+                    <div className="flex items-center gap-1"><ShieldCheck size={14}/> Bảo hành dài hạn</div>
                   </div>
                 </div>
 
                 {/* Related Services */}
                 {relatedServices.length > 0 && (
                   <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50">
-                    <h3 className="text-xl font-bold text-brand-secondary mb-6 uppercase">Dịch vụ liên quan</h3>
+                    <h3 className="text-xl font-bold text-brand-secondary mb-6 uppercase">Dịch vụ liên quan tại {locName}</h3>
                     <div className="space-y-4">
                       {relatedServices.map((rs) => {
                         const RelatedIcon = getIconComponent(rs.icon);
@@ -283,11 +287,12 @@ const ServiceDetailTemplate = () => {
                             key={rs.slug} 
                             to={`${siteLocationPrefix}/dich-vu/${rs.slug}`}
                             className="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100 group"
+                            title={`${rs.title} tại ${locName}`}
                           >
                             <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-colors shrink-0">
                               <RelatedIcon size={20} />
                             </div>
-                            <span className="font-bold text-brand-secondary text-sm leading-tight">{rs.title}</span>
+                            <span className="font-bold text-brand-secondary text-sm leading-tight">{rs.title} {locName}</span>
                           </Link>
                         );
                       })}

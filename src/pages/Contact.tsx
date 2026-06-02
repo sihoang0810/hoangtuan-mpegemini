@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, MessageSquare, Clock, Send, CheckCircle2 } from 'lucide-react';
-import { useParams } from 'react-router-dom';
 import FinalCTA from '../components/FinalCTA';
 import { getContact, getIconComponent, CMSContact } from '../lib/sanity';
 import PageSEO from '../components/PageSEO';

@@ -8,6 +8,31 @@
     <meta name="keywords" content="hoàng tuấn mpe, sửa điện nước bảo lộc, sửa điện nước tphcm, dò tìm rò rỉ nước, lắp camera bảo lộc" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="Vietnamese" />
+    <meta name="google-site-verification" content="GSC_VERIFICATION_TOKEN_OR_PLACEHOLDER" />
+
+    <!-- Google Analytics 4 -->
+    <script>
+      (function() {
+        var gaId = "%VITE_GA_ID%";
+        // In case Vite's replacement is skipped or evaluated as the placeholder string:
+        if (gaId && gaId !== "%VITE_GA_ID%" && !gaId.startsWith("%")) {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = "https://www.googletagmanager.com/gtag/js?id=" + gaId;
+          document.head.appendChild(script);
+
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function() { dataLayer.push(arguments); };
+          window.gtag('js', new Date());
+          window.gtag('config', gaId);
+        } else {
+          // Robust fallback stub for local development/preview before configuration
+          window.gtag = function() {
+            console.log('[Analytics Dry Run] Name:', arguments[0], 'Data:', arguments[1], arguments[2]);
+          };
+        }
+      })();
+    </script>
 
     <!-- Google Fonts Resource Optimizations -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -13,7 +13,15 @@ export function normalizeLocation(locName: string | null | undefined): LocationS
     lowerLoc === 'hcm' || 
     lowerLoc === 'hochiminh' || 
     lowerLoc === 'hồ chí minh' ||
-    lowerLoc === 'tp.hcm'
+    lowerLoc === 'ho chi minh' ||
+    lowerLoc === 'tp. hồ chí minh' ||
+    lowerLoc === 'tp.hồ chí minh' ||
+    lowerLoc === 'tp hcm' ||
+    lowerLoc === 'tp.hcm' ||
+    lowerLoc === 'tp. hcm' ||
+    lowerLoc === 'sài gòn' ||
+    lowerLoc === 'sai gon' ||
+    lowerLoc === 'saigon'
   ) {
     return LOCATION_HO_CHI_MINH;
   }
@@ -30,6 +38,15 @@ export function isValidLocation(locName: string | null | undefined): boolean {
     lowerLoc === 'hcm' ||
     lowerLoc === 'hochiminh' ||
     lowerLoc === 'hồ chí minh' ||
+    lowerLoc === 'ho chi minh' ||
+    lowerLoc === 'tp. hồ chí minh' ||
+    lowerLoc === 'tp.hồ chí minh' ||
+    lowerLoc === 'tp hcm' ||
+    lowerLoc === 'tp.hcm' ||
+    lowerLoc === 'tp. hcm' ||
+    lowerLoc === 'sài gòn' ||
+    lowerLoc === 'sai gon' ||
+    lowerLoc === 'saigon' ||
     lowerLoc === 'baoloc' ||
     lowerLoc === 'bảo lộc' ||
     lowerLoc === 'bao loc'

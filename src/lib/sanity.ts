@@ -55,20 +55,8 @@ const LOCALIZED_BUSINESS_SCHEMA = wrapLocalized(raw_LOCALIZED_BUSINESS_SCHEMA);
 const LOCALIZED_CONTACT = wrapLocalized(raw_LOCALIZED_CONTACT);
 const LOCALIZED_SITE_SETTINGS = wrapLocalized(raw_LOCALIZED_SITE_SETTINGS);
 const LOCALIZED_SERVICES = wrapLocalized(raw_LOCALIZED_SERVICES);
-const LOCALIZED_PRODUCTS = wrapTransitionProduct(raw_LOCALIZED_PRODUCTS); // special handler or same
+const LOCALIZED_PRODUCTS = wrapLocalized(raw_LOCALIZED_PRODUCTS);
 const LOCALIZED_BLOGS = wrapLocalized(raw_LOCALIZED_BLOGS);
-
-function wrapTransitionProduct(obj: any): any {
-  return new Proxy(obj, {
-    get(target, prop) {
-      if (typeof prop === 'string') {
-        const mappedKey = prop === 'ho-chi-minh' || prop === 'hcm' || prop === 'hochiminh' ? 'ho-chi-minh' : 'bao-loc';
-        return target[mappedKey];
-      }
-      return Reflect.get(target, prop);
-    }
-  });
-}
 
 // Import GROQ queries
 import {
@@ -394,6 +382,31 @@ export const client = createClient({
 const isValidArray = (arr: any) => Array.isArray(arr) && arr.length > 0;
 const isValidObject = (obj: any) => obj && typeof obj === 'object' && Object.keys(obj).length > 0;
 
+/**
+ * Helper to append Sanity image transformation parameters for optimization.
+ */
+export function getSanityImageUrl(url: string | undefined, width?: number, quality: number = 80): string {
+  if (!url) return 'https://images.unsplash.com/photo-1542013936-6533e14cb263?auto=format&fit=crop&q=80&w=1200';
+  if (!url.includes('cdn.sanity.io')) return url;
+  
+  const params = new URLSearchParams();
+  if (width) params.append('w', width.toString());
+  params.append('q', quality.toString());
+  params.append('auto', 'format');
+  params.append('fit', 'crop');
+  
+  return `${url}${url.includes('?') ? '&' : '?'}${params.toString()}`;
+}
+
+/**
+ * Generates a srcset string for responsive Sanity images.
+ */
+export function getSanitySrcSet(url: string | undefined): string {
+  if (!url || !url.includes('cdn.sanity.io')) return '';
+  const widths = [320, 640, 768, 1024, 1280, 1536];
+  return widths.map(w => `${getSanityImageUrl(url, w)} ${w}w`).join(', ');
+}
+
 // Helper to convert canonical slug to fallback data keys ('ho-chi-minh' or 'bao-loc')
 export function getFallbackKey(locId: string): 'bao-loc' | 'ho-chi-minh' {
   if (locId === 'ho-chi-minh' || locId === 'hochiminh' || locId === 'hcm') return 'ho-chi-minh';
@@ -440,6 +453,14 @@ function logCmsStatus(docType: string, isFromCms: boolean, count: number, err?: 
   } else {
     devLog(`%c[CMS FALLBACK] Using local fallback for "${docType}" (Reason: ${err ? err.message || err : 'Sanity returned no records or is unconfigured'}).`, 'color: #ffaa11; font-weight: bold;');
   }
+}
+
+// Safely extract a string slug from either a string or a Sanity slug object
+function ensureStringSlug<T extends { slug?: any }>(item: T): T {
+  if (item && item.slug && typeof item.slug === 'object' && 'current' in item.slug) {
+    return { ...item, slug: item.slug.current };
+  }
+  return item;
 }
 
 // ---------------------------------------------------------
@@ -856,7 +877,7 @@ export function getServicesSync(forcedLocationId?: string): CMSService[] {
 export function getServiceBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSService | null {
   const locId = forcedLocationId || getCurrentLocationSlug();
   const servicesList = getServicesSync(locId);
-  return servicesList.find(s => s.slug === slug) || null;
+  return servicesList.map(ensureStringSlug).find(s => s.slug === slug) || null;
 }
 
 export async function getServices(forcedLocationId?: string): Promise<CMSService[]> {
@@ -887,11 +908,12 @@ export async function getServices(forcedLocationId?: string): Promise<CMSService
     logCmsStatus('service', hasData, hasData ? data.length : 0);
     
     if (hasData) {
+      const normalizedData = data.map(ensureStringSlug);
       // 3. Compare structurally to prevent UI flickering on redundant updates
-      if (isDataDifferent(data, currentData)) {
+      if (isDataDifferent(normalizedData, currentData)) {
         console.log(`%c[BACKGROUND UPDATE] Services data has changed on Sanity. Overwriting cache and refreshing UI.`, 'color: #3b82f6; font-weight: bold;');
-        saveServicesCache(locId, data);
-        return data;
+        saveServicesCache(locId, normalizedData);
+        return normalizedData;
       } else {
         console.log(`%c[BACKGROUND LOG] Sanity services data matches current cache. Re-marking fresh timestamp.`, 'color: #64748b;');
         // Refresh timestamp of current content to renew its TTL
@@ -929,8 +951,9 @@ export async function getServiceBySlug(slug: string | undefined, forcedLocationI
     logCmsStatus(`service-slug-${slug}`, hasData, hasData ? 1 : 0);
     
     if (hasData) {
-      if (isDataDifferent(data, foundLocal)) {
-        return data;
+      const normalized = ensureStringSlug(data);
+      if (isDataDifferent(normalized, foundLocal)) {
+        return normalized;
       }
       return foundLocal;
     }
@@ -1014,7 +1037,7 @@ export async function getBlogPosts(forcedLocationId?: string): Promise<CMSBlogPo
     const data = await client.fetch<CMSBlogPost[]>(postsQuery, { locationSlug: locId });
     const hasData = isValidArray(data);
     logCmsStatus('post', hasData, hasData ? data.length : 0);
-    return hasData ? data : currentData;
+    return hasData ? data.map(ensureStringSlug) : currentData;
   } catch (error) {
     logCmsStatus('post', false, 0, error);
     return currentData;
@@ -1027,13 +1050,13 @@ export async function getBlogPostBySlug(slug: string | undefined, forcedLocation
   console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const postsList = getBlogPostsSync(locId);
 
-  const foundLocal = postsList.find(p => p.slug === slug) || null;
+  const foundLocal = postsList.map(ensureStringSlug).find(p => p.slug === slug) || null;
   if (!isSanityConfigured || !slug) return foundLocal;
   try {
     const data = await client.fetch<CMSBlogPost>(postBySlugQuery, { slug, locationSlug: locId });
     const hasData = isValidObject(data);
     logCmsStatus(`post-slug-${slug}`, hasData, hasData ? 1 : 0);
-    return hasData ? data : foundLocal;
+    return hasData ? ensureStringSlug(data) : foundLocal;
   } catch (error) {
     logCmsStatus(`post-slug-${slug}`, false, 0, error);
     return foundLocal;
@@ -1066,6 +1089,7 @@ export async function getProductCategories(): Promise<CMSProductCategory[]> {
  */
 function normalizeProductSpecs(p: any): CMSProduct {
   if (!p) return p;
+  const withSpecs = { ...p };
   if (Array.isArray(p.specs)) {
     const mappedSpecs: { [key: string]: string } = {};
     p.specs.forEach((item: any) => {
@@ -1073,9 +1097,9 @@ function normalizeProductSpecs(p: any): CMSProduct {
         mappedSpecs[item.key] = item.value || '';
       }
     });
-    return { ...p, specs: mappedSpecs };
+    withSpecs.specs = mappedSpecs;
   }
-  return p;
+  return ensureStringSlug(withSpecs);
 }
 
 export function getProductsSync(forcedLocationId?: string): CMSProduct[] {
@@ -1125,7 +1149,7 @@ export function getProductsSync(forcedLocationId?: string): CMSProduct[] {
 
 export function getProductBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSProduct | null {
   const list = getProductsSync(forcedLocationId);
-  return list.find(p => p.slug === slug) || null;
+  return list.map(ensureStringSlug).find(p => p.slug === slug) || null;
 }
 
 export async function getProducts(forcedLocationId?: string): Promise<CMSProduct[]> {

@@ -6,6 +6,8 @@ import { getHomepageContent, getHomepageContentSync, CMSHomepage } from '../lib/
 import { useLocation } from '../context/LocationContext';
 import InlineEdit from './InlineEdit';
 
+import OptimizedImage from './OptimizedImage';
+
 export default function Hero({ 
   cmsData,
   isEditable = false,
@@ -119,7 +121,7 @@ export default function Hero({
             className="relative"
           >
             <div className="aspect-square bg-white rounded-[2rem] shadow-2xl overflow-hidden relative group">
-              <div className="absolute inset-0 bg-gradient-to-tr from-brand-primary/20 to-transparent flex items-center justify-center">
+              <div className="absolute inset-0 bg-gradient-to-tr from-brand-primary/20 to-transparent flex items-center justify-center z-10">
                 <div className="flex flex-col items-center">
                   <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg mb-4 text-brand-primary group-hover:scale-110 transition-transform">
                     <CheckCircle2 size={40} />
@@ -128,20 +130,18 @@ export default function Hero({
                   <p className="text-slate-500">Chất lượng được khẳng định</p>
                 </div>
               </div>
-              <img 
+              <OptimizedImage 
                 src={heroImage} 
                 alt="Thợ Sửa Chữa Chuyên Nghiệp" 
-                className="w-full h-full object-cover opacity-95 transition-opacity duration-300"
-                referrerPolicy="no-referrer"
-                loading="eager"
-                fetchPriority="high"
+                priority={true}
                 width={800}
                 height={800}
+                className="w-full h-full"
               />
             </div>
             
             {/* Experience Floating Card */}
-            <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 hidden lg:block">
+            <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 hidden lg:block z-20">
               <div className="flex items-center gap-4">
                 <div className="text-4xl font-bold text-brand-primary">10+</div>
                 <div className="text-sm font-semibold text-slate-600">

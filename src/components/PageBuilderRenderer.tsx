@@ -45,9 +45,23 @@ interface PageBuilderRendererProps {
 }
 
 // ✅ High-Performance IntersectionObserver-based Lazy Load Wrapper
-export function LazySection({ children, id, className }: { children: React.ReactNode; id?: string; className?: string }) {
+export function LazySection({ children, id, className, expectedHeight, type }: { children: React.ReactNode; id?: string; className?: string; expectedHeight?: number; type?: string }) {
   const [isIntersected, setIsIntersected] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Map common heights to section types to reduce CLS
+  const defaultHeights: Record<string, string> = {
+    'heroSection': 'min-h-[600px]',
+    'servicesSection': 'min-h-[800px]',
+    'whyChooseUsSection': 'min-h-[500px]',
+    'featuredProductsSection': 'min-h-[600px]',
+    'testimonialsSection': 'min-h-[400px]',
+    'blogSection': 'min-h-[600px]',
+    'faqSection': 'min-h-[500px]',
+    'finalCtaSection': 'min-h-[300px]'
+  };
+
+  const minHeightClass = expectedHeight ? `min-h-[${expectedHeight}px]` : (type ? defaultHeights[type] || 'min-h-[300px]' : 'min-h-[300px]');
 
   useEffect(() => {
     const el = containerRef.current;
@@ -61,7 +75,7 @@ export function LazySection({ children, id, className }: { children: React.React
             observer.unobserve(el);
           }
         },
-        { rootMargin: '300px 0px' }
+        { rootMargin: '400px 0px' } // Slightly larger margin for better predictive load
       );
       observer.observe(el);
       return () => observer.disconnect();
@@ -71,9 +85,9 @@ export function LazySection({ children, id, className }: { children: React.React
   }, []);
 
   return (
-    <div ref={containerRef} id={id} className={`${className || ''} min-h-[150px]`}>
+    <div ref={containerRef} id={id} className={`${className || ''} ${minHeightClass}`}>
       {isIntersected ? children : (
-        <div className="section-container bg-slate-50/20 py-24 flex items-center justify-center">
+        <div className="section-container bg-slate-50/20 py-24 flex items-center justify-center w-full h-full">
           <div className="animate-pulse space-y-4 w-full max-w-xl text-center">
             <div className="h-4 bg-slate-200/60 rounded-full w-2/3 mx-auto"></div>
             <div className="h-8 bg-slate-200/80 rounded w-1/2 mx-auto"></div>
@@ -583,7 +597,7 @@ export default function PageBuilderRenderer({
               'testimonialsSection',
               section._key,
               idx,
-              <LazySection id="section-testimonials" className="relative scroll-mt-20">
+              <LazySection id="section-testimonials" className="relative scroll-mt-20" type={section._type}>
                 <Testimonials {...(section as any)} />
               </LazySection>
             );
@@ -593,7 +607,7 @@ export default function PageBuilderRenderer({
               'blogSection',
               section._key,
               idx,
-              <LazySection id="section-blog" className="relative scroll-mt-20">
+              <LazySection id="section-blog" className="relative scroll-mt-20" type={section._type}>
                 <Blog {...(section as any)} />
               </LazySection>
             );
@@ -603,7 +617,7 @@ export default function PageBuilderRenderer({
               'faqSection',
               section._key,
               idx,
-              <LazySection id="section-faq" className="relative scroll-mt-20">
+              <LazySection id="section-faq" className="relative scroll-mt-20" type={section._type}>
                 <FAQSection {...(section as any)} />
               </LazySection>
             );

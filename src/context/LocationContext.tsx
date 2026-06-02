@@ -24,7 +24,6 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
   // Use state to track current slug, initialize lazily if possible but safe for hydration
   const [locationSlugState, setLocationSlugState] = useState<LocationSlug>(LOCATION_BAO_LOC);
   const [showPopupState, setShowPopupState] = useState(true);
-  const [hasInteracted, setHasInteracted] = useState(false);
   const hasInteractedRef = React.useRef(false);
   const [locations, setLocations] = useState<CMSLocation[]>([]);
   
@@ -36,7 +35,6 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
   const setShowPopup = (show: boolean) => {
     setShowPopupState(show);
     if (!show) {
-      setHasInteracted(true);
       hasInteractedRef.current = true;
     }
   };
@@ -134,7 +132,7 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
 
   const changeLocation = () => {
     localStorage.removeItem('locationSlug');
-    setHasInteracted(false);
+    hasInteractedRef.current = false;
     
     // Strip prefix from the current path to go to default raw URL first
     const pathParts = routerLoc.pathname.split('/');

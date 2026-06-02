@@ -133,18 +133,18 @@ function generate() {
 
     // 2. Services details
     SERVICE_SLUGS.forEach(slug => {
-      xml += `  <url>\n    <loc>${DOMAIN}/${loc}/dich-vu/${slug}</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+      xml += `  <url>\n    <loc>${DOMAIN}/${loc}/dich-vu/${slug}</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
     });
 
     // 3. Products details
     PRODUCT_SLUGS.forEach(slug => {
-      xml += `  <url>\n    <loc>${DOMAIN}/${loc}/san-pham/${slug}</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+      xml += `  <url>\n    <loc>${DOMAIN}/${loc}/san-pham/${slug}</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
     });
 
     // 4. Blog details: slug-bao-loc or slug-ho-chi-minh
     BLOG_TOPIC_SLUGS.forEach(topic => {
       const finalSlug = `${topic}-${loc}`;
-      xml += `  <url>\n    <loc>${DOMAIN}/${loc}/blog/${finalSlug}</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+      xml += `  <url>\n    <loc>${DOMAIN}/${loc}/blog/${finalSlug}</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
     });
   });
 

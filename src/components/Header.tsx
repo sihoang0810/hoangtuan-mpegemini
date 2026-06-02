@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, PhoneCall, MapPin, ChevronDown, Zap, Droplet, Video, Search, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation as useRouterLocation } from 'react-router-dom';
@@ -11,7 +11,8 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showSticky, setShowSticky] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
   const routerLocation = useRouterLocation();
   const { locationSlug, changeLocation } = useAppLocation();
   const siteLocationPrefix = '/' + locationSlug;
@@ -131,19 +132,25 @@ export default function Header() {
     });
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrolled(currentScrollY > 20);
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          setScrolled(currentScrollY > 20);
 
-      if (currentScrollY > 100) {
-        if (currentScrollY > lastScrollY) {
-          setShowSticky(false); // Hide on scroll deviation downwards
-        } else {
-          setShowSticky(true);  // Pop back on scrolling upwards
-        }
-      } else {
-        setShowSticky(true);
+          if (currentScrollY > 100) {
+            if (currentScrollY > lastScrollY.current) {
+              setShowSticky(false); // Hide on scroll deviation downwards
+            } else {
+              setShowSticky(true);  // Pop back on scrolling upwards
+            }
+          } else {
+            setShowSticky(true);
+          }
+          lastScrollY.current = currentScrollY;
+          ticking.current = false;
+        });
+        ticking.current = true;
       }
-      setLastScrollY(currentScrollY);
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -159,7 +166,7 @@ export default function Header() {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [lastScrollY, isOpen]);
+  }, [isOpen]);
 
   const siteName = siteSettings?.siteName || 'Hoàng Tuấn MPE';
   const mainHotline = siteSettings?.mainHotline || '0389 011 315';

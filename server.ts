@@ -6,13 +6,40 @@ import fs from "fs";
 import dotenv from "dotenv";
 import { createClient } from "@sanity/client";
 
+import compression from "compression";
+import helmet from "helmet";
+
 dotenv.config();
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  // 1. Compression for better Core Web Vitals (FCP/LCP)
+  app.use(compression());
+
+  // 2. Security Headers
+  app.use(helmet({
+    contentSecurityPolicy: false, // Disable CSP for preview environment compatibility
+    crossOriginEmbedderPolicy: false,
+  }));
+
   app.use(express.json({ limit: "50mb" }));
+
+  // 3. SEO Standard Routes
+  app.get("/robots.txt", (req, res) => {
+    res.type("text/plain");
+    res.send("User-agent: *\nAllow: /\nSitemap: https://hoangtuanmpe.com/sitemap.xml");
+  });
+
+  app.get("/sitemap.xml", (req, res) => {
+    const sitemapPath = path.join(process.cwd(), "public", "sitemap.xml");
+    if (fs.existsSync(sitemapPath)) {
+      res.header("Content-Type", "application/xml");
+      return res.sendFile(sitemapPath);
+    }
+    res.status(404).send("Sitemap not generated yet");
+  });
 
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok" });
@@ -126,11 +153,20 @@ async function startServer() {
     }
   }
 
-  // Core static providers
-  app.use(express.static(publicDir));
-
-  // Determine prod vs dev
+  // 4. Asset Caching & Static Providers
   const isProd = process.env.NODE_ENV === "production";
+  
+  // Custom middleware for cache control
+  app.use((req, res, next) => {
+    if (req.url.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (req.url.match(/\.(html)$/) || req.url === '/') {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
+    next();
+  });
+
+  app.use(express.static(publicDir));
 
   if (!isProd) {
     try {
@@ -143,6 +179,18 @@ async function startServer() {
         appType: "spa",
       });
       app.use(vite.middlewares);
+      
+      // SPA Fallback for Dev
+      app.get('*', async (req, res, next) => {
+        if (req.url.startsWith('/api') || req.url.includes('.')) return next();
+        try {
+          const html = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf-8');
+          const transformedHtml = await vite.transformIndexHtml(req.url, html);
+          res.status(200).set({ 'Content-Type': 'text/html' }).end(transformedHtml);
+        } catch (e) {
+          next(e);
+        }
+      });
     } catch (viteErr) {
       console.warn("Falling back to static serving:", viteErr);
     }

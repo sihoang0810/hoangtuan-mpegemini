@@ -51,7 +51,7 @@ export default function LocationPopup() {
                 {activeLocations.map((loc) => (
                   <button
                     key={loc.id}
-                    onClick={() => setLocation(loc.name as any)}
+                    onClick={() => setLocation(loc.id as any)}
                     className="group relative flex flex-col items-center p-8 rounded-3xl border-2 border-slate-100 hover:border-brand-primary hover:bg-brand-primary/5 transition-all text-center animate-in fade-in zoom-in-95 duration-355 cursor-pointer"
                   >
                     <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:text-white transition-all">

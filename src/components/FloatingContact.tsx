@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useLocation } from '../context/LocationContext';
 import { LOCATIONS } from '../constants';
 import BookingModal from './BookingModal';
+import { useAnalytics } from '../hooks/useAnalytics';
 
 const ZaloIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -14,6 +15,7 @@ const ZaloIcon = () => (
 export default function FloatingContact() {
   const { locationSlug, locations } = useLocation();
   const activeLocations = locations.length > 0 ? locations : LOCATIONS;
+  const { trackEvent } = useAnalytics();
   
   const mappedDisplayName = locationSlug === 'ho-chi-minh' ? 'Hồ Chí Minh' : 'Bảo Lộc';
   const currentLocationInfo = activeLocations.find(l => l.name === mappedDisplayName) || activeLocations[0];
@@ -61,6 +63,7 @@ export default function FloatingContact() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             href={zaloUrl}
+            onClick={() => trackEvent('contact_click', { type: 'zalo', location: mappedDisplayName, context: 'floating_desktop' })}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Chat Zalo"
@@ -83,6 +86,7 @@ export default function FloatingContact() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             href={`tel:${phoneNo}`}
+            onClick={() => trackEvent('contact_click', { type: 'phone', location: mappedDisplayName, context: 'floating_desktop' })}
             aria-label={`Gọi điện thoại hotline: ${phoneNo}`}
             className="relative w-14 h-14 bg-brand-accent text-white rounded-full shadow-xl flex items-center justify-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
           >
@@ -103,6 +107,7 @@ export default function FloatingContact() {
           </button>
           <a 
             href={zaloUrl}
+            onClick={() => trackEvent('contact_click', { type: 'zalo', location: mappedDisplayName, context: 'floating_mobile' })}
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-col items-center justify-center gap-1 bg-[#0068ff] text-white py-2 px-2 rounded-xl font-bold active:scale-95 transition-transform"
@@ -112,6 +117,7 @@ export default function FloatingContact() {
           </a>
           <a 
             href={`tel:${phoneNo}`}
+            onClick={() => trackEvent('contact_click', { type: 'phone', location: mappedDisplayName, context: 'floating_mobile' })}
             className="flex flex-col items-center justify-center gap-1 bg-brand-accent text-white py-2 px-2 rounded-xl font-bold active:scale-95 transition-transform shadow-lg shadow-brand-accent/20"
           >
             <Phone size={18} fill="currentColor" />
