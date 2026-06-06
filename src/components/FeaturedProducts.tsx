@@ -32,15 +32,17 @@ export default function FeaturedProducts({ cmsData }: { cmsData?: any }) {
   const subheading = cmsData?.subheading || "Sản Phẩm Nổi Bật";
 
   return (
-    <section id="products" className="section-container bg-slate-50">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+    <section id="products" className="bg-slate-50 w-full overflow-hidden">
+      <div className="section-container">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
         <div>
           <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">{heading}</p>
-          <h2 className="text-3xl md:text-5xl font-bold text-brand-secondary uppercase tracking-tighter" dangerouslySetInnerHTML={{ __html: subheading.replace(/Nổi Bật/g, '<span class="text-brand-primary">Nổi Bật</span>') }} />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-secondary uppercase tracking-tighter" dangerouslySetInnerHTML={{ __html: subheading.replace(/Nổi Bật/g, '<span class="text-brand-primary">Nổi Bật</span>') }} />
         </div>
 
         <Link 
           to={`/${locationSlug}/san-pham`} 
+          onClick={() => console.log('Navigation target:', `/${locationSlug}/san-pham`)}
           className="group flex items-center gap-2 text-brand-secondary font-bold uppercase text-sm tracking-widest hover:text-brand-primary transition-colors"
         >
           Xem tất cả sản phẩm
@@ -54,7 +56,7 @@ export default function FeaturedProducts({ cmsData }: { cmsData?: any }) {
         ))}
       </div>
 
-      <div className="mt-16 bg-white p-8 md:p-12 rounded-[3rem] border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-col md:flex-row items-center justify-between gap-8">
+      <div className="mt-16 bg-white p-8 md:p-12 rounded-3xl md:rounded-[3rem] border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="flex items-center gap-6">
           <div className="w-16 h-16 bg-brand-primary/10 rounded-2xl flex items-center justify-center text-brand-primary">
             <ShoppingBag size={32} />
@@ -66,11 +68,13 @@ export default function FeaturedProducts({ cmsData }: { cmsData?: any }) {
         </div>
         <Link 
           to={`/${locationSlug}/san-pham`}
+          onClick={() => console.log('Navigation target:', `/${locationSlug}/san-pham`)}
           className="bg-brand-primary text-white px-10 py-4 rounded-2xl font-bold uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-brand-primary/20"
         >
           Ghé thăm cửa hàng
         </Link>
       </div>
-    </section>
+    </div>
+  </section>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Hero from './Hero';
 import Services from './Services';
+import Projects from './Projects';
 import WhyChooseUs from './WhyChooseUs';
 import ProcessTimeline, { FAQSection } from './ExtraSections';
 import FeaturedProducts from './FeaturedProducts';
@@ -53,6 +54,7 @@ export function LazySection({ children, id, className, expectedHeight, type }: {
   const defaultHeights: Record<string, string> = {
     'heroSection': 'min-h-[600px]',
     'servicesSection': 'min-h-[800px]',
+    'projectsSection': 'min-h-[1200px]',
     'whyChooseUsSection': 'min-h-[500px]',
     'featuredProductsSection': 'min-h-[600px]',
     'testimonialsSection': 'min-h-[400px]',
@@ -87,7 +89,7 @@ export function LazySection({ children, id, className, expectedHeight, type }: {
   return (
     <div ref={containerRef} id={id} className={`${className || ''} ${minHeightClass}`}>
       {isIntersected ? children : (
-        <div className="section-container bg-slate-50/20 py-24 flex items-center justify-center w-full h-full">
+        <div className="section-container bg-slate-50/20 py-12 md:py-16 lg:py-24 flex items-center justify-center w-full h-full">
           <div className="animate-pulse space-y-4 w-full max-w-xl text-center">
             <div className="h-4 bg-slate-200/60 rounded-full w-2/3 mx-auto"></div>
             <div className="h-8 bg-slate-200/80 rounded w-1/2 mx-auto"></div>
@@ -180,6 +182,7 @@ export default function PageBuilderRenderer({
   const defaultSections: CMSSection[] = [
     { _type: 'heroSection', _key: 'default-hero', isActive: true },
     { _type: 'servicesSection', _key: 'default-services', isActive: true },
+    { _type: 'projectsSection', _key: 'default-projects', isActive: true },
     { _type: 'customFormBuilderSection', _key: 'default-builder-form', isActive: true },
     { _type: 'whyChooseUsSection', _key: 'default-whychooseus', isActive: true },
     { _type: 'processTimelineSection', _key: 'default-processtimeline', isActive: true },
@@ -216,6 +219,7 @@ export default function PageBuilderRenderer({
     let displayTitle = 'Khối';
     if (secType === 'heroSection') displayTitle = 'Hero Banner chính';
     else if (secType === 'servicesSection') displayTitle = 'Dịch vụ & Đơn giá';
+    else if (secType === 'projectsSection') displayTitle = 'Dự án thực tế (Zigzag)';
     else if (secType === 'whyChooseUsSection' || secType === 'featuresSection') displayTitle = 'Ưu điểm & Thống kê';
     else if (secType === 'processTimelineSection') displayTitle = 'Quy trình thi công';
     else if (secType === 'featuredProductsSection' || secType === 'productsSection') displayTitle = 'Vật tư & Thiết bị';
@@ -263,7 +267,7 @@ export default function PageBuilderRenderer({
             className="px-2.5 h-full flex items-center gap-1 hover:bg-[#348bd6] cursor-grab active:cursor-grabbing transition-colors group/grag"
             title={`${displayTitle} - Điều hướng vị trí`}
           >
-            <div className="grid grid-cols-2 gap-0.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-0.5">
               <span className="w-1 h-1 rounded-full bg-white block" />
               <span className="w-1 h-1 rounded-full bg-white block" />
               <span className="w-1 h-1 rounded-full bg-white block" />
@@ -332,39 +336,6 @@ export default function PageBuilderRenderer({
         </div>
       )}
       
-      <header className="sticky top-0 bg-white shadow-md border-b border-slate-100 py-3.5 px-6 shrink-0 flex items-center justify-between z-40">
-        <div className="flex items-center gap-2.5 select-none">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-md">
-            <span className="font-extrabold text-lg text-white font-mono">HT</span>
-          </div>
-          <div>
-            <span className="text-base font-black tracking-tight text-slate-900 block leading-none">{activeHeader.siteName}</span>
-            <span className="text-[10px] font-bold text-slate-400 font-mono tracking-widest uppercase mt-1 block">CHUYÊN GIA DÒ TÌM MPE</span>
-          </div>
-        </div>
-
-        {/* Dynamic header list */}
-        <nav className="hidden lg:flex items-center gap-7">
-          {activeHeader.menuLinks.filter(l => l.isEnabled).map((link, i) => (
-            <span 
-              key={i} 
-              className="text-xs font-extrabold text-slate-700 hover:text-orange-500 transition-colors cursor-pointer select-none border-b-2 border-transparent hover:border-orange-500 py-1"
-            >
-              {link.name}
-            </span>
-          ))}
-        </nav>
-
-        {/* Call Now Action Button */}
-        <a 
-          href={`tel:${activeHeader.siteHotline.replace(/\s+/g, '')}`}
-          className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-xs font-black px-4 py-2.5 rounded-2xl shadow-md cursor-pointer group active:scale-95 transition-all select-none"
-        >
-          <Phone size={14} className="group-hover:animate-wiggle" />
-          <span>HOTLINE: {activeHeader.siteHotline}</span>
-        </a>
-      </header>
-
       {/* ───── PRIMARY CMS CANVAS DISPLAY SECTIONS ───── */}
       {activeSections.map((section, idx) => {
         switch (section._type) {
@@ -396,6 +367,18 @@ export default function PageBuilderRenderer({
                 />
               </div>
             );
+          
+          case 'projectsSection':
+            return wrapSection(
+              'projectsSection',
+              section._key,
+              idx,
+              <div id="section-projects" className="relative scroll-mt-20">
+                <Projects 
+                  cmsData={section as any} 
+                />
+              </div>
+            );
 
           // ─ FORM BUILDER CUSTOM CODE BLOCK RENDERING ─
           case 'customFormBuilderSection':
@@ -403,23 +386,23 @@ export default function PageBuilderRenderer({
               'customFormBuilderSection',
               section._key,
               idx,
-              <section className="section-container bg-slate-50 relative overflow-hidden" id="section-form-builder">
-                <div className="absolute inset-0 bg-[radial-gradient(#439bf1_0.05rem,transparent_0.05rem)] [background-size:1.5rem_1.5rem] opacity-[0.03]" />
-                <div className="max-w-xl mx-auto relative z-10 w-full">
-                  <div className="bg-white rounded-[2rem] border border-slate-200/60 p-8 shadow-2xl">
-                    <div className="text-center mb-6">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] bg-brand-primary/10 text-brand-primary rounded-full font-black tracking-wider uppercase mb-3">
+              <section className="section-container bg-transparent relative overflow-hidden font-sans" id="section-form-builder">
+                <div className="absolute inset-0 pointer-events-none" />
+                <div className="max-w-xl mx-auto relative z-10 w-full font-sans">
+                  <div className="bg-white rounded-[2rem] border border-slate-200/60 p-6 sm:p-8 shadow-2xl font-sans">
+                    <div className="text-center mb-6 font-sans">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] bg-brand-primary/10 text-brand-primary rounded-full font-black tracking-wider uppercase mb-3 font-sans">
                         <Sparkles size={10} /> ĐĂNG KÝ ONLINE PHẢN HỒI NHANH
                       </span>
-                      <h3 className="text-2xl font-black text-brand-secondary leading-snug">{activeForm.formTitle}</h3>
-                      <p className="text-xs text-slate-500 mt-1">Thông tin được mã hóa bảo mật hoàn hảo</p>
+                      <h3 className="text-2xl font-black text-brand-secondary leading-snug font-sans">{activeForm.formTitle}</h3>
+                      <p className="text-xs text-slate-500 mt-1 font-sans">Thông tin được mã hóa bảo mật hoàn hảo</p>
                     </div>
 
                     {!formSubmitted ? (
-                      <form onSubmit={handleSimulatedSubmit} className="space-y-4">
+                      <form onSubmit={handleSimulatedSubmit} className="space-y-4 font-sans">
                         {activeForm.fields.filter(f => f.isEnabled).map((f) => (
-                          <div key={f.id} className="space-y-1">
-                            <label className="text-xs font-extrabold text-brand-secondary flex items-center justify-between">
+                          <div key={f.id} className="space-y-1 font-sans">
+                            <label className="text-xs font-extrabold text-brand-secondary flex items-center justify-between font-sans">
                               <span>{f.label} {f.isRequired && <span className="text-red-500">*</span>}</span>
                             </label>
 
@@ -428,11 +411,11 @@ export default function PageBuilderRenderer({
                                 required={f.isRequired}
                                 value={formInputs[f.id] || ''}
                                 onChange={(e) => handleFormChange(f.id, e.target.value)}
-                                className="w-full bg-slate-50/80 border border-slate-200 focus:border-brand-primary focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold text-slate-800"
+                                className="w-full bg-slate-50/80 border border-slate-200 focus:border-brand-primary focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold text-slate-800 font-sans"
                               >
-                                <option value="" disabled>{f.placeholder || 'Vui lòng chọn...'}</option>
+                                <option value="" disabled className="font-sans">{f.placeholder || 'Vui lòng chọn...'}</option>
                                 {f.options?.map((opt, oIdx) => (
-                                  <option key={oIdx} value={opt}>{opt}</option>
+                                  <option key={oIdx} value={opt} className="font-sans">{opt}</option>
                                 ))}
                               </select>
                             ) : f.type === 'textarea' ? (
@@ -442,7 +425,7 @@ export default function PageBuilderRenderer({
                                 placeholder={f.placeholder}
                                 value={formInputs[f.id] || ''}
                                 onChange={(e) => handleFormChange(f.id, e.target.value)}
-                                className="w-full bg-slate-50/80 border border-slate-200 focus:border-brand-primary focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold resize-none"
+                                className="w-full bg-slate-50/80 border border-slate-200 focus:border-brand-primary focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold resize-none font-sans"
                               />
                             ) : (
                               <input 
@@ -451,7 +434,7 @@ export default function PageBuilderRenderer({
                                 placeholder={f.placeholder}
                                 value={formInputs[f.id] || ''}
                                 onChange={(e) => handleFormChange(f.id, e.target.value)}
-                                className="w-full bg-slate-50/80 border border-slate-200 focus:border-brand-primary focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold"
+                                className="w-full bg-slate-50/80 border border-slate-200 focus:border-brand-primary focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold font-sans"
                               />
                             )}
                           </div>
@@ -460,7 +443,7 @@ export default function PageBuilderRenderer({
                         <button 
                           type="submit" 
                           disabled={isFormSubmitting}
-                          className="w-full py-4 px-6 bg-brand-primary text-white font-black text-xs uppercase tracking-wider rounded-2xl hover:bg-[#348bd6] active:scale-95 transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center gap-2"
+                          className="w-full py-4 px-6 bg-brand-primary text-white font-black text-xs uppercase tracking-wider rounded-2xl hover:bg-[#348bd6] active:scale-95 transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center gap-2 font-sans"
                         >
                           {isFormSubmitting ? (
                             <>
@@ -505,15 +488,15 @@ export default function PageBuilderRenderer({
               <section className="py-12 bg-slate-900 text-white relative overflow-hidden" id="section-reusable-block">
                 <div className="max-w-5xl mx-auto px-6 relative z-10 text-center">
                   {blockType === 'promo_alert' ? (
-                    <div className="bg-gradient-to-br from-orange-600/90 to-red-700/95 border border-orange-500/20 rounded-[2rem] p-8 md:p-12 shadow-2xl max-w-3xl mx-auto relative overflow-hidden">
+                    <div className="bg-gradient-to-br from-orange-600/90 to-red-700/95 border border-orange-500/20 rounded-[2rem] p-6 sm:p-8 md:p-12 shadow-2xl max-w-3xl mx-auto relative overflow-hidden">
                       <div className="absolute top-0 right-0 p-4 opacity-5">
                         <span className="text-9xl font-black font-mono">%</span>
                       </div>
                       <span className="inline-block bg-white text-orange-700 text-[10px] font-black px-3.5 py-1.5 rounded-full uppercase tracking-wider mb-4 animate-pulse">
                         🔥 SIÊU GIẢM GIÁ ĐỘC QUYỀN
                       </span>
-                      <h4 className="text-2xl md:text-3xl font-black tracking-tight leading-snug">GIẢM NGAY 20% PHÍ THI CÔNG</h4>
-                      <p className="text-xs text-orange-150 leading-relaxed max-w-lg mx-auto mt-2">
+                      <h4 className="text-2xl md:text-3xl font-black tracking-tight leading-snug text-white">GIẢM NGAY 20% PHÍ THI CÔNG</h4>
+                      <p className="text-xs text-orange-100 leading-relaxed max-w-lg mx-auto mt-2">
                         Dành riêng cho khách đặt lịch khảo sát siêu âm rò rỉ nước ngầm hoặc vá chập hệ thống điện qua Website hôm nay. Nhận bảo hành trọn đời!
                       </p>
                     </div>
@@ -528,7 +511,7 @@ export default function PageBuilderRenderer({
                           <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${item.col} flex items-center justify-center mx-auto mb-4 text-white shadow-md`}>
                             <item.icon size={22} />
                           </div>
-                          <h5 className="font-extrabold text-sm mb-1">{item.title}</h5>
+                          <h5 className="font-extrabold text-sm mb-1 text-white">{item.title}</h5>
                           <p className="text-[11px] text-slate-400 leading-relaxed">{item.desc}</p>
                         </div>
                       ))}
@@ -642,7 +625,7 @@ export default function PageBuilderRenderer({
       {/* ───── INTERACTIVE DYNAMIC FOOTER (Only in Studio Editor) ───── */}
       {isEditable && (
         <footer className="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800">
-          <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-10">
+          <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-6 lg:gap-10">
             <div className="space-y-4">
               <span className="text-lg font-black tracking-tight text-white block uppercase">{activeHeader.siteName}</span>
               <p className="text-xs text-slate-400 leading-relaxed max-w-sm">

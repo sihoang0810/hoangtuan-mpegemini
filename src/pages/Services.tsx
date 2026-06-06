@@ -12,15 +12,12 @@ import {
   ShieldCheck,
   Clock,
   Wrench,
-  ThumbsUp
+  ThumbsUp,
+  Cpu,
+  ChevronDown
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SERVICES, Service } from '../data/services';
-import ProcessTimeline, { FAQSection } from '../components/ExtraSections';
-import WhyChooseUs from '../components/WhyChooseUs';
-import Testimonials from '../components/Testimonials';
-import FeaturedProducts from '../components/FeaturedProducts';
-import FinalCTA from '../components/FinalCTA';
 import { getServices, getServicesSync, CMSService } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
@@ -54,6 +51,13 @@ const CATEGORIES = [
     description: 'Ứng dụng công nghệ siêu âm tiên tiến nhất để phát hiện vị trí rò rỉ nước và đường ống ngầm không cần đục phá.',
     icon: Search,
     color: 'amber'
+  },
+  {
+    id: 'smarthome',
+    title: 'Dịch Vụ Nhà Thông Minh',
+    description: 'Tư vấn, thiết kế và lắp đặt hệ thống thiết bị thông minh: công tắc cửa cuốn, ổ cắm cảm ứng, đèn kịch bản, nâng cao tiện ích toàn diện.',
+    icon: Cpu,
+    color: 'emerald'
   }
 ];
 
@@ -75,27 +79,27 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
   const siteLocationPrefix = '/' + locationSlug;
 
   return (
-    <section id={category.id} className="py-20 border-b border-slate-100 last:border-0">
+    <section id={category.id} className="py-10 border-b border-slate-100 last:border-0 scroll-mt-24">
       <div className="section-container">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-3 text-brand-primary mb-4">
+          <div className="max-w-2xl text-left">
+            <div className="flex items-center gap-3 text-brand-primary mb-4 justify-start">
               <category.icon size={32} />
               <span className="font-bold tracking-widest uppercase">{category.title}</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-brand-secondary mb-6 uppercase tracking-tighter">
+            <h2 className="font-bold text-brand-secondary mb-6 uppercase tracking-tighter">
               {category.title}
             </h2>
             <p className="text-lg text-slate-600 leading-relaxed">
               {category.description}
             </p>
           </div>
-          <div className="flex gap-4">
-            <a href="tel:0389011315" className="flex items-center gap-2 bg-brand-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-primary/90 transition-all shadow-lg shadow-brand-primary/20">
+          <div className="flex gap-4 shrink-0 justify-start">
+            <a href="tel:0389011315" className="flex items-center gap-2 bg-brand-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-primary/90 transition-all shadow-lg shadow-brand-primary/20 active:scale-95">
               <Phone size={18} />
               Gọi Ngay
             </a>
-            <a href="https://zalo.me/0389011315" className="flex items-center gap-2 bg-[#0068ff] text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all">
+            <a href="https://zalo.me/0389011315" className="flex items-center gap-2 bg-[#0068ff] text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all active:scale-95">
               <MessageCircle size={18} />
               Zalo
             </a>
@@ -111,9 +115,9 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 flex flex-col overflow-hidden group hover:border-brand-primary/30 transition-all"
+              className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 flex flex-col overflow-hidden group hover:border-brand-primary/30 transition-all text-left"
             >
-              <div className="h-48 bg-slate-100 relative group-hover:scale-105 transition-transform duration-500 overflow-hidden">
+              <div className="aspect-video lg:aspect-[4/3] bg-slate-100 relative group-hover:scale-105 transition-transform duration-500 overflow-hidden">
                 <img 
                   src={service.image || "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800"}
                   alt={service.title}
@@ -160,15 +164,15 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
         </div>
 
         {/* Pricing Table */}
-        <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-12 border border-slate-100 overflow-hidden">
+        <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-12 border border-slate-100 overflow-hidden text-left">
           <div className="flex items-center gap-4 mb-8">
             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-brand-primary shadow-sm">
               <CheckCircle2 size={24} />
             </div>
-            <h3 className="text-2xl font-bold text-brand-secondary uppercase">Bảng giá tham khảo {category.id === 'electrical' ? 'Điện' : category.id === 'plumbing' ? 'Nước' : category.id === 'camera' ? 'Camera' : 'Siêu âm'}</h3>
+            <h3 className="text-2xl font-bold text-brand-secondary uppercase">Bảng giá tham khảo {category.id === 'electrical' ? 'Điện' : category.id === 'plumbing' ? 'Nước' : category.id === 'camera' ? 'Camera' : category.id === 'smarthome' ? 'Nhà thông minh' : 'Siêu âm'}</h3>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-left min-w-[500px]">
               <thead>
                 <tr className="border-b border-slate-200">
                   <th className="py-4 font-bold text-brand-secondary">Tên dịch vụ</th>
@@ -200,19 +204,97 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
   );
 };
 
+const FLOATING_NAV = [
+  { href: '#electrical', title: 'Điện dân dụng', icon: Zap, activeBg: 'text-white shadow-lg', activeBgColor: '#ea580c' },
+  { href: '#plumbing', title: 'Nước dân dụng', icon: Droplet, activeBg: 'text-white shadow-lg', activeBgColor: '#0284c7' },
+  { href: '#camera', title: 'Camera giám sát', icon: Video, activeBg: 'text-white shadow-lg', activeBgColor: '#0f172a' },
+  { href: '#detection', title: 'Dò tìm rò rỉ', icon: Search, activeBg: 'text-white shadow-lg', activeBgColor: '#f59e0b' },
+  { href: '#smarthome', title: 'Nhà thông minh', icon: Cpu, activeBg: 'text-white shadow-lg', activeBgColor: '#059669' }
+];
+
 export default function ServicesPage() {
   const { locationSlug } = useLocation();
-  const [services, setServices] = useState<CMSService[]>(() => getServicesSync());
+  const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationSlug));
+  const [activeSection, setActiveSection] = useState('electrical');
+  const [showFloating, setShowFloating] = useState(false);
 
   useEffect(() => {
     let active = true;
-    getServices().then(data => {
+    getServices(locationSlug).then(data => {
       if (active) setServices(data);
     });
     return () => {
       active = false;
     };
+  }, [locationSlug]);
+
+  useEffect(() => {
+    const handleScrollBoundary = () => {
+      const electricalEl = document.getElementById('electrical');
+      if (electricalEl) {
+        const rect = electricalEl.getBoundingClientRect();
+        setShowFloating(rect.top <= window.innerHeight * 0.6);
+      } else {
+        setShowFloating(false);
+      }
+
+      // Compute active section based on proximity to sticky header trigger point
+      const ids = ['electrical', 'plumbing', 'camera', 'detection', 'smarthome'];
+      const headerElement = document.querySelector('header');
+      const headerHeight = headerElement ? headerElement.offsetHeight : 80;
+      const triggerPoint = headerHeight + 120;
+
+      let matchedSection = '';
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= triggerPoint && rect.bottom >= triggerPoint) {
+            matchedSection = id;
+            break;
+          }
+        }
+      }
+
+      // Check boundaries
+      if (window.scrollY < 120) {
+        matchedSection = 'electrical';
+      } else if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
+        matchedSection = 'smarthome';
+      }
+
+      if (matchedSection) {
+        setActiveSection(matchedSection);
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollBoundary, { passive: true });
+    // Run initial check
+    handleScrollBoundary();
+
+    return () => {
+      window.removeEventListener('scroll', handleScrollBoundary);
+    };
   }, []);
+
+  const handleFloatingClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    setActiveSection(id);
+    
+    const element = document.getElementById(id);
+    if (element) {
+      const headerElement = document.querySelector('header');
+      const headerHeight = headerElement ? headerElement.offsetHeight : 80;
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - headerHeight - 10;
+
+      window.scrollTo({
+        top: offsetPosition >= 0 ? offsetPosition : 0,
+        behavior: 'smooth'
+      });
+      window.history.pushState(null, '', `#${id}`);
+    }
+  };
 
   const items: any[] = services.length > 0 ? services : SERVICES;
 
@@ -220,8 +302,49 @@ export default function ServicesPage() {
   return (
     <div className="pt-20">
       <PageSEO pageType="general" />
+
+      {/* Left-Side Floating Dock (Desktop only) */}
+      <div 
+        className={`hidden lg:flex fixed top-1/2 -translate-y-1/2 z-50 flex-col gap-4 transition-all duration-300 ${
+          showFloating ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 -translate-x-4 pointer-events-none'
+        }`}
+        style={{ left: 'max(28px, calc(50% - 640px - 64px))' }}
+      >
+        {FLOATING_NAV.map((item, i) => {
+          const id = item.href.slice(1);
+          const isActive = activeSection === id;
+          const Icon = item.icon;
+          return (
+            <div key={i} className="relative group">
+               {/* Premium Hover Tooltip Label */}
+              <div className="absolute left-full ml-4 top-1/2 -translate-y-1/2 bg-white px-3.5 py-1.5 rounded-lg shadow-lg text-brand-secondary font-bold text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none translate-x-2 group-hover:translate-x-0 z-50">
+                {item.title}
+              </div>
+
+              <motion.a
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
+                href={item.href}
+                onClick={(e) => handleFloatingClick(e, id)}
+                className={`relative w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 ${
+                  isActive 
+                    ? `${item.activeBg}`
+                    : 'bg-white text-slate-600 hover:text-brand-secondary hover:bg-slate-50'
+                }`}
+                style={{ backgroundColor: isActive ? item.activeBgColor : 'white' }}
+              >
+                {isActive && (
+                  <span className="absolute inset-0 rounded-full bg-current animate-ping opacity-25" />
+                )}
+                <Icon size={20} className="relative z-10" />
+              </motion.a>
+            </div>
+          );
+        })}
+      </div>
+
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden bg-brand-secondary">
+      <section className="relative py-12 md:py-16 overflow-hidden bg-brand-secondary">
         {/* Background Patterns */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-primary rounded-full blur-[120px] -mr-64 -mt-64" />
@@ -242,7 +365,7 @@ export default function ServicesPage() {
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-7xl font-bold text-white leading-tight uppercase mb-8 tracking-tighter"
+              className="font-bold text-white leading-tight uppercase mb-8 tracking-tighter"
             >
               Trung Tâm Dịch Vụ <br />
               <span className="text-brand-primary">Điện Nước & Camera</span> 
@@ -256,7 +379,7 @@ export default function ServicesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-12"
             >
               {[
                 { icon: Clock, text: 'Hỗ trợ 24/7' },
@@ -277,14 +400,20 @@ export default function ServicesPage() {
               transition={{ delay: 0.2 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-primary text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-2xl shadow-brand-primary/40 hover:scale-105 active:scale-95 transition-all uppercase">
+              <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-primary text-white px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-base sm:text-lg shadow-2xl shadow-brand-primary/40 hover:scale-105 active:scale-95 transition-all uppercase">
                 <Phone size={24} />
                 Gọi Ngay 0389 011 315
               </a>
               <div className="flex gap-4">
-                 {['#electrical', '#plumbing', '#camera', '#detection'].map((href, i) => (
-                    <a key={i} href={href} className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10">
-                      {i === 0 ? <Zap size={20}/> : i === 1 ? <Droplet size={20}/> : i === 2 ? <Video size={20}/> : <Search size={20}/>}
+                 {FLOATING_NAV.map((item, i) => (
+                    <a 
+                      key={i} 
+                      href={item.href} 
+                      onClick={(e) => handleFloatingClick(e, item.href.slice(1))}
+                      className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10"
+                      title={item.title}
+                    >
+                      <item.icon size={20}/>
                     </a>
                  ))}
               </div>
@@ -292,8 +421,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-
-
 
       {/* Main Service Categories */}
       <div className="bg-white">
@@ -308,7 +435,7 @@ export default function ServicesPage() {
 
 
       {/* Equipment Showcase (Special for Detection Category) */}
-      <section className="py-20 bg-slate-950 text-white relative overflow-hidden">
+      <section className="py-10 bg-slate-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute top-0 right-1/4 w-[300px] h-[300px] bg-brand-primary rounded-full blur-[100px]" />
           <div className="absolute bottom-0 left-1/4 w-[200px] h-[200px] bg-brand-accent rounded-full blur-[80px]" />
@@ -317,7 +444,7 @@ export default function ServicesPage() {
         <div className="section-container relative z-10">
           <div className="text-center mb-16">
             <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">Trang Thiết Bị</p>
-            <h2 className="text-3xl md:text-5xl font-bold uppercase">Thiết Bị Dò Tìm Hiện Đại Nhất</h2>
+            <h2 className="font-bold uppercase text-white">Thiết Bị Dò Tìm Hiện Đại Nhất</h2>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -357,30 +484,23 @@ export default function ServicesPage() {
                     height={200}
                   />
                 </div>
-                <h4 className="text-xl font-bold mb-3">{item.title}</h4>
-                <p className="text-slate-500 text-sm">{item.desc}</p>
+                <h4 className="text-xl font-bold mb-3 text-white">{item.title}</h4>
+                <p className="text-slate-300 text-sm">{item.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Reusable Sections */}
-      <WhyChooseUs />
-      <ProcessTimeline />
-      <FeaturedProducts />
-      <Testimonials />
-      <FAQSection />
-      
       {/* Final CTA */}
-      <div className="bg-brand-secondary py-20">
+      <div className="bg-brand-secondary py-10">
         <div className="section-container">
-          <div className="bg-brand-primary rounded-[3rem] p-12 text-center text-white relative overflow-hidden shadow-2xl shadow-brand-primary/40">
+          <div className="bg-brand-primary rounded-3xl md:rounded-[3rem] p-12 text-center text-white relative overflow-hidden shadow-2xl shadow-brand-primary/40">
             {/* Shapes */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full blur-2xl -ml-24 -mb-24" />
             
-            <h2 className="text-3xl md:text-6xl font-bold uppercase mb-8 leading-tight">
+            <h2 className="font-bold uppercase mb-8 leading-tight">
               Hỗ Trợ Khẩn Cấp <span className="text-brand-secondary">24/7</span> <br />
               Giải Quyết Mọi Sự Cố Ngay Lập Tức
             </h2>
@@ -388,11 +508,11 @@ export default function ServicesPage() {
               Đừng để sự cố kéo dài gây hư hại tài sản. Gọi ngay cho đội ngũ kỹ thuật của Hoàng Tuấn MPE để được hỗ trợ trong 30 phút.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-secondary text-white px-10 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-all shadow-xl">
-                <Phone size={24} />
+              <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-secondary text-white px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-lg sm:text-xl hover:scale-105 transition-all shadow-xl">
+                <Phone size={24} className="sm:w-6 sm:h-6 w-5 h-5" />
                 0389 011 315
               </a>
-              <a href="https://zalo.me/0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-white text-brand-primary px-10 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-all shadow-xl">
+              <a href="https://zalo.me/0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-white text-brand-primary px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-lg sm:text-xl hover:scale-105 transition-all shadow-xl">
                 <MessageCircle size={24} />
                 Chat Zalo tư vấn
               </a>

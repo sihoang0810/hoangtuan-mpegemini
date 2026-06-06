@@ -1,13 +1,15 @@
 import fs from 'fs';
 import path from 'path';
+import { LOCALIZED_BLOGS } from './src/data/localizedBlog';
 
 const DOMAIN = 'https://hoangtuanmpe.com';
 
-const LOCATIONS = ['bao-loc', 'ho-chi-minh'];
+const LOCATIONS = ['bao-loc', 'ho-chi-minh'] as const;
 
 const STATIC_SUBPAGES = [
   '', // Location Home
   '/dich-vu',
+  '/du-an',
   '/san-pham',
   '/bang-gia',
   '/blog',
@@ -82,37 +84,11 @@ const PRODUCT_SLUGS = [
   "dong-ho-nuoc-sach-asahi-gmk-dn15"
 ];
 
-const BLOG_TOPIC_SLUGS = [
-  "meo-xu-ly-den-led-nhap-nhay",
-  "hoa-don-nuoc-tang-vot-do-ro-ri",
-  "cb-aptomat-nhay-lien-tuc",
-  "may-bom-keu-to-Khong-len-nuoc",
-  "binh-nong-lanh-lau-nong-keu-lup-bup",
-  "camera-mat-mau-nhieu-song",
-  "tuong-nha-o-vang-tham-nuoc",
-  "o-cam-dien-xet-lua-long-leo",
-  "bon-cau-xa-nuoc-yeu-troi-cham",
-  "dau-ghi-camera-keu-tit-tit",
-  "nuoc-sinh-hoat-co-mui-tanh",
-  "phao-co-bon-nuoc-hong-tran",
-  "quat-hut-mui-ve-sinh-keu-to",
-  "may-bom-tang-ap-keu-tach-tach",
-  "cb-chong-giat-nhay-khi-troi-mua",
-  "den-tuyp-huynh-quang-sang-mo-den-dau",
-  "mat-dien-nua-nha",
-  "voi-sen-nuoc-chay-yeu",
-  "tu-dien-boc-mui-khet",
-  "camera-wifi-offline",
-  "dien-ap-nhay-nhot-den-mo-sang",
-  "ong-nuoc-nong-ppr-ran-nut",
-  "khoa-cua-van-tay-khong-nhan",
-  "chuong-hinh-khong-hien-nguoi-goi",
-  "may-giat-trao-bot-cong-san",
-  "cap-ngam-duc-dut-ro-dien",
-  "cam-bien-bao-chay-hu-lien-tuc",
-  "voi-nuoc-rua-chen-gat-gu-ri-nuoc",
-  "quat-tran-lang-lac-rung-lac",
-  "cong-tac-dien-bat-nguoc-moi-sang"
+const PROJECT_SLUGS = [
+  "sua-dien-biet-thu-dalat",
+  "do-tim-ro-ri-nhatrang",
+  "lap-dat-camera-xuong-may",
+  "bao-tri-dien-nuoc-khach-san"
 ];
 
 function generate() {
@@ -120,7 +96,7 @@ function generate() {
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 
-  // Add a redirect or fallback root page
+  // Add root domain page
   xml += `  <url>\n    <loc>${DOMAIN}/</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>\n`;
 
   LOCATIONS.forEach(loc => {
@@ -141,11 +117,18 @@ function generate() {
       xml += `  <url>\n    <loc>${DOMAIN}/${loc}/san-pham/${slug}</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
     });
 
-    // 4. Blog details: slug-bao-loc or slug-ho-chi-minh
-    BLOG_TOPIC_SLUGS.forEach(topic => {
-      const finalSlug = `${topic}-${loc}`;
-      xml += `  <url>\n    <loc>${DOMAIN}/${loc}/blog/${finalSlug}</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+    // 4. Projects details
+    PROJECT_SLUGS.forEach(slug => {
+      xml += `  <url>\n    <loc>${DOMAIN}/${loc}/du-an/${slug}</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n`;
     });
+
+    // 5. Dynamic Blog details directly loaded from localized record
+    const locationData = LOCALIZED_BLOGS[loc];
+    if (locationData && locationData.posts) {
+      locationData.posts.forEach(post => {
+        xml += `  <url>\n    <loc>${DOMAIN}/${loc}/blog/${post.slug}</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+      });
+    }
   });
 
   xml += '</urlset>\n';

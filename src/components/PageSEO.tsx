@@ -11,7 +11,7 @@ import {
 import { LOCALIZED_SEO, LOCALIZED_BUSINESS_SCHEMA } from '../data/localizedSeo';
 
 interface PageSEOProps {
-  pageType?: 'home' | 'service' | 'product' | 'article' | 'faq' | 'general';
+  pageType?: 'home' | 'service' | 'product' | 'article' | 'faq' | 'general' | 'project';
   data?: any; // The service, product, or post document
 }
 
@@ -22,14 +22,61 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
   const [biz, setBiz] = useState<CMSLocalBusiness | null>(null);
 
   useEffect(() => {
+    // Tell crawler not to serialize/capture HTML yet
+    if (typeof window !== 'undefined') {
+      (window as any).prerenderReady = false;
+    }
+
     let active = true;
-    getSeo(routerLoc.pathname, locationSlug).then(data => {
-      if (active) setSeo(data);
-    });
-    getLocalBusiness(locationSlug).then(data => {
-      if (active) setBiz(data);
-    });
-    return () => { active = false; };
+    let seoDone = false;
+    let bizDone = false;
+
+    const checkComplete = () => {
+      if (active && seoDone && bizDone) {
+        if (typeof window !== 'undefined') {
+          // Both metadata models are loaded; allow brief 100ms tick for react-helmet to commit tags
+          setTimeout(() => {
+            (window as any).prerenderReady = true;
+          }, 100);
+        }
+      }
+    };
+
+    getSeo(routerLoc.pathname, locationSlug)
+      .then(data => {
+        if (active) {
+          setSeo(data);
+          seoDone = true;
+          checkComplete();
+        }
+      })
+      .catch((err) => {
+        console.warn('SEO fetch failed, using fallback:', err);
+        if (active) {
+          seoDone = true;
+          checkComplete();
+        }
+      });
+
+    getLocalBusiness(locationSlug)
+      .then(data => {
+        if (active) {
+          setBiz(data);
+          bizDone = true;
+          checkComplete();
+        }
+      })
+      .catch((err) => {
+        console.warn('Biz schema fetch failed, using fallback:', err);
+        if (active) {
+          bizDone = true;
+          checkComplete();
+        }
+      });
+
+    return () => { 
+      active = false; 
+    };
   }, [routerLoc.pathname, locationSlug]);
 
   const fallback_location = (locationSlug as string === 'ho-chi-minh' || locationSlug as string === 'hcm') ? 'ho-chi-minh' : 'bao-loc';
@@ -77,13 +124,49 @@ export default function PageSEO({ pageType = 'general', data }: PageSEOProps) {
       metaDescription: (data.excerpt || `Chia sẻ kinh nghiệm sửa chữa điện nước, lắp đặt camera thực tế tại khu vực ${locName} từ đội ngũ Hoàng Tuấn MPE.`).substring(0, 160),
       keywords: [data.title, 'kinh nghiệm sửa điện', locName]
     };
+  } else if (pageType === 'project' && data) {
+    fallbackSeo = {
+      pagePath: routerLoc.pathname,
+      metaTitle: `${data.title} tại ${locName} | Công trình Hoàng Tuấn MPE`,
+      metaDescription: `${data.shortDescription || data.fullDescription || `Công trình thực tế thi công bởi đội ngũ kĩ sư Hoàng Tuấn MPE tại ${locName}.`}`.substring(0, 160),
+      keywords: [data.title, `thi công ${data.category}`, `dự án ${locName}`, 'Hoàng Tuấn MPE'].filter(Boolean)
+    };
   }
 
   const activeSeo = seo || fallbackSeo;
   const activeBiz = biz || localBizFallback;
   const siteOrigin = 'https://hoangtuanmpe.com';
-  const currentHref = `${siteOrigin}${routerLoc.pathname}`;
-  const canonical = activeSeo.canonicalUrl || currentHref;
+  
+  // Strict path normalization for SEO:
+  // 1. Lowercase path
+  // 2. Collapse contiguous slashes
+  // 3. Remove trailing slashes (unless it is '/')
+  let cleanNormPath = routerLoc.pathname.toLowerCase().replace(/\/+/g, '/');
+  if (cleanNormPath.length > 1 && cleanNormPath.endsWith('/')) {
+    cleanNormPath = cleanNormPath.slice(0, -1);
+  }
+  const currentHref = `${siteOrigin}${cleanNormPath}`;
+
+  // Custom canonical from CMS or normalized currentHref
+  let rawCanonical = activeSeo.canonicalUrl || currentHref;
+  let canonical = rawCanonical;
+  if (rawCanonical) {
+    try {
+      const u = new URL(rawCanonical);
+      let p = u.pathname.toLowerCase().replace(/\/+/g, '/');
+      if (p.length > 1 && p.endsWith('/')) {
+        p = p.slice(0, -1);
+      }
+      canonical = `${u.protocol}//${u.hostname}${p}`;
+    } catch {
+      let p = rawCanonical.toLowerCase().replace(/\/+/g, '/');
+      if (p.length > 1 && p.endsWith('/')) {
+        p = p.slice(0, -1);
+      }
+      canonical = p;
+    }
+  }
+
   const ogImg = activeSeo.ogImage || 'https://images.unsplash.com/photo-1542013936-6533e14cb263?auto=format&fit=crop&q=80&w=1200';
 
   const schemas: any[] = [];

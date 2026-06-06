@@ -8,9 +8,13 @@ import { getProducts, getProductsSync, CMSProduct } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 
+import Breadcrumbs from '../components/Breadcrumbs';
+
 export default function ProductListing() {
   
   const { locationSlug } = useLocation();
+  const siteLocationPrefix = '/' + locationSlug;
+
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [dbProducts, setDbProducts] = useState<CMSProduct[]>(() => getProductsSync(locationSlug));
@@ -73,12 +77,13 @@ export default function ProductListing() {
   return (
     <div id="products" className="pt-20 min-h-[80vh]">
       <PageSEO pageType="general" />
+
       {/* Hero Section */}
-      <section className="bg-slate-900 py-24 relative overflow-hidden">
+      <section className="bg-slate-900 pb-16 md:pb-24 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-primary/10 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 left-0 w-1/4 h-full bg-brand-primary/5 blur-[100px] rounded-full -translate-x-1/2 translate-y-1/2" />
         
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 relative z-10 py-12 md:py-16 lg:py-24">
           <div className="max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -92,7 +97,7 @@ export default function ProductListing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-7xl font-bold text-white mb-8 uppercase tracking-tighter leading-tight"
+              className="font-bold text-white mb-8 uppercase tracking-tighter leading-tight"
             >
               Sản Phẩm <span className="text-brand-primary text-outline">Chất Lượng</span> <br />
               Dịch Vụ Tận Tâm
@@ -101,7 +106,7 @@ export default function ProductListing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-xl text-slate-500 font-medium leading-relaxed mb-10"
+              className="text-xl text-slate-300 font-medium leading-relaxed mb-10"
             >
               Cung cấp đầy đủ các thiết bị điện, nước, camera và máy dò rò rỉ rước hiện đại nhất. 
               Cam kết chính hãng, bảo hành dài hạn.
@@ -123,7 +128,7 @@ export default function ProductListing() {
 
       {/* Categories & Listing */}
       <section id="product-list-section" className="section-container bg-slate-50">
-        <div className="flex flex-col lg:flex-row gap-12">
+        <div className="flex flex-col lg:flex-row gap-6 md:gap-12 lg:gap-16">
           {/* Sidebar Filters */}
           <aside className="lg:w-1/4">
             <div className="sticky top-24 space-y-8">
@@ -245,7 +250,7 @@ export default function ProductListing() {
                       <button
                         type="button"
                         onClick={() => setVisibleAllCount((prev) => prev + 4)}
-                        className="px-8 py-4 bg-brand-primary text-white font-bold rounded-2xl hover:bg-brand-primary/90 transition-all shadow-lg shadow-brand-primary/20 hover:scale-105 active:scale-95 uppercase tracking-wider text-sm cursor-pointer"
+                        className="px-6 py-4 md:px-8 md:py-4 bg-brand-primary text-white font-bold rounded-2xl hover:bg-brand-primary/90 transition-all shadow-lg shadow-brand-primary/20 hover:scale-105 active:scale-95 uppercase tracking-wider text-sm cursor-pointer"
                       >
                         Xem thêm sản phẩm
                       </button>
@@ -257,7 +262,7 @@ export default function ProductListing() {
                       <button
                         type="button"
                         onClick={() => setVisibleCategoryCount((prev) => prev + 12)}
-                        className="px-8 py-4 bg-brand-primary text-white font-bold rounded-2xl hover:bg-brand-primary/90 transition-all shadow-lg shadow-brand-primary/20 hover:scale-105 active:scale-95 uppercase tracking-wider text-sm cursor-pointer"
+                        className="px-6 py-4 md:px-8 md:py-4 bg-brand-primary text-white font-bold rounded-2xl hover:bg-brand-primary/90 transition-all shadow-lg shadow-brand-primary/20 hover:scale-105 active:scale-95 uppercase tracking-wider text-sm cursor-pointer"
                       >
                         Xem thêm sản phẩm
                       </button>
@@ -268,7 +273,7 @@ export default function ProductListing() {
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-center py-20 bg-white rounded-[3rem] border border-dashed border-slate-200"
+                  className="text-center py-20 bg-white rounded-3xl md:rounded-[3rem] border border-dashed border-slate-200"
                 >
                   <Search size={48} className="mx-auto text-slate-300 mb-4" />
                   <h3 className="text-xl font-bold text-brand-secondary mb-2 uppercase">Không tìm thấy sản phẩm</h3>
@@ -289,12 +294,12 @@ export default function ProductListing() {
       {/* Bottom CTA */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-brand-primary/5 rounded-[3rem] p-12 md:p-20 text-center">
-            <h2 className="text-3xl md:text-5xl font-bold text-brand-secondary mb-8 uppercase tracking-tighter">
+          <div className="bg-brand-primary/5 rounded-3xl md:rounded-[3rem] p-12 md:p-20 text-center">
+            <h2 className="font-bold text-brand-secondary mb-8 uppercase tracking-tighter">
               Tại Sao Nên Mua Thiết Bị <br />
               Tại <span className="text-brand-primary">Hoàng Tuấn MPE?</span>
             </h2>
-            <div className="grid md:grid-cols-3 gap-12 text-left">
+            <div className="grid md:grid-cols-3 gap-6 md:gap-12 lg:gap-16 text-left">
               <div className="space-y-4">
                 <div className="w-12 h-12 bg-white rounded-xl shadow-md flex items-center justify-center text-brand-primary font-bold">01</div>
                 <h4 className="text-xl font-bold text-brand-secondary uppercase tracking-tight">Chính Hãng 100%</h4>

@@ -59,9 +59,9 @@ export default function Contact() {
     <div id="contact" className="pt-24 md:pt-32">
       <PageSEO pageType="general" />
       <section className="section-container">
-        <div className="grid lg:grid-cols-2 gap-20 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-start">
           <div>
-            <h1 className="text-4xl md:text-6xl font-bold text-brand-secondary mb-8 uppercase tracking-tighter" dangerouslySetInnerHTML={{ __html: pageTitle.includes('Chúng Tôi') ? pageTitle.replace('Chúng Tôi', '<span class="text-brand-primary">Chúng Tôi</span>') : pageTitle }} />
+            <h1 className="font-bold text-brand-secondary mb-8 uppercase tracking-tighter" dangerouslySetInnerHTML={{ __html: pageTitle.includes('Chúng Tôi') ? pageTitle.replace('Chúng Tôi', '<span class="text-brand-primary">Chúng Tôi</span>') : pageTitle }} />
             <p className="text-lg text-slate-500 mb-12 leading-relaxed font-medium" dangerouslySetInnerHTML={{ __html: pageSubtitle }} />
 
             <div className="space-y-8">

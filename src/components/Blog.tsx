@@ -31,7 +31,7 @@ const Blog = () => {
 
 
   return (
-    <section id="blog" className="py-24 bg-white">
+    <section id="blog" className="bg-slate-50 w-full overflow-hidden">
       <div className="section-container">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-2xl">
@@ -48,7 +48,7 @@ const Blog = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl font-bold text-brand-secondary uppercase leading-[0.9] tracking-tighter"
+              className="font-bold text-brand-secondary uppercase leading-none tracking-tighter"
             >
               Blog & <span className="text-brand-primary">Kinh Nghiệm</span>
             </motion.h2>
@@ -60,10 +60,11 @@ const Blog = () => {
           >
             <Link 
               to={`/${locationSlug}/blog`} 
+              onClick={() => console.log('Navigation target:', `/${locationSlug}/blog`)}
               className="group flex items-center gap-3 text-brand-secondary font-bold uppercase text-sm tracking-widest hover:text-brand-primary transition-colors"
             >
               Xem tất cả bài viết
-              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-brand-primary group-hover:text-white transition-all">
+              <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-brand-primary group-hover:text-white transition-all">
                 <ArrowRight size={20} />
               </div>
             </Link>

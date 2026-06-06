@@ -85,7 +85,9 @@ export const servicesQuery = `*[_type == "service" && location->slug.current == 
   faq[] {
     question,
     answer
-  }
+  },
+  isPinned,
+  order
 }`;
 
 export const serviceBySlugQuery = `*[_type == "service" && (slug == $slug || slug.current == $slug) && location->slug.current == $locationSlug][0] {
@@ -108,7 +110,9 @@ export const serviceBySlugQuery = `*[_type == "service" && (slug == $slug || slu
   faq[] {
     question,
     answer
-  }
+  },
+  isPinned,
+  order
 }`;
 
 // 5. Post Categories

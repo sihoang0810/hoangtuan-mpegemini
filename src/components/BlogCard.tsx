@@ -23,7 +23,11 @@ export default function BlogCard({ post, index }: BlogCardProps) {
       transition={{ delay: Math.min((index % 3) * 0.05, 0.15), duration: 0.3 }}
       className="group bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col h-full"
     >
-      <Link to={`${siteLocationPrefix}/blog/${post?.slug || '#'}`} className="relative h-64 overflow-hidden block text-brand-secondary">
+      <Link 
+        to={`${siteLocationPrefix}/blog/${post?.slug || '#'}`} 
+        onClick={() => console.log('Navigation target:', `${siteLocationPrefix}/blog/${post?.slug || '#'}`)}
+        className="relative h-64 overflow-hidden block text-brand-secondary"
+      >
         <motion.img
           whileHover={{ scale: 1.1 }}
           transition={{ duration: 0.6 }}
@@ -58,7 +62,11 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           </div>
         </div>
         
-        <Link to={`${siteLocationPrefix}/blog/${post?.slug || '#'}`} className="block">
+        <Link 
+          to={`${siteLocationPrefix}/blog/${post?.slug || '#'}`} 
+          onClick={() => console.log('Navigation target:', `${siteLocationPrefix}/blog/${post?.slug || '#'}`)}
+          className="block"
+        >
           <h3 className="text-xl font-bold text-brand-secondary mb-4 leading-tight group-hover:text-brand-primary transition-colors line-clamp-2 tracking-tight">
             {post?.title || 'Tuyệt tác từ nhà Hoàng Tuấn'}
           </h3>
@@ -69,6 +77,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
         <div className="mt-auto pt-6 border-t border-slate-50">
           <Link 
             to={`${siteLocationPrefix}/blog/${post?.slug || '#'}`} 
+            onClick={() => console.log('Navigation target:', `${siteLocationPrefix}/blog/${post?.slug || '#'}`)}
             className="inline-flex items-center gap-2 text-brand-primary font-bold uppercase text-xs tracking-widest hover:gap-4 transition-all"
           >
             Đọc bài viết

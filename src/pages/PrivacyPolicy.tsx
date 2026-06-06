@@ -6,7 +6,7 @@ export default function PrivacyPolicy() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="pt-24 md:pt-32 min-h-screen bg-slate-50 text-slate-800">
+    <div className="pt-24 md:pt-32 min-h-screen pb-20 md:pb-0 bg-slate-50 text-slate-800">
       <PageSEO pageType="general" />
       
       {/* Page Header */}
@@ -16,7 +16,7 @@ export default function PrivacyPolicy() {
             <Lock size={18} />
             <span>Quyền riêng tư tối cao</span>
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-secondary tracking-tight mb-4">
+          <h1 className="font-extrabold text-brand-secondary tracking-tight mb-4">
             Chính Sách Bảo Mật
           </h1>
           <p className="text-slate-500 font-medium text-base md:text-lg">

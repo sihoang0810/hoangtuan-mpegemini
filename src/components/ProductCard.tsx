@@ -14,10 +14,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const siteLocationPrefix = '/' + locationSlug;
   const navigate = useNavigate();
 
+  const handleCardClick = () => {
+    const targetUrl = `${siteLocationPrefix}/san-pham/${product.slug}`;
+    console.log('Navigation target:', targetUrl);
+    navigate(targetUrl);
+  };
+
   return (
     <motion.div
       whileHover={{ y: -10 }}
-      onClick={() => window.location.assign(`${siteLocationPrefix}/san-pham/${product.slug}`)}
+      onClick={handleCardClick}
       className="bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/50 group flex flex-col h-full cursor-pointer"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
@@ -59,7 +65,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
           <Link 
             to={`${siteLocationPrefix}/san-pham/${product.slug}`}
-            className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm"
+            onClick={() => console.log('Navigation target:', `${siteLocationPrefix}/san-pham/${product.slug}`)}
+            className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm"
             id={`view-details-${product.id}`}
           >
             <ArrowRight size={18} />

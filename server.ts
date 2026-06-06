@@ -4,7 +4,6 @@ import prerender from "prerender-node";
 import { exec } from "child_process";
 import fs from "fs";
 import dotenv from "dotenv";
-import { createClient } from "@sanity/client";
 
 import compression from "compression";
 import helmet from "helmet";
@@ -60,6 +59,7 @@ async function startServer() {
       const projId = process.env.VITE_SANITY_PROJECT_ID || "";
       const dtset = process.env.VITE_SANITY_DATASET || "production";
 
+      const { createClient } = await import("@sanity/client");
       const sanityWriteClient = createClient({
         projectId: projId,
         dataset: dtset,

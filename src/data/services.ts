@@ -1,4 +1,4 @@
-import { Zap, ShieldCheck, Settings, Wrench, Droplet, CheckCircle2, Video, Search, Lightbulb, Hammer, Activity } from 'lucide-react';
+import { Zap, ShieldCheck, Settings, Wrench, Droplet, CheckCircle2, Video, Search, Lightbulb, Hammer, Activity, Cpu } from 'lucide-react';
 
 export interface Service {
   id: string;
@@ -7,10 +7,15 @@ export interface Service {
   shortDescription: string;
   fullDescription: string;
   icon: any;
-  category: 'electrical' | 'plumbing' | 'camera' | 'detection';
+  category: 'electrical' | 'plumbing' | 'camera' | 'detection' | 'smarthome';
   features: string[];
   pricing: { item: string; price: string; unit?: string }[];
   image?: string;
+  gallery?: {
+    type: 'image' | 'video';
+    url: string;
+    thumbnail?: string;
+  }[];
   benefits?: string[];
   faq?: { question: string; answer: string }[];
 }
@@ -273,5 +278,84 @@ export const SERVICES: Service[] = [
     pricing: [
       { item: 'Kiểm tra tổng quát', price: 'Từ 400.000đ', unit: 'lần' }
     ]
+  },
+  
+  // SMART HOME (NHÀ THÔNG MINH)
+  {
+    id: 'sm1',
+    slug: 'cong-tac-cua-cuon-thong-minh',
+    title: 'Công tắc cửa cuốn thông minh',
+    shortDescription: 'Điều khiển, hẹn giờ, kiểm tra trạng thái cửa cuốn mọi lúc mọi nơi từ xa qua điện thoại di động.',
+    fullDescription: 'Lắp đặt thay thế công tắc cơ truyền thống bằng công tắc cửa cuốn thông minh có kết nối Wi-Fi/Zigbee. Cho phép bạn điều khiển đóng/mở từ xa, khóa/mở khóa thông minh, lập lịch đóng tự động vào ban đêm để tăng cường an ninh tuyệt đối cho gia đình.',
+    icon: Cpu,
+    category: 'smarthome',
+    features: ['Điều khiển qua Smartphone', 'Hẹn giờ đóng mở tự động', 'Chia sẻ cho người thân', 'Phản hồi trạng thái thực tế'],
+    pricing: [
+      { item: 'Công tắc cảm ứng cửa cuốn (Wi-Fi)', price: 'Từ 850.000đ', unit: 'bộ' },
+      { item: 'Công tắc cửa cuốn Zigbee cao cấp', price: 'Từ 1.150.000đ', unit: 'bộ' },
+      { item: 'Công lắp đặt & cấu hình app', price: 'Từ 200.000đ', unit: 'lần' }
+    ],
+    image: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800',
+    gallery: [
+      {
+        type: 'video',
+        url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800',
+      },
+      {
+        type: 'image',
+        url: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800',
+      }
+    ],
+    benefits: ['Kiểm soát an ninh từ xa', 'Tự động đóng cửa khi đi ngủ', 'Bảo hành 24 tháng chính hãng'],
+    faq: [
+      { question: 'Có thể mở bằng tay khi mất mạng Internet không?', answer: 'Có, các nút bấm vật lý/cảm ứng trên công tắc vẫn hoạt động bình thường kể cả khi mất kết nối Internet.' },
+      { question: 'Cửa cuốn cũ có lắp được không?', answer: 'Hầu hết các dòng cửa cuốn hiện nay trên thị trường đều có thể lắp đặt và nâng cấp lên công tắc thông minh.' }
+    ]
+  },
+  {
+    id: 'sm2',
+    slug: 'cong-tac-dien-thong-minh',
+    title: 'Công tắc điện thông minh',
+    shortDescription: 'Điều khiển tắt/mở hệ thống chiếu sáng bằng điện thoại hoặc giọng nói và lập lịch thông minh.',
+    fullDescription: 'Thiết kế tinh tế mang tính thẩm mỹ cao với mặt kính cường lực chống trầy xước. Cho phép hẹn giờ bật tắt đèn tự động, liên kết kịch bản thông minh (ví dụ: mở cửa tự bật sáng), chống giật điện an toàn khi tay ướt bấm nút.',
+    icon: Lightbulb,
+    category: 'smarthome',
+    features: ['Kính cường lực sang trọng', 'Điều khiển giọng nói Alexa/Google', 'Hẹn giờ tắt/bật thông minh', 'Lắp vừa đế âm tường cũ'],
+    pricing: [
+      { item: 'Công tắc cảm ứng Wi-Fi 1 nút', price: 'Từ 450.000đ', unit: 'cái' },
+      { item: 'Công tắc cảm ứng Wi-Fi 2-4 nút', price: 'Từ 550.000đ', unit: 'cái' },
+      { item: 'Lắp đặt, căn chỉnh dây điện', price: 'Từ 100.000đ', unit: 'nút' }
+    ],
+    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800',
+    benefits: ['Tiết kiệm điện năng tối đa', 'An toàn tuyệt đối cho trẻ nhỏ', 'Bảo hành 24 tháng chính hãng']
+  },
+  {
+    id: 'sm3',
+    slug: 'cam-bien-an-ninh-thong-minh',
+    title: 'Cảm biến an ninh thông minh (Sắp ra mắt)',
+    shortDescription: 'Hệ thống cảm biến chống đột nhập, rò rỉ khí độc, báo cháy khẩn cấp qua ứng dụng.',
+    fullDescription: 'Dịch vụ đang được thử nghiệm công nghệ và cấu hình chuẩn chỉnh từ các nhà sản xuất nổi tiếng. Chúng tôi sẽ sớm cập nhật và ra mắt khách hàng trong thời gian tới để hoàn thiện ngôi nhà an toàn.',
+    icon: ShieldCheck,
+    category: 'smarthome',
+    features: ['Sắp ra mắt (Coming soon)', 'Cấu hình đỉnh cao', 'Kết nối bảo mật'],
+    pricing: [
+      { item: 'Dịch vụ đang phát triển', price: 'Coming Soon', unit: 'hệ thống' }
+    ],
+    image: 'https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'sm4',
+    slug: 'chieu-sang-va-giai-tri-thong-minh',
+    title: 'Chiếu sáng & Giải trí thông minh (Sắp ra mắt)',
+    shortDescription: 'Hệ thống điều khiển TV, Điều hòa, Rèm cửa, Âm thanh đa vùng tự động hóa.',
+    fullDescription: 'Dịch vụ tích hợp nâng cao giúp bạn tự động hóa hoàn toàn không gian sống: tự động đóng rèm khi trời nắng, phát nhạc thư giãn khi về nhà, kiểm soát điều hòa tinh tế. Nội dung chi tiết sắp ra mắt.',
+    icon: Settings,
+    category: 'smarthome',
+    features: ['Sắp ra mắt (Coming soon)', 'Phong cách sống hiện đại', 'Trải nghiệm đỉnh cao'],
+    pricing: [
+      { item: 'Dịch vụ đang phát triển', price: 'Coming Soon', unit: 'thiết bị' }
+    ],
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800'
   }
 ];

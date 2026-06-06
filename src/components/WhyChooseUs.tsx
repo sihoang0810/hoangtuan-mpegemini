@@ -15,8 +15,9 @@ export default function WhyChooseUs({
   const subheading = cmsData?.whyChooseUsSubtitle !== undefined ? cmsData.whyChooseUsSubtitle : (cmsData?.subheading || "Dịch Vụ Uy Tín, Chất Lượng Hàng Đầu");
 
   return (
-    <section className="section-container bg-slate-50">
-      <div className="grid lg:grid-cols-2 gap-16 items-center">
+    <section className="py-12 md:py-16 lg:py-24 md:py-24 bg-slate-50 w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center">
         <div>
           <InlineEdit 
             value={heading}
@@ -30,7 +31,7 @@ export default function WhyChooseUs({
             value={subheading}
             isEditable={isEditable}
             onSave={(val) => onUpdateDraftField?.('whyChooseUsSubtitle', val)}
-            className="text-3xl md:text-4xl font-bold text-brand-secondary mb-8 block"
+            className="font-bold text-brand-secondary mb-8 block"
             element="h2"
             multiline={true}
           />
@@ -83,6 +84,7 @@ export default function WhyChooseUs({
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
   );
 }

@@ -18,6 +18,7 @@ import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 import { LOCATIONS } from '../constants';
 import OptimizedImage from '../components/OptimizedImage';
+import MediaGallery from '../components/MediaGallery';
 
 const ServiceDetailTemplate = () => {
   const { slug } = useParams();
@@ -71,7 +72,7 @@ const ServiceDetailTemplate = () => {
 
   if (loading) {
     return (
-      <div className="pt-40 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+      <div className="pt-40 pb-16 md:pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
         <PageSEO pageType="general" />
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary mb-4" />
         <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Đang tải chi tiết dịch vụ...</p>
@@ -81,10 +82,10 @@ const ServiceDetailTemplate = () => {
 
   if (!service) {
     return (
-      <div className="pt-32 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+      <div className="pt-24 md:pt-32 pb-16 md:pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
         <PageSEO pageType="general" />
         <AlertCircle size={64} className="mx-auto text-brand-primary mb-6 animate-pulse" />
-        <h1 className="text-3xl font-bold text-brand-secondary mb-4 uppercase">Không tìm thấy dịch vụ</h1>
+        <h1 className="font-bold text-brand-secondary mb-4 uppercase">Không tìm thấy dịch vụ</h1>
         <p className="text-slate-500 mb-8">Dịch vụ bạn đang tìm kiếm không tồn tại hoặc đã bị thay đổi.</p>
         <Link to={`${siteLocationPrefix}/dich-vu`} className="bg-brand-primary text-white px-8 py-3 rounded-xl font-bold">
           Quay lại danh sách dịch vụ
@@ -102,22 +103,9 @@ const ServiceDetailTemplate = () => {
     <div className="pt-20">
       <PageSEO pageType="service" data={service} />
       
-      {/* Breadcrumbs */}
-      <div className="bg-slate-50 py-4">
-        <div className="section-container">
-          <Breadcrumbs 
-            items={[
-              { label: 'Dịch vụ', href: `${siteLocationPrefix}/dich-vu` },
-              { label: `${service.title} ${locName}`, active: true }
-            ]} 
-            homeHref={siteLocationPrefix}
-          />
-        </div>
-      </div>
-
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24 bg-white overflow-hidden">
-        <div className="section-container grid lg:grid-cols-2 gap-12 items-center">
+      <section className="relative py-0 bg-white overflow-hidden">
+        <div className="section-container !py-0 grid lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -125,10 +113,10 @@ const ServiceDetailTemplate = () => {
             <div className="flex items-center gap-3 text-brand-primary mb-6">
               <ServiceIcon size={32} />
               <span className="font-bold uppercase tracking-widest">
-                {service.category === 'electrical' ? 'Điện dân dụng' : service.category === 'plumbing' ? 'Nước dân dụng' : service.category === 'camera' ? 'Camera an ninh' : 'Siêu âm rò rỉ'}
+                {service.category === 'electrical' ? 'Điện dân dụng' : service.category === 'plumbing' ? 'Nước dân dụng' : service.category === 'camera' ? 'Camera an ninh' : service.category === 'smarthome' ? 'Nhà thông minh' : 'Siêu âm rò rỉ'}
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-brand-secondary mb-6 uppercase tracking-tighter leading-tight">
+            <h1 className="font-bold text-brand-secondary mb-6 uppercase tracking-tighter leading-tight">
               Dịch vụ {service.title} Tại {locName} — Thợ Uy Tín 24/7
             </h1>
             <div 
@@ -136,7 +124,7 @@ const ServiceDetailTemplate = () => {
               dangerouslySetInnerHTML={{ __html: service.fullDescription || service.shortDescription || '' }}
             />
             
-            <div className="grid grid-cols-2 gap-4 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
               <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                 <Clock className="text-brand-primary" size={24} />
                 <div>
@@ -154,12 +142,12 @@ const ServiceDetailTemplate = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 active:scale-95 transition-all uppercase">
-                <Phone size={20} />
+              <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-base sm:text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 active:scale-95 transition-all uppercase">
+                <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
                 Gọi Ngay 0389 011 315
               </a>
-              <a href={`https://zalo.me/0389011315?text=${encodeURIComponent(`Chào Hoàng Tuấn MPE, tôi cần tư vấn dịch vụ ${service.title} tại ${locName}`)}`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-8 py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition-all uppercase">
-                <MessageCircle size={20} />
+              <a href={`https://zalo.me/0389011315?text=${encodeURIComponent(`Chào Hoàng Tuấn MPE, tôi cần tư vấn dịch vụ ${service.title} tại ${locName}`)}`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-base sm:text-lg hover:opacity-90 transition-all uppercase">
+                <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                 Chat Zalo
               </a>
             </div>
@@ -170,18 +158,12 @@ const ServiceDetailTemplate = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="relative"
           >
-            <div className="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl bg-slate-100">
-              <OptimizedImage 
-                src={service.image}
-                alt={`${service.title} tại ${locName} - Hoàng Tuấn MPE`}
-                width={800}
-                height={600}
-                priority={true}
-                className="w-full h-full"
-              />
-            </div>
+            <MediaGallery 
+              items={service.gallery?.length ? service.gallery : (service.image ? [{ type: 'image', url: service.image }] : [])} 
+              altPrefix={`${service.title} tại ${locName} - Hoàng Tuấn MPE`}
+            />
             {/* Decal */}
-            <div className="absolute -bottom-6 -left-6 bg-brand-secondary text-white p-8 rounded-3xl shadow-xl max-w-[200px]">
+            <div className="absolute -bottom-6 -left-6 bg-brand-secondary text-white p-8 rounded-3xl shadow-xl max-w-[200px] hidden md:block z-10">
               <div className="text-4xl font-bold mb-1">100%</div>
               <div className="text-xs font-bold uppercase tracking-widest text-white/50">Cam kết hài lòng</div>
             </div>
@@ -192,7 +174,7 @@ const ServiceDetailTemplate = () => {
       {/* Pricing and Details */}
       <section className="py-20 bg-slate-50">
         <div className="section-container">
-          <div className="grid lg:grid-cols-3 gap-12">
+          <div className="grid lg:grid-cols-3 gap-6 md:gap-12 lg:gap-16">
             {/* Left Content */}
             <div className="lg:col-span-2 space-y-12">
               {/* Features List */}
@@ -228,8 +210,8 @@ const ServiceDetailTemplate = () => {
                     <Wrench className="text-brand-primary" />
                     Bảng giá {service.title} tại {locName}
                   </h2>
-                  <div className="overflow-hidden border border-slate-100 rounded-2xl">
-                    <table className="w-full text-left">
+                  <div className="overflow-x-auto border border-slate-100 rounded-2xl w-full">
+                    <table className="w-full text-left min-w-[500px]">
                       <thead className="bg-slate-50">
                         <tr>
                           <th className="px-6 py-4 font-bold text-brand-secondary">Hạng mục chi tiết</th>

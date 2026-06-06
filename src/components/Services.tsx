@@ -50,9 +50,17 @@ export default function Services({
 
   const activeServices = cmsData?.services || services;
   const sortedServices = [...activeServices].sort((a, b) => {
-    const aPinned = (a as any).isPinned ? 1 : 0;
-    const bPinned = (b as any).isPinned ? 1 : 0;
-    return bPinned - aPinned;
+    // Ưu tiên 1: Số thứ tự (order) được thiết lập thủ công trong CMS (số càng nhỏ càng lên đầu)
+    const aOrder = typeof a.order === 'number' ? a.order : 9999;
+    const bOrder = typeof b.order === 'number' ? b.order : 9999;
+    
+    if (aOrder !== bOrder) return aOrder - bOrder;
+    
+    // Ưu tiên 2: Dịch vụ được ghim (isPinned)
+    const aPinned = a.isPinned ? 1 : 0;
+    const bPinned = b.isPinned ? 1 : 0;
+    
+    return bPinned - aPinned; // Ghim = 1 sẽ đứng trước Không ghim = 0
   });
   const displayedServices = showAll ? sortedServices : sortedServices.slice(0, 6);
   const servicesHeading = cmsData?.servicesHeading !== undefined ? cmsData.servicesHeading : (cmsData?.heading || homepageContent.servicesHeading || "Dịch Vụ Của Chúng Tôi");
@@ -88,7 +96,7 @@ export default function Services({
             value={servicesSubtitle}
             isEditable={isEditable}
             onSave={(val) => onUpdateDraftField?.('servicesSubtitle', val)}
-            className="text-3xl md:text-5xl font-bold text-brand-secondary uppercase tracking-tighter block"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-secondary uppercase tracking-tighter block"
             element="h2"
             multiline={true}
           />
@@ -117,9 +125,11 @@ export default function Services({
                   if (isEditable) return;
                   // If they clicked an inline edit field or link, let it handle itself
                   if ((e.target as HTMLElement).tagName === 'A' || (e.target as HTMLElement).tagName === 'BUTTON') return;
-                  navigate(`/${locationSlug}/dich-vu/${service.slug}`);
+                  const targetUrl = `/${locationSlug}/dich-vu/${service.slug}`;
+                  console.log('Navigation target:', targetUrl);
+                  navigate(targetUrl);
                 }}
-                className={`group p-8 rounded-2xl bg-white border border-slate-100 shadow-xl shadow-slate-100 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all hover:-translate-y-2 flex flex-col h-full ${!isEditable ? 'cursor-pointer' : ''}`}
+                className={`group p-5 sm:p-8 rounded-2xl bg-white border border-slate-100 shadow-xl shadow-slate-100 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all hover:-translate-y-2 flex flex-col h-full ${!isEditable ? 'cursor-pointer' : ''}`}
               >
                 <div className="w-14 h-14 bg-brand-primary/10 text-brand-primary rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:text-white transition-colors">
                   <IconComponent size={28} />
@@ -144,6 +154,7 @@ export default function Services({
                 
                 <Link 
                   to={`/${locationSlug}/dich-vu/${service.slug}`}
+                  onClick={() => console.log('Navigation target:', `/${locationSlug}/dich-vu/${service.slug}`)}
                   className="flex items-center gap-2 font-bold text-brand-primary group-hover:gap-3 transition-all mt-auto"
                 >
                   Xem chi tiết
@@ -159,7 +170,7 @@ export default function Services({
         <div className="mt-12 text-center">
           <button 
             onClick={() => setShowAll(true)}
-            className="inline-flex items-center gap-2 bg-brand-secondary text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:bg-brand-primary hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 bg-brand-secondary text-white px-6 py-4 md:px-8 md:py-4 rounded-full font-bold text-lg shadow-xl hover:bg-brand-primary hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
           >
             Xem tất cả dịch vụ
             <ArrowRight size={20} />

@@ -14,10 +14,10 @@ const STEPS = [
 
 export default function ProcessTimeline() {
   return (
-    <section className="section-container bg-slate-50">
+    <section className="section-container bg-white">
       <div className="text-center mb-16">
         <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">Quy Trình Làm Việc</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-brand-secondary">
+        <h2 className="font-bold text-brand-secondary">
           Sửa Chữa Chuyên Nghiệp Trong 4 Bước
         </h2>
       </div>
@@ -73,10 +73,10 @@ export function FAQSection() {
 
   return (
     <section className="section-container bg-white">
-      <div className="grid lg:grid-cols-2 gap-16 items-start">
+      <div className="grid lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-start">
         <div>
           <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">Hỏi Đáp Thường Gặp</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-brand-secondary mb-8">
+          <h2 className="font-bold text-brand-secondary mb-8">
             Giải Đáp Thắc Mắc <br />Cho Khách Hàng
           </h2>
           <p className="text-lg text-slate-600 mb-10 leading-relaxed">
@@ -109,7 +109,7 @@ export function FAQSection() {
                 <span className={`font-bold transition-colors ${openIdx === idx ? 'text-brand-primary' : 'text-brand-secondary'}`}>
                   {faq.question}
                 </span>
-                <div className="shrink-0 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition-all">
+                <div className="shrink-0 w-10 h-10 md:w-8 md:h-8 rounded-full bg-slate-100 flex items-center justify-center transition-all">
                   <ChevronDown 
                     size={16} 
                     className={`transition-transform duration-300 text-slate-500 ${openIdx === idx ? 'rotate-180 text-brand-primary' : ''}`} 

@@ -139,7 +139,7 @@ export interface CMSService {
   shortDescription: string;
   fullDescription: string;
   icon: string;
-  category: 'electrical' | 'plumbing' | 'camera' | 'detection';
+  category: 'electrical' | 'plumbing' | 'camera' | 'detection' | 'smarthome';
   features: string[];
   pricing: {
     item: string;
@@ -147,12 +147,18 @@ export interface CMSService {
     unit?: string;
   }[];
   image?: string;
+  gallery?: {
+    type: 'image' | 'video';
+    url: string;
+    thumbnail?: string;
+  }[];
   benefits?: string[];
   faq?: {
     question: string;
     answer: string;
   }[];
   isPinned?: boolean;
+  order?: number;
 }
 
 export interface CMSPostCategory {
@@ -182,6 +188,19 @@ export interface CMSBlogPost {
     answer: string;
   }[];
   isPinned?: boolean;
+}
+
+export interface CMSProject {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  category?: string;
+  completionDate?: string;
+  location?: string;
+  gallery?: string[];
+  order?: number;
 }
 
 export interface CMSProductCategory {
@@ -803,13 +822,18 @@ export async function getServiceCategories(): Promise<CMSServiceCategory[]> {
     { id: 'electrical', title: 'Điện dân dụng', description: 'Sửa chữa lắp đặt hệ thống điện gia đình', icon: 'Zap', color: 'blue' },
     { id: 'plumbing', title: 'Nước dân dụng', description: 'Xử lý các sự cố gãy vòi rò rỉ nước', icon: 'Droplet', color: 'cyan' },
     { id: 'camera', title: 'Camera giám sát', description: 'Hệ thống camera an ninh sắc nét', icon: 'Video', color: 'indigo' },
-    { id: 'detection', title: 'Siêu âm dò tìm', description: 'Tìm kiếm rò rỉ nước ngầm không đục phá', icon: 'Search', color: 'amber' }
+    { id: 'detection', title: 'Siêu âm dò tìm', description: 'Tìm kiếm rò rỉ nước ngầm không đục phá', icon: 'Search', color: 'amber' },
+    { id: 'smarthome', title: 'Nhà thông minh', description: 'Hệ thống thiết bị thông minh tiện ích', icon: 'Cpu', color: 'emerald' }
   ];
 
   if (!isSanityConfigured) return fallbackCategories;
   try {
     const data = await client.fetch<CMSServiceCategory[]>(serviceCategoriesQuery);
-    return isValidArray(data) ? data : fallbackCategories;
+    let categoriesToUse = isValidArray(data) ? data : fallbackCategories;
+    if (!categoriesToUse.some(c => c.id === 'smarthome')) {
+      categoriesToUse = [...categoriesToUse, fallbackCategories.find(c => c.id === 'smarthome')!];
+    }
+    return categoriesToUse;
   } catch (error) {
     console.warn('Sanity service categories fetch failed, using local fallback:', error);
     return fallbackCategories;
@@ -841,29 +865,34 @@ function mapLocalServiceToCMS(srv: LocalService): CMSService {
  */
 export function getServicesSync(forcedLocationId?: string): CMSService[] {
   const locId = forcedLocationId || getCurrentLocationSlug();
+  const baseServices = LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
+
+  let finalServices: CMSService[] = [];
+  let found = false;
+
   // 1. Try reading from the localStorage cache first
   if (isSanityConfigured) {
     const cached = getCachedServices(locId);
     if (cached && cached.length > 0) {
-      return cached;
+      finalServices = cached;
+      found = true;
     }
   } else {
     if (typeof window !== 'undefined') {
       localStorage.removeItem(`services_cache_${locId}`);
     }
   }
-  // 2. Fall back to local localized schemas if cache is empty
-  const baseServices = LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
 
   // Live synchronization support for service list edits from Elementor Builder
-  if (typeof window !== 'undefined') {
+  if (!found && typeof window !== 'undefined') {
     const savedHtmlEdits = localStorage.getItem('SANITY_MOCK_ELEMENTOR_DB');
     if (savedHtmlEdits) {
       try {
         const parsedDb = JSON.parse(savedHtmlEdits);
         const editedServices = parsedDb[locId]?.services;
         if (editedServices && Array.isArray(editedServices)) {
-          return editedServices;
+          finalServices = editedServices;
+          found = true;
         }
       } catch (e) {
         // ignore
@@ -871,7 +900,17 @@ export function getServicesSync(forcedLocationId?: string): CMSService[] {
     }
   }
 
-  return baseServices;
+  if (!found) {
+    finalServices = baseServices;
+  }
+
+  // Crucial: Always ensure that 'smarthome' services are injected if they are missing
+  if (!finalServices.some(s => s.category === 'smarthome')) {
+    const localSmarthome = baseServices.filter(s => s.category === 'smarthome');
+    finalServices = [...finalServices, ...localSmarthome];
+  }
+
+  return finalServices;
 }
 
 export function getServiceBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSService | null {
@@ -908,7 +947,15 @@ export async function getServices(forcedLocationId?: string): Promise<CMSService
     logCmsStatus('service', hasData, hasData ? data.length : 0);
     
     if (hasData) {
-      const normalizedData = data.map(ensureStringSlug);
+      let normalizedData = data.map(ensureStringSlug);
+      
+      // Ensure 'smarthome' services are injected if they are missing
+      if (!normalizedData.some(s => s.category === 'smarthome')) {
+        const baseServices = LOCALIZED_SERVICES[locId] || fallbackServices.map(mapLocalServiceToCMS).map(s => localizeService(s, locId));
+        const localSmarthome = baseServices.filter(s => s.category === 'smarthome');
+        normalizedData = [...normalizedData, ...localSmarthome];
+      }
+
       // 3. Compare structurally to prevent UI flickering on redundant updates
       if (isDataDifferent(normalizedData, currentData)) {
         console.log(`%c[BACKGROUND UPDATE] Services data has changed on Sanity. Overwriting cache and refreshing UI.`, 'color: #3b82f6; font-weight: bold;');
@@ -984,6 +1031,38 @@ export async function getPostCategories(): Promise<CMSPostCategory[]> {
 }
 
 /**
+ * Helper to validate if a blog post has real, human-written content.
+ * Filters out posts with empty contents or placeholder markers.
+ */
+function isPostHasContent(post: any): boolean {
+  if (!post) return false;
+  const title = (post.title || '').toLowerCase();
+  const content = post.content || '';
+  const excerpt = (post.excerpt || '').toLowerCase();
+  
+  // Clean elements of tags
+  const cleanContent = content.replace(/<[^>]*>/g, '').trim();
+  if (!cleanContent) return false;
+  
+  const hasUpdatesIndicator = 
+    cleanContent.includes('đang được cập nhật') || 
+    cleanContent.includes('Đang cập nhật') || 
+    cleanContent.includes('đang cập nhật') || 
+    cleanContent.includes('Nội dung chi tiết đang được') ||
+    cleanContent.toLowerCase().includes('nội dung đang được cập nhật') ||
+    cleanContent.toLowerCase().includes('đang cập nhật') ||
+    excerpt.includes('đang cập nhật') ||
+    title.includes('đang cập nhật');
+
+  if (hasUpdatesIndicator) return false;
+  
+  // If the content is too brief (e.g. less than 50 characters), filter out
+  if (cleanContent.length < 50) return false;
+  
+  return true;
+}
+
+/**
  * 7. Blog Posts filtered by location
  */
 export function getBlogPostsSync(forcedLocationId?: string): CMSBlogPost[] {
@@ -1004,6 +1083,8 @@ export function getBlogPostsSync(forcedLocationId?: string): CMSBlogPost[] {
     faq: p.faq
   })).map(b => localizeBlogPost(b, locId));
 
+  let finalPosts = basePosts;
+
   // Live synchronization support for blog post edits from Elementor Builder
   if (typeof window !== 'undefined') {
     const savedHtmlEdits = localStorage.getItem('SANITY_MOCK_ELEMENTOR_DB');
@@ -1012,7 +1093,7 @@ export function getBlogPostsSync(forcedLocationId?: string): CMSBlogPost[] {
         const parsedDb = JSON.parse(savedHtmlEdits);
         const editedPosts = parsedDb[locId]?.posts;
         if (editedPosts && Array.isArray(editedPosts)) {
-          return editedPosts;
+          finalPosts = editedPosts;
         }
       } catch (e) {
         // ignore
@@ -1020,7 +1101,7 @@ export function getBlogPostsSync(forcedLocationId?: string): CMSBlogPost[] {
     }
   }
 
-  return basePosts;
+  return finalPosts.filter(isPostHasContent);
 }
 
 export async function getBlogPosts(forcedLocationId?: string): Promise<CMSBlogPost[]> {
@@ -1037,7 +1118,8 @@ export async function getBlogPosts(forcedLocationId?: string): Promise<CMSBlogPo
     const data = await client.fetch<CMSBlogPost[]>(postsQuery, { locationSlug: locId });
     const hasData = isValidArray(data);
     logCmsStatus('post', hasData, hasData ? data.length : 0);
-    return hasData ? data.map(ensureStringSlug) : currentData;
+    const posts = hasData ? data.map(ensureStringSlug) : currentData;
+    return posts.filter(isPostHasContent);
   } catch (error) {
     logCmsStatus('post', false, 0, error);
     return currentData;
@@ -1422,8 +1504,8 @@ export async function getMenus(): Promise<CMSMenu[]> {
   const fallbackMenus: CMSMenu[] = [
     { title: 'Trang chủ', path: '/', orderNo: 1 },
     { title: 'Dịch vụ', path: '/dich-vu', orderNo: 2 },
-    { title: 'Sản phẩm', path: '/san-pham', orderNo: 3 },
-    { title: 'Báo giá', path: '/bang-gia', orderNo: 4 },
+    { title: 'Bảng giá', path: '/bang-gia', orderNo: 3 },
+    { title: 'Dự án', path: '/du-an', orderNo: 4 },
     { title: 'Tin tức & mẹo', path: '/blog', orderNo: 5 },
     { title: 'Liên hệ', path: '/lien-he', orderNo: 6 }
   ];

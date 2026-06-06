@@ -62,7 +62,7 @@ export default function BlogDetail() {
 
   if (loading) {
     return (
-      <div className="pt-40 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+      <div className="pt-40 pb-16 md:pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
         <PageSEO pageType="general" />
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary mb-4" />
         <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Đang tải chi tiết bài viết...</p>
@@ -72,10 +72,10 @@ export default function BlogDetail() {
 
   if (!post) {
     return (
-      <div className="pt-32 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+      <div className="pt-24 md:pt-32 pb-16 md:pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
         <PageSEO pageType="general" />
         <div className="section-container">
-          <h1 className="text-3xl font-bold text-brand-secondary mb-4 uppercase">Bài viết không tồn tại</h1>
+          <h1 className="font-bold text-brand-secondary mb-4 uppercase">Bài viết không tồn tại</h1>
           <p className="text-slate-500 mb-8">Nội dung bạn đang tìm kiếm có thể đã bị xóa hoặc thay đổi địa chỉ.</p>
           <Link to={`${siteLocationPrefix}/blog`} className="inline-block bg-brand-primary text-white px-8 py-3 rounded-xl font-bold">
             Quay lại Blog
@@ -91,21 +91,8 @@ export default function BlogDetail() {
     <div className="pt-20">
       <PageSEO pageType="article" data={post} />
       
-      {/* Header & Breadcrumbs */}
-      <div className="bg-slate-50 py-4 border-b border-slate-100">
-        <div className="section-container">
-          <Breadcrumbs 
-            items={[
-              { label: 'Blog', href: `${siteLocationPrefix}/blog` },
-              { label: post?.title || 'Bài viết', active: true }
-            ]} 
-            homeHref={siteLocationPrefix}
-          />
-        </div>
-      </div>
-
       <section className="bg-white py-12 md:py-20">
-        <div className="section-container grid lg:grid-cols-12 gap-12">
+        <div className="section-container grid lg:grid-cols-12 gap-6 md:gap-12 lg:gap-16">
           {/* Main Content */}
           <article className="lg:col-span-8">
             <motion.div
@@ -117,7 +104,7 @@ export default function BlogDetail() {
                 {post?.category || 'Chưa phân loại'}
               </div>
               
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-brand-secondary mb-8 leading-[1.1] tracking-tighter uppercase">
+              <h1 className="font-bold text-brand-secondary mb-8 leading-[1.1] tracking-tighter uppercase">
                 {post?.title || 'Đang cập nhật'}
               </h1>
 
@@ -136,7 +123,7 @@ export default function BlogDetail() {
                 </div>
               </div>
 
-              <div className="aspect-video bg-slate-100 rounded-[3rem] overflow-hidden mb-12 shadow-2xl shadow-slate-200">
+              <div className="aspect-video bg-slate-100 rounded-3xl md:rounded-[3rem] overflow-hidden mb-12 shadow-2xl shadow-slate-200">
                 <img 
                   src={post?.image || 'https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=1200'} 
                   alt={post?.title || 'Bài viết'} 
@@ -163,8 +150,8 @@ export default function BlogDetail() {
                 <div dangerouslySetInnerHTML={{ __html: post?.content || '<p>Nội dung đang được cập nhật...</p>' }} />
                 
                 {/* FAQ specific to blog */}
-                <div className="mt-20 p-10 bg-brand-secondary rounded-[3rem] text-white">
-                  <h3 className="text-3xl font-bold mb-8 uppercase text-white tracking-tighter">Câu hỏi thường gặp</h3>
+                <div className="mt-20 p-10 bg-brand-secondary rounded-3xl md:rounded-[3rem] text-white relative overflow-hidden">
+                  <h3 className="font-bold mb-8 uppercase text-white tracking-tighter">Câu hỏi thường gặp</h3>
                   <div className="space-y-6">
                     <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
                       <h4 className="font-bold mb-2 text-brand-primary uppercase tracking-tight">Có nên tự sửa điện không?</h4>
@@ -264,7 +251,7 @@ export default function BlogDetail() {
       {relatedPosts.length > 0 && (
         <section className="py-20 bg-slate-50">
           <div className="section-container">
-            <h2 className="text-3xl md:text-5xl font-bold text-brand-secondary mb-12 uppercase tracking-tighter">
+            <h2 className="font-bold text-brand-secondary mb-12 uppercase tracking-tighter">
               Bài viết <span className="text-brand-primary">liên quan</span>
             </h2>
             <div className="grid md:grid-cols-3 gap-8">

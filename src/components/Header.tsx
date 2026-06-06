@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, PhoneCall, MapPin, ChevronDown, Zap, Droplet, Video, Search, ArrowRight } from 'lucide-react';
+import { Menu, X, PhoneCall, MapPin, ChevronDown, Zap, Droplet, Video, Search, ArrowRight, Cpu } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation as useRouterLocation } from 'react-router-dom';
 import { useLocation as useAppLocation } from '../context/LocationContext';
@@ -44,6 +44,8 @@ export default function Header() {
     const normHref = href.startsWith('/') ? href : `/${href}`;
     const targetHref = normHref === '/' ? siteLocationPrefix : `${siteLocationPrefix}${normHref}`;
     const isSamePage = routerLocation.pathname === targetHref;
+
+    console.log('Navigation target:', targetHref);
 
     if (isSamePage) {
       e.preventDefault();
@@ -116,6 +118,15 @@ export default function Header() {
         { name: 'Dò đường nước âm', href: `${siteLocationPrefix}/dich-vu/do-duong-nuoc-am` },
         { name: 'Dò điện âm tường', href: `${siteLocationPrefix}/dich-vu/do-duong-dien-am-tuong` },
       ]
+    },
+    {
+      title: 'SMARTHOME', icon: Cpu, color: 'text-emerald-500',
+      links: [
+        { name: 'Công tắc cửa cuốn thông minh', href: `${siteLocationPrefix}/dich-vu/cong-tac-cua-cuon-thong-minh` },
+        { name: 'Công tắc điện thông minh', href: `${siteLocationPrefix}/dich-vu/cong-tac-dien-thong-minh` },
+        { name: 'Cảm biến an ninh', href: `${siteLocationPrefix}/dich-vu/cam-bien-an-ninh-thong-minh` },
+        { name: 'Giải trí & Rèm tự động', href: `${siteLocationPrefix}/dich-vu/chieu-sang-va-giai-tri-thong-minh` },
+      ]
     }
   ];
 
@@ -177,24 +188,44 @@ export default function Header() {
   const rawNavLinks = [
     { name: 'Trang chủ', href: '/' },
     { name: 'Dịch vụ', href: '/dich-vu', hasDropdown: true },
-    { name: 'Sản phẩm', href: '/san-pham' },
     { name: 'Bảng giá', href: '/bang-gia' },
+    { name: 'Dự án', href: '/du-an' },
     { name: 'Blog', href: '/blog' },
     { name: 'Liên hệ', href: '/lien-he' },
   ];
 
-  const navLinks = menus.length > 0 ? menus.map(m => {
+  const rawMappedLinks = menus.length > 0 ? menus.map(m => {
     let name = m.title;
-    // Overlap mapping for "Linh kiện MPE" or any containing "linh kiện" to correctly reflect "Sản phẩm"
     if (m.path === '/san-pham' || m.title === 'Linh kiện MPE' || m.title.toLowerCase().includes('linh kiện')) {
       name = 'Sản phẩm';
+    }
+    if (m.title === 'Tin tức & mẹo') {
+      name = 'Blog';
     }
     return {
       name: name,
       href: m.path,
       hasDropdown: m.path === '/dich-vu'
     };
-  }) : rawNavLinks;
+  }) : [...rawNavLinks];
+
+  // Tránh việc menu CMS của Sanity đè mất mục "Dự án", tự động chèn "Dự án" ngay sau "Bảng giá"
+  const duAnExists = rawMappedLinks.some(l => l.href === '/du-an' || l.name === 'Dự án');
+  if (!duAnExists) {
+    const bangGiaIndex = rawMappedLinks.findIndex(l => l.href === '/bang-gia' || l.name === 'Bảng giá' || l.name === 'Báo giá' || l.name === 'Bảng Giá');
+    if (bangGiaIndex !== -1) {
+      rawMappedLinks.splice(bangGiaIndex + 1, 0, { name: 'Dự án', href: '/du-an', hasDropdown: false });
+    } else {
+      rawMappedLinks.splice(3, 0, { name: 'Dự án', href: '/du-an', hasDropdown: false });
+    }
+  }
+
+  const navLinks = rawMappedLinks.map(l => {
+    if (l.name === 'Tin tức & mẹo') {
+      return { ...l, name: 'Blog' };
+    }
+    return l;
+  });
 
   return (
     <header 
@@ -205,7 +236,7 @@ export default function Header() {
       }`}
     >
       {/* Top Black Announcement Bar */}
-      <div className={`bg-slate-950 text-slate-100 text-xs font-semibold relative z-50 border-b border-white/5 shadow-inner transition-all duration-300 ease-in-out overflow-hidden ${
+      <div className={`hidden md:block bg-slate-950 text-slate-100 text-xs font-semibold relative z-50 border-b border-white/5 shadow-inner transition-all duration-300 ease-in-out overflow-hidden ${
         scrolled 
           ? 'max-h-0 py-0 opacity-0 border-b-transparent pointer-events-none' 
           : 'max-h-20 py-2.5 opacity-100'
@@ -232,7 +263,11 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo Section */}
-          <Link to={siteLocationPrefix} className="flex items-center gap-2 sm:gap-3 shrink-0 group">
+          <Link 
+            to={siteLocationPrefix} 
+            onClick={() => console.log('Navigation target:', siteLocationPrefix)}
+            className="flex items-center gap-2 sm:gap-3 shrink-0 group"
+          >
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-lg flex items-center justify-center shadow-md shadow-brand-primary/10 shrink-0 overflow-hidden border border-slate-100 group-hover:scale-105 transition-transform">
               <img src={logoUrl} alt="Hoàng Tuấn Logo" className="w-full h-full object-cover mix-blend-multiply" />
             </div>
@@ -251,7 +286,7 @@ export default function Header() {
 
           {/* Navigation - Centered */}
           <nav className="hidden lg:flex items-center justify-center flex-1">
-            <div className="flex items-center gap-6 xl:gap-8">
+            <div className="flex items-center gap-4 xl:gap-6">
               {navLinks.map((link) => {
                 const active = getIsActive(link.href, link.name);
                 const targetPath = link.href === '/' ? siteLocationPrefix : `${siteLocationPrefix}${link.href}`;
@@ -260,7 +295,7 @@ export default function Header() {
                     <Link 
                       to={targetPath}
                       onClick={(e) => handleMenuClick(e, link.href)}
-                      className={`relative py-8 text-base font-bold transition-all duration-300 whitespace-nowrap flex items-center gap-1 ${
+                      className={`relative py-8 text-sm font-bold tracking-wide uppercase transition-all duration-300 whitespace-nowrap flex items-center gap-1 ${
                         active 
                           ? 'text-brand-primary font-extrabold scale-102' 
                           : 'text-brand-secondary hover:text-brand-primary hover:scale-102 font-bold'
@@ -275,8 +310,8 @@ export default function Header() {
 
                     {/* Mega Menu Dropdown */}
                     {link.hasDropdown && (
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-5xl bg-white shadow-2xl border-t border-slate-100 rounded-b-[2rem] p-8 hidden group-hover:block animate-in fade-in slide-in-from-top-4 duration-300">
-                        <div className="grid grid-cols-4 gap-8">
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 w-[calc(100vw-2rem)] md:w-[98vw] max-w-[1400px] bg-white shadow-2xl border-t border-slate-100 rounded-b-[2rem] p-6 lg:p-8 hidden group-hover:block animate-in fade-in slide-in-from-top-4 duration-300">
+                        <div className="grid gap-4 xl:gap-6" style={{ gridTemplateColumns: 'repeat(5, minmax(0, 1fr))' }}>
                           {SERVICE_MENU.map((item) => (
                             <div key={item.title}>
                               <div className={`flex items-center gap-2 font-bold mb-4 ${item.color}`}>
@@ -288,10 +323,11 @@ export default function Header() {
                                   <li key={sublink.name}>
                                     <Link 
                                       to={sublink.href}
+                                      onClick={() => console.log('Navigation target:', sublink.href)}
                                       className="text-slate-600 hover:text-brand-primary flex flex-col transition-colors"
                                     >
                                       <span className="font-bold text-sm">{sublink.name}</span>
-                                      <span className="text-[10px] text-slate-500 capitalize">tại {mappedDisplayName}</span>
+                                      <span className="text-[12px] text-slate-500 capitalize">tại {mappedDisplayName}</span>
                                     </Link>
                                   </li>
                                 ))}
@@ -302,6 +338,7 @@ export default function Header() {
                         <div className="mt-8 pt-8 border-t border-slate-50 flex justify-center">
                           <Link 
                             to={`${siteLocationPrefix}/dich-vu`}
+                            onClick={() => console.log('Navigation target:', `${siteLocationPrefix}/dich-vu`)}
                             className="flex items-center gap-2 bg-brand-primary text-white px-8 py-3 rounded-full font-bold text-sm uppercase hover:scale-105 active:scale-95 transition-all shadow-lg shadow-brand-primary/20 tracking-widest"
                           >
                             Xem tất cả dịch vụ
@@ -330,7 +367,7 @@ export default function Header() {
 
           {/* Mobile Toggle */}
           <button 
-            className="lg:hidden text-brand-secondary p-2 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
+            className="lg:hidden text-brand-secondary p-3 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Menu"
             aria-expanded={isOpen}
@@ -352,7 +389,7 @@ export default function Header() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-white shadow-2xl border-t lg:hidden h-[calc(100vh-80px)] overflow-y-auto"
+            className="absolute top-full left-0 right-0 bg-white shadow-2xl border-t lg:hidden h-[calc(100dvh-80px)] overflow-y-auto pb-safe"
           >
             <div className="flex flex-col p-4 gap-4">
               {navLinks.map((link) => {
@@ -380,11 +417,11 @@ export default function Header() {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
-                        className="pl-4 grid grid-cols-2 gap-4 mt-2 overflow-hidden"
+                        className="pl-4 grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2 overflow-hidden"
                       >
                         {SERVICE_MENU.map((item) => (
                           <div key={item.title}>
-                            <span className="text-[10px] font-bold text-slate-500 block mb-1 tracking-widest uppercase">{item.title}</span>
+                            <span className="text-[12px] font-bold text-slate-500 block mb-1 tracking-widest uppercase">{item.title}</span>
                             <ul className="space-y-1">
                               {item.links.map((sublink) => (
                                 <li key={sublink.name}>

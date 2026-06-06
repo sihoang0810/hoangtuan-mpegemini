@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { SERVICES } from '../data/services';
 import FinalCTA from '../components/FinalCTA';
 import { FAQSection } from '../components/ExtraSections';
-import { BadgeCheck, Zap, Droplet, Video, Search } from 'lucide-react';
+import { BadgeCheck, Zap, Droplet, Video, Search, Cpu } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { getServices, getServicesSync, CMSService } from '../lib/sanity';
 import PageSEO from '../components/PageSEO';
@@ -14,6 +14,7 @@ const PRICE_CATEGORIES = [
   { id: 'plumbing', title: 'Nước dân dụng', icon: Droplet, color: 'bg-cyan-500', textColor: 'text-cyan-500' },
   { id: 'camera', title: 'Camera an ninh', icon: Video, color: 'bg-indigo-500', textColor: 'text-indigo-500' },
   { id: 'detection', title: 'Siêu âm dò tìm', icon: Search, color: 'bg-amber-500', textColor: 'text-amber-500' },
+  { id: 'smarthome', title: 'Nhà thông minh', icon: Cpu, color: 'bg-emerald-500', textColor: 'text-emerald-500' },
 ];
 
 export default function Pricing() {
@@ -45,7 +46,7 @@ export default function Pricing() {
           >
             Bảng giá {new Date().getFullYear()}
           </motion.div>
-          <h1 className="text-4xl md:text-7xl font-bold text-brand-secondary mb-8 uppercase tracking-tighter">
+          <h1 className="font-bold text-brand-secondary mb-8 uppercase tracking-tighter">
             Bảng Giá <span className="text-brand-primary">Dịch Vụ</span>
           </h1>
           <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium">
@@ -74,7 +75,7 @@ export default function Pricing() {
         </div>
 
         {/* Content Area */}
-        <div className="bg-white rounded-[3rem] p-4 md:p-1 border border-slate-100 shadow-2xl shadow-slate-200/50 min-h-[400px]">
+        <div className="bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-1 border border-slate-100 shadow-2xl shadow-slate-200/50 min-h-[400px]">
           <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden">
             <AnimatePresence mode="wait">
               {PRICE_CATEGORIES.map(cat => cat.id === activeTab && (
@@ -91,7 +92,7 @@ export default function Pricing() {
                         <cat.icon size={32} />
                       </div>
                       <div>
-                        <h2 className="text-3xl font-bold text-brand-secondary uppercase">{cat.title}</h2>
+                        <h2 className="font-bold text-brand-secondary uppercase">{cat.title}</h2>
                         <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">Hỗ trợ 24/7 • Bảo hành 12 tháng</p>
                       </div>
                     </div>
@@ -131,7 +132,7 @@ export default function Pricing() {
           </div>
         </div>
 
-        <div className="mt-20 bg-brand-primary text-white p-12 md:p-20 rounded-[4rem] text-center relative overflow-hidden shadow-2xl shadow-brand-primary/30">
+        <div className="mt-20 bg-brand-primary text-white p-12 md:p-20 rounded-3xl md:rounded-[4rem] text-center relative overflow-hidden shadow-2xl shadow-brand-primary/30">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl opacity-50 -mr-32 -mt-32" />
           
           <div className="relative z-10">
@@ -139,7 +140,7 @@ export default function Pricing() {
               <BadgeCheck size={20} />
               Cam kết giá tốt nhất
             </div>
-            <h3 className="text-4xl md:text-6xl font-bold mb-8 uppercase leading-tight">
+            <h3 className="font-bold mb-8 uppercase leading-tight">
               Kiểm Tra & Báo Giá <br />
               <span className="text-brand-secondary underline decoration-white/30 underline-offset-8">Miễn Phí Tận Nơi</span>
             </h3>

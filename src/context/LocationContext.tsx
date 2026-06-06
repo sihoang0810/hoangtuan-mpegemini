@@ -21,14 +21,24 @@ interface LocationContextType {
 const LocationContext = createContext<LocationContextType | undefined>(undefined);
 
 export function LocationProvider({ children }: { children: React.ReactNode }) {
-  // Use state to track current slug, initialize lazily if possible but safe for hydration
-  const [locationSlugState, setLocationSlugState] = useState<LocationSlug>(LOCATION_BAO_LOC);
-  const [showPopupState, setShowPopupState] = useState(true);
-  const hasInteractedRef = React.useRef(false);
-  const [locations, setLocations] = useState<CMSLocation[]>([]);
-  
   const routerLoc = useRouterLocation();
   const navigate = useNavigate();
+
+  // Synchronous URL parsing on first render to match SSR and Client HTML
+  const getInitialPrefix = () => {
+    const parts = routerLoc.pathname.split('/');
+    const prefix = parts[1];
+    if (prefix === LOCATION_BAO_LOC || prefix === LOCATION_HO_CHI_MINH) {
+      return prefix as LocationSlug;
+    }
+    return LOCATION_BAO_LOC;
+  };
+
+  // Use state to track current slug, initialize lazily if possible but safe for hydration
+  const [locationSlugState, setLocationSlugState] = useState<LocationSlug>(getInitialPrefix);
+  const [showPopupState, setShowPopupState] = useState(false);
+  const hasInteractedRef = React.useRef(false);
+  const [locations, setLocations] = useState<CMSLocation[]>([]);
 
   const showPopup = showPopupState;
 
@@ -80,6 +90,7 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
     }
 
     let savedLocation = localStorage.getItem('locationSlug') as LocationSlug | null;
+    let dismissedLater = sessionStorage.getItem('user-location-later') === 'true';
 
     if (isUrlPrefixOk) {
       if (locationSlugState !== prefix) {
@@ -90,21 +101,26 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
       if (!savedLocation || savedLocation !== prefix) {
         localStorage.setItem('locationSlug', prefix);
       }
-    } else {
-      // No prefix in URL
-      if (isValidLocation(savedLocation)) {
-        // Redirect to saved location prefix
-        let redirectPath = `/${savedLocation}`;
-        if (routerLoc.pathname !== '/') {
-          redirectPath = `/${savedLocation}${routerLoc.pathname}`;
-        }
-        navigate(`${redirectPath}${routerLoc.search}`, { replace: true });
+
+      // If they don't have a saved location explicitly, and haven't chosen to dismiss yet,
+      // let's show the popup to guide them (only run on client)
+      if (!savedLocation && !dismissedLater && !hasInteractedRef.current) {
+        setShowPopupState(true);
       } else {
-        // No saved location and no prefix in URL. SHOW POPUP
-        if (!hasInteractedRef.current) {
-          setShowPopupState(true);
-        }
+        setShowPopupState(false);
       }
+    } else {
+      // No prefix in URL (e.g. '/' or '/dich-vu')
+      // Determine target location: use saved or default to 'bao-loc'
+      const targetSlug = isValidLocation(savedLocation) ? (savedLocation as LocationSlug) : LOCATION_BAO_LOC;
+      
+      let redirectPath = `/${targetSlug}`;
+      if (routerLoc.pathname !== '/') {
+        redirectPath = `/${targetSlug}${routerLoc.pathname}`;
+      }
+      
+      // Perform redirect immediately
+      navigate(`${redirectPath}${routerLoc.search}`, { replace: true });
     }
   }, [routerLoc.pathname, locationSlugState, navigate]);
 
@@ -131,19 +147,7 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
   };
 
   const changeLocation = () => {
-    localStorage.removeItem('locationSlug');
-    hasInteractedRef.current = false;
-    
-    // Strip prefix from the current path to go to default raw URL first
-    const pathParts = routerLoc.pathname.split('/');
-    const prefix = pathParts[1];
-    if (prefix === LOCATION_BAO_LOC || prefix === LOCATION_HO_CHI_MINH) {
-      pathParts.splice(1, 1);
-    }
-    const targetPath = pathParts.join('/') || '/';
-    
-    setShowPopupState(true);
-    navigate(`${targetPath}${routerLoc.search}`);
+    setShowPopup(true);
   };
 
   return (

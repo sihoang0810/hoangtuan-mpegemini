@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
@@ -16,7 +16,7 @@ export default function NotFound() {
   }, [setShowPopup]);
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center bg-gray-50 px-4 py-16 sm:px-6 sm:py-24 md:grid-cols-2 lg:px-8">
+    <div className="min-h-[70vh] flex items-center justify-center bg-gray-50 px-4 py-12 md:py-16 lg:py-24 sm:px-6 sm:py-24 md:grid-cols-2 lg:px-8">
       <Helmet>
         <title>404 - Không tìm thấy trang</title>
         <meta name="description" content="Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển." />
@@ -28,7 +28,7 @@ export default function NotFound() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-4xl font-extrabold text-brand-primary sm:text-5xl"
+            className="font-extrabold text-brand-primary"
           >
             404
           </motion.p>
@@ -38,7 +38,7 @@ export default function NotFound() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+              <h1 className="font-extrabold text-gray-900 tracking-tight">
                 Không tìm thấy trang
               </h1>
               <p className="mt-2 text-base text-gray-500">
@@ -54,13 +54,14 @@ export default function NotFound() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-10 flex sm:justify-center justify-center space-x-3 sm:space-x-4"
         >
-          <a
-            href={homePath}
+          <Link
+            to={homePath}
+            onClick={() => console.log('Navigation target:', homePath)}
             className="inline-flex items-center px-4 py-2 border border-brand-primary text-sm font-medium rounded-full text-brand-primary bg-white hover:bg-brand-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Về trang chủ
-          </a>
+          </Link>
         </motion.div>
       </div>
     </div>

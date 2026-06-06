@@ -6,7 +6,7 @@ export default function TermsOfService() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="pt-24 md:pt-32 min-h-screen bg-slate-50 text-slate-800">
+    <div className="pt-24 md:pt-32 min-h-screen pb-20 md:pb-0 bg-slate-50 text-slate-800">
       <PageSEO pageType="general" />
       
       {/* Page Header */}
@@ -16,7 +16,7 @@ export default function TermsOfService() {
             <FileText size={18} />
             <span>Điều khoản pháp lý</span>
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-secondary tracking-tight mb-4">
+          <h1 className="font-extrabold text-brand-secondary tracking-tight mb-4">
             Điều Khoản Dịch Vụ
           </h1>
           <p className="text-slate-500 font-medium text-base md:text-lg">
@@ -161,8 +161,8 @@ export default function TermsOfService() {
               <p>
                 Không mập mờ chối bỏ bảo hành, Hoàng Tuấn MPE đặt điều kiện bảo hành chặt chẽ để khách hàng an tâm gieo trọn lòng tin kỹ thuật:
               </p>
-              <div className="overflow-x-auto my-6 rounded-2xl border border-slate-200">
-                <table className="w-full text-left border-collapse text-sm">
+              <div className="overflow-x-auto my-6 rounded-2xl border border-slate-200 w-full">
+                <table className="w-full text-left border-collapse text-sm min-w-[600px]">
                   <thead>
                     <tr className="bg-slate-100 text-brand-secondary font-bold">
                       <th className="p-4 border-b">Hạng mục khắc phục kỹ thuật</th>

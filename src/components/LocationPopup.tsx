@@ -19,7 +19,11 @@ export default function LocationPopup() {
             exit={{ opacity: 0 }}
             onClick={() => {
               sessionStorage.setItem('user-location-later', 'true');
-              setLocation('bao-loc');
+              if (!localStorage.getItem('locationSlug')) {
+                setLocation('bao-loc');
+              } else {
+                setShowPopup(false);
+              }
             }}
             className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
           />
@@ -35,9 +39,13 @@ export default function LocationPopup() {
             <button
               onClick={() => {
                 sessionStorage.setItem('user-location-later', 'true');
-                setLocation('bao-loc');
+                if (!localStorage.getItem('locationSlug')) {
+                  setLocation('bao-loc');
+                } else {
+                  setShowPopup(false);
+                }
               }}
-              className="absolute top-6 right-6 z-[110] w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-full flex items-center justify-center shadow-md transition-all border border-slate-200 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
+              className="absolute top-6 right-6 z-[110] w-12 h-12 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-full flex items-center justify-center shadow-md transition-all border border-slate-200 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
               aria-label="Đóng bảng chọn khu vực"
               type="button"
             >
@@ -76,7 +84,11 @@ export default function LocationPopup() {
                 <button
                   onClick={() => {
                     sessionStorage.setItem('user-location-later', 'true');
-                    setLocation('bao-loc');
+                    if (!localStorage.getItem('locationSlug')) {
+                      setLocation('bao-loc');
+                    } else {
+                      setShowPopup(false);
+                    }
                   }}
                   className="px-8 py-3 rounded-full border border-slate-200 hover:border-brand-primary hover:text-brand-primary text-slate-500 font-bold text-sm transition-all focus:outline-none cursor-pointer duration-200"
                 >

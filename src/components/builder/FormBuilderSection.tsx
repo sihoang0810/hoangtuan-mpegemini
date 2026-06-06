@@ -62,23 +62,23 @@ export function FormBuilderSection({
   };
 
   return (
-    <section className="section-container bg-slate-50 relative overflow-hidden" id="section-form-builder">
-      <div className="absolute inset-0 bg-[radial-gradient(#439bf1_0.05rem,transparent_0.05rem)] [background-size:1.5rem_1.5rem] opacity-[0.03]" />
+    <section className="section-container bg-transparent relative overflow-hidden" id="section-form-builder">
+      <div className="absolute inset-0 pointer-events-none" />
       <div className="max-w-xl mx-auto relative z-10 w-full">
-        <div className="bg-white rounded-[2rem] border border-slate-200/60 p-8 shadow-2xl">
+        <div className="bg-white rounded-[2rem] border border-slate-200/60 p-8 shadow-2xl font-sans">
           <div className="text-center mb-6">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] bg-sky-500/10 text-sky-600 rounded-full font-black tracking-wider uppercase mb-3">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] bg-sky-500/10 text-sky-600 rounded-full font-black tracking-wider uppercase mb-3 font-sans">
               <Sparkles size={10} /> ĐĂNG KÝ ONLINE PHẢN HỒI NHANH
             </span>
-            <h3 className="text-2xl font-black text-slate-800 leading-snug">{formTitle}</h3>
-            <p className="text-xs text-slate-500 mt-1">Thông tin được bảo mật cực kỳ an toàn</p>
+            <h3 className="text-2xl font-black text-slate-800 leading-snug font-sans">{formTitle}</h3>
+            <p className="text-xs text-slate-500 mt-1 font-sans">Thông tin được bảo mật cực kỳ an toàn</p>
           </div>
 
           {!formSubmitted ? (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 font-sans">
               {fields.filter(f => f.isEnabled).map((f) => (
-                <div key={f.id} className="space-y-1">
-                  <label className="text-xs font-extrabold text-slate-700 flex items-center justify-between">
+                <div key={f.id} className="space-y-1 font-sans">
+                  <label className="text-xs font-extrabold text-slate-700 flex items-center justify-between font-sans">
                     <span>{f.label} {f.isRequired && <span className="text-red-500">*</span>}</span>
                   </label>
 
@@ -87,11 +87,11 @@ export function FormBuilderSection({
                       required={f.isRequired}
                       value={formInputs[f.id] || ''}
                       onChange={(e) => handleFormChange(f.id, e.target.value)}
-                      className="w-full bg-slate-50/80 border border-slate-200 focus:border-sky-500 focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold text-slate-800"
+                      className="w-full bg-slate-50/80 border border-slate-200 focus:border-sky-500 focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold text-slate-800 font-sans"
                     >
-                      <option value="" disabled>{f.placeholder || 'Vui lòng chọn...'}</option>
+                      <option value="" disabled className="font-sans">{f.placeholder || 'Vui lòng chọn...'}</option>
                       {f.options?.map((opt, oIdx) => (
-                        <option key={oIdx} value={opt}>{opt}</option>
+                        <option key={oIdx} value={opt} className="font-sans">{opt}</option>
                       ))}
                     </select>
                   ) : f.type === 'textarea' ? (
@@ -101,7 +101,7 @@ export function FormBuilderSection({
                       placeholder={f.placeholder}
                       value={formInputs[f.id] || ''}
                       onChange={(e) => handleFormChange(f.id, e.target.value)}
-                      className="w-full bg-slate-50/80 border border-slate-200 focus:border-sky-500 focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold resize-none"
+                      className="w-full bg-slate-50/80 border border-slate-200 focus:border-sky-500 focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold resize-none font-sans"
                     />
                   ) : (
                     <input
@@ -110,7 +110,7 @@ export function FormBuilderSection({
                       placeholder={f.placeholder}
                       value={formInputs[f.id] || ''}
                       onChange={(e) => handleFormChange(f.id, e.target.value)}
-                      className="w-full bg-slate-50/80 border border-slate-200 focus:border-sky-500 focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold"
+                      className="w-full bg-slate-50/80 border border-slate-200 focus:border-sky-500 focus:bg-white text-xs px-4 py-3 rounded-2xl outline-none transition-all font-semibold font-sans"
                     />
                   )}
                 </div>
@@ -119,7 +119,7 @@ export function FormBuilderSection({
               <button
                 type="submit"
                 disabled={isFormSubmitting}
-                className="w-full py-4 px-6 bg-sky-500 text-white font-black text-xs uppercase tracking-wider rounded-2xl hover:bg-sky-600 active:scale-95 transition-all shadow-lg shadow-sky-500/20 flex items-center justify-center gap-2"
+                className="w-full py-4 px-6 bg-sky-500 text-white font-black text-xs uppercase tracking-wider rounded-2xl hover:bg-sky-600 active:scale-95 transition-all shadow-lg shadow-sky-500/20 flex items-center justify-center gap-2 font-sans"
               >
                 {isFormSubmitting ? (
                   <>

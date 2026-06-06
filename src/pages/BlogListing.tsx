@@ -46,14 +46,14 @@ export default function BlogListing() {
     <div id="blog" className="pt-20">
       <PageSEO pageType="general" />
 
-      <section className="bg-white py-16 md:py-24">
+      <section className="bg-white py-12 md:py-16 lg:py-24 md:py-24">
         <div className="section-container">
           <div className="max-w-3xl mb-16">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              <h1 className="text-4xl md:text-7xl font-bold text-brand-secondary mb-8 uppercase tracking-tighter">
+              <h1 className="font-bold text-brand-secondary mb-8 uppercase tracking-tighter">
                 Blog & <span className="text-brand-primary">Kiến Thức</span>
               </h1>
               <p className="text-xl text-slate-500 font-medium leading-relaxed">
@@ -105,7 +105,7 @@ export default function BlogListing() {
               </AnimatePresence>
             </div>
           ) : (
-            <div className="text-center py-20 bg-slate-50 rounded-[3rem] border border-dashed border-slate-200">
+            <div className="text-center py-20 bg-slate-50 rounded-3xl md:rounded-[3rem] border border-dashed border-slate-200">
               <AlertCircle size={48} className="mx-auto text-slate-300 mb-4" />
               <h3 className="text-xl font-bold text-brand-secondary mb-2 uppercase tracking-tight">Không tìm thấy kết quả</h3>
               <p className="text-slate-500">Thử tìm kiếm với từ khóa khác hoặc lọc theo danh mục khác.</p>

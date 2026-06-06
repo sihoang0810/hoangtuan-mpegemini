@@ -319,6 +319,96 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       pricing: [
         { item: "Nội soi tổng thể chuẩn bệnh ống nước", price: "Từ 400.000đ", unit: "lần" }
       ]
+    },
+    {
+      id: "sm1",
+      slug: "cong-tac-cua-cuon-thong-minh",
+      title: "Công Tắc Cửa Cuốn Thông Minh Bảo Lộc",
+      shortDescription: "Lắp đặt công tắc điều khiển cửa cuốn qua điện thoại thông minh, hẹn giờ đóng mở an toàn tại Bảo Lộc.",
+      fullDescription: `
+        <h1>Giải Pháp Công Tắc Cửa Cuốn Thông Minh Tiện Lợi & An Toàn Tại Bảo Lộc</h1>
+        <p>Không cần bước xuống giường hay mang theo chìa khóa cơ vướng víu sương gió khi về nhà muộn tại Bảo Lộc. Công tắc cửa cuốn thông minh có kết nối Wi-Fi/Zigbee sẽ giúp bạn đóng mở cửa cuốn dễ dàng từ xa chỉ bằng 1 nút bấm trên smartphone.</p>
+        <h2>Tính năng vượt trội cho ngôi nhà thông minh Bảo Lộc</h2>
+        <ul>
+          <li><strong>Hẹn giờ đóng ngắt tự động:</strong> Lên kịch bản tự khóa cửa lúc 22:00 tránh rủi ro quên đóng cửa.</li>
+          <li><strong>Kiểm soát trạng thái thực:</strong> Biết chính xác cửa đang mở, đóng hay dừng trên ứng dụng di động dù ở bất cứ đâu.</li>
+          <li><strong>An toàn cao:</strong> Kết hợp cùng các cảm biến vật cản dập khóa ngay lập tức khi phát hiện chướng ngại vật dưới chân cửa.</li>
+        </ul>
+      `,
+      icon: "Cpu",
+      category: "smarthome",
+      features: ["Điều khiển từ xa bằng Smartphone 3G/4G/Wifi", "Hẹn giờ đóng mở tự động thông minh", "Nút bấm kính cường lực chống nước, chống xước"],
+      pricing: [
+        { item: "Bộ công tắc cảm ứng cửa cuốn thông minh", price: "Từ 850.000đ", unit: "bộ" },
+        { item: "Dịch vụ lắp đặt đấu nối & hướng dẫn app", price: "Từ 200.000đ", unit: "bộ" }
+      ],
+      image: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800",
+      gallery: [
+        {
+          type: 'video',
+          url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+          thumbnail: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800'
+        },
+        {
+          type: 'image',
+          url: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800'
+        }
+      ]
+    },
+    {
+      id: "sm2",
+      slug: "cong-tac-dien-thong-minh",
+      title: "Công Tắc Điện Thông Minh Cảm Ứng Bảo Lộc",
+      shortDescription: "Thiết kế mặt kính cảm ứng sang trọng, điều khiển hệ thống chiếu sáng từ xa qua smartphone.",
+      fullDescription: `
+        <h1>Lắp Đặt Hệ Thống Công Tắc Điện Thông Minh Sang Trọng Tại Bảo Lộc</h1>
+        <p>Nâng cấp toàn diện cho ngôi nhà của bạn bằng giải pháp công tắc cảm ứng thông minh. Mặt kính cường lực tinh tế, kháng ẩm cực tốt dưới tiết trời nồm sương mù ẩm ướt đặc trưng của Bảo Lộc Lâm Đồng. Điều khiển tắt mở đèn thuận tiện qua giọng nói và smartphone.</p>
+        <h2>Ưu điểm của công tắc điện thông minh</h2>
+        <ul>
+          <li><strong>Rất an toàn:</strong> Thiết kế cách điện hoàn toàn, bạn hoàn toàn có thể bật tắt bằng tay ướt không sợ giật giật nhiễu nguồn.</li>
+          <li><strong>Thẩm mỹ nổi bật:</strong> Mặt kính bọc cạnh đen/trắng sang trọng có đèn LED định vị ban đêm dịu dịu mắt.</li>
+          <li><strong>Cấu hình kịch bản:</strong> Bật tắt tự động theo thời gian thực hoặc xâu chuỗi kịch bản bật rèn chiếu rọi lối đi khi đi làm về.</li>
+        </ul>
+      `,
+      icon: "Lightbulb",
+      category: "smarthome",
+      features: ["Mặt kính cường lực sang trọng đẳng cấp", "Hỗ trợ điều khiển bằng giọng nói tiếng Việt", "Bảo hành 24 tháng hư hỏng đổi mới 1-1"],
+      pricing: [
+        { item: "Công tắc thông minh cảm ứng 1-4 nút bọc nhôm", price: "Từ 450.000đ", unit: "cái" },
+        { item: "Công thợ đấu nối luồn dập đế dợ âm cũ", price: "Từ 100.000đ", unit: "nút" }
+      ]
+    },
+    {
+      id: "sm3",
+      slug: "cam-bien-an-ninh-thong-minh",
+      title: "Cảm Biến An Ninh Thông Minh Bảo Lộc (Sắp ra mắt)",
+      shortDescription: "Hệ thống bảo vệ gia đình toàn diện khỏi đột nhập trái phép, rò rỉ khí gas tự động báo khẩn cấp.",
+      fullDescription: `
+        <h1>Giải Pháp Cảm Biến Khí Gas & Chống Đột Nhập Tự Động Bảo Lộc</h1>
+        <p>Hệ thống cảm biến chuyển động hồng ngoại, cảm biến cửa mở chống cạy đột nhập, cảm biến nhiệt khói rò rỉ khí gas đang được cải tiến, tích hợp sâu lắp đặt chuẩn cho gia đình ở Bảo Lộc. Nội dung đang được cập nhật phát triển sắp ra mắt quý khách hàng.</p>
+      `,
+      icon: "ShieldCheck",
+      category: "smarthome",
+      features: ["Sắp ra mắt (Coming soon)", "Công nghệ cảm biến bảo mật cao", "Đầu thu trung tâm kết nối ổn định"],
+      pricing: [
+        { item: "Giải pháp an toàn cảm ứng thông minh", price: "Coming Soon", unit: "hệ thống" }
+      ]
+    },
+    {
+      id: "sm4",
+      slug: "chieu-sang-va-giai-tri-thong-minh",
+      title: "Giải Trí & Chiếu Sáng Thông Minh Bảo Lộc (Sắp ra mắt)",
+      shortDescription: "Tự động hóa hệ thống rèm cửa, điều hòa, tivi kết hợp âm thanh đa vùng sống động.",
+      fullDescription: `
+        <h1>Điều Khiển Rèm Cửa - Điều Hòa Không Khí Tự Động Thông Minh Bảo Lộc</h1>
+        <p>Chiếu sáng thích ứng nhịp điệu sinh học, đồng bộ rạp chiếu phim gia đình, tự động nâng rèm khi mặt trời lên rạng rỡ dốc vườn trà. Chúng tôi sẽ sớm ra mắt giải pháp tối ưu này tại Lâm Đồng trong thời gian tới.</p>
+      `,
+      icon: "Settings",
+      category: "smarthome",
+      features: ["Sắp ra mắt (Coming soon)", "Phong cách sống tiện nghi vượt bậc", "Tiết kiệm tối đa điện tiêu hao điều hòa"],
+      pricing: [
+        { item: "Gói tích hợp rèm điều hòa thông minh", price: "Coming Soon", unit: "gói" }
+      ]
     }
   ],
   'ho-chi-minh': [
@@ -630,6 +720,96 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       features: ["Camera uốn lượn rà sâu lòng cống lavabo mút", "Nén bọt thử áp chân vách chống dột trần láng giềng", "Chữa trị vi nấm rêu mốc bốc mùi thối sũng nước toilet"],
       pricing: [
         { item: "Nội soi chẩn bệnh van dột nứt ống nước sài gòn", price: "Từ 400.000đ", unit: "lần" }
+      ]
+    },
+    {
+      id: "sm1",
+      slug: "cong-tac-cua-cuon-thong-minh",
+      title: "Công Tắc Cửa Cuốn Thông Minh Sài Gòn",
+      shortDescription: "Lắp đặt bộ điều khiển đóng mở cửa cuốn qua điện thoại thông minh, an toàn tuyệt đối tại TPHCM.",
+      fullDescription: `
+        <h1>Dịch Vụ Lắp Thiết Bị Điều Khiển Cửa Cuốn Từ Xa Bằng Điện Thoại TPHCM</h1>
+        <p>Bạn không muốn mệt mỏi mang theo chìa khóa cuốn nặng tay hay remote dùng pin mỗi khi du chuyển bằng xe máy tại Sài Gòn sầm uất nhộn nhịp? Thiết bị công tắc cuốn thông minh sẽ hỗ trợ bạn điều hành cửa đóng mở tự do mọi lúc từ xa thông qua ứng dụng hoàn toàn bảo mật.</p>
+        <h2>Đặc tính nổi bật của công tắc cửa cuốn thông minh HCM</h2>
+        <ul>
+          <li><strong>Mở từ xa cho người thân:</strong> Mở cửa cho shipper hoặc gia đình vào nhà trước khi bạn lái xe về tới sân.</li>
+          <li><strong>Lập lịch an toàn:</strong> Tự động đóng và rà khóa thép lúc đêm về ngăn các đối tượng cạy đột nhập xấu.</li>
+          <li><strong>Tính tương thích cao:</strong> Dễ dàng phối nối đấu gắn vào môtơ YH, Austdoor cũ sấy nhanh không sập nguồn điện lưới.</li>
+        </ul>
+      `,
+      icon: "Cpu",
+      category: "smarthome",
+      features: ["Mở cửa xe túc trực rảnh tay trên di động bận rộn hcm", "Gửi tín hiệu đóng cửa khẩn cấp ban đêm", "Bảo mật mã hóa chống hack vượt trội"],
+      pricing: [
+        { item: "Công tắc cửa cuốn thông minh Wi-Fi", price: "Từ 850.000đ", unit: "bộ" },
+        { item: "Lắp đặt đấu bảng môtơ Ausdoor trọn gói hcm", price: "Từ 200.000đ", unit: "lần" }
+      ],
+      image: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800",
+      gallery: [
+        {
+          type: 'video',
+          url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+          thumbnail: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800'
+        },
+        {
+          type: 'image',
+          url: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800'
+        }
+      ]
+    },
+    {
+      id: "sm2",
+      slug: "cong-tac-dien-thong-minh",
+      title: "Công Tắc Điện Thông Minh Cảm Ứng TPHCM",
+      shortDescription: "Trang trí mặt kính cường lực chống giật ẩm, điều khiển tắt bật đèn hcm bằng smartphone rảnh tay.",
+      fullDescription: `
+        <h1>Nâng Cấp Công Tắc Cảm Ứng Đèn Thông Minh Đẳng Cấp Sang Trọng HCM</h1>
+        <p>Căn hộ chung cư, nhà phố Sài Gòn sang xịn mịn hơn nhờ trang trí hệ thống công tắc cơ bọc kính bóng đêm sáng trưng huyền ảo. Tắt toàn hệ các bóng đèn trước khi đi ngủ chỉ qua một click chuột điện thoại hoặc ra lệnh bằng giọng nói mượt mà không hư hỏng dây tường.</p>
+        <h2>Tính an toàn thẩm mỹ được nâng cao</h2>
+        <ul>
+          <li><strong>Thiết kế kính cường lực kín nước:</strong> Ngăn ngừa chập cháy nổ tủ ổ cắm khi tay sũng nước tắm rửa bật tắt bóng đèn.</li>
+          <li><strong>Định vị đèn LED lung linh:</strong> Tạo dải phát quang trợ sáng giúp bạn dễ dàng chạm đúng nút trong mịt mùng mờ mờ ban đêm không cần mò mẫm.</li>
+          <li><strong>Tiết kiệm lượng điện lớn:</strong> Phát hiện tắt sớm từ xa các dải phòng trống tắt sấy điều hòa rò rỉ lạnh.</li>
+        </ul>
+      `,
+      icon: "Lightbulb",
+      category: "smarthome",
+      features: ["Sử dụng nguồn điện an toàn không sợ rò giật điện", "Tương thích đế âm vuông chữ nhật quốc tế tiêu chuẩn", "Nhận dạng giọng nói Google Home nhanh nhạy"],
+      pricing: [
+        { item: "Công tắc bóng cảm ứng từ 1 nút hcm", price: "Từ 450.000đ", unit: "bộ" },
+        { item: "Công tắc thông minh bọc nhôm 3-4 nút", price: "Từ 550.000đ", unit: "bộ" }
+      ]
+    },
+    {
+      id: "sm3",
+      slug: "cam-bien-an-ninh-thong-minh",
+      title: "Cảm Biến An Ninh Thông Minh TPHCM (Sắp ra mắt)",
+      shortDescription: "Lắp ráp màng cảm biến chuyển động dập trộm, báo gas, báo khói cháy gửi sms thông báo khẩn.",
+      fullDescription: `
+        <h1>Lắp Đặt Trọn Bộ Cảm Biến An Ninh Theo Dõi Đột Nhập Thông Minh HCM</h1>
+        <p>Hệ thống hàng rào hồng ngoại cảm biến rung lắc, báo mở cửa tự động bảo vệ tài sản doanh nghiệp, shop bán hàng cửa hiệu Sài Gòn lúc đóng tiệm đi du lịch. Sản phẩm đang cấu hình và chuẩn bị ra mắt trong thời gian sớm kế tiếp.</p>
+      `,
+      icon: "ShieldCheck",
+      category: "smarthome",
+      features: ["Sắp ra mắt (Coming soon)", "Uốn hướng quét chống báo giả từ vật nuôi", "Nối mạng còi hú dọa trộm dập tắt rủi ro"],
+      pricing: [
+        { item: "Hệ thống cảm biến rà chống trộm hcm", price: "Coming Soon", unit: "gói" }
+      ]
+    },
+    {
+      id: "sm4",
+      slug: "chieu-sang-va-giai-tri-thong-minh",
+      title: "Giải Trí & Chiếu Sáng Thông Minh TPHCM (Sắp ra mắt)",
+      shortDescription: "Tự động hóa hệ thống màn rèm cửa sổ, âm thanh rải phòng thích ứng thời tiết.",
+      fullDescription: `
+        <h1>Giải Pháp Điều Hành Tự Động Rèm Cửa & Máy Lạnh Thông Minh HCM</h1>
+        <p>Tinh hoa giải trí rạp chiếu phim sướng tai thư giãn, ánh sáng dịu nhạt lãng mạn khi màn đêm xuống cùng hệ thống rèm tự động kéo gọn theo hướng nắng tphcm rực lửa. Đang được test tối ưu và sớm mở phục vụ toàn thành phố.</p>
+      `,
+      icon: "Settings",
+      category: "smarthome",
+      features: ["Sắp ra mắt (Coming soon)", "Mang rạp chiếu phim rạp nhạc rải âm sành điệu", "Mô tơ rèm chạy êm ái dưới 30dB độ ồn"],
+      pricing: [
+        { item: "Thiết kế giải trí đa phòng thông minh", price: "Coming Soon", unit: "gói" }
       ]
     }
   ]

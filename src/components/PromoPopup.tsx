@@ -74,7 +74,7 @@ export default function PromoPopup() {
               <div className="mx-auto w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-brand-primary/20 mb-4 animate-bounce">
                 <Gift size={32} />
               </div>
-              <h3 className="text-2xl md:text-3xl font-black text-brand-secondary uppercase tracking-tight">
+              <h3 className="font-black text-brand-secondary uppercase tracking-tight">
                 {popup.title}
               </h3>
               <p className="text-slate-500 text-sm font-semibold max-w-sm mx-auto mt-2 leading-relaxed">

@@ -80,7 +80,7 @@ export default function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-300 pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12 lg:gap-16 mb-16">
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center gap-2 group cursor-pointer inline-flex w-auto">
@@ -114,7 +114,11 @@ export default function Footer() {
             <ul className="space-y-4">
               {quickLinks.map((item) => (
                 <li key={item.name}>
-                  <Link to={item.href} className="hover:text-brand-primary transition-colors flex items-center gap-2">
+                  <Link 
+                    to={item.href} 
+                    onClick={() => console.log('Navigation target:', item.href)}
+                    className="hover:text-brand-primary transition-colors flex items-center gap-2"
+                  >
                     <span className="w-1 h-1 bg-brand-primary rounded-full" />
                     {item.name}
                   </Link>
@@ -129,7 +133,11 @@ export default function Footer() {
             <ul className="space-y-4">
               {serviceLinks.map((item) => (
                 <li key={item.name}>
-                  <Link to={item.href} className="hover:text-brand-primary transition-colors flex items-center gap-2">
+                  <Link 
+                    to={item.href} 
+                    onClick={() => console.log('Navigation target:', item.href)}
+                    className="hover:text-brand-primary transition-colors flex items-center gap-2"
+                  >
                     <span className="w-1 h-1 bg-brand-primary rounded-full" />
                     {item.name}
                   </Link>
@@ -158,15 +166,31 @@ export default function Footer() {
           </div>
         </div>
 
-          <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+          <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-8 text-sm text-slate-500">
           <p>{copyrightText}</p>
-          <div className="flex gap-8 items-center flex-wrap justify-center">
+          <div className="flex gap-4 sm:gap-8 items-center flex-wrap justify-center">
             <span className="text-slate-600 hidden lg:inline-block">Khu vực:</span>
-            <Link to="/ho-chi-minh" className="hover:text-brand-primary transition-colors font-medium">TP. Hồ Chí Minh</Link>
-            <Link to="/bao-loc" className="hover:text-brand-primary transition-colors font-medium">Bảo Lộc</Link>
+            <Link 
+              to="/ho-chi-minh" 
+              onClick={() => console.log('Navigation target:', '/ho-chi-minh')}
+              className="hover:text-brand-primary transition-colors font-medium"
+            >TP. Hồ Chí Minh</Link>
+            <Link 
+              to="/bao-loc" 
+              onClick={() => console.log('Navigation target:', '/bao-loc')}
+              className="hover:text-brand-primary transition-colors font-medium"
+            >Bảo Lộc</Link>
             <span className="w-1 h-1 bg-slate-700 rounded-full hidden md:block"></span>
-            <Link to={`${siteLocationPrefix}/dieu-khoan`} className="hover:text-brand-primary transition-colors">Điều khoản</Link>
-            <Link to={`${siteLocationPrefix}/bao-mat`} className="hover:text-brand-primary transition-colors">Bảo mật</Link>
+            <Link 
+              to={`${siteLocationPrefix}/dieu-khoan`} 
+              onClick={() => console.log('Navigation target:', `${siteLocationPrefix}/dieu-khoan`)}
+              className="hover:text-brand-primary transition-colors"
+            >Điều khoản</Link>
+            <Link 
+              to={`${siteLocationPrefix}/bao-mat`} 
+              onClick={() => console.log('Navigation target:', `${siteLocationPrefix}/bao-mat`)}
+              className="hover:text-brand-primary transition-colors"
+            >Bảo mật</Link>
           </div>
         </div>
       </div>

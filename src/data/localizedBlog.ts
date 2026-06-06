@@ -5,21 +5,61 @@ import { CMSBlogPost } from '../lib/sanity';
 import { articleBl1 } from './blogs/bao-loc-1';
 import { articleBl2 } from './blogs/bao-loc-2';
 import { articleBl3 } from './blogs/bao-loc-3';
+import { articleBl4 } from './blogs/bao-loc-4';
+import { 
+  articleBl5, 
+  articleBl6, 
+  articleBl7, 
+  articleBl8, 
+  articleBl9, 
+  articleBl10, 
+  articleBl11, 
+  articleBl12 
+} from './blogs/bao-loc-more';
 import { articleHcm1 } from './blogs/hcm-1';
 import { articleHcm2 } from './blogs/hcm-2';
 import { articleHcm3 } from './blogs/hcm-3';
+import { articleHcm4 } from './blogs/hcm-4';
+import { 
+  articleHcm5, 
+  articleHcm6, 
+  articleHcm7, 
+  articleHcm8, 
+  articleHcm9, 
+  articleHcm10, 
+  articleHcm11, 
+  articleHcm12 
+} from './blogs/hcm-more';
 
 // Danh sách các bài đăng không tạo máy, hoàn toàn viết tay theo chỉ định SEO Authority Pillar
 const baoLocBlogs: CMSBlogPost[] = [
   articleBl1,
   articleBl2,
-  articleBl3
+  articleBl3,
+  articleBl4,
+  articleBl5,
+  articleBl6,
+  articleBl7,
+  articleBl8,
+  articleBl9,
+  articleBl10,
+  articleBl11,
+  articleBl12
 ];
 
 const hoChiMinhBlogs: CMSBlogPost[] = [
   articleHcm1,
   articleHcm2,
-  articleHcm3
+  articleHcm3,
+  articleHcm4,
+  articleHcm5,
+  articleHcm6,
+  articleHcm7,
+  articleHcm8,
+  articleHcm9,
+  articleHcm10,
+  articleHcm11,
+  articleHcm12
 ];
 
 // Cấu trúc Categories giữ nguyên

@@ -49,7 +49,7 @@ export default function Home() {
   const sections = content?.sections;
 
   return (
-    <div className="w-full min-h-screen flex flex-col justify-between">
+    <div className="w-full min-h-screen pb-20 md:pb-0 flex flex-col justify-between">
       <PageSEO pageType="home" />
       <div className="flex-1 w-full">
         <PageBuilderRenderer 

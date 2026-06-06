@@ -100,7 +100,7 @@ export default function BookingModal({ isOpen, onClose, locationSlug }: BookingM
       <div className="bg-white rounded-2xl md:rounded-[2rem] w-full max-w-md relative z-10 shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center transition-colors z-20"
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-colors z-20"
         >
           <X size={18} />
         </button>
@@ -110,7 +110,7 @@ export default function BookingModal({ isOpen, onClose, locationSlug }: BookingM
             <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] bg-brand-primary/10 text-brand-primary rounded-full font-black tracking-wider uppercase mb-3">
               <Sparkles size={10} /> ĐẶT LỊCH KỸ THUẬT
             </span>
-            <h3 className="text-2xl font-black text-brand-secondary leading-snug">Yêu Cầu Khảo Sát Tận Nơi</h3>
+            <h3 className="font-black text-brand-secondary leading-snug">Yêu Cầu Khảo Sát Tận Nơi</h3>
             <p className="text-xs text-slate-500 mt-1">Hỗ trợ 24/7 khu vực {locationConfig.name}</p>
           </div>
 
@@ -207,7 +207,7 @@ export default function BookingModal({ isOpen, onClose, locationSlug }: BookingM
                 <CheckCircle size={32} />
               </div>
               <div className="space-y-2">
-                <h4 className="text-xl font-extrabold text-slate-900">Zalo Đã Được Mở!</h4>
+                <h4 className="font-extrabold text-slate-900">Zalo Đã Được Mở!</h4>
                 <p className="text-[12px] text-slate-500 leading-relaxed max-w-xs mx-auto font-medium">
                   Vui lòng nhấn <strong>"Gửi"</strong> trong Zalo để gửi thông tin cho kỹ thuật viên tại <strong>{locationConfig.name}</strong>.
                 </p>

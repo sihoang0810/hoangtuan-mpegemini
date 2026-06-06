@@ -18,6 +18,8 @@ import ServiceDetail from './pages/ServiceDetail';
 import Pricing from './pages/Pricing';
 import ProductListing from './pages/ProductListing';
 import ProductDetail from './pages/ProductDetail';
+import ProjectListing from './pages/ProjectListing';
+import ProjectDetail from './pages/ProjectDetail';
 import BlogListing from './pages/BlogListing';
 import BlogDetail from './pages/BlogDetail';
 import Contact from './pages/Contact';
@@ -49,6 +51,8 @@ function AppContent() {
           <Route path="/:locationSlug/bang-gia" element={<Pricing />} />
           <Route path="/:locationSlug/san-pham" element={<ProductListing />} />
           <Route path="/:locationSlug/san-pham/:slug" element={<ProductDetail />} />
+          <Route path="/:locationSlug/du-an" element={<ProjectListing />} />
+          <Route path="/:locationSlug/du-an/:slug" element={<ProjectDetail />} />
           <Route path="/:locationSlug/blog" element={<BlogListing />} />
           <Route path="/:locationSlug/blog/:slug" element={<BlogDetail />} />
           <Route path="/:locationSlug/lien-he" element={<Contact />} />

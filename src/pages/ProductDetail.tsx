@@ -21,6 +21,9 @@ import { useEffect, useState } from 'react';
 import { getProductBySlug, getProductBySlugSync, getProducts, getProductsSync, CMSProduct } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
+import MediaGallery from '../components/MediaGallery';
+
+import Breadcrumbs from '../components/Breadcrumbs';
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string; locationSlug: string }>();
@@ -68,7 +71,7 @@ export default function ProductDetail() {
 
   if (loading) {
     return (
-      <div className="pt-40 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+      <div className="pt-40 pb-16 md:pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
         <PageSEO pageType="general" />
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary mb-4" />
         <p className="text-slate-500 font-bold uppercase tracking-wider text-xs">Đang tải chi tiết sản phẩm...</p>
@@ -78,10 +81,10 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <div className="pt-32 pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+      <div className="pt-24 md:pt-32 pb-16 md:pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
         <PageSEO pageType="general" />
         <AlertCircle size={64} className="mx-auto text-brand-primary mb-6 animate-pulse" />
-        <h1 className="text-3xl font-bold text-brand-secondary mb-4 uppercase">Sản phẩm không tồn tại</h1>
+        <h1 className="font-bold text-brand-secondary mb-4 uppercase">Sản phẩm không tồn tại</h1>
         <p className="text-slate-500 mb-8">Sản phẩm bạn đang tìm kiếm có thể đã tạm hết hàng hoặc thay đổi địa chỉ.</p>
         <Link to={`${siteLocationPrefix}/san-pham`} className="inline-block bg-brand-primary text-white px-8 py-3 rounded-xl font-bold">
           Quay lại Cửa hàng
@@ -101,22 +104,6 @@ export default function ProductDetail() {
     <div className="pt-24 md:pt-32">
       <PageSEO pageType="product" data={product} />
       
-      {/* Breadcrumbs */}
-      <div className="bg-slate-50 border-b border-slate-100 py-4">
-        <div className="max-w-7xl mx-auto px-4 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
-          <Link to={siteLocationPrefix} className="text-slate-500 hover:text-brand-primary transition-colors flex items-center gap-1">
-            <Home size={14} />
-            Trang chủ
-          </Link>
-          <ChevronRight size={12} className="text-slate-300" />
-          <Link to={`${siteLocationPrefix}/san-pham`} className="text-slate-500 hover:text-brand-primary transition-colors">
-            Sản phẩm
-          </Link>
-          <ChevronRight size={12} className="text-slate-300" />
-          <span className="text-brand-primary truncate">{product.name}</span>
-        </div>
-      </div>
- 
       <section className="section-container">
         {/* Back Button */}
         <button 
@@ -127,39 +114,18 @@ export default function ProductDetail() {
           QUAY LẠI
         </button>
  
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Gallery Placeholder */}
+        <div className="grid lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-start">
+          {/* Gallery Area */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             className="space-y-6"
           >
-            <div className="aspect-square bg-white rounded-[3rem] overflow-hidden border border-slate-100 shadow-2xl relative overflow-hidden group">
-              <img 
-                src={displayImage} 
-                alt={product.name} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute top-6 left-6">
-                <span className="bg-brand-primary text-white px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest shadow-xl flex items-center gap-2">
-                  <ShoppingBag size={14} />
-                  Hàng chính hãng
-                </span>
-              </div>
-            </div>
-            
-            {/* Thumbnails */}
-            <div className="grid grid-cols-4 gap-4">
-              {galleryImages.map((img, idx) => (
-                <div 
-                  key={idx} 
-                  onClick={() => setSelectedImage(img)}
-                  className={`aspect-square rounded-2xl border-2 overflow-hidden cursor-pointer transition-all ${displayImage === img ? 'border-brand-primary shadow-lg shadow-brand-primary/10' : 'border-transparent hover:border-slate-200'}`}
-                >
-                  <img src={img} alt={`Hình thu nhỏ ${product.name || 'sản phẩm'} ${idx + 1}`} className="w-full h-full object-cover" />
-                </div>
-              ))}
-            </div>
+            <MediaGallery 
+              items={galleryImages.map(img => ({ type: 'image' as const, url: img }))} 
+              altPrefix={product.name}
+            />
+            {/* Tag/Decal could be placed via absolute over the gallery, but for simplicity let's put it nearby or omit */}
           </motion.div>
 
           {/* Info */}
@@ -172,7 +138,7 @@ export default function ProductDetail() {
                 <Tag size={16} />
                 {product.category === 'electrical' ? 'Điện dân dụng' : product.category === 'plumbing' ? 'Nước dân dụng' : product.category === 'camera' ? 'Camera an ninh' : 'Thiết bị dò tìm'}
               </div>
-              <h1 className="text-3xl md:text-5xl font-bold text-brand-secondary mb-6 uppercase tracking-tighter leading-tight">
+              <h1 className="font-bold text-brand-secondary mb-6 uppercase tracking-tighter leading-tight">
                 {product.name}
               </h1>
               <div className="flex items-center gap-4 py-6 border-y border-slate-100 mb-8">
@@ -193,18 +159,18 @@ export default function ProductDetail() {
 
             {/* Quick Actions */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-8 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 transition-all uppercase">
-                <Phone size={24} />
+              <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-base sm:text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 transition-all uppercase">
+                <Phone size={24} className="sm:w-6 sm:h-6 w-5 h-5" />
                 Đặt Mua: 0389 011 315
               </a>
-              <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-8 py-5 rounded-2xl font-bold text-lg hover:opacity-90 transition-all uppercase">
-                <MessageCircle size={24} />
+              <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-base sm:text-lg hover:opacity-90 transition-all uppercase">
+                <MessageCircle size={24} className="sm:w-6 sm:h-6 w-5 h-5" />
                 Tư vấn Zalo
               </a>
             </div>
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-2 gap-6 pt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
               <div className="flex items-center gap-3 text-slate-600 font-bold text-sm">
                 <Truck className="text-brand-primary" size={24} />
                 <span>Giao hàng tận nơi</span>
@@ -219,9 +185,9 @@ export default function ProductDetail() {
       </section>
 
       {/* Product Details Tabs / Content */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-12 md:py-16 lg:py-24 bg-slate-50">
         <div className="section-container">
-          <div className="grid lg:grid-cols-3 gap-16">
+          <div className="grid lg:grid-cols-3 gap-6 md:gap-12 lg:gap-16">
             <div className="lg:col-span-2 space-y-12">
               {/* Features Section */}
               {product.features && product.features.length > 0 && (
@@ -268,7 +234,7 @@ export default function ProductDetail() {
                     <Wrench size={32} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-brand-secondary uppercase tracking-tight">Hỗ Trợ Lắp Đặt Tận Nhà</h3>
+                    <h3 className="font-bold text-brand-secondary uppercase tracking-tight">Hỗ Trợ Lắp Đặt Tận Nhà</h3>
                     <p className="text-slate-500 font-medium">Chúng tôi không chỉ bán sản phẩm, chúng tôi mang đến giải pháp hoàn thiện.</p>
                   </div>
                 </div>
@@ -284,7 +250,7 @@ export default function ProductDetail() {
             {/* Sidebar Contact */}
             <div className="space-y-8">
               <div className="bg-brand-secondary p-10 rounded-[2.5rem] text-white">
-                <h3 className="text-xl font-bold mb-6 uppercase tracking-tighter italic">Cần báo giá sỉ?</h3>
+                <h3 className="font-bold mb-6 uppercase tracking-tighter italic">Cần báo giá sỉ?</h3>
                 <p className="text-white/60 text-sm mb-10 leading-relaxed">Nếu bạn là đại lý hoặc cần mua số lượng lớn cho công trình, hãy liên hệ để có giá tốt nhất thị trường.</p>
                 <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-5 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20">
                   <Phone size={20} />
@@ -293,7 +259,7 @@ export default function ProductDetail() {
               </div>
               
               <div className="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
-                <h3 className="text-lg font-bold text-brand-secondary mb-8 uppercase tracking-widest border-b border-slate-100 pb-4">Sản phẩm tương tự</h3>
+                <h3 className="font-bold text-brand-secondary mb-8 uppercase tracking-widest border-b border-slate-100 pb-4">Sản phẩm tương tự</h3>
                 <div className="space-y-8">
                   {relatedProducts.map(rp => (
                     <Link key={rp.id} to={`${siteLocationPrefix}/san-pham/${rp.slug}`} className="flex gap-4 group">
@@ -321,9 +287,9 @@ export default function ProductDetail() {
 
       {/* Featured Products at bottom */}
       {relatedProducts.length > 0 && (
-        <section className="py-24 bg-white">
+        <section className="py-12 md:py-16 lg:py-24 bg-white">
           <div className="section-container">
-            <h2 className="text-3xl md:text-5xl font-bold text-brand-secondary mb-12 uppercase tracking-tighter">
+            <h2 className="font-bold text-brand-secondary mb-12 uppercase tracking-tighter">
               Có thể bạn <span className="text-brand-primary">quan tâm</span>
             </h2>
             <div className="grid md:grid-cols-3 gap-8">

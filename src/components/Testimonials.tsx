@@ -134,13 +134,13 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
   return (
     <section 
       id="testimonials" 
-      className="section-container bg-slate-50 overflow-hidden relative"
+      className="section-container bg-white overflow-hidden relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="text-center mb-12">
         <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">{heading}</p>
-        <h2 className="text-3xl md:text-5xl font-black text-brand-secondary tracking-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-brand-secondary tracking-tight">
           {subheading}
         </h2>
       </div>
@@ -212,7 +212,7 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                       tabIndex={isCenter ? -1 : 0}
                       role="button"
                       aria-label={`Xem đánh giá của ${testimonial.name}`}
-                      className={`w-[360px] p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between h-[360px] cursor-pointer select-none transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-brand-primary ${
+                      className={`w-[85vw] max-w-[360px] p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between min-min-h-[300px] h-auto h-auto cursor-pointer select-none transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-brand-primary ${
                         isCenter
                           ? 'bg-white border-2 border-brand-primary ring-8 ring-brand-primary/5'
                           : 'bg-white/75 border border-slate-100 hover:bg-white hover:opacity-100'
