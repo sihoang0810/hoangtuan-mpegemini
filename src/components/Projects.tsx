@@ -66,7 +66,7 @@ const ProjectItem = ({ project, index }: { project: CMSProject; index: number })
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.08 }}
-      className="py-12 md:py-16 lg:py-24 md:py-24 border-b border-slate-100 last:border-b-0 last:pb-0 first:pt-0"
+      className="py-10 md:py-16 lg:py-20 border-b border-slate-100 last:border-b-0 last:pb-0 first:pt-0"
     >
       <style>{`
         @media (min-width: 768px) {
@@ -84,7 +84,7 @@ const ProjectItem = ({ project, index }: { project: CMSProject; index: number })
         
         {/* Ảnh */}
         <div className="w-full md:w-1/2 flex-shrink-0">
-          <div className="relative aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl group">
+          <div className="relative aspect-[4/3] rounded-3xl md:rounded-[2.5rem] overflow-hidden shadow-2xl group">
             <OptimizedImage
               src={project.image}
               alt={project.title}
@@ -113,7 +113,7 @@ const ProjectItem = ({ project, index }: { project: CMSProject; index: number })
             </div>
           </div>
 
-          <h3 className="text-2xl md:text-3xl font-black text-brand-secondary leading-tight tracking-tight">
+          <h3 className="text-2xl md:text-3xl font-black text-brand-secondary leading-snug text-balance tracking-tight">
             {project.title}
           </h3>
 
@@ -150,9 +150,9 @@ export default function Projects({ cmsData }: ProjectsProps) {
   const subtitle = cmsData?.subtitle || "Hoàng Tuấn MPE tự hào mang đến những giải pháp thi công bền vững, thẩm mỹ và an toàn cho mọi công trình.";
 
   return (
-    <section className="py-12 md:py-16 lg:py-24 bg-slate-50 overflow-hidden" id="section-projects">
+    <section className="py-10 md:py-16 lg:py-20 bg-slate-50 overflow-hidden" id="section-projects">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
+        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20 space-y-4">
           <motion.span 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}

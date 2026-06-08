@@ -81,7 +81,7 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <div className="pt-24 md:pt-32 pb-16 md:pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+      <div className="pt-20 md:pt-28 pb-16 md:pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
         <PageSEO pageType="general" />
         <AlertCircle size={64} className="mx-auto text-brand-primary mb-6 animate-pulse" />
         <h1 className="font-bold text-brand-secondary mb-4 uppercase">Sản phẩm không tồn tại</h1>
@@ -138,7 +138,7 @@ export default function ProductDetail() {
                 <Tag size={16} />
                 {product.category === 'electrical' ? 'Điện dân dụng' : product.category === 'plumbing' ? 'Nước dân dụng' : product.category === 'camera' ? 'Camera an ninh' : 'Thiết bị dò tìm'}
               </div>
-              <h1 className="font-bold text-brand-secondary mb-6 uppercase tracking-tighter leading-tight">
+              <h1 className="font-bold text-brand-secondary mb-6 uppercase tracking-tight leading-snug text-balance">
                 {product.name}
               </h1>
               <div className="flex items-center gap-4 py-6 border-y border-slate-100 mb-8">
@@ -152,18 +152,18 @@ export default function ProductDetail() {
                 </div>
               </div>
               <div 
-                className="text-xl text-slate-600 leading-relaxed font-medium prose prose-slate max-w-none prose-p:text-slate-600"
+                className="text-base sm:text-lg text-slate-600 leading-relaxed font-medium prose prose-slate max-w-none prose-p:text-slate-600"
                 dangerouslySetInnerHTML={{ __html: product.description || '' }}
               />
             </motion.div>
 
             {/* Quick Actions */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-base sm:text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 transition-all uppercase">
+              <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white px-4 py-3 sm:px-6 sm:py-3.5 md:px-8 md:py-4 rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base md:text-lg shadow-xl shadow-brand-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase whitespace-nowrap">
                 <Phone size={24} className="sm:w-6 sm:h-6 w-5 h-5" />
                 Đặt Mua: 0389 011 315
               </a>
-              <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-base sm:text-lg hover:opacity-90 transition-all uppercase">
+              <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-[#0068ff] text-white px-4 py-3 sm:px-6 sm:py-3.5 md:px-8 md:py-4 rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base md:text-lg hover:opacity-90 transition-all uppercase whitespace-nowrap">
                 <MessageCircle size={24} className="sm:w-6 sm:h-6 w-5 h-5" />
                 Tư vấn Zalo
               </a>
@@ -185,14 +185,14 @@ export default function ProductDetail() {
       </section>
 
       {/* Product Details Tabs / Content */}
-      <section className="py-12 md:py-16 lg:py-24 bg-slate-50">
+      <section className="py-10 md:py-16 lg:py-20 bg-slate-50">
         <div className="section-container">
           <div className="grid lg:grid-cols-3 gap-6 md:gap-12 lg:gap-16">
             <div className="lg:col-span-2 space-y-12">
               {/* Features Section */}
               {product.features && product.features.length > 0 && (
                 <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/50">
-                  <h2 className="text-2xl font-bold text-brand-secondary mb-8 uppercase flex items-center gap-3">
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-secondary mb-6 sm:mb-8 uppercase flex items-center gap-3">
                     <CheckCircle2 className="text-brand-primary" />
                     Đặc điểm nổi bật
                   </h2>
@@ -212,7 +212,7 @@ export default function ProductDetail() {
               {/* Specifications */}
               {product.specs && Object.keys(product.specs).length > 0 && (
                 <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/50">
-                  <h2 className="text-2xl font-bold text-brand-secondary mb-8 uppercase flex items-center gap-3">
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-secondary mb-6 sm:mb-8 uppercase flex items-center gap-3">
                     <Settings className="text-brand-primary" />
                     Thông số kỹ thuật
                   </h2>
@@ -250,9 +250,9 @@ export default function ProductDetail() {
             {/* Sidebar Contact */}
             <div className="space-y-8">
               <div className="bg-brand-secondary p-10 rounded-[2.5rem] text-white">
-                <h3 className="font-bold mb-6 uppercase tracking-tighter italic">Cần báo giá sỉ?</h3>
+                <h3 className="font-bold mb-6 uppercase tracking-tight italic">Cần báo giá sỉ?</h3>
                 <p className="text-white/60 text-sm mb-10 leading-relaxed">Nếu bạn là đại lý hoặc cần mua số lượng lớn cho công trình, hãy liên hệ để có giá tốt nhất thị trường.</p>
-                <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-5 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20">
+                <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-3.5 sm:py-4 md:py-5 rounded-xl sm:rounded-2xl font-bold text-base md:text-lg hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-brand-primary/20">
                   <Phone size={20} />
                   0389 011 315
                 </a>

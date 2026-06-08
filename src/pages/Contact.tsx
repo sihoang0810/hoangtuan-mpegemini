@@ -56,13 +56,13 @@ export default function Contact() {
   ];
 
   return (
-    <div id="contact" className="pt-24 md:pt-32">
+    <div id="contact" className="pt-20 md:pt-28">
       <PageSEO pageType="general" />
       <section className="section-container">
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-start">
           <div>
-            <h1 className="font-bold text-brand-secondary mb-8 uppercase tracking-tighter" dangerouslySetInnerHTML={{ __html: pageTitle.includes('Chúng Tôi') ? pageTitle.replace('Chúng Tôi', '<span class="text-brand-primary">Chúng Tôi</span>') : pageTitle }} />
-            <p className="text-lg text-slate-500 mb-12 leading-relaxed font-medium" dangerouslySetInnerHTML={{ __html: pageSubtitle }} />
+            <h1 className="font-bold text-brand-secondary mb-8 uppercase tracking-tight" dangerouslySetInnerHTML={{ __html: pageTitle.includes('Chúng Tôi') ? pageTitle.replace('Chúng Tôi', '<span class="text-brand-primary">Chúng Tôi</span>') : pageTitle }} />
+            <p className="text-base sm:text-lg text-slate-500 mb-8 sm:mb-12 leading-relaxed font-medium" dangerouslySetInnerHTML={{ __html: pageSubtitle }} />
 
             <div className="space-y-8">
               {fields.map((item, idx) => {
@@ -113,8 +113,8 @@ export default function Contact() {
                    <label className="text-sm font-bold text-slate-700">Nội dung sự cố</label>
                    <textarea rows={4} value={formData.message} onChange={e => setFormData(p => ({...p, message: e.target.value}))} placeholder="Mô tả ngắn gọn sự cố bạn đang gặp phải..." className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:outline-none focus:border-brand-primary resize-none" />
                  </div>
-                 <button type="submit" disabled={submitting} className="btn-primary w-full py-5 text-xl flex items-center justify-center gap-3 disabled:opacity-60">
-                   <Send size={24} />
+                 <button type="submit" disabled={submitting} className="btn-primary w-full py-3 sm:py-4 md:py-5 text-base sm:text-lg md:text-xl flex items-center justify-center gap-2 md:gap-3 disabled:opacity-60">
+                   <Send size={20} className="shrink-0" />
                    {submitting ? 'Đang gửi...' : 'Gửi Yêu Cầu Qua Zalo'}
                  </button>
                  <p className="text-xs text-center text-slate-500">Hoặc gọi trực tiếp: <a href="tel:0389011315" className="text-brand-primary font-bold">0389 011 315</a> (24/7)</p>

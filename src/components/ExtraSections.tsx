@@ -15,14 +15,14 @@ const STEPS = [
 export default function ProcessTimeline() {
   return (
     <section className="section-container bg-white">
-      <div className="text-center mb-16">
+      <div className="text-center mb-10 md:mb-16">
         <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">Quy Trình Làm Việc</p>
         <h2 className="font-bold text-brand-secondary">
           Sửa Chữa Chuyên Nghiệp Trong 4 Bước
         </h2>
       </div>
 
-      <div className="grid md:grid-cols-4 gap-8 relative">
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 relative">
         {/* Connection Line */}
         <div className="hidden md:block absolute top-[2.5rem] left-[10%] right-[10%] h-0.5 bg-slate-200 z-0" />
         
@@ -73,7 +73,7 @@ export function FAQSection() {
 
   return (
     <section className="section-container bg-white">
-      <div className="grid lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-start">
+      <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
         <div>
           <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">Hỏi Đáp Thường Gặp</p>
           <h2 className="font-bold text-brand-secondary mb-8">
@@ -82,7 +82,7 @@ export function FAQSection() {
           <p className="text-lg text-slate-600 mb-10 leading-relaxed">
             Chúng tôi tập hợp những câu hỏi phổ biến nhất để giúp bạn hiểu rõ hơn về quy trình và cam kết dịch vụ của chúng tôi.
           </p>
-          <div className="bg-brand-primary/5 p-8 rounded-3xl border border-brand-primary/10">
+          <div className="bg-brand-primary/5 p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl border border-brand-primary/10">
             <h4 className="text-xl font-bold text-brand-secondary mb-4 flex items-center gap-3">
               <Phone className="text-brand-primary" />
               Vẫn còn thắc mắc?

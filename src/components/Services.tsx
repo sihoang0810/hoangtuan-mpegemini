@@ -81,7 +81,7 @@ export default function Services({
 
   return (
     <section id="services" className="section-container bg-white">
-      <div className="text-center mb-16">
+      <div className="text-center mb-10 md:mb-16">
         <div className="inline-block">
           <InlineEdit 
             value={servicesHeading}
@@ -96,7 +96,7 @@ export default function Services({
             value={servicesSubtitle}
             isEditable={isEditable}
             onSave={(val) => onUpdateDraftField?.('servicesSubtitle', val)}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-secondary uppercase tracking-tighter block"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-secondary uppercase tracking-tight block"
             element="h2"
             multiline={true}
           />

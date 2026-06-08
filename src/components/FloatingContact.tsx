@@ -96,7 +96,7 @@ export default function FloatingContact() {
       </div>
 
       {/* Mobile Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-[60] md:hidden bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.1)] border-t border-slate-100 p-3">
+      <div className="fixed bottom-0 left-0 right-0 z-[60] md:hidden bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.1)] border-t border-slate-100 p-3 pb-[calc(12px+env(safe-area-inset-bottom))] pb-safe">
         <div className="grid grid-cols-3 gap-2">
           <button 
             onClick={() => setIsModalOpen(true)}

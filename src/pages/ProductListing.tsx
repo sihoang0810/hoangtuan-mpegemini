@@ -79,11 +79,11 @@ export default function ProductListing() {
       <PageSEO pageType="general" />
 
       {/* Hero Section */}
-      <section className="bg-slate-900 pb-16 md:pb-24 relative overflow-hidden">
+      <section className="bg-slate-900 pb-12 md:pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-primary/10 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 left-0 w-1/4 h-full bg-brand-primary/5 blur-[100px] rounded-full -translate-x-1/2 translate-y-1/2" />
         
-        <div className="max-w-7xl mx-auto px-4 relative z-10 py-12 md:py-16 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4 relative z-10 py-10 md:py-16 lg:py-20">
           <div className="max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -97,7 +97,7 @@ export default function ProductListing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="font-bold text-white mb-8 uppercase tracking-tighter leading-tight"
+              className="font-bold text-white mb-8 uppercase tracking-tight leading-snug text-balance"
             >
               Sản Phẩm <span className="text-brand-primary text-outline">Chất Lượng</span> <br />
               Dịch Vụ Tận Tâm
@@ -106,7 +106,7 @@ export default function ProductListing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-xl text-slate-300 font-medium leading-relaxed mb-10"
+              className="text-base sm:text-xl text-slate-300 font-medium leading-relaxed mb-6 sm:mb-10"
             >
               Cung cấp đầy đủ các thiết bị điện, nước, camera và máy dò rò rỉ rước hiện đại nhất. 
               Cam kết chính hãng, bảo hành dài hạn.
@@ -172,15 +172,15 @@ export default function ProductListing() {
               </div>
 
               {/* Support Card */}
-              <div className="bg-brand-secondary p-8 rounded-[2.5rem] text-white">
+              <div className="bg-brand-secondary p-5 sm:p-8 rounded-3xl text-white">
                 <h4 className="text-xl font-bold mb-4 uppercase tracking-tight">Cần Tư Vấn?</h4>
-                <p className="text-white/60 text-sm mb-8 leading-relaxed">Đội ngũ kỹ thuật viên sẵn sàng tư vấn thiết bị phù hợp nhất với nhu cầu của bạn.</p>
-                <div className="space-y-4">
-                  <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-xl font-bold hover:scale-105 transition-all">
+                <p className="text-white/60 text-sm mb-6 leading-relaxed">Đội ngũ kỹ thuật viên sẵn sàng tư vấn thiết bị phù hợp nhất với nhu cầu của bạn.</p>
+                <div className="space-y-3">
+                  <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-3 sm:py-4 rounded-xl font-bold md:hover:scale-105 transition-all">
                     <Phone size={18} />
                     0389 011 315
                   </a>
-                  <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-white text-brand-primary w-full py-4 rounded-xl font-bold hover:scale-105 transition-all">
+                  <a href="https://zalo.me/0389011315" className="flex items-center justify-center gap-3 bg-white text-brand-primary w-full py-3 sm:py-4 rounded-xl font-bold md:hover:scale-105 transition-all">
                     <MessageCircle size={18} />
                     Chat Zalo
                   </a>
@@ -292,10 +292,10 @@ export default function ProductListing() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-20 bg-white">
+      <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="bg-brand-primary/5 rounded-3xl md:rounded-[3rem] p-12 md:p-20 text-center">
-            <h2 className="font-bold text-brand-secondary mb-8 uppercase tracking-tighter">
+            <h2 className="font-bold text-brand-secondary mb-8 uppercase tracking-tight">
               Tại Sao Nên Mua Thiết Bị <br />
               Tại <span className="text-brand-primary">Hoàng Tuấn MPE?</span>
             </h2>

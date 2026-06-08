@@ -164,8 +164,7 @@ export default function ServiceNav() {
           <div className="relative">
             {/* Horizontal sliding row for mobile, space-around flex arrangement for items */}
             <div 
-              className="mobile-scroll-container overflow-x-auto scrollbar-none flex whitespace-nowrap w-full justify-around px-1 py-1"
-              style={{ justifyContent: 'space-around' }}
+              className="mobile-scroll-container overflow-x-auto no-scrollbar flex whitespace-nowrap w-full gap-2 px-4 py-2 sm:justify-center"
             >
               {NAV_ITEMS.map((item) => {
                 const isActive = activeCategory === item.id;

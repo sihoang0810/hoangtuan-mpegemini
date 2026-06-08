@@ -35,10 +35,10 @@ export default function Pricing() {
   const priceItems = services.length > 0 ? services : SERVICES;
 
   return (
-    <div id="pricing" className="pt-24 md:pt-32">
+    <div id="pricing" className="pt-20 md:pt-28">
       <PageSEO pageType="general" />
       <section className="section-container bg-white">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -46,10 +46,10 @@ export default function Pricing() {
           >
             Bảng giá {new Date().getFullYear()}
           </motion.div>
-          <h1 className="font-bold text-brand-secondary mb-8 uppercase tracking-tighter">
+          <h1 className="font-bold text-brand-secondary mb-8 uppercase tracking-tight">
             Bảng Giá <span className="text-brand-primary">Dịch Vụ</span>
           </h1>
-          <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium">
+          <p className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto font-medium">
             Chúng tôi cam kết báo giá minh bạch, tuyệt đối không phát sinh chi phí sau khi đã thỏa thuận. Kiểm tra và báo giá MIỄN PHÍ trước khi thực hiện.
           </p>
         </div>
@@ -76,7 +76,7 @@ export default function Pricing() {
 
         {/* Content Area */}
         <div className="bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-1 border border-slate-100 shadow-2xl shadow-slate-200/50 min-h-[400px]">
-          <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden">
+          <div className="bg-slate-50 rounded-3xl md:rounded-[2.5rem] p-5 sm:p-8 md:p-12 relative overflow-hidden">
             <AnimatePresence mode="wait">
               {PRICE_CATEGORIES.map(cat => cat.id === activeTab && (
                 <motion.div
@@ -140,18 +140,18 @@ export default function Pricing() {
               <BadgeCheck size={20} />
               Cam kết giá tốt nhất
             </div>
-            <h3 className="font-bold mb-8 uppercase leading-tight">
+            <h3 className="font-bold mb-8 uppercase leading-snug text-balance">
               Kiểm Tra & Báo Giá <br />
               <span className="text-brand-secondary underline decoration-white/30 underline-offset-8">Miễn Phí Tận Nơi</span>
             </h3>
-            <p className="text-xl text-white/80 max-w-2xl mx-auto mb-12 font-medium">
+            <p className="text-base sm:text-lg text-white/80 max-w-2xl mx-auto mb-10 font-medium">
               Chúng tôi không thu phí nếu không sửa được. Mọi báo giá đều được kỹ thuật viên cung cấp bằng văn bản hoặc tin nhắn xác nhận trước khi làm.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <a href="tel:0389011315" className="w-full sm:w-auto bg-brand-secondary text-white text-2xl px-12 py-6 rounded-2xl font-bold hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+              <a href="tel:0389011315" className="w-full sm:w-auto bg-brand-secondary text-white text-lg sm:text-2xl px-6 py-4 sm:px-12 sm:py-6 rounded-2xl font-bold hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase text-center">
                 Gọi Ngay: 0389 011 315
               </a>
-              <a href="https://zalo.me/0389011315" className="w-full sm:w-auto bg-white text-brand-primary text-2xl px-12 py-6 rounded-2xl font-bold hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase">
+              <a href="https://zalo.me/0389011315" className="w-full sm:w-auto bg-white text-brand-primary text-lg sm:text-2xl px-6 py-4 sm:px-12 sm:py-6 rounded-2xl font-bold hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase text-center">
                 Hotline Zalo
               </a>
             </div>

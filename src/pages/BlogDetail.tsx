@@ -72,7 +72,7 @@ export default function BlogDetail() {
 
   if (!post) {
     return (
-      <div className="pt-24 md:pt-32 pb-16 md:pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
+      <div className="pt-20 md:pt-28 pb-16 md:pb-20 text-center min-h-[80vh] flex flex-col justify-center items-center">
         <PageSEO pageType="general" />
         <div className="section-container">
           <h1 className="font-bold text-brand-secondary mb-4 uppercase">Bài viết không tồn tại</h1>
@@ -104,7 +104,7 @@ export default function BlogDetail() {
                 {post?.category || 'Chưa phân loại'}
               </div>
               
-              <h1 className="font-bold text-brand-secondary mb-8 leading-[1.1] tracking-tighter uppercase">
+              <h1 className="font-bold text-brand-secondary mb-8 leading-[1.1] tracking-tight uppercase">
                 {post?.title || 'Đang cập nhật'}
               </h1>
 
@@ -146,7 +146,7 @@ export default function BlogDetail() {
               </div>
 
               {/* Real Content Rendering */}
-              <div className="prose prose-lg max-w-none prose-slate prose-headings:text-brand-secondary prose-headings:font-bold prose-headings:uppercase prose-headings:tracking-tighter prose-strong:text-brand-secondary prose-a:text-brand-primary prose-img:rounded-[2rem] blog-content">
+              <div className="prose prose-lg max-w-none prose-slate prose-headings:text-brand-secondary prose-headings:font-bold prose-headings:uppercase prose-headings:tracking-tight prose-strong:text-brand-secondary prose-a:text-brand-primary prose-img:rounded-[2rem] blog-content">
                 <div dangerouslySetInnerHTML={{ __html: post?.content || '<p>Nội dung đang được cập nhật...</p>' }} />
                 
                 {/* FAQ specific to blog */}
@@ -203,19 +203,19 @@ export default function BlogDetail() {
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 group cursor-pointer text-sm">
                   <span className="text-brand-primary font-bold mt-1">01</span>
-                  <span className="text-slate-600 font-bold group-hover:text-brand-primary transition-colors leading-tight">Tại sao sự cố thường xuyên xảy ra?</span>
+                  <span className="text-slate-600 font-bold group-hover:text-brand-primary transition-colors leading-snug">Tại sao sự cố thường xuyên xảy ra?</span>
                 </li>
                  <li className="flex items-start gap-3 group cursor-pointer text-sm">
                   <span className="text-brand-primary font-bold mt-1">02</span>
-                  <span className="text-slate-600 font-bold group-hover:text-brand-primary transition-colors leading-tight">Dấu hiệu nhận biết sớm nhất</span>
+                  <span className="text-slate-600 font-bold group-hover:text-brand-primary transition-colors leading-snug">Dấu hiệu nhận biết sớm nhất</span>
                 </li>
                  <li className="flex items-start gap-3 group cursor-pointer text-sm">
                   <span className="text-brand-primary font-bold mt-1">03</span>
-                  <span className="text-slate-600 font-bold group-hover:text-brand-primary transition-colors leading-tight">Quy trình xử lý an toàn kỹ thuật</span>
+                  <span className="text-slate-600 font-bold group-hover:text-brand-primary transition-colors leading-snug">Quy trình xử lý an toàn kỹ thuật</span>
                 </li>
                  <li className="flex items-start gap-3 group cursor-pointer text-sm">
                   <span className="text-brand-primary font-bold mt-1">04</span>
-                  <span className="text-slate-600 font-bold group-hover:text-brand-primary transition-colors leading-tight">Kết luận và lời khuyên</span>
+                  <span className="text-slate-600 font-bold group-hover:text-brand-primary transition-colors leading-snug">Kết luận và lời khuyên</span>
                 </li>
               </ul>
 
@@ -232,12 +232,12 @@ export default function BlogDetail() {
             </div>
 
             {/* Sticky contact CTA for sidebar bottom or floating */}
-            <div className="bg-brand-secondary p-10 rounded-[2.5rem] text-white overflow-hidden relative">
+            <div className="bg-brand-secondary p-5 sm:p-8 md:p-10 rounded-3xl md:rounded-[2.5rem] text-white overflow-hidden relative">
               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/20 rounded-full blur-2xl -mr-16 -mt-16" />
               <div className="relative z-10">
-                <h4 className="text-2xl font-bold mb-4 uppercase tracking-tighter">Cần thợ ngay?</h4>
+                <h4 className="text-xl sm:text-2xl font-bold mb-4 uppercase tracking-tight">Cần thợ ngay?</h4>
                 <p className="text-white/60 text-sm mb-8 leading-relaxed">Có mặt sau 30 phút tại {locationSlug || 'Bảo Lộc'}. Kiểm tra khảo sát hoàn toàn miễn phí.</p>
-                <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-brand-primary/20 tracking-tight">
+                <a href="tel:0389011315" className="flex items-center justify-center gap-3 bg-brand-primary text-white w-full py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-base sm:text-lg hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-brand-primary/20 tracking-tight">
                   <Phone size={20} />
                   0389 011 315
                 </a>
@@ -249,12 +249,12 @@ export default function BlogDetail() {
 
       {/* Related Posts */}
       {relatedPosts.length > 0 && (
-        <section className="py-20 bg-slate-50">
+        <section className="py-12 md:py-20 bg-slate-50">
           <div className="section-container">
             <h2 className="font-bold text-brand-secondary mb-12 uppercase tracking-tighter">
               Bài viết <span className="text-brand-primary">liên quan</span>
             </h2>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {relatedPosts.map((rp, idx) => (
                 <BlogCard key={rp.id} post={rp} index={idx} />
               ))}

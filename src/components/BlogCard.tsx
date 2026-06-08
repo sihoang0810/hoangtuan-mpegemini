@@ -21,12 +21,12 @@ export default function BlogCard({ post, index }: BlogCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: Math.min((index % 3) * 0.05, 0.15), duration: 0.3 }}
-      className="group bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col h-full"
+      className="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col h-full"
     >
       <Link 
         to={`${siteLocationPrefix}/blog/${post?.slug || '#'}`} 
         onClick={() => console.log('Navigation target:', `${siteLocationPrefix}/blog/${post?.slug || '#'}`)}
-        className="relative h-64 overflow-hidden block text-brand-secondary"
+        className="relative h-44 sm:h-48 md:h-56 overflow-hidden block text-brand-secondary"
       >
         <motion.img
           whileHover={{ scale: 1.1 }}
@@ -35,14 +35,14 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           alt={post?.title || 'Bài viết'}
           className="w-full h-full object-cover"
         />
-        <div className="absolute top-4 left-4">
-          <span className="bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-lg">
+        <div className="absolute top-3 left-3">
+          <span className="bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg">
             {post?.category || 'Chưa phân loại'}
           </span>
         </div>
         {(post as any)?.isPinned && (
-          <div className="absolute top-4 right-4 z-10">
-            <span className="bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-2 rounded-full shadow-lg flex items-center gap-1 animate-pulse">
+          <div className="absolute top-3 right-3 z-10">
+            <span className="bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1 animate-pulse">
               <Star size={10} fill="currentColor" />
               Nổi bật
             </span>
@@ -50,8 +50,8 @@ export default function BlogCard({ post, index }: BlogCardProps) {
         )}
       </Link>
       
-      <div className="p-8 flex flex-col flex-grow">
-        <div className="flex items-center gap-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">
+      <div className="p-5 sm:p-6 md:p-8 flex flex-col flex-grow">
+        <div className="flex items-center gap-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">
           <div className="flex items-center gap-1.5">
             <Calendar size={12} className="text-brand-primary" />
             {post?.date || ''}
@@ -67,7 +67,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           onClick={() => console.log('Navigation target:', `${siteLocationPrefix}/blog/${post?.slug || '#'}`)}
           className="block"
         >
-          <h3 className="text-xl font-bold text-brand-secondary mb-4 leading-tight group-hover:text-brand-primary transition-colors line-clamp-2 tracking-tight">
+          <h3 className="text-xl font-bold text-brand-secondary mb-4 leading-snug group-hover:text-brand-primary transition-colors line-clamp-2 tracking-tight">
             {post?.title || 'Tuyệt tác từ nhà Hoàng Tuấn'}
           </h3>
         </Link>

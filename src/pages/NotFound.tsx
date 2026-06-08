@@ -16,7 +16,7 @@ export default function NotFound() {
   }, [setShowPopup]);
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center bg-gray-50 px-4 py-12 md:py-16 lg:py-24 sm:px-6 sm:py-24 md:grid-cols-2 lg:px-8">
+    <div className="min-h-[70vh] flex items-center justify-center bg-gray-50 px-4 py-10 md:py-16 lg:py-20 sm:px-6 sm:py-24 md:grid-cols-2 lg:px-8">
       <Helmet>
         <title>404 - Không tìm thấy trang</title>
         <meta name="description" content="Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển." />

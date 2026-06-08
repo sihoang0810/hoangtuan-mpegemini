@@ -142,6 +142,12 @@ export default function Header() {
       if (active) setMenus(data);
     });
 
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
     const handleScroll = () => {
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
@@ -174,6 +180,7 @@ export default function Header() {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       active = false;
+      document.body.style.overflow = '';
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleKeyDown);
     };
@@ -427,7 +434,7 @@ export default function Header() {
                                 <li key={sublink.name}>
                                   <Link 
                                     to={sublink.href}
-                                    className="text-sm font-bold text-slate-600 hover:text-brand-primary block py-1"
+                                    className="text-sm font-bold text-slate-600 hover:text-brand-primary block py-2.5 px-2 hover:bg-slate-50 active:bg-slate-100 rounded-lg transition-colors"
                                     onClick={() => setIsOpen(false)}
                                   >
                                     {sublink.name}

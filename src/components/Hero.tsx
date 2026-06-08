@@ -7,6 +7,7 @@ import { useLocation } from '../context/LocationContext';
 import InlineEdit from './InlineEdit';
 
 import OptimizedImage from './OptimizedImage';
+import realHeroRepairImg from '../assets/images/toronto_office_hero_1780822167866.png';
 
 export default function Hero({ 
   cmsData,
@@ -70,20 +71,35 @@ export default function Hero({
 
 
   return (
-    <section className="relative pt-20 pb-16 md:pt-28 md:pb-20 overflow-hidden bg-slate-50">
-      {/* Background Shapes */}
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-brand-accent/5 rounded-full blur-3xl pointer-events-none" />
+    <section 
+      className="relative pt-20 pb-16 sm:pt-24 sm:pb-20 md:pt-28 md:pb-24 lg:pt-32 lg:pb-28 overflow-hidden bg-slate-950 text-white min-h-[85vh] flex items-center z-10"
+      style={{ textShadow: '0 2px 8px rgba(0,0,0,0.35)' }}
+    >
+      {/* Background Image - beautifully visible, elegantly dimmed for text readability */}
+      <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden bg-slate-950">
+        <img 
+          src={realHeroRepairImg} 
+          alt="Văn phòng làm việc hiện đại" 
+          className="w-full h-full object-cover opacity-50 md:opacity-65 filter blur-[8px] brightness-[0.35] contrast-[1.15] scale-105 transition-all duration-700"
+          loading="eager"
+          referrerPolicy="no-referrer"
+        />
+        {/* Left-to-right gradient to ensure text readability on the left, while showing the skyline/office on the right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/75 to-slate-950/20 opacity-90" />
+        
+        {/* Bottom vertical masking gradient to seamlessly fade into adjacent page sections */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-950 to-transparent" />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative" style={{ paddingTop: '24px' }}>
-        <div className="grid md:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative pt-4 md:pt-8 z-10 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-full text-sm font-bold mb-6 select-none">
+            <div className="inline-flex items-center gap-2.5 px-3 py-1 bg-brand-primary/20 text-brand-primary border border-brand-primary/20 rounded-full text-xs font-bold mb-5 md:mb-6 select-none shadow-sm shadow-brand-primary/5">
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
@@ -92,7 +108,7 @@ export default function Hero({
                 value={overlayText}
                 isEditable={isEditable}
                 onSave={(val) => onUpdateDraftField?.('heroOverlayText', val)}
-                className="font-bold text-sm tracking-wide uppercase"
+                className="font-bold text-[10px] sm:text-sm tracking-widest uppercase text-brand-primary"
                 element="span"
               />
             </div>
@@ -101,7 +117,7 @@ export default function Hero({
               value={heroTitle}
               isEditable={isEditable}
               onSave={(val) => onUpdateDraftField?.('heroTitle', val)}
-              className="font-bold text-brand-secondary leading-tight mb-6 tracking-tighter block"
+              className="font-extrabold text-white leading-[1.2] text-balance mb-5 md:mb-6 tracking-tight block text-3xl sm:text-4xl md:text-5xl lg:text-fluid-h1 drop-shadow-sm"
               element="h1"
               multiline={true}
             />
@@ -110,51 +126,55 @@ export default function Hero({
               value={heroSubtitle}
               isEditable={isEditable}
               onSave={(val) => onUpdateDraftField?.('heroSubtitle', val)}
-              className="text-lg text-slate-600 mb-10 max-w-lg leading-relaxed block"
+              className="text-base sm:text-lg text-slate-300 mb-8 md:mb-10 max-w-lg leading-relaxed block text-balance md:text-left drop-shadow-sm"
               element="p"
               multiline={true}
             />
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:0389011315" className="btn-primary flex items-center justify-center gap-2 text-lg">
-                <Phone size={20} />
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <a href="tel:0389011315" className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2.5 py-3.5 px-6 font-bold text-base shadow-lg shadow-brand-primary/10 hover:scale-[1.01] active:scale-[0.99] transition-all">
+                <Phone size={18} className="shrink-0" />
                 Gọi Ngay
               </a>
               <Link 
                 to={`/${locationSlug}/dich-vu`} 
                 onClick={() => console.log('Navigation target:', `/${locationSlug}/dich-vu`)}
-                className="btn-outline flex items-center justify-center gap-2 text-lg"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 py-3 px-6 font-semibold text-base text-brand-primary hover:text-brand-primary/80 bg-white hover:bg-slate-100 rounded-xl transition-all"
+                style={{ textShadow: 'none' }}
               >
                 Xem Dịch Vụ
-                <ArrowRight size={20} />
+                <ArrowRight size={18} className="shrink-0" />
               </Link>
             </div>
 
             {/* Trust Badges */}
-            <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="mt-8 lg:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               {[
-                { icon: Clock, text: "Có mặt sau 30 phút", color: "text-blue-600", bg: "bg-blue-50" },
-                { icon: ShieldCheck, text: "Thợ nhiều kinh nghiệm", color: "text-green-600", bg: "bg-green-50" },
-                { icon: CheckCircle2, text: "Báo giá trước khi sửa", color: "text-orange-600", bg: "bg-orange-50" },
+                { icon: Clock, text: "Có mặt sau 30 phút", color: "text-blue-600", bgColor: "#eff6ff" },
+                { icon: ShieldCheck, text: "Thợ nhiều kinh nghiệm", color: "text-green-600", bgColor: "#f0fdf4" },
+                { icon: CheckCircle2, text: "Báo giá trước khi sửa", color: "text-orange-600", bgColor: "#fff7ed" },
               ].map((badge, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <div className={`w-10 h-10 ${badge.bg} ${badge.color} rounded-lg flex items-center justify-center shadow-sm`}>
-                    <badge.icon size={20} />
+                <div key={idx} className="flex items-center transition-all duration-250 hover:scale-[1.01]" style={{ gap: '14px', padding: '0px' }}>
+                  <div 
+                    className={`w-10 h-10 ${badge.color} rounded-xl flex items-center justify-center shrink-0 shadow-[0_3px_8px_rgba(0,0,0,0.12)]`}
+                    style={{ backgroundColor: badge.bgColor }}
+                  >
+                    <badge.icon size={18} className="text-current" />
                   </div>
-                  <span className="font-semibold text-sm text-slate-700">{badge.text}</span>
+                  <span className="font-semibold text-left leading-snug text-white" style={{ fontSize: '0.875rem', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>{badge.text}</span>
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* Right Image Placeholder (Now a Slider) */}
+          {/* Right Image Placeholder (Now a Slider with Glasmorphism border) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="aspect-square bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden relative group">
+            <div className="aspect-square bg-slate-900/60 rounded-[2rem] shadow-2xl overflow-hidden relative group border border-white/10">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentSlide}
@@ -217,10 +237,10 @@ export default function Hero({
             </div>
             
             {/* Experience Floating Card */}
-            <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 hidden lg:block z-20">
+            <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 hidden lg:block z-20" style={{ textShadow: 'none' }}>
               <div className="flex items-center gap-4">
                 <div className="text-4xl font-bold text-brand-primary">10+</div>
-                <div className="text-sm font-semibold text-slate-600">
+                <div className="text-sm font-semibold text-slate-700">
                   Năm kinh nghiệm <br /> trong ngành
                 </div>
               </div>

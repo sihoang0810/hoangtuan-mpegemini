@@ -38,7 +38,7 @@ export default function ProjectListing() {
       <PageSEO pageType="general" />
 
       {/* Hero Banner Section */}
-      <section className="bg-white border-b border-slate-100 py-12 md:py-16 lg:py-24 md:py-24 relative overflow-hidden">
+      <section className="bg-white border-b border-slate-100 py-10 md:py-16 lg:py-20 relative overflow-hidden">
         {/* Decorative Grid Accent */}
         <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-50 pointer-events-none" />
 
@@ -57,7 +57,7 @@ export default function ProjectListing() {
               <h1 className="font-black text-brand-secondary uppercase tracking-tight leading-[1.1]">
                 Dự Án <span className="text-brand-primary">Thi Công</span> Thực Tế
               </h1>
-              <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl pt-2">
+              <p className="text-base sm:text-lg text-slate-500 font-medium leading-relaxed max-w-2xl pt-2">
                 Hoàng Tuấn MPE tự hào mang đến các giải pháp thi công điện nước, dò tìm rò rỉ âm sàn, và lắp đặt camera an ninh thông minh đỉnh cao tại {mappedDisplayName} và khu vực lân cận.
               </p>
             </motion.div>
@@ -66,7 +66,7 @@ export default function ProjectListing() {
       </section>
 
       {/* Content Section */}
-      <section className="py-12 md:py-16 lg:py-24">
+      <section className="py-10 md:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-6">
           
           {/* Controls Bar */}
@@ -149,7 +149,7 @@ export default function ProjectListing() {
                             </div>
                           </div>
 
-                          <h3 className="font-black text-brand-secondary leading-tight tracking-tight hover:text-brand-primary transition-colors">
+                          <h3 className="font-black text-brand-secondary leading-snug tracking-tight hover:text-brand-primary transition-colors">
                             <Link to={`${siteLocationPrefix}/du-an/${project.slug}`}>
                               {project.title}
                             </Link>

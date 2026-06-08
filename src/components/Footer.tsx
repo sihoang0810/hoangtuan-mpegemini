@@ -78,7 +78,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-20 pb-10">
+    <footer className="bg-slate-900 text-slate-300 pt-16 md:pt-20 pb-24 md:pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12 lg:gap-16 mb-16">
           {/* Company Info */}
@@ -87,7 +87,7 @@ export default function Footer() {
               <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-white shadow-md shadow-brand-primary/10 overflow-hidden shrink-0 group-hover:scale-105 transition-transform duration-300 pointer-events-none">
                 <img src={logoUrl} alt="Hoàng Tuấn Logo" className="w-full h-full object-cover mix-blend-multiply" />
               </div>
-              <span className="font-bold text-xl text-white uppercase tracking-tighter group-hover:text-brand-primary transition-colors">{companyName}</span>
+              <span className="font-bold text-xl text-white uppercase tracking-tight group-hover:text-brand-primary transition-colors">{companyName}</span>
             </div>
             <p className="text-slate-500 leading-relaxed text-sm font-medium">
               {shortAbout}

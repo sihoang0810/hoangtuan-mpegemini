@@ -46,14 +46,14 @@ export default function BlogListing() {
     <div id="blog" className="pt-20">
       <PageSEO pageType="general" />
 
-      <section className="bg-white py-12 md:py-16 lg:py-24 md:py-24">
+      <section className="bg-white py-10 md:py-16 lg:py-20">
         <div className="section-container">
-          <div className="max-w-3xl mb-16">
+          <div className="max-w-3xl mb-10 md:mb-16">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              <h1 className="font-bold text-brand-secondary mb-8 uppercase tracking-tighter">
+              <h1 className="font-bold text-brand-secondary mb-8 uppercase tracking-tight">
                 Blog & <span className="text-brand-primary">Kiến Thức</span>
               </h1>
               <p className="text-xl text-slate-500 font-medium leading-relaxed">

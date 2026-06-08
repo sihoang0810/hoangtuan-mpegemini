@@ -40,9 +40,9 @@ function ScrollToTop() {
 
 function AppContent() {
   return (
-    <div className="min-h-screen flex flex-col font-sans selection:bg-brand-primary selection:text-white">
+    <div className="min-h-screen flex flex-col font-sans selection:bg-brand-primary selection:text-white overflow-x-hidden w-full relative">
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow pb-20 md:pb-0">
         <Routes>
           {/* Location Prefixed Routes */}
           <Route path="/:locationSlug" element={<Home />} />

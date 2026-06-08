@@ -15,7 +15,7 @@ export default function WhyChooseUs({
   const subheading = cmsData?.whyChooseUsSubtitle !== undefined ? cmsData.whyChooseUsSubtitle : (cmsData?.subheading || "Dịch Vụ Uy Tín, Chất Lượng Hàng Đầu");
 
   return (
-    <section className="py-12 md:py-16 lg:py-24 md:py-24 bg-slate-50 w-full overflow-hidden">
+    <section className="py-10 md:py-16 lg:py-20 bg-slate-50 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center">
         <div>
@@ -36,7 +36,7 @@ export default function WhyChooseUs({
             multiline={true}
           />
 
-          <p className="text-lg text-slate-600 mb-10 leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 mb-6 sm:mb-10 leading-relaxed">
             Chúng tôi hiểu rằng sự cố điện nước có thể gây ra nhiều phiền toái. 
             Đó là lý do tại sao chúng tôi xây dựng quy trình làm việc chuyên nghiệp, 
             tận tâm và minh bạch nhất.

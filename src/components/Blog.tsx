@@ -33,7 +33,7 @@ const Blog = () => {
   return (
     <section id="blog" className="bg-slate-50 w-full overflow-hidden">
       <div className="section-container">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-10 md:mb-16 gap-6">
           <div className="max-w-2xl">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
@@ -48,7 +48,7 @@ const Blog = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="font-bold text-brand-secondary uppercase leading-none tracking-tighter"
+              className="font-bold text-brand-secondary uppercase leading-none tracking-tight"
             >
               Blog & <span className="text-brand-primary">Kinh Nghiệm</span>
             </motion.h2>

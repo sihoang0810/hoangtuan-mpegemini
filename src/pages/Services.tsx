@@ -81,13 +81,13 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
   return (
     <section id={category.id} className="py-10 border-b border-slate-100 last:border-0 scroll-mt-24">
       <div className="section-container">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-6">
           <div className="max-w-2xl text-left">
             <div className="flex items-center gap-3 text-brand-primary mb-4 justify-start">
               <category.icon size={32} />
               <span className="font-bold tracking-widest uppercase">{category.title}</span>
             </div>
-            <h2 className="font-bold text-brand-secondary mb-6 uppercase tracking-tighter">
+            <h2 className="font-bold text-brand-secondary mb-6 uppercase tracking-tight">
               {category.title}
             </h2>
             <p className="text-lg text-slate-600 leading-relaxed">
@@ -164,12 +164,12 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
         </div>
 
         {/* Pricing Table */}
-        <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-12 border border-slate-100 overflow-hidden text-left">
+        <div className="bg-slate-50 rounded-3xl md:rounded-[2.5rem] p-5 sm:p-8 md:p-12 border border-slate-100 overflow-hidden text-left">
           <div className="flex items-center gap-4 mb-8">
             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-brand-primary shadow-sm">
               <CheckCircle2 size={24} />
             </div>
-            <h3 className="text-2xl font-bold text-brand-secondary uppercase">Bảng giá tham khảo {category.id === 'electrical' ? 'Điện' : category.id === 'plumbing' ? 'Nước' : category.id === 'camera' ? 'Camera' : category.id === 'smarthome' ? 'Nhà thông minh' : 'Siêu âm'}</h3>
+            <h3 className="text-xl sm:text-2xl font-bold text-brand-secondary uppercase">Bảng giá tham khảo {category.id === 'electrical' ? 'Điện' : category.id === 'plumbing' ? 'Nước' : category.id === 'camera' ? 'Camera' : category.id === 'smarthome' ? 'Nhà thông minh' : 'Siêu âm'}</h3>
           </div>
           <div className="overflow-x-auto w-full">
             <table className="w-full text-left min-w-[500px]">
@@ -344,11 +344,11 @@ export default function ServicesPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-12 md:py-16 overflow-hidden bg-brand-secondary">
+      <section className="relative py-10 md:py-16 overflow-hidden bg-brand-secondary">
         {/* Background Patterns */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-primary rounded-full blur-[120px] -mr-64 -mt-64" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-accent rounded-full blur-[100px] -ml-40 -mb-40" />
+        <div className="hidden md:block absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-primary rounded-full blur-[100px] -mr-64 -mt-64" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-brand-accent rounded-full blur-[80px] -ml-40 -mb-40" />
         </div>
         
         <div className="section-container relative z-10">
@@ -365,13 +365,13 @@ export default function ServicesPage() {
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="font-bold text-white leading-tight uppercase mb-8 tracking-tighter"
+              className="font-bold text-white leading-snug text-balance uppercase mb-8 tracking-tight"
             >
               Trung Tâm Dịch Vụ <br />
               <span className="text-brand-primary">Điện Nước & Camera</span> 
             </motion.h1>
 
-            <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
+            <p className="text-base sm:text-lg text-white/70 mb-8 max-w-2xl mx-auto font-medium leading-relaxed">
               Hoàng Tuấn MPE cung cấp giải pháp toàn diện cho hệ thống điện nước, an ninh camera và dò tìm rò rỉ nước chuyên nghiệp nhất. Hỗ trợ 24/7, có mặt trong 30 phút.
             </p>
 
@@ -379,7 +379,7 @@ export default function ServicesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-12"
+              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-8"
             >
               {[
                 { icon: Clock, text: 'Hỗ trợ 24/7' },
@@ -398,22 +398,22 @@ export default function ServicesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto"
             >
-              <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-primary text-white px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-base sm:text-lg shadow-2xl shadow-brand-primary/40 hover:scale-105 active:scale-95 transition-all uppercase">
-                <Phone size={24} />
-                Gọi Ngay 0389 011 315
+              <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-primary text-white px-6 py-4 rounded-xl font-bold text-sm sm:text-base shadow-2xl shadow-brand-primary/40 hover:scale-105 active:scale-95 transition-all uppercase whitespace-nowrap">
+                <Phone size={20} className="shrink-0" />
+                Gọi Ngay 0389011315
               </a>
-              <div className="flex gap-4">
+              <div className="flex gap-3 justify-center w-full z-20">
                  {FLOATING_NAV.map((item, i) => (
                     <a 
                       key={i} 
                       href={item.href} 
                       onClick={(e) => handleFloatingClick(e, item.href.slice(1))}
-                      className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10"
+                      className="w-12 h-12 sm:w-14 sm:h-14 flex flex-1 items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10"
                       title={item.title}
                     >
-                      <item.icon size={20}/>
+                      <item.icon size={20} />
                     </a>
                  ))}
               </div>
@@ -436,18 +436,18 @@ export default function ServicesPage() {
 
       {/* Equipment Showcase (Special for Detection Category) */}
       <section className="py-10 bg-slate-950 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="hidden md:block absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute top-0 right-1/4 w-[300px] h-[300px] bg-brand-primary rounded-full blur-[100px]" />
           <div className="absolute bottom-0 left-1/4 w-[200px] h-[200px] bg-brand-accent rounded-full blur-[80px]" />
         </div>
         
         <div className="section-container relative z-10">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 md:mb-16">
             <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">Trang Thiết Bị</p>
             <h2 className="font-bold uppercase text-white">Thiết Bị Dò Tìm Hiện Đại Nhất</h2>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { 
                 title: 'Máy Siêu Âm Rò Rỉ', 
@@ -493,28 +493,28 @@ export default function ServicesPage() {
       </section>
 
       {/* Final CTA */}
-      <div className="bg-brand-secondary py-10">
-        <div className="section-container">
-          <div className="bg-brand-primary rounded-3xl md:rounded-[3rem] p-12 text-center text-white relative overflow-hidden shadow-2xl shadow-brand-primary/40">
+      <div className="bg-brand-secondary py-10 md:py-16">
+        <div className="section-container !py-0">
+          <div className="bg-brand-primary rounded-3xl md:rounded-[2.5rem] p-8 md:p-12 text-center text-white relative overflow-hidden shadow-2xl shadow-brand-primary/40">
             {/* Shapes */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full blur-2xl -ml-24 -mb-24" />
+            <div className="absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-48 sm:h-48 bg-black/10 rounded-full blur-2xl -ml-24 -mb-24" />
             
-            <h2 className="font-bold uppercase mb-8 leading-tight">
+            <h2 className="text-2xl sm:text-3xl font-bold uppercase mb-6 sm:mb-8 leading-snug text-balance">
               Hỗ Trợ Khẩn Cấp <span className="text-brand-secondary">24/7</span> <br />
               Giải Quyết Mọi Sự Cố Ngay Lập Tức
             </h2>
-            <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto font-medium">
+            <p className="text-sm sm:text-base text-white/90 mb-8 sm:mb-10 max-w-2xl mx-auto font-medium">
               Đừng để sự cố kéo dài gây hư hại tài sản. Gọi ngay cho đội ngũ kỹ thuật của Hoàng Tuấn MPE để được hỗ trợ trong 30 phút.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-secondary text-white px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-lg sm:text-xl hover:scale-105 transition-all shadow-xl">
-                <Phone size={24} className="sm:w-6 sm:h-6 w-5 h-5" />
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+              <a href="tel:0389011315" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-secondary text-white px-6 py-4 rounded-xl font-bold text-sm sm:text-base hover:scale-105 active:scale-[0.98] transition-all shadow-xl whitespace-nowrap">
+                <Phone className="sm:w-5 sm:h-5 w-4 h-4 shrink-0" />
                 0389 011 315
               </a>
-              <a href="https://zalo.me/0389011315" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-white text-brand-primary px-6 py-4 md:px-8 md:py-4 rounded-2xl font-bold text-lg sm:text-xl hover:scale-105 transition-all shadow-xl">
-                <MessageCircle size={24} />
-                Chat Zalo tư vấn
+              <a href="https://zalo.me/0389011315" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-brand-primary px-6 py-4 rounded-xl font-bold text-sm sm:text-base hover:scale-105 active:scale-[0.98] transition-all shadow-xl whitespace-nowrap">
+                <MessageCircle className="sm:w-5 sm:h-5 w-4 h-4 shrink-0" />
+                Chat Zalo
               </a>
             </div>
           </div>

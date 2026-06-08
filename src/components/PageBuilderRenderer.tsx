@@ -89,7 +89,7 @@ export function LazySection({ children, id, className, expectedHeight, type }: {
   return (
     <div ref={containerRef} id={id} className={`${className || ''} ${minHeightClass}`}>
       {isIntersected ? children : (
-        <div className="section-container bg-slate-50/20 py-12 md:py-16 lg:py-24 flex items-center justify-center w-full h-full">
+        <div className="section-container bg-slate-50/20 py-10 md:py-16 lg:py-20 flex items-center justify-center w-full h-full">
           <div className="animate-pulse space-y-4 w-full max-w-xl text-center">
             <div className="h-4 bg-slate-200/60 rounded-full w-2/3 mx-auto"></div>
             <div className="h-8 bg-slate-200/80 rounded w-1/2 mx-auto"></div>
@@ -501,7 +501,7 @@ export default function PageBuilderRenderer({
                       </p>
                     </div>
                   ) : blockType === 'trust_badge' ? (
-                    <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
                       {[
                         { title: 'Báo Giá Trước Sửa', desc: 'Không thu bất kỳ phụ phí nào, báo giá minh bạch sau khảo sát siêu âm.', icon: FileText, col: 'from-blue-600 to-indigo-700' },
                         { title: 'Vật Tư Chính Hãng', desc: 'Trực tiếp phân phối linh phụ kiện thiết bị điện nước MPE chính hãng 100%.', icon: ShieldCheck, col: 'from-emerald-600 to-teal-700' },
@@ -625,7 +625,7 @@ export default function PageBuilderRenderer({
       {/* ───── INTERACTIVE DYNAMIC FOOTER (Only in Studio Editor) ───── */}
       {isEditable && (
         <footer className="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800">
-          <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-6 lg:gap-10">
+          <div className="max-w-7xl mx-auto px-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
             <div className="space-y-4">
               <span className="text-lg font-black tracking-tight text-white block uppercase">{activeHeader.siteName}</span>
               <p className="text-xs text-slate-400 leading-relaxed max-w-sm">

@@ -73,6 +73,7 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
 
   const heading = cmsData?.heading || "Ý Kiến Khách Hàng";
   const subheading = cmsData?.subheading || "Khách Hàng Nói Gì Về Chúng Tôi";
+  const currentTestimonial = testimonials[activeIndex];
 
   const handlePrev = () => {
     if (testimonials.length === 0) return;
@@ -155,7 +156,7 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
         <div className="relative max-w-7xl mx-auto px-4 select-none">
           
           <div 
-            className="relative flex items-center justify-center min-h-[420px] py-6 touch-pan-y"
+            className="relative flex items-center justify-center min-h-[300px] md:min-h-[420px] py-4 md:py-6 touch-pan-y"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -172,9 +173,7 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                   if (diff > len / 2) diff -= len;
 
                   const isCenter = diff === 0;
-                  const isVisible = Math.abs(diff) <= 1.5;
-
-                  if (!isVisible) return null;
+                  const isVisible = Math.abs(diff) <= 1.2;
 
                   return (
                     <motion.div
@@ -182,17 +181,22 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                       style={{
                         zIndex: isCenter ? 30 : 10,
                         position: 'absolute',
+                        left: '50%',
+                        top: '50%',
+                        pointerEvents: isCenter || isVisible ? 'auto' : 'none',
                       }}
                       initial={{
-                        x: diff > 0 ? 500 : -500,
+                        x: `calc(-50% + ${diff > 0 ? 600 : -600}px)`,
+                        y: '-50%',
                         scale: 0.8,
                         opacity: 0,
                       }}
                       animate={{
-                        x: diff * 390, // Responsive spacing relative to active item
+                        x: `calc(-50% + ${diff * 390}px)`,
+                        y: '-50%',
                         scale: isCenter ? 1.05 : 0.88,
-                        opacity: isCenter ? 1 : 0.45,
-                        filter: isCenter ? 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.16))' : 'blur(0.5px)',
+                        opacity: isCenter ? 1 : (isVisible ? 0.45 : 0),
+                        filter: isCenter ? 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.16))' : 'none',
                       }}
                       transition={{
                         type: 'spring',
@@ -209,10 +213,10 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                           setActiveIndex(idx);
                         }
                       }}
-                      tabIndex={isCenter ? -1 : 0}
+                      tabIndex={isCenter || isVisible ? 0 : -1}
                       role="button"
                       aria-label={`Xem đánh giá của ${testimonial.name}`}
-                      className={`w-[85vw] max-w-[360px] p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between min-min-h-[300px] h-auto h-auto cursor-pointer select-none transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-brand-primary ${
+                      className={`w-[85vw] max-w-[360px] p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between min-h-[300px] cursor-pointer select-none transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-brand-primary ${
                         isCenter
                           ? 'bg-white border-2 border-brand-primary ring-8 ring-brand-primary/5'
                           : 'bg-white/75 border border-slate-100 hover:bg-white hover:opacity-100'
@@ -249,7 +253,7 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                       <div className="flex items-center gap-4 relative z-10 mt-auto pt-4 border-t border-slate-50">
                         <TestimonialAvatar src={testimonial.avatar} name={testimonial.name} />
                         <div>
-                          <h4 className="font-extrabold text-brand-secondary leading-tight text-sm xl:text-base">{testimonial.name}</h4>
+                          <h4 className="font-extrabold text-brand-secondary leading-snug text-sm xl:text-base">{testimonial.name}</h4>
                           <p className="text-[10px] xl:text-xs text-slate-500 font-bold mt-1 tracking-wider uppercase">{testimonial.role}</p>
                         </div>
                       </div>
@@ -260,44 +264,46 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
             </div>
 
             {/* Mobile Layout */}
-            <div className="md:hidden w-full max-w-sm mx-auto relative z-10 px-2 min-h-[340px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, x: 50, scale: 0.95 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: -50, scale: 0.95 }}
-                  transition={{ type: "tween", duration: 0.25, ease: "easeInOut" }}
-                  className="bg-white border-2 border-brand-primary/80 p-8 rounded-3xl shadow-xl relative flex flex-col justify-between h-full min-h-[300px] ring-4 ring-brand-primary/5"
-                >
-                  <div className="absolute top-6 right-8 text-brand-primary/10 pointer-events-none">
-                    <svg width="45" height="36" viewBox="0 0 45 36" fill="currentColor">
-                      <path d="M12.6 36L18.9 23.4V0H0V23.4H9L12.6 36ZM38.7 36L45 23.4V0H26.1V23.4H35.1L38.7 36Z" />
-                    </svg>
-                  </div>
-
-                  <div>
-                    <div className="flex gap-1 mb-5">
-                      {[...Array(Math.max(0, Math.min(5, Math.floor(Number(testimonials[activeIndex].rating) || 5))))].map((_, i) => (
-                        <Star key={i} size={18} fill="#F97316" className="text-brand-accent animate-pulse" />
-                      ))}
+            {currentTestimonial && (
+              <div className="md:hidden w-full max-w-sm mx-auto relative z-10 px-2 min-h-[220px]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeIndex}
+                    initial={{ opacity: 0, x: 50, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -50, scale: 0.95 }}
+                    transition={{ type: "tween", duration: 0.25, ease: "easeInOut" }}
+                    className="bg-white border-2 border-brand-primary/80 p-5 rounded-2xl shadow-xl relative flex flex-col justify-between h-full min-h-[220px] ring-4 ring-brand-primary/5"
+                  >
+                    <div className="absolute top-4 right-6 text-brand-primary/10 pointer-events-none">
+                      <svg width="35" height="28" viewBox="0 0 45 36" fill="currentColor">
+                        <path d="M12.6 36L18.9 23.4V0H0V23.4H9L12.6 36ZM38.7 36L45 23.4V0H26.1V23.4H35.1L38.7 36Z" />
+                      </svg>
                     </div>
 
-                    <p className="text-slate-700 text-sm mb-6 leading-relaxed font-semibold italic relative z-10">
-                      "{testimonials[activeIndex].review}"
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-4 relative z-10 mt-auto pt-4 border-t border-slate-50">
-                    <TestimonialAvatar src={testimonials[activeIndex].avatar} name={testimonials[activeIndex].name} />
                     <div>
-                      <h4 className="font-extrabold text-brand-secondary leading-tight">{testimonials[activeIndex].name}</h4>
-                      <p className="text-xs text-slate-500 font-bold mt-0.5 uppercase tracking-wider">{testimonials[activeIndex].role}</p>
+                      <div className="flex gap-1 mb-3">
+                        {[...Array(Math.max(0, Math.min(5, Math.floor(Number(currentTestimonial.rating) || 5))))].map((_, i) => (
+                          <Star key={i} size={16} fill="#F97316" className="text-brand-accent scale-95" />
+                        ))}
+                      </div>
+
+                      <p className="text-slate-700 text-xs sm:text-sm mb-4 leading-relaxed font-semibold italic relative z-10">
+                        "{currentTestimonial.review}"
+                      </p>
                     </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+
+                    <div className="flex items-center gap-3 relative z-10 mt-auto pt-3 border-t border-slate-50">
+                      <TestimonialAvatar src={currentTestimonial.avatar} name={currentTestimonial.name} />
+                      <div>
+                        <h4 className="font-extrabold text-brand-secondary leading-tight text-xs sm:text-sm">{currentTestimonial.name}</h4>
+                        <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-0.5 uppercase tracking-wider">{currentTestimonial.role}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            )}
 
           </div>
 

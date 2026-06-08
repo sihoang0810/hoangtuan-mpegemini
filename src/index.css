@@ -17,54 +17,54 @@
 
 :root {
   /* Khai báo cỡ chữ co giãn thông minh dựa theo độ rộng viewport - Tối ưu cho mobile/tablet */
-  --font-size-fluid-h1: clamp(2rem, 5vw + 1rem, 3.75rem); /* Tự động giãn từ 32px đến 60px */
-  --font-size-fluid-h2: clamp(1.5rem, 4vw + 0.5rem, 3rem); /* Tự động giãn từ 24px đến 48px */
-  --font-size-fluid-h3: clamp(1.25rem, 3vw + 0.5rem, 2rem); /* Tự động giãn từ 20px đến 32px */
+  --font-size-fluid-h1: clamp(1.375rem, 4.5vw + 0.4rem, 3rem); /* Tự động giãn từ 22px đến 48px */
+  --font-size-fluid-h2: clamp(1.15rem, 3vw + 0.3rem, 2.25rem); /* Tự động giãn từ 18.4px đến 36px */
+  --font-size-fluid-h3: clamp(1.05rem, 2vw + 0.2rem, 1.75rem); /* Tự động giãn từ 16.8px đến 28px */
 }
 
 @layer base {
   body {
-    @apply text-brand-secondary bg-white font-sans antialiased text-base leading-relaxed;
+    @apply text-brand-secondary bg-white font-sans antialiased text-[15px] sm:text-base leading-relaxed overflow-x-hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     /* Tiêu chuẩn hóa Component Typography Token theo Giải pháp 3 */
-    @apply font-bold text-brand-secondary tracking-tight leading-snug;
+    @apply font-bold text-brand-secondary tracking-tight leading-tight;
   }
 
   h1, .text-fluid-h1 { 
-    font-size: var(--font-size-fluid-h1) !important; 
-    line-height: clamp(1.2, 3vw, 1.3);
+    font-size: var(--font-size-fluid-h1); 
+    line-height: clamp(1.3, 1.35, 1.4);
   }
   
   h2, .text-fluid-h2 { 
-    font-size: var(--font-size-fluid-h2) !important; 
+    font-size: var(--font-size-fluid-h2); 
     /* Giới hạn độ dài dòng chữ để tránh rớt chữ mồ côi (Single-word wrap) trên giao diện tiếng Việt */
     text-wrap: balance;
-    line-height: clamp(1.3, 4vw, 1.4);
+    line-height: clamp(1.35, 1.4, 1.45);
   }
   
   h3, .text-fluid-h3 { 
-    font-size: var(--font-size-fluid-h3) !important; 
-    line-height: clamp(1.4, 5vw, 1.5);
+    font-size: var(--font-size-fluid-h3); 
+    line-height: clamp(1.4, 1.45, 1.5);
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply px-6 py-3 bg-brand-primary text-white rounded-lg font-semibold hover:bg-brand-primary/90 transition-all active:scale-95 shadow-md shadow-brand-primary/20;
+    @apply px-4 py-2.5 sm:px-6 sm:py-3 bg-brand-primary text-white rounded-lg font-semibold hover:bg-brand-primary/90 transition-all active:scale-95 shadow-md shadow-brand-primary/20 text-sm sm:text-base;
   }
   
   .btn-accent {
-    @apply px-6 py-3 bg-brand-accent text-white rounded-lg font-semibold hover:bg-brand-accent/90 transition-all active:scale-95 shadow-md shadow-brand-accent/20;
+    @apply px-4 py-2.5 sm:px-6 sm:py-3 bg-brand-accent text-white rounded-lg font-semibold hover:bg-brand-accent/90 transition-all active:scale-95 shadow-md shadow-brand-accent/20 text-sm sm:text-base;
   }
   
   .btn-outline {
-    @apply px-6 py-3 border-2 border-brand-primary text-brand-primary bg-transparent rounded-lg font-semibold hover:bg-brand-primary/10 transition-all active:scale-95;
+    @apply px-4 py-2.5 sm:px-6 sm:py-3 border-2 border-brand-primary text-brand-primary bg-transparent rounded-lg font-semibold hover:bg-brand-primary/10 transition-all active:scale-95 text-sm sm:text-base;
   }
 
   .section-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-24;
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 lg:py-20;
   }
   
   .glass-card {

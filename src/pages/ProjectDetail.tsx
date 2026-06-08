@@ -26,7 +26,7 @@ export default function ProjectDetail() {
   // If project not found, redirect gracefully to listing
   if (!project) {
     return (
-      <div className="pt-24 md:pt-32 pb-16 md:pb-24 text-center">
+      <div className="pt-20 md:pt-28 pb-16 md:pb-24 text-center">
         <div className="max-w-md mx-auto space-y-4 px-6">
           <h2 className="text-2xl font-black text-brand-secondary">Không tìm thấy dự án thi công</h2>
           <p className="text-slate-500 text-sm">Thông tin chi tiết dự án không song hành hoặc đã bị gỡ bỏ.</p>
@@ -52,7 +52,7 @@ export default function ProjectDetail() {
       <PageSEO pageType="project" data={project} />
 
       {/* Hero Header Section */}
-      <section className="bg-brand-secondary text-white py-12 md:py-16 lg:py-24 md:py-24 relative overflow-hidden">
+      <section className="bg-brand-secondary text-white py-10 md:py-16 lg:py-20 relative overflow-hidden">
         {/* Subtle decorative vector backdrop */}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 to-transparent" />
