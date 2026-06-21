@@ -71,14 +71,14 @@ export default function Footer() {
   const serviceLinks = [
     { name: 'Sửa điện', href: `${siteLocationPrefix}/dich-vu/sua-dien` },
     { name: 'Sửa chập điện', href: `${siteLocationPrefix}/dich-vu/sua-chap-dien` },
-    { name: 'Sửa máy bơm', href: `${siteLocationPrefix}/dich-vu/lap-may-bom` },
+    { name: 'Sửa máy bơm nước', href: `${siteLocationPrefix}/dich-vu/lap-may-bom` },
     { name: 'Sửa rò rỉ nước', href: `${siteLocationPrefix}/dich-vu/sua-ro-ri-nuoc` },
     { name: 'Siêu âm đường ống', href: `${siteLocationPrefix}/dich-vu/sieu-am-do-ong-am` },
     { name: 'Lắp camera', href: `${siteLocationPrefix}/dich-vu/lap-camera` },
   ];
 
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-16 md:pt-20 pb-24 md:pb-10">
+    <footer className="bg-slate-900 text-slate-300 pt-16 md:pt-20 pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12 lg:gap-16 mb-16">
           {/* Company Info */}

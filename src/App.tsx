@@ -31,10 +31,12 @@ import NotFound from './pages/NotFound';
 import { HelmetProvider } from 'react-helmet-async';
 
 function ScrollToTop() {
-  const { pathname } = useRouteLocation();
+  const { pathname, hash } = useRouteLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (!hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
   return null;
 }
 

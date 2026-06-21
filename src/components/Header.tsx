@@ -6,9 +6,11 @@ import { useLocation as useAppLocation } from '../context/LocationContext';
 import { locationData } from '../data/locationData';
 import { getSiteSettings, getMenus, CMSSiteSettings, CMSMenu } from '../lib/sanity';
 import logoUrl from '../assets/images/hoang_tuan_logo_1779774192464.png';
+import '../styles/header.css';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [showSticky, setShowSticky] = useState(true);
   const lastScrollY = useRef(0);
@@ -96,7 +98,7 @@ export default function Header() {
       title: 'NƯỚC', icon: Droplet, color: 'text-cyan-500',
       links: [
         { name: 'Sửa nước', href: `${siteLocationPrefix}/dich-vu/sua-nuoc` },
-        { name: 'Lắp máy bơm', href: `${siteLocationPrefix}/dich-vu/lap-may-bom` },
+        { name: 'Lắp bơm tăng áp', href: `${siteLocationPrefix}/dich-vu/lap-may-bom` },
         { name: 'Sửa rò rỉ nước', href: `${siteLocationPrefix}/dich-vu/sua-ro-ri-nuoc` },
         { name: 'Siêu âm đường ống', href: `${siteLocationPrefix}/dich-vu/sieu-am-do-ong-am` },
       ]
@@ -236,10 +238,10 @@ export default function Header() {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
         scrolled || routerLocation.pathname !== '/' ? 'bg-white shadow-md' : 'bg-white'
       } ${
-        !showSticky ? '-translate-y-full md:translate-y-0' : 'translate-y-0'
+        !showSticky && !isOpen ? '-translate-y-full md:translate-y-0' : 'translate-y-0'
       }`}
     >
       {/* Top Black Announcement Bar */}
@@ -317,8 +319,8 @@ export default function Header() {
 
                     {/* Mega Menu Dropdown */}
                     {link.hasDropdown && (
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 w-[calc(100vw-2rem)] md:w-[98vw] max-w-[1400px] bg-white shadow-2xl border-t border-slate-100 rounded-b-[2rem] p-6 lg:p-8 hidden group-hover:block animate-in fade-in slide-in-from-top-4 duration-300">
-                        <div className="grid gap-4 xl:gap-6" style={{ gridTemplateColumns: 'repeat(5, minmax(0, 1fr))' }}>
+                      <div className="absolute top-full left-1/2 w-max bg-white shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-slate-100/60 rounded-3xl p-8 mega-menu-container">
+                        <div className="flex gap-10">
                           {SERVICE_MENU.map((item) => (
                             <div key={item.title}>
                               <div className={`flex items-center gap-2 font-bold mb-4 ${item.color}`}>
@@ -404,47 +406,82 @@ export default function Header() {
                 const targetLinkHref = link.href === '/' ? siteLocationPrefix : `${siteLocationPrefix}${link.href}`;
                 return (
                   <div key={link.name}>
-                    <Link 
-                      to={targetLinkHref}
-                      onClick={(e) => {
-                        handleMenuClick(e, link.href);
-                        if (!link.hasDropdown) setIsOpen(false);
-                      }}
-                      className={`text-lg font-bold py-3 px-4 flex justify-between items-center transition-all duration-300 rounded-xl ${
-                        active 
-                          ? 'text-brand-primary bg-brand-primary/5 border-l-4 border-brand-primary shadow-sm' 
-                          : 'text-brand-secondary hover:text-brand-primary hover:bg-slate-50'
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                    {link.hasDropdown && (
-                      <motion.div 
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
-                        className="pl-4 grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2 overflow-hidden"
+                    {link.hasDropdown ? (
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setMobileExpanded(mobileExpanded === link.name ? null : link.name);
+                        }}
+                        className={`w-full text-lg font-bold py-3 px-4 flex justify-between items-center transition-all duration-300 rounded-xl bg-white shadow-sm shadow-brand-primary/10 ${
+                          active 
+                            ? 'text-brand-primary bg-brand-primary/5 border-l-4 border-l-brand-primary' 
+                            : 'text-brand-secondary hover:text-brand-primary hover:bg-slate-50'
+                        }`}
                       >
-                        {SERVICE_MENU.map((item) => (
-                          <div key={item.title}>
-                            <span className="text-[12px] font-bold text-slate-500 block mb-1 tracking-widest uppercase">{item.title}</span>
-                            <ul className="space-y-1">
-                              {item.links.map((sublink) => (
-                                <li key={sublink.name}>
+                        {link.name}
+                        <ChevronDown 
+                          size={20} 
+                          className={`transition-transform duration-300 ${mobileExpanded === link.name ? 'rotate-180' : ''}`} 
+                        />
+                      </button>
+                    ) : (
+                      <Link 
+                        to={targetLinkHref}
+                        onClick={(e) => {
+                          handleMenuClick(e, link.href);
+                          setIsOpen(false);
+                        }}
+                        className={`text-lg font-bold py-3 px-4 flex justify-between items-center transition-all duration-300 rounded-xl bg-white shadow-sm shadow-brand-primary/10 ${
+                          active 
+                            ? 'text-brand-primary bg-brand-primary/5 border-l-4 border-l-brand-primary' 
+                            : 'text-brand-secondary hover:text-brand-primary hover:bg-slate-50'
+                        }`}
+                      >
+                        {link.name}
+                      </Link>
+                    )}
+                    
+                    {link.hasDropdown && (
+                      <AnimatePresence>
+                        {mobileExpanded === link.name && (
+                          <motion.div 
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                            className="pl-4 grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2 overflow-hidden"
+                          >
+                            <div className="sm:col-span-2">
+                              <Link 
+                                to={`${siteLocationPrefix}/dich-vu`}
+                                onClick={() => setIsOpen(false)}
+                                className="flex items-center justify-center gap-2 bg-brand-primary/10 text-brand-primary py-2.5 rounded-lg font-bold text-sm hover:bg-brand-primary/20 transition-colors"
+                              >
+                                Xem tất cả dịch vụ
+                                <ArrowRight size={16} />
+                              </Link>
+                            </div>
+                            {SERVICE_MENU.map((item) => {
+                              const serviceName = `Dịch vụ ${item.title.toLowerCase()}`;
+                              const targetLink = item.links[0]?.href || `${siteLocationPrefix}/dich-vu`;
+                              return (
+                                <div key={item.title}>
                                   <Link 
-                                    to={sublink.href}
-                                    className="text-sm font-bold text-slate-600 hover:text-brand-primary block py-2.5 px-2 hover:bg-slate-50 active:bg-slate-100 rounded-lg transition-colors"
+                                    to={targetLink}
+                                    className="flex items-center gap-3 py-2 px-3 bg-white hover:bg-slate-50 active:bg-slate-100 rounded-xl transition-colors shadow-sm shadow-brand-primary/10"
                                     onClick={() => setIsOpen(false)}
                                   >
-                                    {sublink.name}
+                                    <div className={`p-2 rounded-lg bg-current/10 ${item.color}`}>
+                                      <item.icon size={18} className="text-current" />
+                                    </div>
+                                    <span className="font-bold text-slate-700 capitalize text-sm">{serviceName}</span>
                                   </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </motion.div>
+                                </div>
+                              );
+                            })}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     )}
                   </div>
                 );

@@ -34,7 +34,7 @@ export default function FeaturedProducts({ cmsData }: { cmsData?: any }) {
   return (
     <section id="products" className="bg-slate-50 w-full overflow-hidden">
       <div className="section-container">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-12 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-6">
         <div>
           <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">{heading}</p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-secondary uppercase tracking-tight" dangerouslySetInnerHTML={{ __html: subheading.replace(/Nổi Bật/g, '<span class="text-brand-primary">Nổi Bật</span>') }} />

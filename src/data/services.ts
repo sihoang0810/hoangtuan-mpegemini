@@ -18,6 +18,7 @@ export interface Service {
   }[];
   benefits?: string[];
   faq?: { question: string; answer: string }[];
+  order?: number;
 }
 
 export const SERVICES: Service[] = [
@@ -25,6 +26,7 @@ export const SERVICES: Service[] = [
   {
     id: 'e1',
     slug: 'sua-dien',
+    order: 1,
     title: 'Sửa điện',
     shortDescription: 'Xử lý nhanh các sự cố mất điện, chập điện gia đình và văn phòng.',
     fullDescription: 'Dịch vụ sửa chữa hệ thống điện gia đình chuyên nghiệp. Chúng tôi nhận kiểm tra và khắc phục mọi sự cố về điện như mất điện đột ngột, hỏng công tắc, ổ cắm, hệ thống điện gặp sự cố không rõ nguyên nhân.',
@@ -114,6 +116,22 @@ export const SERVICES: Service[] = [
     ]
   },
   {
+    id: 'p3',
+    slug: 'lap-may-bom',
+    order: 2,
+    title: 'Lắp bơm tăng áp',
+    image: '/bom-ap.jpg',
+    shortDescription: 'Lắp đặt, sửa chữa máy bơm tăng áp, khắc phục áp lực nước yếu.',
+    fullDescription: 'Tư vấn lắp đặt máy bơm tăng áp lực nước chính hãng phù hợp với nhu cầu gia đình: tăng áp vòi sen tắm, bình nóng lạnh, máy giặt. Khắc phục triệt để sự cố bơm tăng áp kêu tạch tạch, rò điện gây mất an toàn.',
+    icon: Wrench,
+    category: 'plumbing',
+    features: ['Vận hành siêu êm', 'Tăng áp thông minh', 'Lắp rơ-le, CB chống giật'],
+    pricing: [
+      { item: 'Lắp máy bơm tăng áp mới', price: 'Từ 300.000đ', unit: 'máy' },
+      { item: 'Sửa bơm tăng áp, chỉnh rơ-le', price: 'Từ 200.000đ', unit: 'máy' }
+    ]
+  },
+  {
     id: 'p2',
     slug: 'sua-ro-ri-nuoc',
     title: 'Sửa rò rỉ nước',
@@ -125,20 +143,6 @@ export const SERVICES: Service[] = [
     pricing: [
       { item: 'Xử lý rò rỉ lộ thiên', price: 'Từ 150.000đ', unit: 'điểm' },
       { item: 'Sửa rò rỉ âm tường', price: 'Theo khảo sát', unit: 'điểm' }
-    ]
-  },
-  {
-    id: 'p3',
-    slug: 'lap-may-bom',
-    title: 'Lắp máy bơm',
-    shortDescription: 'Lắp đặt, sửa chữa máy bơm nước, máy tăng áp chính hãng.',
-    fullDescription: 'Tư vấn lắp đặt máy bơm phù hợp với nhu cầu gia đình: máy bơm đẩy cao, máy bơm tăng áp, máy bơm hố gas. Sửa chữa các lỗi máy bơm kêu to, không lên nước.',
-    icon: Wrench,
-    category: 'plumbing',
-    features: ['Lắp đặt nhanh', 'Bảo hành chính hãng', 'Tư vấn giải pháp tối ưu'],
-    pricing: [
-      { item: 'Lắp máy bơm mới', price: 'Từ 300.000đ', unit: 'máy' },
-      { item: 'Sửa máy bơm tại chỗ', price: 'Từ 200.000đ', unit: 'máy' }
     ]
   },
   {
@@ -174,7 +178,9 @@ export const SERVICES: Service[] = [
   {
     id: 'c1',
     slug: 'lap-camera',
+    order: 3,
     title: 'Lắp camera',
+    image: '/images/camera-.png',
     shortDescription: 'Tư vấn giải pháp lắp đặt camera an ninh trọn gói cho nhà ở, văn phòng.',
     fullDescription: 'Cung cấp và lắp đặt các dòng camera chính hãng: Hikvision, Dahua, Ezviz. Giải pháp ổn định, hình ảnh sắc nét, xem qua điện thoại mượt mà.',
     icon: Video,
@@ -224,12 +230,30 @@ export const SERVICES: Service[] = [
       { item: 'Hệ thống cao cấp', price: 'Báo giá theo mẫu', unit: 'gói' }
     ]
   },
+  {
+    id: 'c5',
+    slug: 'camera-nang-luong-mat-troi',
+    order: 4,
+    title: 'Camera năng lượng mặt trời',
+    image: '/images/imou-ngoai-troi.jpg',
+    shortDescription: 'Lắp đặt camera dùng pin năng lượng mặt trời chuyên dụng cho rẫy vườn, rừng núi không có điện lưới.',
+    fullDescription: 'Giải pháp lắp đặt hệ thống camera giám sát tự cấp nguồn bằng tấm pin năng lượng mặt trời kết hợp SIM 4G hoặc bộ phát Wifi tầm xa. Thích hợp tối ưu cho các rẫy cà phê, sầu riêng, khu bảo tồn rừng, công trình vùng sâu vùng xa.',
+    icon: Video,
+    category: 'camera',
+    features: ['Tự cấp nguồn xanh 100%', 'Tích hợp SIM 4G tốc độ cao', 'Chuẩn chống nước tuyệt bộc IP67'],
+    pricing: [
+      { item: 'Bao gồm camera + tấm pin mặt trời', price: 'Từ 2.450.000đ', unit: 'bộ' },
+      { item: 'Công thi công tận rẫy rừng', price: 'Khảo sát thực tế', unit: 'gói' }
+    ]
+  },
 
   // DETECTION
   {
     id: 'd1',
     slug: 'do-ro-ri-nuoc',
+    order: 1,
     title: 'Dò rò rỉ nước',
+    image: '/images/sieu-am-do-tim-ong-vo.png',
     shortDescription: 'Sử dụng máy siêu âm hiện đại tìm vị trí vỡ ống nước ngầm cực chính xác.',
     fullDescription: 'Dịch vụ chuyên nghiệp giúp phát hiện sự cố rò rỉ nước dưới nền nhà, trong tường. Sử dụng thiết bị âm thanh độ nhạy cao để định vị chính xác điểm vỡ.',
     icon: Activity,
@@ -284,6 +308,7 @@ export const SERVICES: Service[] = [
   {
     id: 'sm1',
     slug: 'cong-tac-cua-cuon-thong-minh',
+    order: 5,
     title: 'Công tắc cửa cuốn thông minh',
     shortDescription: 'Điều khiển, hẹn giờ, kiểm tra trạng thái cửa cuốn mọi lúc mọi nơi từ xa qua điện thoại di động.',
     fullDescription: 'Lắp đặt thay thế công tắc cơ truyền thống bằng công tắc cửa cuốn thông minh có kết nối Wi-Fi/Zigbee. Cho phép bạn điều khiển đóng/mở từ xa, khóa/mở khóa thông minh, lập lịch đóng tự động vào ban đêm để tăng cường an ninh tuyệt đối cho gia đình.',
@@ -295,16 +320,16 @@ export const SERVICES: Service[] = [
       { item: 'Công tắc cửa cuốn Zigbee cao cấp', price: 'Từ 1.150.000đ', unit: 'bộ' },
       { item: 'Công lắp đặt & cấu hình app', price: 'Từ 200.000đ', unit: 'lần' }
     ],
-    image: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800',
+    image: '/images/cua-cuon-thong-minh.png',
     gallery: [
       {
         type: 'video',
         url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-        thumbnail: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800',
+        thumbnail: '/images/cua-cuon-thong-minh.png',
       },
       {
         type: 'image',
-        url: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800',
+        url: '/images/cua-cuon-thong-minh.png',
       }
     ],
     benefits: ['Kiểm soát an ninh từ xa', 'Tự động đóng cửa khi đi ngủ', 'Bảo hành 24 tháng chính hãng'],

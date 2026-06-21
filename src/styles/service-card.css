@@ -1,0 +1,88 @@
+/* src/styles/service-card.css */
+
+.service-card {
+  transition: all 0.1s ease;
+  background-color: #1e293b !important; /* bg-slate-800 is lighter and less dark */
+  border: none !important; /* Removed border completely */
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  /* Hover shadow effect */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px rgba(14, 165, 233, 0.2); 
+}
+
+.service-overlay-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  transition: all 0.15s ease;
+  transform: scale(1.05);
+  opacity: 0.75; /* Increased search opacity to reduce dimness */
+}
+
+.service-card:hover .service-overlay-bg {
+  transform: scale(1.1);
+  opacity: 0.92; /* Even clearer and less dim on hover */
+}
+
+.service-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  /* Shifted from dense dark slate-900 gradient to lighter and clearer slate-800 gradients */
+  background: linear-gradient(to top, rgba(30, 41, 59, 0.75) 0%, rgba(30, 41, 59, 0.4) 60%, rgba(30, 41, 59, 0.1) 100%);
+  transition: all 0.1s ease;
+}
+
+.service-card:hover .service-gradient-overlay {
+  background: linear-gradient(to top, rgba(30, 41, 59, 0.6) 0%, rgba(30, 41, 59, 0.3) 60%, rgba(30, 41, 59, 0.1) 100%);
+}
+
+.service-content {
+  position: relative;
+  z-index: 30;
+  transition: transform 0.1s ease;
+}
+
+.service-icon-wrapper {
+  transition: all 0.1s ease;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.service-card:hover .service-icon-wrapper {
+  background-color: #0ea5e9; /* brand primary color approximation */
+  transform: scale(1.1);
+}
+
+.service-title {
+  transition: color 0.1s ease;
+}
+
+/* No color change on hover for service-title as requested by user */
+
+.service-description {
+  transition: color 0.1s ease;
+  color: #cbd5e1; /* slate-300 */
+}
+
+.service-card:hover .service-description {
+  color: #f1f5f9; /* slate-100 */
+}
+
+.service-link {
+  transition: all 0.1s ease;
+  color: #0ea5e9;
+  gap: 0.5rem;
+}
+
+.service-card:hover .service-link {
+  color: #fff;
+  gap: 0.75rem;
+}

@@ -34,7 +34,7 @@ export default function ProjectListing() {
   }, [activeCategory, searchQuery]);
 
   return (
-    <div id="project-listing" className="pt-20 bg-slate-50 min-h-screen pb-20 md:pb-0">
+    <div id="project-listing" className="pt-20 bg-slate-50 min-h-screen">
       <PageSEO pageType="general" />
 
       {/* Hero Banner Section */}

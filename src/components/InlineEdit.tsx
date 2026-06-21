@@ -7,6 +7,7 @@ interface InlineEditProps {
   multiline?: boolean;
   className?: string;
   element?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div';
+  style?: React.CSSProperties;
 }
 
 export default function InlineEdit({
@@ -14,7 +15,8 @@ export default function InlineEdit({
   isEditable = false,
   onSave,
   className = '',
-  element = 'span'
+  element = 'span',
+  style
 }: InlineEditProps) {
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +29,7 @@ export default function InlineEdit({
 
   if (!isEditable) {
     const Tag = element;
-    return <Tag className={className} dangerouslySetInnerHTML={{ __html: value.replace(/\n/g, '<br />') }} />;
+    return <Tag className={className} style={style} dangerouslySetInnerHTML={{ __html: value.replace(/\n/g, '<br />') }} />;
   }
 
   const handleBlur = () => {
@@ -65,7 +67,7 @@ export default function InlineEdit({
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
       className={`${className} inline-block relative cursor-text outline-none transition-all duration-200 focus:outline-[#ea580c] focus:outline-dashed focus:outline-2 focus:bg-[#ea580c]/5 hover:outline-[#ea580c]/30 hover:outline-dashed hover:outline-1 px-1 rounded-md`}
-      style={{ minWidth: '1rem' }}
+      style={{ minWidth: '1rem', ...style }}
       title="Nhấn chuột vào đây để chỉnh sửa văn bản trực tiếp"
     />
   );

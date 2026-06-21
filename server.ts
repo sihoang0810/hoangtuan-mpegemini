@@ -12,7 +12,7 @@ dotenv.config();
 
 async function startServer() {
   const app = express();
-  const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+  const PORT = Number(process.env.PORT) || 3000;
 
   // 1. Compression for better Core Web Vitals (FCP/LCP)
   app.use(compression());
@@ -154,14 +154,22 @@ async function startServer() {
   }
 
   // 4. Asset Caching & Static Providers
-  const isProd = process.env.NODE_ENV === "production";
+  const isProd = process.env.NODE_ENV === "production" || 
+                 !fs.existsSync(path.join(process.cwd(), "node_modules", "vite")) ||
+                 (typeof __filename !== 'undefined' && (__filename.endsWith('server.cjs') || __filename.includes('dist')));
   
   // Custom middleware for cache control
   app.use((req, res, next) => {
-    if (req.url.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$/)) {
-      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-    } else if (req.url.match(/\.(html)$/) || req.url === '/') {
+    if (!isProd) {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    } else {
+      if (req.url.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$/)) {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      } else if (req.url.match(/\.(html)$/) || req.url === '/') {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      }
     }
     next();
   });
@@ -192,7 +200,16 @@ async function startServer() {
         }
       });
     } catch (viteErr) {
-      console.warn("Falling back to static serving:", viteErr);
+      console.warn("Vite failed to initialize, falling back to static production serving:", viteErr);
+      const distPath = path.join(process.cwd(), 'dist');
+      if (fs.existsSync(distPath)) {
+        app.use(express.static(distPath));
+        app.get('*', (req, res) => {
+          res.sendFile(path.join(distPath, 'index.html'));
+        });
+      } else {
+        console.error("Critical: dist folder does not exist for static fallback");
+      }
     }
   } else {
     const distPath = path.join(process.cwd(), 'dist');

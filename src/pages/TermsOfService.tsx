@@ -6,7 +6,7 @@ export default function TermsOfService() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="pt-20 md:pt-28 min-h-screen pb-20 md:pb-0 bg-slate-50 text-slate-800">
+    <div className="pt-20 md:pt-28 min-h-screen bg-slate-50 text-slate-800">
       <PageSEO pageType="general" />
       
       {/* Page Header */}

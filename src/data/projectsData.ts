@@ -29,6 +29,21 @@ export interface Project {
     answer: string;
   }[];
   relatedProjects: string[];
+  packages?: {
+    name: string;
+    price: string;
+    features: string[];
+    isPopular?: boolean;
+    badge?: string;
+  }[];
+  specifications?: {
+    label: string;
+    value: string;
+  }[];
+  steps?: {
+    title: string;
+    description: string;
+  }[];
 }
 
 export const PROJECTS_DATA: Project[] = [
@@ -39,7 +54,7 @@ export const PROJECTS_DATA: Project[] = [
     shortDescription: "Dự án cải tạo toàn bộ hệ thống điện cũ sang hệ thống Smarthome MPE hiện đại cho biệt thự cổ tại Đà Lạt. Xử lý hơn 500m dây dẫn âm tường chằng chịt, tích hợp tủ điện thông minh điều khiển qua điện thoại.",
     fullDescription: "Dự án biệt thự tại Đà Lạt có kiến trúc cổ điển nhưng hệ thống cơ điện cũ đã xuống cấp nghiêm trọng, thường xuyên xảy ra hiện tượng quá tải và chập mạch điện nhảy aptomat liên tục. Hoàng Tuấn MPE được chủ đầu tư tin tưởng giao phó toàn bộ quá trình khảo sát, thiết kế và thi công nâng cấp cơ sở vật chất năng lượng. Chúng tôi tiến hành luồn lại toàn bộ hơn 500 mét dây dẫn lõi đồng cao cấp MPE luồn trong ống nhựa chống cháy chịu lực âm tường. Cùng với đó là lắp đặt tủ điều khiển tổng thế hệ mới, tích hợp thiết bị chuyển mạch thông minh điều khiển từ xa qua smartphone và hệ thống chiếu sáng tiết kiệm thông minh cảm biến chuyển động.",
     images: [
-      "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800",
+      "/images/cua-cuon-thong-minh.png",
       "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800"
     ],
@@ -52,7 +67,7 @@ export const PROJECTS_DATA: Project[] = [
       keywords: ["sửa điện biệt thự đà lạt", "điện thông minh mpe lâm đồng", "lắp điện thông minh đà lạt", "smarthome mpe"]
     },
     gallery: [
-      "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800",
+      "/images/cua-cuon-thong-minh.png",
       "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1542013936-6533e14cb263?auto=format&fit=crop&q=80&w=800"
@@ -69,7 +84,7 @@ export const PROJECTS_DATA: Project[] = [
     outcome: "Hệ thống điện mới vận hành hoàn hảo, an toàn tuyệt đối với rơle chống giật tự ngắt siêu nhạy. Gia chủ dễ dàng điều khiển tắt mở hẹn giờ toàn bộ ngôi nhà khi ở bất kỳ đâu thông qua điện thoại. Điện năng tiêu thụ hàng tháng của biệt thự giảm 30% rõ rệt nhờ tối ưu hóa chiếu sáng thông minh.",
     beforeAfter: {
       beforeImage: "https://images.unsplash.com/photo-1581094288338-2314dddb7edd?auto=format&fit=crop&q=80&w=800",
-      afterImage: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800",
+      afterImage: "/images/cua-cuon-thong-minh.png",
       beforeDesc: "Hệ thống tủ điện cũ kĩ, dây nhợ chằng chịt mất mỹ quan và có nguy cơ chập cháy cao do quá tải.",
       afterDesc: "Hệ thống tủ điện thông minh mới được bố trí khoa học, đi dây ngăn nắp vào tủ âm và vỏ bảo vệ chống nước sang trọng."
     },
@@ -92,7 +107,7 @@ export const PROJECTS_DATA: Project[] = [
     shortDescription: "Sử dụng công nghệ siêu âm tiên tiến tầm soát rò rỉ để định vị vị trí vỡ đường ống rò rỉ âm sàn căn hộ cao cấp. Khắc phục dứt điểm hóa đơn tiền nước tăng đột biến.",
     fullDescription: "Căn hộ chung cư cao cấp gặp tình trạng hóa đơn tiền nước tăng gấp 5 lần bình thường mặc dù lượng sử dụng thực tế không đổi. Đồng thời, dọc mảng tường bếp và phòng ngủ bắt đầu xuất hiện vệt nứt ẩm rêu xanh và mùi hôi ẩm mốc. Nhiều đơn vị kiểm tra thủ công chưa định vị được mà đề xuất phải đục phá nền nhà tắm tìm kiếm. Đội ngũ Hoàng Tuấn MPE nhận lệnh khẩn cấp, đem theo thiết bị máy dò siêu âm khuếch đại dải tần hiện đại nhất đến hiện trường để tiến hành rà tìm đường nước âm một cách an toàn và khoa học.",
     images: [
-      "https://images.unsplash.com/photo-1504148455328-c39695b8a592?auto=format&fit=crop&q=80&w=800",
+      "/images/sieuam.png",
       "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&q=80&w=800"
     ],
     category: "Siêu âm dò tìm",
@@ -104,7 +119,7 @@ export const PROJECTS_DATA: Project[] = [
       keywords: ["dò tìm rò rỉ nước hcm", "siêu âm đường ống nước quận 1", "tìm điểm vỡ ống nước mpe", "máy siêu âm rò rỉ nước"]
     },
     gallery: [
-      "https://images.unsplash.com/photo-1504148455328-c39695b8a592?auto=format&fit=crop&q=80&w=800",
+      "/images/sieuam.png",
       "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&q=80&w=800"
     ],
     services: [
@@ -234,5 +249,128 @@ export const PROJECTS_DATA: Project[] = [
       }
     ],
     relatedProjects: ["sua-dien-biet-thu-dalat", "do-tim-ro-ri-nhatrang"]
+  },
+  {
+    id: "5",
+    slug: "lap-dat-camera-vuon-ray",
+    title: "Lắp đặt Camera an ninh thông minh giám sát vườn sầu riêng & rẫy cà phê",
+    shortDescription: "Triển khai hệ thống camera Wifi năng lượng mặt trời xoay 360 độ góc rộng, tích hợp AI báo động hồng ngoại chống trộm đêm và phát hiện xâm nhập ngoài vườn xa dốc đồi.",
+    fullDescription: "Gia chủ sở hữu vườn sầu riêng và rẫy cà phê sườn đồi tại Bảo Lộc, Lâm Đồng thường xuyên đối mặt với lo ngại mất trộm sầu riêng chín rộ và dụng cụ lao động giá trị cao khi vào vụ thu hoạch. Địa hình đồi dốc dốc đá gồ ghề rộng lớn tới hơn 1,5 hecta, không có nguồn điện lưới kéo trực tiếp ra vườn xa và sóng Wifi thông thường không thể phủ tới ranh giới bờ ao bãi quả. Đội ngũ Hoàng Tuấn MPE đã khảo sát và thiết kế gói giải pháp sử dụng camera IP siêu nét, camera dùng sim 4G kết hợp pin năng lượng mặt trời tự lập hoàn hảo 24/24.",
+    images: [
+      "/images/imou-ngoai-troi.jpg",
+      "/images/camera-.png"
+    ],
+    category: "Camera & An ninh",
+    location: "Đại Lào, Bảo Lộc, Lâm Đồng",
+    completionDate: "20/05/2026",
+    seo: {
+      metaTitle: "Lắp Đặt Camera Dự Án Vườn Rẫy Sầu Riêng Bảo Lộc | Hoàng Tuấn MPE",
+      metaDescription: "Thi công giải pháp camera an ninh rẫy sầu riêng dùng năng lượng mặt trời phối hợp camera sim 4G cao cấp không cần kéo điện lưới của Hoàng Tuấn MPE.",
+      keywords: ["camera vườn sầu riêng bảo lộc", "camera rẫy năng lượng mặt trời", "lắp camera sim 4g lâm đồng", "camera an ninh vườn bảo lộc"]
+    },
+    gallery: [
+      "/images/imou-ngoai-troi.jpg",
+      "/images/camera-.png"
+    ],
+    services: [
+      "Khảo sát địa thế sườn đồi lắp đặt camera góc phủ rộng nhất",
+      "Lắp đặt Camera IMOU ngoài trời xoay 360 độ chống nước tuyệt đối IP67",
+      "Tích hợp hệ thống Tấm pin Năng lượng mặt trời lưu trữ tự cấp nguồn điện",
+      "Cấu hình và lắp đặt Router 4G công suất phát sóng cực rộng",
+      "Cài đặt ranh giới bảo vệ ảo qua AI thông minh cảnh báo trực tiếp về điện thoại"
+    ],
+    challenges: "Vườn rẫy có diện tích rộng 2ha đồi dốc, sương mù dày đặc và mưa lớn suốt mùa mưa Bảo Lộc gây ẩm mốc mạch sạc pin năng lượng mặt trời. Thêm vào đó, việc thiếu điện lưới buộc hệ thống phải tự tối ưu điện cực kỳ tốt để chạy ổn định cả trong những ngày mưa dầm âm u kéo dài.",
+    solutions: "Chúng tôi chọn dòng camera IMOU Cruiser tích hợp cảm biến thế hệ mới tiết kiệm điện năng tối đa, kết hợp tấm pin sạc Poly cao cấp sạc nhanh ngay cả khi trời âm u sương mù. Đầu nối dây cấp nguồn bọc kỹ bằng hộp kỹ thuật chống ẩm cao cấp đạt chuẩn IP67 ngoài trời.",
+    outcome: "Hệ thống hoạt động mượt mà, ghi hình 24/7 siêu nét không gián đoạn. Gia chủ có thể ngồi tại nhà xem toàn cảnh vườn sầu riêng, kịp thời ngăn chặn 2 vụ kẻ gian thâm nhập ranh rẫy ban đêm nhờ tiếng còi hú báo động cực lớn từ camera.",
+    beforeAfter: {
+      beforeImage: "/images/camera-.png",
+      afterImage: "/images/imou-ngoai-troi.jpg",
+      beforeDesc: "Vườn rẫy rộng lớn mênh mông không có giải pháp giám sát an ninh dễ thất thoát sầu riêng trái mùa.",
+      afterDesc: "Hệ thống camera trụ độc lập dùng năng lượng mặt trời rực rỡ, ghi hình an ninh 360 độ sắc nét."
+    },
+    faq: [
+      {
+        question: "Trời mưa bão liên tiếp 3-4 ngày không có nắng thì camera vườn rẫy có hoạt động không?",
+        answer: "Có. Bộ pin lưu trữ Lithium chuyên dụng của hệ thống camera năng lượng mặt trời do Hoàng Tuấn MPE thiết kế được tối ưu hóa dung lượng lớn, cho phép nuôi hệ thống vận hành liên tục 5 ngày đêm ngay cả trong điều kiện trời âm u sương mù hoàn toàn không có ánh nắng trực tiếp."
+      },
+      {
+        question: "Chi phí duy trì trạm phát sóng sim 4G gắn trên camera ngoài vườn sầu riêng là bao nhiêu?",
+        answer: "Chúng tôi lắp đặt sim Data chuyên dụng với gói phát cước tối ưu khoảng 100.000đ/tháng đến 120.000đ/tháng tốc độ cao không giới hạn băng thông, hoàn toàn đáp ứng nhu cầu xem video giám sát trực tuyến liên tục mượt mờ."
+      }
+    ],
+    relatedProjects: ["lap-dat-camera-xuong-may", "sua-dien-biet-thu-dalat"],
+    packages: [
+      {
+        name: "Gói Phổ Thông - IMOU SIM 4G 4MP",
+         price: "2.850.000₫",
+         features: [
+           "Camera IMOU 360 độ ngoài trời 4MP chống nước dột IP67",
+           "Thẻ nhớ chính hãng SanDisk 64GB lưu trữ 7-10 ngày liên tục",
+           "Tặng Sim Data 4G Viettel/Mobi miễn phí tháng đầu tiên",
+           "Hỗ trợ còi hú rượt đuổi trộm và đèn Spotlight có màu ban đêm",
+           "Miễn phí toàn bộ công kéo dây, cấu hình app trên điện thoại",
+           "Bảo hành trọn gói 12 tháng tại nhà vườn"
+         ]
+      },
+      {
+        name: "Gói Năng Lượng Mặt Trời Toàn Phần",
+        price: "5.600.000₫",
+        isPopular: true,
+        badge: "Khuyên Dùng Cho Vườn Rẫy",
+        features: [
+          "Camera Pin Sạc Lithium dung lượng lớn xoay 360 độ",
+          "Tấm pin năng lượng mặt trời Poly Silicon 15W sạc nhanh",
+          "Không cần kéo dây nguồn điện lưới - Độc lập 100%",
+          "Khe cắm sim 4G tích hợp thẳng trong phần thân camera",
+          "Nháy đèn chớp và hú còi cảnh báo trộm thông minh AI",
+          "Thẻ nhớ chính hãng 128GB lưu trữ 14-20 ngày",
+          "Bảo hành hỏa tốc tận vườn rẫy trong vòng 24 tháng"
+        ]
+      },
+      {
+        name: "Hệ Thống Đa Mắt Cáp Quang Liên Rẫy",
+        price: "Xem Khảo Sát",
+        features: [
+          "Toàn bộ camera IP Hikvision độ phân giải 4K UltraHD",
+          "Kéo mạng cáp quang ngoài trời bọc luồn thép cực bền",
+          "Đầu ghi hình lưu trữ dữ liệu tập trung từ 30 ngày",
+          "Tích hợp hệ thống tủ an toàn chống sét lan truyền sườn đồi",
+          "Vẽ hàng rào ảo đa tuyến báo động thời gian thực",
+          "Bảo trì, vệ sinh định kỳ miễn phí định kỳ 6 tháng"
+        ]
+      }
+    ],
+    specifications: [
+      { label: "Thương hiệu sản phẩm", value: "IMOU / Ezviz / Hikvision chính ngạch" },
+      { label: "Độ phân giải", value: "4.0 Megapixel Super HD tới 4K Ultra HD siêu nét" },
+      { label: "Chuẩn chống nước bão", value: "IP66 / IP67 phơi sương mưa dại nắng Bảo Lộc tốt" },
+      { label: "Dung lượng thẻ nhớ dữ liệu", value: "64GB - 256GB chuyên dụng ghi đè liên tục" },
+      { label: "Nguồn cấp hoạt động", value: "Tấm pin năng lượng mặt trời Poly sạc nhanh + Pin sạc Lithium" },
+      { label: "Góc quét tầm nhìn", value: "Xoay ngang 355 độ, xoay dọc 90 độ điều khiển 360 độ trên app" },
+      { label: "Tầm nhìn đêm", value: "Hồng ngoại 30 mét + Có Màu ban đêm nhờ Spotlight" },
+      { label: "Tính năng AI thông minh", value: "Phát hiện người thông báo nhanh, khoanh vùng cấm hú còi" }
+    ],
+    steps: [
+      {
+        title: "Khảo sát và Đo sóng Sim 4G thực địa",
+        description: "Kỹ thuật viên di chuyển trực tiếp tới vườn rẫy đo đạc cường độ thu sóng của sim Viettel, Vinaphone hay Mobifone ngay tại góc lắp đặt để lựa chọn nhà mạng ổn định nhất, đồng thời xác định ranh giới không điểm mù."
+      },
+      {
+        title: "Dựng trụ thép gia cố chống chịu gió bão",
+        description: "Thi công chôn đế trụ thép chống rỉ cao hơn 3.2m đổ bê tông kiên cố sườn đồi, tạo độ vững chắc không rung lắc vỡ hình ảnh camera khi chịu mưa bão đồi dốc giật mạnh."
+      },
+      {
+        title: "Gá đặt tấm pin sạc Năng Lượng Mặt Trời",
+        description: "Căn chỉnh hướng đón nắng hướng Nam chếch Tây để thu trọn năng lượng ánh nắng cả ngày, đi dây bọc ống ruột gà PVC chịu nhiệt chống chuột mọc dột ẩm tuyệt đối vào bo mạch sạc sâm panh."
+      },
+      {
+        title: "Khoanh vùng ranh giới ảo cấm đột nhập AI",
+        description: "Cài đặt ứng dụng trên toàn bộ các máy điện thoại của gia đình, cấu hình vẽ hàng rào ảo AI bao phủ gốc sầu riêng quý hay kho phân bón chòi cá, thiết lập khung giờ ban đêm hú còi tự động răn đe."
+      },
+      {
+        title: "Nghiệm thu thực tế và Hướng dẫn sử dụng",
+        description: "Chạy thử camera xuyên suốt ngày và đêm dưới sương mù Bảo Lộc dày đặc, kiểm tra độ nhạy gửi thông báo báo trộm, bàn giao toàn bộ tài khoản quản lý gốc cho gia đình sở hữu tuyệt đối."
+      }
+    ]
   }
 ];

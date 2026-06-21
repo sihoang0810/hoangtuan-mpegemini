@@ -17,6 +17,7 @@ export default function ProjectDetail() {
   const navigate = useNavigate();
   const siteLocationPrefix = '/' + locationSlug;
   const mappedDisplayName = locationSlug === 'ho-chi-minh' ? 'Hồ Chí Minh' : 'Bảo Lộc';
+  const [sliderPosition, setSliderPosition] = useState(50);
 
   // Find project by slug
   const project = useMemo(() => {
@@ -47,7 +48,7 @@ export default function ProjectDetail() {
   }, [project]);
 
   return (
-    <div id="project-detail" className="pt-20 bg-slate-50 min-h-screen pb-20 md:pb-0">
+    <div id="project-detail" className="pt-20 bg-slate-50 min-h-screen">
       {/* Dynamic SEO Hook for page-level optimization */}
       <PageSEO pageType="project" data={project} />
 
@@ -138,45 +139,240 @@ export default function ProjectDetail() {
                 </div>
               </div>
 
-              {/* Before/After Visual Side-by-Side Panel */}
+              {/* Interactive Before/After Comparison Panel */}
               <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden p-6 md:p-8 space-y-6">
                 <div>
-                  <h3 className="font-bold text-brand-secondary uppercase tracking-tight">Hiện Trạng Trước & Sau Sửa Chữa</h3>
-                  <p className="text-slate-400 text-xs mt-1">So sánh trực quan hiện trạng thi công từ hiện trường của kỹ sư Hoàng Tuấn MPE.</p>
+                  <h3 className="font-extrabold text-brand-secondary uppercase tracking-tight flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-brand-primary rounded-full inline-block" />
+                    Hiện Trạng Trước & Sau Thi Công
+                  </h3>
+                  <p className="text-slate-400 text-xs mt-1">Kéo thanh trượt hoặc sử dụng bộ lọc bên dưới để so sánh trực quan sự khác biệt.</p>
                 </div>
                 
-                <div className="grid md:grid-cols-2 gap-6 pt-2">
-                  {/* Before card */}
-                  <div className="space-y-3">
-                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow">
-                      <OptimizedImage 
-                        src={project.beforeAfter.beforeImage} 
-                        alt="Trước khi thi công" 
-                        className="w-full h-full object-cover grayscale brightness-90"
-                      />
-                      <span className="absolute bottom-3 left-3 bg-red-600/90 text-white text-[9px] font-black uppercase px-3 py-1 rounded">TRƯỚC THI CÔNG</span>
+                <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full rounded-2xl overflow-hidden shadow-md select-none group border border-slate-100 bg-slate-100">
+                  {/* After Image (Base) - Always fully positioned */}
+                  <div className="absolute inset-0 w-full h-full">
+                    <OptimizedImage 
+                      src={project.beforeAfter.afterImage} 
+                      alt="Sau khi thi công" 
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-4 right-4 bg-emerald-600 border border-emerald-500 text-white text-[9px] sm:text-[10px] font-black uppercase px-3 py-1.5 rounded-lg shadow-md z-10 pointer-events-none">
+                      HOÀN THÀNH - BÀN GIAO ✅
                     </div>
-                    <p className="text-xs text-slate-500 leading-relaxed font-bold italic">
-                      ⚠️ {project.beforeAfter.beforeDesc}
-                    </p>
                   </div>
 
-                  {/* After card */}
-                  <div className="space-y-3">
-                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow">
-                      <OptimizedImage 
-                        src={project.beforeAfter.afterImage} 
-                        alt="Sau khi thi công" 
-                        className="w-full h-full object-cover border-2 border-brand-primary/20"
-                      />
-                      <span className="absolute bottom-3 left-3 bg-emerald-600/95 text-white text-[9px] font-black uppercase px-3 py-1 rounded">HOÀN THÀNH - BÀN GIAO</span>
+                  {/* Before Image (Overlay clipped beautifully with clip-path for 1:1 pixel compliance) */}
+                  <div 
+                    className="absolute inset-0 w-full h-full z-10 pointer-events-none transition-all duration-75" 
+                    style={{ clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)` }}
+                  >
+                    <OptimizedImage 
+                      src={project.beforeAfter.beforeImage} 
+                      alt="Trước khi thi công" 
+                      className="w-full h-full object-cover grayscale brightness-95"
+                    />
+                    <div className="absolute bottom-4 left-4 bg-red-600/95 text-white text-[9px] sm:text-[10px] font-black uppercase px-3 py-1.5 rounded-lg shadow-md z-20 pointer-events-none">
+                      ⚠️ TRƯỚC THI CÔNG
                     </div>
-                    <p className="text-xs text-brand-secondary leading-relaxed font-bold">
-                      ✅ {project.beforeAfter.afterDesc}
-                    </p>
+                  </div>
+
+                  {/* Slider Control Line & Floating Knob */}
+                  <div 
+                    className="absolute inset-y-0 w-1 bg-white cursor-ew-resize z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)] pointer-events-none"
+                    style={{ left: `${sliderPosition}%` }}
+                  >
+                    {/* Glowing handle knob */}
+                    <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-brand-primary border-4 border-white shadow-xl flex items-center justify-center text-white pointer-events-auto hover:scale-110 transition-transform">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" className="rotate-90 origin-center scale-90" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Invisible Range Input spanning the entire visual zone to capture intuitive drag/swipe coordinates */}
+                  <input 
+                    type="range" 
+                    min="0" 
+                    max="100" 
+                    value={sliderPosition} 
+                    onChange={(e) => setSliderPosition(Number(e.target.value))}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30 touch-none"
+                    aria-label="Before After Compare Slider Input"
+                  />
+                </div>
+
+                {/* Tactical visual range controller bar underneath for clear guidance and enhanced accessible interaction */}
+                <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3 shadow-inner">
+                  <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-500">
+                    <span className="text-red-600 flex items-center gap-1 bg-red-50 px-2 py-0.5 rounded-md">
+                      ⚠️ TRƯỚC THI CÔNG ({sliderPosition}%)
+                    </span>
+                    <span className="hidden sm:inline text-slate-400 font-medium normal-case">Kéo nút trượt bên dưới để tự do điều chỉnh</span>
+                    <span className="text-emerald-600 flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-md">
+                      SAU KHI THI CÔNG ({100 - sliderPosition}%) ✅
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-center gap-4">
+                    <button 
+                      type="button"
+                      onClick={() => setSliderPosition(100)}
+                      className="text-xs font-black text-red-600 hover:bg-red-50 px-2.5 py-1.5 rounded-lg border border-red-200 transition-colors shrink-0"
+                    >
+                      XEM TRƯỚC 100%
+                    </button>
+                    
+                    <div className="relative flex-grow flex items-center h-8">
+                      <input 
+                        type="range" 
+                        min="0" 
+                        max="100" 
+                        value={sliderPosition} 
+                        onChange={(e) => setSliderPosition(Number(e.target.value))}
+                        className="w-full h-2.5 rounded-full bg-slate-200 accent-brand-primary outline-none cursor-pointer border border-slate-200 focus:ring-2 focus:ring-brand-primary/20 appearance-none"
+                        style={{
+                          background: `linear-gradient(to right, #ef4444 0%, #ef4444 ${sliderPosition}%, #10b981 ${sliderPosition}%, #10b981 100%)`
+                        }}
+                        aria-label="Bottom slider controller text"
+                      />
+                    </div>
+                    
+                    <button 
+                      type="button"
+                      onClick={() => setSliderPosition(0)}
+                      className="text-xs font-black text-emerald-600 hover:bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-200 transition-colors shrink-0"
+                    >
+                      XEM SAU 100%
+                    </button>
+                  </div>
+                </div>
+
+                {/* Captions */}
+                <div className="grid sm:grid-cols-2 gap-4 text-[11px] sm:text-xs font-bold leading-relaxed">
+                  <div className="p-3 bg-red-50/30 rounded-xl border border-red-100/50 text-slate-500">
+                    <span className="text-red-600 uppercase pr-1 font-extrabold">⚠️ Trước:</span> {project.beforeAfter.beforeDesc}
+                  </div>
+                  <div className="p-3 bg-emerald-50/30 rounded-xl border border-emerald-100/50 text-brand-secondary">
+                    <span className="text-emerald-600 uppercase pr-1 font-extrabold">✅ Sau:</span> {project.beforeAfter.afterDesc}
                   </div>
                 </div>
               </div>
+
+              {/* Conditionally Render Specifications Section */}
+              {project.specifications && project.specifications.length > 0 && (
+                <div className="bg-white rounded-[2rem] border border-slate-100 p-6 md:p-8 shadow-sm space-y-6">
+                  <div>
+                    <h3 className="font-extrabold text-brand-secondary uppercase tracking-tight flex items-center gap-2">
+                      <span className="w-1.5 h-6 bg-brand-primary rounded-full inline-block" />
+                      Thông Số Kỹ Thuật Chi Tiết Hệ Thống
+                    </h3>
+                    <p className="text-slate-400 text-xs mt-1">Đảm bảo thiết bị chính hãng chất lượng cao, chế độ bảo hành chuyên sâu hỏa tốc.</p>
+                  </div>
+                  
+                  <div className="grid sm:grid-cols-2 gap-x-8 gap-y-3 pt-2">
+                    {project.specifications.map((spec, sIdx) => (
+                      <div key={sIdx} className="flex justify-between items-center py-2.5 border-b border-dashed border-slate-100 text-xs text-slate-700">
+                        <span className="font-bold text-slate-500">{spec.label}</span>
+                        <span className="text-brand-secondary font-black text-right">{spec.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Conditionally Render Pricing Packages Grid */}
+              {project.packages && project.packages.length > 0 && (
+                <div className="space-y-6">
+                  <div className="flex items-center gap-2 text-brand-secondary">
+                    <span className="w-1.5 h-6 bg-brand-primary rounded-full inline-block" />
+                    <h3 className="text-xl font-black uppercase tracking-tight">Cấu Hình Lắp Đặt Báo Giá Trọn Gói</h3>
+                  </div>
+
+                  <div className="grid sm:grid-cols-3 gap-6">
+                    {project.packages.map((pkg, idx) => (
+                      <div 
+                        key={idx} 
+                        className={`rounded-3xl p-6 border flex flex-col justify-between transition-all duration-300 relative ${
+                          pkg.isPopular 
+                            ? 'bg-brand-secondary text-white border-brand-primary shadow-lg scale-[1.01] sm:-translate-y-0.5' 
+                            : 'bg-white text-slate-800 border-slate-100 shadow-sm hover:shadow-md'
+                        }`}
+                      >
+                        {pkg.isPopular && (
+                          <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-primary text-white text-[9px] font-black uppercase py-0.5 px-4 rounded-full tracking-wider shadow z-10">
+                            {pkg.badge || "KHUYÊN DÙNG"}
+                          </span>
+                        )}
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <h4 className={`text-xs font-black uppercase tracking-wide ${pkg.isPopular ? 'text-brand-primary' : 'text-brand-secondary'}`}>
+                              {pkg.name}
+                            </h4>
+                            <div className="mt-2 flex items-baseline gap-1">
+                              <span className="text-xl sm:text-2xl font-black">{pkg.price}</span>
+                              {pkg.price !== "Xem Khảo Sát" && <span className="text-[10px] opacity-75 font-bold">/Bộ</span>}
+                            </div>
+                          </div>
+
+                          <ul className="space-y-2 pt-2">
+                            {pkg.features.map((feat, fIdx) => (
+                              <li key={fIdx} className="flex gap-2 items-start text-[11px] leading-relaxed">
+                                <span className={`shrink-0 text-xs font-bold ${pkg.isPopular ? 'text-brand-primary' : 'text-emerald-500'}`}>✓</span>
+                                <span className={`${pkg.isPopular ? 'text-slate-100 font-medium' : 'text-slate-600'}`}>{feat}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className="pt-6">
+                          <a 
+                            href="tel:0389011315"
+                            className={`block w-full py-2.5 rounded-xl text-center text-xs font-black uppercase tracking-wider transition-all duration-200 ${
+                              pkg.isPopular 
+                                ? 'bg-brand-primary text-white hover:bg-white hover:text-brand-secondary' 
+                                : 'bg-slate-50 text-brand-secondary hover:bg-brand-primary hover:text-white border border-slate-100'
+                            }`}
+                          >
+                            Tư Vấn Miễn Phí
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Conditionally Render Implementation steps */}
+              {project.steps && project.steps.length > 0 && (
+                <div className="space-y-6">
+                  <div className="flex items-center gap-2 text-brand-secondary">
+                    <span className="w-1.5 h-6 bg-brand-primary rounded-full inline-block" />
+                    <h3 className="text-xl font-black uppercase tracking-tight">Quy Trình Thi Công Chuẩn Kỹ Thuật</h3>
+                  </div>
+
+                  <div className="relative pl-6 sm:pl-8 border-l border-slate-200 space-y-8 ml-3 py-2">
+                    {project.steps.map((step, sIdx) => (
+                      <div key={sIdx} className="relative group">
+                        {/* Bullet number node */}
+                        <div className="absolute -left-10 sm:-left-12 top-0.5 w-8 h-8 rounded-full bg-white border-2 border-brand-primary text-brand-primary font-black text-xs flex items-center justify-center shadow-sm group-hover:bg-brand-primary group-hover:text-white transition-colors duration-300">
+                          {sIdx + 1}
+                        </div>
+                        
+                        <div className="space-y-1">
+                          <h4 className="font-extrabold text-brand-secondary text-sm tracking-tight group-hover:text-brand-primary transition-colors">
+                            {step.title}
+                          </h4>
+                          <p className="text-xs text-slate-500 leading-relaxed font-semibold">
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Customer Outcome Block */}
               <div className="bg-gradient-to-br from-emerald-50 to-teal-50/50 rounded-3xl p-6 md:p-10 border border-emerald-100/60 space-y-4">

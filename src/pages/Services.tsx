@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { 
   Zap, 
@@ -217,6 +217,8 @@ export default function ServicesPage() {
   const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationSlug));
   const [activeSection, setActiveSection] = useState('electrical');
   const [showFloating, setShowFloating] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     let active = true;
@@ -229,7 +231,49 @@ export default function ServicesPage() {
   }, [locationSlug]);
 
   useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1);
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          const headerElement = document.querySelector('header');
+          const headerHeight = headerElement ? headerElement.offsetHeight : 80;
+          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+          const offsetPosition = elementPosition - headerHeight - 10;
+          window.scrollTo({
+            top: offsetPosition >= 0 ? offsetPosition : 0,
+            behavior: 'smooth'
+          });
+          setActiveSection(id);
+        }
+      }, 150);
+    }
+  }, [services]);
+
+  useEffect(() => {
     const handleScrollBoundary = () => {
+      const currentScrollY = window.scrollY;
+
+      // Determine header visibility based on scroll direction
+      let visible = true;
+      if (currentScrollY > 100) {
+        if (currentScrollY > lastScrollY.current) {
+          visible = false;
+        } else {
+          visible = true;
+        }
+      }
+      lastScrollY.current = currentScrollY;
+
+      // Double-check with DOM element class to override if already applied
+      const headerElement = document.querySelector('header');
+      if (headerElement) {
+        const isHidden = headerElement.classList.contains('-translate-y-full');
+        setIsHeaderVisible(!isHidden);
+      } else {
+        setIsHeaderVisible(visible);
+      }
+
       const electricalEl = document.getElementById('electrical');
       if (electricalEl) {
         const rect = electricalEl.getBoundingClientRect();
@@ -240,7 +284,6 @@ export default function ServicesPage() {
 
       // Compute active section based on proximity to sticky header trigger point
       const ids = ['electrical', 'plumbing', 'camera', 'detection', 'smarthome'];
-      const headerElement = document.querySelector('header');
       const headerHeight = headerElement ? headerElement.offsetHeight : 80;
       const triggerPoint = headerHeight + 120;
 
@@ -303,12 +346,46 @@ export default function ServicesPage() {
     <div className="pt-20">
       <PageSEO pageType="general" />
 
-      {/* Left-Side Floating Dock (Desktop only) */}
+      {/* 1. Mobile Horizontal Floating Header Sub-Nav */}
       <div 
-        className={`hidden lg:flex fixed top-1/2 -translate-y-1/2 z-50 flex-col gap-4 transition-all duration-300 ${
+        className={`md:hidden fixed left-0 right-0 z-40 flex flex-row items-center justify-center gap-3 bg-white/95 backdrop-blur-md py-2 px-4 border-b border-slate-100 shadow-sm transition-all duration-300 overflow-x-auto scrollbar-none ${
+          showFloating ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none'
+        }`}
+        style={{ 
+          top: isHeaderVisible ? '80px' : '0px'
+        }}
+      >
+        <div className="flex flex-row items-center gap-3 mx-auto">
+          {FLOATING_NAV.map((item, i) => {
+            const id = item.href.slice(1);
+            const isActive = activeSection === id;
+            const Icon = item.icon;
+            return (
+              <motion.a
+                key={i}
+                whileTap={{ scale: 0.95 }}
+                href={item.href}
+                onClick={(e) => handleFloatingClick(e, id)}
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm border shrink-0 ${
+                  isActive 
+                    ? 'text-white border-transparent'
+                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                }`}
+                style={{ backgroundColor: isActive ? item.activeBgColor : 'white' }}
+              >
+                <Icon size={18} />
+              </motion.a>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 2. Tablet & Desktop Vertical Floating Dock */}
+      <div 
+        className={`hidden md:flex fixed top-1/2 -translate-y-1/2 z-50 flex-col gap-4 transition-all duration-300 ${
           showFloating ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 -translate-x-4 pointer-events-none'
         }`}
-        style={{ left: 'max(28px, calc(50% - 640px - 64px))' }}
+        style={{ left: 'max(16px, calc(50% - 640px - 64px))' }}
       >
         {FLOATING_NAV.map((item, i) => {
           const id = item.href.slice(1);
@@ -316,7 +393,7 @@ export default function ServicesPage() {
           const Icon = item.icon;
           return (
             <div key={i} className="relative group">
-               {/* Premium Hover Tooltip Label */}
+              {/* Premium Hover Tooltip Label */}
               <div className="absolute left-full ml-4 top-1/2 -translate-y-1/2 bg-white px-3.5 py-1.5 rounded-lg shadow-lg text-brand-secondary font-bold text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none translate-x-2 group-hover:translate-x-0 z-50">
                 {item.title}
               </div>
@@ -328,7 +405,7 @@ export default function ServicesPage() {
                 onClick={(e) => handleFloatingClick(e, id)}
                 className={`relative w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 ${
                   isActive 
-                    ? `${item.activeBg}`
+                    ? 'text-white shadow-lg'
                     : 'bg-white text-slate-600 hover:text-brand-secondary hover:bg-slate-50'
                 }`}
                 style={{ backgroundColor: isActive ? item.activeBgColor : 'white' }}
@@ -404,19 +481,6 @@ export default function ServicesPage() {
                 <Phone size={20} className="shrink-0" />
                 Gọi Ngay 0389011315
               </a>
-              <div className="flex gap-3 justify-center w-full z-20">
-                 {FLOATING_NAV.map((item, i) => (
-                    <a 
-                      key={i} 
-                      href={item.href} 
-                      onClick={(e) => handleFloatingClick(e, item.href.slice(1))}
-                      className="w-12 h-12 sm:w-14 sm:h-14 flex flex-1 items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all border border-white/10"
-                      title={item.title}
-                    >
-                      <item.icon size={20} />
-                    </a>
-                 ))}
-              </div>
             </motion.div>
           </div>
         </div>

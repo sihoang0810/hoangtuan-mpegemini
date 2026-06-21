@@ -216,7 +216,7 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                       tabIndex={isCenter || isVisible ? 0 : -1}
                       role="button"
                       aria-label={`Xem đánh giá của ${testimonial.name}`}
-                      className={`w-[85vw] max-w-[360px] p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between min-h-[300px] cursor-pointer select-none transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-brand-primary ${
+                      className={`w-[360px] h-[360px] p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between cursor-pointer select-none transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-brand-primary ${
                         isCenter
                           ? 'bg-white border-2 border-brand-primary ring-8 ring-brand-primary/5'
                           : 'bg-white/75 border border-slate-100 hover:bg-white hover:opacity-100'
@@ -273,7 +273,7 @@ export default function Testimonials({ cmsData }: { cmsData?: any }) {
                     animate={{ opacity: 1, x: 0, scale: 1 }}
                     exit={{ opacity: 0, x: -50, scale: 0.95 }}
                     transition={{ type: "tween", duration: 0.25, ease: "easeInOut" }}
-                    className="bg-white border-2 border-brand-primary/80 p-5 rounded-2xl shadow-xl relative flex flex-col justify-between h-full min-h-[220px] ring-4 ring-brand-primary/5"
+                    className="bg-white border-2 border-brand-primary/80 p-5 rounded-2xl shadow-xl relative flex flex-col justify-between w-full aspect-square ring-4 ring-brand-primary/5"
                   >
                     <div className="absolute top-4 right-6 text-brand-primary/10 pointer-events-none">
                       <svg width="35" height="28" viewBox="0 0 45 36" fill="currentColor">

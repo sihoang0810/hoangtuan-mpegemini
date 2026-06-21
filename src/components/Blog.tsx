@@ -33,7 +33,7 @@ const Blog = () => {
   return (
     <section id="blog" className="bg-slate-50 w-full overflow-hidden">
       <div className="section-container">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-10 md:mb-16 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-16 gap-6">
           <div className="max-w-2xl">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}

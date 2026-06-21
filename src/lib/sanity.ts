@@ -861,6 +861,47 @@ function mapLocalServiceToCMS(srv: LocalService): CMSService {
 }
 
 /**
+ * Helper to override CMS-fetched services with local edits for instantaneous preview responsiveness.
+ */
+function applyLocalServiceOverrides(services: CMSService[], locId: string): CMSService[] {
+  const localList = LOCALIZED_SERVICES[locId];
+  if (!Array.isArray(localList)) return services;
+
+  const overridden = services.map(srv => {
+    const localOverride = localList.find(l => l.slug === srv.slug);
+    if (localOverride) {
+      return {
+        ...srv,
+        ...localOverride,
+        id: srv.id || localOverride.id,
+      };
+    }
+    return srv;
+  });
+
+  const additions = localList.filter(
+    localSrv => !services.some(srv => srv.slug === localSrv.slug)
+  );
+
+  return [...overridden, ...additions];
+}
+
+function overrideServiceWithLocal(srv: CMSService | null, locId: string): CMSService | null {
+  if (!srv) return null;
+  const localList = LOCALIZED_SERVICES[locId];
+  if (!Array.isArray(localList)) return srv;
+  const localOverride = localList.find(l => l.slug === srv.slug);
+  if (localOverride) {
+    return {
+      ...srv,
+      ...localOverride,
+      id: srv.id || localOverride.id,
+    };
+  }
+  return srv;
+}
+
+/**
  * 5. Services Details filtered by location (Cache-first implementation)
  */
 export function getServicesSync(forcedLocationId?: string): CMSService[] {
@@ -910,7 +951,7 @@ export function getServicesSync(forcedLocationId?: string): CMSService[] {
     finalServices = [...finalServices, ...localSmarthome];
   }
 
-  return finalServices;
+  return applyLocalServiceOverrides(finalServices, locId);
 }
 
 export function getServiceBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSService | null {
@@ -960,7 +1001,7 @@ export async function getServices(forcedLocationId?: string): Promise<CMSService
       if (isDataDifferent(normalizedData, currentData)) {
         console.log(`%c[BACKGROUND UPDATE] Services data has changed on Sanity. Overwriting cache and refreshing UI.`, 'color: #3b82f6; font-weight: bold;');
         saveServicesCache(locId, normalizedData);
-        return normalizedData;
+        return applyLocalServiceOverrides(normalizedData, locId);
       } else {
         console.log(`%c[BACKGROUND LOG] Sanity services data matches current cache. Re-marking fresh timestamp.`, 'color: #64748b;');
         // Refresh timestamp of current content to renew its TTL
@@ -1000,7 +1041,7 @@ export async function getServiceBySlug(slug: string | undefined, forcedLocationI
     if (hasData) {
       const normalized = ensureStringSlug(data);
       if (isDataDifferent(normalized, foundLocal)) {
-        return normalized;
+        return overrideServiceWithLocal(normalized, locId);
       }
       return foundLocal;
     }

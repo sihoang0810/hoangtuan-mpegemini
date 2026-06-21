@@ -8,7 +8,7 @@ export const articleBl4: CMSBlogPost & { seo?: any } = {
   category: 'Điện',
   date: '2026-06-04',
   author: { name: 'Kỹ Sư Tuấn', role: 'Chuyên Gia Smarthome Hoàng Tuấn' },
-  image: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1200',
+  image: '/images/cua-cuon-thong-minh.png',
   readTime: '45 phút đọc',
   tags: ['Cửa cuốn thông minh Hunonic', 'Công tắc cửa cuốn thông minh Bảo Lộc', 'Nhà thông minh Lâm Đồng', 'Thiết bị điện Hunonic'],
   seo: {

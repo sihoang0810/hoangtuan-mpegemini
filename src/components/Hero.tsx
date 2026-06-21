@@ -7,7 +7,7 @@ import { useLocation } from '../context/LocationContext';
 import InlineEdit from './InlineEdit';
 
 import OptimizedImage from './OptimizedImage';
-import realHeroRepairImg from '../assets/images/toronto_office_hero_1780822167866.png';
+import realHeroRepairImg from '../assets/images/hero.png';
 
 export default function Hero({ 
   cmsData,
@@ -26,19 +26,29 @@ export default function Hero({
 
   const slides = [
     {
-      image: heroImage,
-      title: "Thợ Sửa Chữa Chuyên Nghiệp",
-      subtitle: "Chất lượng được khẳng định"
-    },
-    {
       image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1200",
-      title: "Sửa Chữa Điện Nhanh Chóng",
-      subtitle: "An toàn và tin cậy tuyệt đối"
+      title: "Sửa Chữa Điện Nhanh",
+      subtitle: "Xử lý chập điện, mất điện an toàn triệt để"
     },
     {
-      image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=1200",
-      title: "Dịch Vụ Nước 24/7",
-      subtitle: "Xử lý triệt để mọi sự cố rò rỉ"
+      image: "/bom-ap.jpg",
+      title: "Sửa Nước & Bơm Tăng Áp",
+      subtitle: "Giải quyết triệt để nước yếu, rò rỉ 24/7"
+    },
+    {
+      image: "/images/sieu-am-do-tim-ong-vo.png",
+      title: "Dò Rò Rỉ Nước Bằng Siêu Âm",
+      subtitle: "Công nghệ dò tìm đường ống bục vỡ không đục phá"
+    },
+    {
+      image: "/images/camera-.png",
+      title: "Lắp Đặt Camera An Ninh",
+      subtitle: "Camera chính hãng, sắc nét, giám sát từ xa tiện lợi"
+    },
+    {
+      image: "/images/cua-cuon-thong-minh.png",
+      title: "Cửa Cuốn & Thiết Bị Thông Minh",
+      subtitle: "Điều khiển, đóng mở cửa cuốn qua điện thoại thông minh"
     }
   ];
 
@@ -72,20 +82,16 @@ export default function Hero({
 
   return (
     <section 
-      className="relative pt-20 pb-16 sm:pt-24 sm:pb-20 md:pt-28 md:pb-24 lg:pt-32 lg:pb-28 overflow-hidden bg-slate-950 text-white min-h-[85vh] flex items-center z-10"
-      style={{ textShadow: '0 2px 8px rgba(0,0,0,0.35)' }}
+      className="relative pt-20 pb-16 sm:pt-24 sm:pb-20 md:pt-28 md:pb-24 lg:pt-32 lg:pb-28 bg-slate-950 text-white min-h-[85vh] flex items-center z-10 !bg-cover !bg-center !bg-no-repeat"
+      style={{ 
+        textShadow: '0 2px 8px rgba(0,0,0,0.35)',
+        backgroundImage: `url(${realHeroRepairImg})`
+      }}
     >
-      {/* Background Image - beautifully visible, elegantly dimmed for text readability */}
-      <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden bg-slate-950">
-        <img 
-          src={realHeroRepairImg} 
-          alt="Văn phòng làm việc hiện đại" 
-          className="w-full h-full object-cover opacity-50 md:opacity-65 filter blur-[8px] brightness-[0.35] contrast-[1.15] scale-105 transition-all duration-700"
-          loading="eager"
-          referrerPolicy="no-referrer"
-        />
+      {/* Background Gradients - elegantly dimmed for text readability */}
+      <div className="absolute inset-0 z-0 select-none pointer-events-none">
         {/* Left-to-right gradient to ensure text readability on the left, while showing the skyline/office on the right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/75 to-slate-950/20 opacity-90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-slate-950/10 opacity-70" />
         
         {/* Bottom vertical masking gradient to seamlessly fade into adjacent page sections */}
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-950 to-transparent" />
@@ -99,16 +105,16 @@ export default function Hero({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2.5 px-3 py-1 bg-brand-primary/20 text-brand-primary border border-brand-primary/20 rounded-full text-xs font-bold mb-5 md:mb-6 select-none shadow-sm shadow-brand-primary/5">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-gradient-to-r from-brand-primary/30 to-sky-500/10 text-white border border-brand-primary/60 rounded-full text-xs font-bold mb-5 md:mb-6 select-none shadow-[0_0_15px_rgba(2,132,199,0.25)] hover:shadow-[0_0_25px_rgba(2,132,199,0.4)] transition-all duration-300">
+              <span className="relative flex h-2.5 w-2.5 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sky-400"></span>
               </span>
               <InlineEdit 
                 value={overlayText}
                 isEditable={isEditable}
                 onSave={(val) => onUpdateDraftField?.('heroOverlayText', val)}
-                className="font-bold text-[10px] sm:text-sm tracking-widest uppercase text-brand-primary"
+                className="font-black text-[10px] sm:text-xs tracking-wider uppercase text-sky-200"
                 element="span"
               />
             </div>
@@ -174,25 +180,25 @@ export default function Hero({
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="aspect-square bg-slate-900/60 rounded-[2rem] shadow-2xl overflow-hidden relative group border border-white/10">
+            <div className="aspect-square bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden relative group border border-white/10">
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={currentSlide}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.5 }}
-                  className="absolute inset-0"
+                   key={currentSlide}
+                   initial={{ opacity: 0, x: 20 }}
+                   animate={{ opacity: 1, x: 0 }}
+                   exit={{ opacity: 0, x: -20 }}
+                   transition={{ duration: 0.5 }}
+                   className="absolute inset-0"
                 >
-                  <div className="absolute inset-0 flex items-center justify-center z-10 transition-colors duration-500">
+                  <div className="absolute inset-0 flex items-center justify-center z-10 transition-colors duration-500 bg-slate-950/40">
                     <div className="flex flex-col items-center">
-                      <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg mb-4 text-brand-primary group-hover:scale-110 transition-transform">
-                        <CheckCircle2 size={40} />
+                      <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-4 text-brand-primary group-hover:scale-110 transition-transform">
+                        <CheckCircle2 size={36} />
                       </div>
-                      <p className="font-bold text-xl text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,1)] px-4 text-center">
+                      <p className="font-bold text-xl text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] px-4 text-center">
                         {slides[currentSlide].title}
                       </p>
-                      <p className="text-white font-semibold drop-shadow-[0_2px_12px_rgba(0,0,0,1)] px-4 text-center">
+                      <p className="text-white font-semibold drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)] px-4 text-center text-sm mt-1">
                         {slides[currentSlide].subtitle}
                       </p>
                     </div>
@@ -203,7 +209,7 @@ export default function Hero({
                     priority={true}
                     width={800}
                     height={800}
-                    className="w-full h-full object-cover opacity-50"
+                    className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
                   />
                 </motion.div>
               </AnimatePresence>

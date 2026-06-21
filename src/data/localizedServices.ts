@@ -5,6 +5,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
     {
       id: "e1",
       slug: "sua-dien",
+      order: 1,
       title: "Thợ Sửa Điện Bảo Lộc Đêm 24/7",
       shortDescription: "Khắc phục nhanh hư hỏng cơ điện gia đình, chập nổ tủ điện, hỏng bóng led ở Bảo Lộc Lâm Đồng.",
       fullDescription: `
@@ -126,6 +127,49 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       ]
     },
     {
+      id: "p3",
+      slug: "lap-may-bom",
+      order: 3,
+      title: "Lắp Bơm Tăng Áp Tại Bảo Lộc",
+      image: "/bom-ap.jpg",
+      shortDescription: "Dịch vụ lắp đặt máy bơm tăng áp lực nước chính hãng, khắc phục triệt để nước yếu cho vòi sen, máy giặt, nhà tắm tại Bảo Lộc.",
+      fullDescription: `
+        <h1>Dịch Vụ Lắp Bơm Tăng Áp Tại Bảo Lộc Uy Tín, Chuyên Nghiệp</h1>
+        <p>Hệ thống nước sinh hoạt của gia đình, homestay, hay quán cà phê của bạn tại Bảo Lộc đang gặp tình trạng yếu, vòi sen chảy rỉ rỉ, bình nóng lạnh không đủ áp lực hoặc máy giặt báo lỗi nguồn nước? Việc lắp đặt máy bơm tăng áp lực nước tự động, thông minh là giải pháp hoàn hảo và triệt để nhất.</p>
+        
+        <h2>Tại Sao Nên Lắp Bơm Tăng Áp Tại Thợ Nước Hoàng Tuấn?</h2>
+        <p>Thợ nước Hoàng Tuấn chuyên cung cấp và lắp đặt các dòng máy bơm tăng áp thông minh, vận hành siêu tĩnh âm, không gây tiếng ồn tạch tạch khó chịu trong đêm khuya:</p>
+        <ul>
+          <li><strong>Khảo sát & tư vấn miễn phí:</strong> Đo áp lực nước thực tế và tư vấn loại máy bơm có công suất (W) phù hợp với nhu cầu sử dụng thực tế của gia đình bạn.</li>
+          <li><strong>Sản phẩm chính hãng:</strong> Cung cấp máy bơm tăng áp Panasonic, Wilo, Hitachi, Hanil chính hãng, bảo hành dài hạn từ 12-24 tháng.</li>
+          <li><strong>Vận hành siêu tĩnh âm:</strong> Lắp đặt dòng bơm tăng áp điện tử hoặc bơm biến tần thông minh tự điều chỉnh áp lực, hoạt động êm ái lý tưởng cho không gian yên tĩnh tại Bảo Lộc.</li>
+          <li><strong>Thi công an toàn:</strong> Lắp đặt kèm rơ-le chống cạn, tủ điện hoặc CB (Aptomat) chống giật để đảm bảo an toàn tuyệt đối cho người dùng và thiết bị trong điều kiện độ ẩm cao.</li>
+        </ul>
+
+         <h2>Các Dịch Vụ Máy Bơm Chúng Tôi Cung Cấp:</h2>
+        <ul>
+          <li>Lắp đặt trọn gói máy bơm tăng áp bồn nước, tăng áp tầng áp mái, tăng áp riêng cho bình nóng lạnh, vòi sen, máy giặt.</li>
+          <li>Sửa chữa máy bơm tăng áp bị kêu tạch tạch liên tục, rò rỉ nước ở đầu máy hoặc rò rỉ điện ra vỏ.</li>
+          <li>Thay thế rơ-le cơ bằng rơ-le điện tử thông minh chống ồn hoàn toàn.</li>
+          <li>Xử lý sự cố máy bơm chạy liên tục không ngắt hoặc không hoạt động khi mở vòi nước.</li>
+        </ul>
+      `,
+      icon: "Wrench",
+      category: "plumbing",
+      features: [
+        "Bơm tăng áp điện tử siêu êm không ồn",
+        "Thương hiệu Panasonic, Wilo chính hãng",
+        "Tự động ngắt khi mất nước để bảo vệ máy",
+        "Lắp đặt kèm CB chống giật an toàn tuyệt đối"
+      ],
+      pricing: [
+        { item: "Lắp máy bơm tăng áp điện tử mới", price: "Từ 350.000đ", unit: "bộ" },
+        { item: "Lắp máy bơm biến tần thông minh", price: "Từ 500.000đ", unit: "bộ" },
+        { item: "Sửa máy bơm tăng áp, thay rơ-le", price: "Từ 150.000đ", unit: "máy" },
+        { item: "Lắp phao điện tự ngắt tự động", price: "Từ 250.000đ", unit: "bộ" }
+      ]
+    },
+    {
       id: "p2",
       slug: "sua-ro-ri-nuoc",
       title: "Sửa Rò Rỉ Nước Ngầm Sân Vườn Bảo Lộc",
@@ -140,23 +184,6 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       pricing: [
         { item: "Khắc phục bục ống nước cất lộ thiên", price: "Từ 150.000đ", unit: "điểm" },
         { item: "Gia cố dán keo ống chịu tải PPR dột ngầm", price: "Khảo sát cụ thể", unit: "điểm" }
-      ]
-    },
-    {
-      id: "p3",
-      slug: "lap-may-bom",
-      title: "Lắp & Sửa Máy Bơm Nước Giếng Đồi Bảo Lộc",
-      shortDescription: "Lắp đặt máy bơm đẩy bình chứa tầm dốc đèo, cân đẩy áp mạnh cho homestay quán cà phê Bảo Lộc.",
-      fullDescription: `
-        <h1>Dịch Vụ Lắp Đặt Sửa Máy Bơm Nước Đẩy Cao Ở Bảo Lộc Khỏe Sóng Xoáy</h1>
-        <p>Địa hình Bảo Lộc chênh tải dốc đèo khiến dòng nước đẩy cực yếu không cấp đủ bồn vệ sinh homestay sương mờ. Thợ nước lắp bơm tăng áp tự động điện tử vận hành siêu êm rít đẩy nước vượt dốc nhẹ nhàng.</p>
-      `,
-      icon: "Wrench",
-      category: "plumbing",
-      features: ["Bơm tăng áp thông minh chống ồn ào", "Máy bơm Panasonic nhập khẩu bền bỉ", "Mồi bảo dưỡng giếng đào mượt áp khỏe"],
-      pricing: [
-        { item: "Thi công lắp ráp máy bơm tăng áp mới", price: "Từ 300.000đ", unit: "bộ" },
-        { item: "Sửa mồi dòng van hút luồn lò xo giếng", price: "Từ 200.000đ", unit: "con" }
       ]
     },
     {
@@ -195,7 +222,9 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
     {
       id: "c1",
       slug: "lap-camera",
+      order: 2,
       title: "Lắp Đặt Hệ Thống Camera Bảo Lộc Trọn Gói",
+      image: "/images/camera-.png",
       shortDescription: "Giải pháp lắp đặt camera an ninh Bảo Lộc giám sát sương mù đồi trà dốc dốc rõ như ban ngày 24/24.",
       fullDescription: `
         <h1>Lắp Đặt Camera Bảo Lộc - Bảo Vệ Biệt Thự Sân Vườn Quán Cafe Bản Địa Chu Đáo</h1>
@@ -257,9 +286,29 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       ]
     },
     {
+      id: "c5",
+      slug: "camera-nang-luong-mat-troi",
+      order: 4,
+      title: "Lắp Camera Năng Lượng Mặt Trời Rẫy Vườn Bảo Lộc",
+      image: "/images/imou-ngoai-troi.jpg",
+      shortDescription: "Giải pháp giám sát rẫy sầu riêng, cà phê Bảo Lộc từ xa bằng pin mặt trời tự sạc, SIM 4G ổn định.",
+      fullDescription: `
+        <h1>Lắp Đặt Camera Năng Lượng Mặt Trời Bảo Lộc - Trông Coi Rẫy Cà Phê Sầu Riêng An Tâm</h1>
+        <p>Các khu vực nông trại dốc đồi, rẫy sầu riêng hay vườn bơ tại Bảo Lâm, Di Linh, Bảo Lộc thường xa nguồn lưới điện và mạng Internet dây. Dịch vụ Hoàng Tuấn lắp đặt camera năng lượng mặt trời tích hợp SIM 4G chuyên dụng với pin dung lượng cao, tự sạc đầy từ ánh sáng tự nhiên, giúp quý khách trông coi rẫy rừng bất kể nắng mưa sương mù.</p>
+      `,
+      icon: "Video",
+      category: "camera",
+      features: ["Tự cấp nguồn từ ánh nắng dốc đồi 365 ngày", "Tích hợp thẻ SIM 4G phát sóng mạnh mẽ từ xa", "Chống bụi chống sương bão sấm sét hoàn hảo IP67"],
+      pricing: [
+        { item: "Trọn bộ camera 4G Solar cao cấp", price: "Từ 2.450.000đ", unit: "bộ" },
+        { item: "Khảo sát dựng cột chống sét, đấu nối tận rẫy", price: "Khảo sát tận nơi", unit: "gói" }
+      ]
+    },
+    {
       id: "d1",
       slug: "do-ro-ri-nuoc",
       title: "Dò Tìm Rò Rỉ Nước Siêu Âm Bảo Lộc",
+      image: "/images/sieu-am-do-tim-ong-vo.png",
       shortDescription: "Siêu âm tìm ống nước vỡ ngầm dột thối đất đồi dốc Lâm Đồng chính xác từng vạch cát.",
       fullDescription: `
         <h1>Dò Tìm Rò Rỉ Nước Sạch Tại Bảo Lộc Bằng Sóng Siêu Âm Công Nghệ Đức</h1>
@@ -323,6 +372,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
     {
       id: "sm1",
       slug: "cong-tac-cua-cuon-thong-minh",
+      order: 5,
       title: "Công Tắc Cửa Cuốn Thông Minh Bảo Lộc",
       shortDescription: "Lắp đặt công tắc điều khiển cửa cuốn qua điện thoại thông minh, hẹn giờ đóng mở an toàn tại Bảo Lộc.",
       fullDescription: `
@@ -342,16 +392,16 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
         { item: "Bộ công tắc cảm ứng cửa cuốn thông minh", price: "Từ 850.000đ", unit: "bộ" },
         { item: "Dịch vụ lắp đặt đấu nối & hướng dẫn app", price: "Từ 200.000đ", unit: "bộ" }
       ],
-      image: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800",
+      image: "/images/cua-cuon-thong-minh.png",
       gallery: [
         {
           type: 'video',
           url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-          thumbnail: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800'
+          thumbnail: '/images/cua-cuon-thong-minh.png'
         },
         {
           type: 'image',
-          url: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800'
+          url: '/images/cua-cuon-thong-minh.png'
         }
       ]
     },
@@ -528,6 +578,23 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       ]
     },
     {
+      id: "p3",
+      slug: "lap-may-bom",
+      title: "Lắp Bơm Tăng Áp Cho Gia Đình Tại TP.HCM",
+      shortDescription: "Lắp máy bơm tăng áp bồn nước chung cư mini, vòi sen sủi bọt, thiết bị vệ sinh Sài Gòn.",
+      fullDescription: `
+        <h1>Tư Vấn Lắp Ráp Máy Bơm Tăng Áp Khỏe Áp Suất Nước TP.HCM</h1>
+        <p>Căn hộ chung cư mini hoặc phòng trọ ở Sài Sòn có áp suất nước rỉ rỉ không đủ chạy máy giặt, chảy bồn sen tắm rít? Hoàng Tuấn nhận lắp máy bơm tăng áp điện tử Panasonic, Wilo không phát tiếng ồn lớn, cấp nước dạt dào, vận hành êm ru trong đêm tối.</p>
+      `,
+      icon: "Wrench",
+      category: "plumbing",
+      features: ["Bơm tăng áp điện tử êm ái xả dạt dào", "Nhập khẩu chính gốc bảo trì tận nhà", "Lắp đặt CB chống giật rò nước"],
+      pricing: [
+        { item: "Ráp tủ điều bơm tăng áp tự động điện tử", price: "Từ 300.000đ", unit: "máy" },
+        { item: "Bảo dưỡng sửa máy bơm, rơ-le điện hcm", price: "Từ 200.000đ", unit: "bộ" }
+      ]
+    },
+    {
       id: "p2",
       slug: "sua-ro-ri-nuoc",
       title: "Sửa Rò Rỉ Nước Ngầm Nhà Phố Sài Gòn",
@@ -542,23 +609,6 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       pricing: [
         { item: "Xử lý bục vỡ rò ống nổi lộ thiên hcm", price: "Từ 150.000đ", unit: "điểm" },
         { item: "Keo gia cố ống âm dầm nền nhà vệ sinh", price: "Cụ thể khảo sát", unit: "vụ" }
-      ]
-    },
-    {
-      id: "p3",
-      slug: "lap-may-bom",
-      title: "Lắp Máy Bơm Nước Tăng Áp Êm TPHCM",
-      shortDescription: "Lắp máy bơm đẩy cao bồn nước chung cư mini, tăng áp vòi sen sủi bọt Sài Gòn.",
-      fullDescription: `
-        <h1>Tư Vấn Thiết Kế Lắp Ráp Máy Bơm Cấp Nước Đô Thị Khỏe Áp Khỏe Lực TP.HCM</h1>
-        <p>Căn hộ cao lửng quận 7 hoặc nhà trọ gò vấp áp suất nước rỉ rỉ không đủ chạy máy giặt chảy bồn tắm cực ức chế Sài Gòn. Ráp máy bơm tăng áp điện tử Panasonic không phát tiếng dế kêu sủi bọt nước dạt dào êm ru đêm tối Sài Gòn.</p>
-      `,
-      icon: "Wrench",
-      category: "plumbing",
-      features: ["Bơm tăng áp điện tử êm ái xả dạt dào", "Nhập khẩu chính gốc bảo trì tận nhà", "Bảo dưỡng rơ-le phao giếng giếng tổng rít"],
-      pricing: [
-        { item: "Ráp tủ điều bơm tăng áp tự động điện tử", price: "Từ 300.000đ", unit: "máy" },
-        { item: "Bảo dưỡng sửa chập phao điện cơ bồn tphcm", price: "Từ 200.000đ", unit: "bộ" }
       ]
     },
     {
@@ -597,7 +647,9 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
     {
       id: "c1",
       slug: "lap-camera",
+      order: 3,
       title: "Lắp Camera An Ninh TPHCM Góc Rộng Trọn Bộ",
+      image: "/images/camera-.png",
       shortDescription: "Nhận kéo cáp luồn luồn camera IP Dahua, Hikvision nét căng rọi biển số xe hẹp Sài Gòn.",
       fullDescription: `
         <h1>Lắp Đặt Camerra Giám Sát Chuyên Nghiệp Đầy Đủ Co Cq Đại Lý Cấp 1 Sài Gòn</h1>
@@ -659,9 +711,30 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       ]
     },
     {
+      id: "c5",
+      slug: "camera-nang-luong-mat-troi",
+      order: 4,
+      title: "Lắp Camera Năng Lượng Mặt Trời Dự Án TP.HCM",
+      image: "/images/imou-ngoai-troi.jpg",
+      shortDescription: "Giám sát công trình xây dựng, kho ngoại quan, bãi xe TP.HCM tự cấp nguồn pin mặt trời & SIM 4G.",
+      fullDescription: `
+        <h1>Lắp Đặt Camera Năng Lượng Mặt Trời TPHCM - Không Lo Mất Điện Thất Thoát Tài Sản</h1>
+        <p>Các bãi xe tạm thời, bãi cát, công trình cao ốc đang xây dựng dường như chưa kéo nguồn điện lưới an toàn hoặc thiếu hạ tầng wifi ổn định. Hoàng Tuấn cung cấp giải pháp ghép camera IP kèm tấm năng lượng Solar, sạc pin siêu tốc, ghi hình liên tục ban ngày ban đêm, truyền dữ liệu mượt mà qua sóng 4G tốc độ cao.</p>
+      `,
+      icon: "Video",
+      category: "camera",
+      features: ["Nguồn pin lưu trữ dung lượng lớn giám sát ban đêm 24/7", "SIM DATA 4G chuyên dụng mượt mà không trễ giật", "Mắt camera AI bám xoay cảnh báo trộm cướp đột nhập tức thì"],
+      pricing: [
+        { item: "Trọn bộ camera + pin Solar sạc nhanh tphcm", price: "Từ 2.450.000đ", unit: "bộ" },
+        { item: "Hỗ trợ dựng chân cột sắt lắp đặt công trình", price: "Báo giá khảo sát", unit: "lần" }
+      ]
+    },
+    {
       id: "d1",
       slug: "do-ro-ri-nuoc",
+      order: 1,
       title: "Dò Tìm Rò Rỉ Nước Siêu Âm TP.HCM",
+      image: "/images/sieu-am-do-tim-ong-vo.png",
       shortDescription: "Dịch vụ dò rò rỉ nước ngầm sụt lún nền móng chung cư, nhà phố Sài Gòn 24H.",
       fullDescription: `
         <h1>Dò Tìm Nước Thất Thoát Rò Rỉ Ngầm Ở TP.HCM Bằng Máy Siêu Âm Đức Siêu Nhạy</h1>
@@ -725,6 +798,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
     {
       id: "sm1",
       slug: "cong-tac-cua-cuon-thong-minh",
+      order: 1,
       title: "Công Tắc Cửa Cuốn Thông Minh Sài Gòn",
       shortDescription: "Lắp đặt bộ điều khiển đóng mở cửa cuốn qua điện thoại thông minh, an toàn tuyệt đối tại TPHCM.",
       fullDescription: `
@@ -744,16 +818,16 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
         { item: "Công tắc cửa cuốn thông minh Wi-Fi", price: "Từ 850.000đ", unit: "bộ" },
         { item: "Lắp đặt đấu bảng môtơ Ausdoor trọn gói hcm", price: "Từ 200.000đ", unit: "lần" }
       ],
-      image: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800",
+      image: "/images/cua-cuon-thong-minh.png",
       gallery: [
         {
           type: 'video',
           url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-          thumbnail: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800'
+          thumbnail: '/images/cua-cuon-thong-minh.png'
         },
         {
           type: 'image',
-          url: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800'
+          url: '/images/cua-cuon-thong-minh.png'
         }
       ]
     },

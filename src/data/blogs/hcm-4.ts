@@ -8,7 +8,7 @@ export const articleHcm4: CMSBlogPost & { seo?: any } = {
   category: 'Điện',
   date: '2026-06-04',
   author: { name: 'Kỹ Sư Phong', role: 'Chuyên Gia Điện Thông Minh Sài Gòn' },
-  image: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1200',
+  image: '/images/cua-cuon-thong-minh.png',
   readTime: '42 phút đọc',
   tags: ['Cửa cuốn thông minh Hunonic', 'Công tắc cửa cuốn thông minh HCM', 'Nhà thông minh Sài Gòn', 'Thi công điện thông minh'],
   seo: {

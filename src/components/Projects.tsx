@@ -19,7 +19,7 @@ const DEFAULT_PROJECTS: CMSProject[] = [
     slug: 'sua-dien-biet-thu-dalat',
     title: 'Thi công hệ thống điện thông minh Biệt thự Đà Lạt',
     description: 'Dự án cải tạo toàn bộ hệ thống điện cũ sang hệ thống Smarthome MPE hiện đại cho biệt thự cổ tại Đà Lạt. Chúng tôi đã xử lý hơn 500m dây dẫn âm tường chằng chịt, thay thế bằng tủ điện thông minh điều khiển qua điện thoại. Nội dung dự án bao gồm việc khảo sát kỹ lưỡng các vị trí rò rỉ điện tiềm ẩn, lắp đặt hệ thống đèn LED cảm biến chuyển động tại hành lang và sân vườn, giúp tiết kiệm 30% điện năng hàng tháng cho gia chủ.',
-    image: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800',
+    image: '/images/cua-cuon-thong-minh.png',
     category: 'Điện thông minh',
     location: 'Đà Lạt, Lâm Đồng',
     completionDate: '20/05/2026'
@@ -29,7 +29,7 @@ const DEFAULT_PROJECTS: CMSProject[] = [
     slug: 'do-tim-ro-ri-nhatrang',
     title: 'Dò tìm rò rỉ nước ngầm căn hộ cao cấp',
     description: 'Sử dụng công nghệ siêu âm tiên tiến nhất để xác định vị trí rò rỉ nước tại đường ống âm sàn của căn hộ tầng 15. Trước đó khách hàng đã gọi nhiều đơn vị nhưng không tìm ra vị trí chính xác dẫn đến phải đục phá diện rộng. Với thiết bị rà quét chuyên dụng của Hoàng Tuấn MPE, chúng tôi đã định vị chính xác điểm vỡ chỉ trong 45 phút, giúp giảm thiểu chi phí sửa chữa và khôi phục hiện trạng ban đầu cho khách hàng một cách nhanh chóng nhất.',
-    image: 'https://images.unsplash.com/photo-1504148455328-c39695b8a592?auto=format&fit=crop&q=80&w=800',
+    image: '/images/sieuam.png',
     category: 'Siêu âm dò tìm',
     location: 'Quận 1, TP.HCM',
     completionDate: '12/04/2026'
@@ -53,6 +53,16 @@ const DEFAULT_PROJECTS: CMSProject[] = [
     category: 'Bảo trì trọn gói',
     location: 'Quận 3, TP.HCM',
     completionDate: '15/02/2026'
+  },
+  {
+    id: '5',
+    slug: 'lap-dat-camera-vuon-ray',
+    title: 'Lắp đặt Camera an ninh giám sát vườn sấy & sầu riêng',
+    description: 'Triển khai hệ thống camera Wifi năng lượng mặt trời xoay 360 độ và camera 4G ngoài trời bền bỉ. Đáp ứng nhu cầu bảo vệ thành quả thu hoạch vườn rẫy, cảnh báo kẻ đột nhập lạ bằng còi hú và thông báo nhanh nhạy đến điện thoại gia chủ ngay cả khi không có lưới điện hay Wifi thông thường kéo ra vườn rộng.',
+    image: '/images/imou-ngoai-troi.jpg',
+    category: 'Camera & An ninh',
+    location: 'Đại Lào, Bảo Lộc',
+    completionDate: '20/05/2026'
   }
 ];
 
@@ -134,7 +144,7 @@ const ProjectItem = ({ project, index }: { project: CMSProject; index: number })
 
           <a
             href={`/du-an/${project.slug}`}
-            className="inline-flex items-center gap-2 px-7 py-3.5 bg-white border border-slate-200 rounded-2xl text-sm font-bold text-brand-secondary hover:border-brand-primary hover:text-brand-primary transition-all"
+            className="inline-flex items-center gap-2 px-3.5 py-3.5 bg-white border border-slate-200 rounded-2xl text-sm font-bold text-brand-secondary hover:border-brand-primary hover:text-brand-primary transition-all"
           >
             Chi tiết dự án <ArrowRight size={18} />
           </a>

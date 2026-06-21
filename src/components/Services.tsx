@@ -1,16 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Zap, Droplet, Video, Search, Cpu } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getServices, getServicesSync, getHomepageContent, getHomepageContentSync, getIconComponent, CMSService, CMSHomepage } from '../lib/sanity';
+import { getHomepageContent, getHomepageContentSync, CMSHomepage } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
 import InlineEdit from './InlineEdit';
+import cardBackgroundImg from '../assets/images/anh-dich-vu-dien.jpeg';
+import '../styles/service-card.css';
+
+const CATEGORY_ITEMS = [
+  {
+    id: 'electrical',
+    title: 'Hệ Thống Điện Dân Dụng',
+    description: 'Xử lý chập điện nhảy aptomat, thi công điện âm tường gia đình, văn phòng an toàn, thẩm mỹ cao.',
+    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800',
+    icon: Zap
+  },
+  {
+    id: 'plumbing',
+    title: 'Hệ Thống Nước Dân Dụng',
+    description: 'Tìm và khắc phục sự cố rò rỉ bồn cầu, vòi sen, dột tường, lắp máy bơm tăng áp giúp dòng nước khỏe tức thì.',
+    image: '/bom-ap.jpg',
+    icon: Droplet
+  },
+  {
+    id: 'camera',
+    title: 'Lắp Đặt Camera An Ninh',
+    description: 'Tư vấn lắp đặt hệ thống lắp camera an ninh trọn gói, camera Solar năng lượng mặt trời 4G cho sân vườn nhà rẫy Bảo Lộc.',
+    image: '/images/camera-.png',
+    icon: Video
+  },
+  {
+    id: 'detection',
+    title: 'Dò Tìm Rò Rỉ Nước Siêu Âm',
+    description: 'Sử dụng máy siêu âm PQWT công nghệ Đức siêu nhạy định vị chuẩn xác điểm vỡ ống nước ngầm không đập phá nền móng.',
+    image: '/images/sieu-am-do-tim-ong-vo.png',
+    icon: Search
+  },
+  {
+    id: 'smarthome',
+    title: 'Nhà Thông Minh & Thiết Bị Smarthome',
+    description: 'Lắp đặt công tắc cửa cuốn thông minh Hunonic, điều khiển từ xa qua điện thoại, thiết bị Smarthome tăng tiện ích sống.',
+    image: '/images/cua-cuon-thong-minh.png',
+    icon: Cpu
+  }
+];
 
 export default function Services({ 
   cmsData,
   isEditable = false,
-  onUpdateDraftField,
-  onUpdateServiceField
+  onUpdateDraftField
 }: { 
   cmsData?: any;
   isEditable?: boolean;
@@ -19,65 +58,25 @@ export default function Services({
 }) {
   const { locationSlug } = useLocation();
   const navigate = useNavigate();
-  const [services, setServices] = useState<CMSService[]>(() => getServicesSync(locationSlug));
   const [homepageContent, setHomepageContent] = useState<CMSHomepage>(() => getHomepageContentSync(locationSlug));
-  const [showAll, setShowAll] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
-    setLoading(true);
-    setServices(getServicesSync(locationSlug));
     setHomepageContent(getHomepageContentSync(locationSlug));
 
-    Promise.all([
-      getServices(locationSlug),
-      getHomepageContent(locationSlug)
-    ]).then(([serviceData, homeData]) => {
+    getHomepageContent(locationSlug).then((homeData) => {
       if (active) {
-        setServices(serviceData);
         setHomepageContent(homeData);
-        setLoading(false);
       }
-    }).catch(() => {
-      if (active) setLoading(false);
-    });
+    }).catch(() => {});
 
     return () => {
       active = false;
     };
   }, [locationSlug]);
 
-  const activeServices = cmsData?.services || services;
-  const sortedServices = [...activeServices].sort((a, b) => {
-    // Ưu tiên 1: Số thứ tự (order) được thiết lập thủ công trong CMS (số càng nhỏ càng lên đầu)
-    const aOrder = typeof a.order === 'number' ? a.order : 9999;
-    const bOrder = typeof b.order === 'number' ? b.order : 9999;
-    
-    if (aOrder !== bOrder) return aOrder - bOrder;
-    
-    // Ưu tiên 2: Dịch vụ được ghim (isPinned)
-    const aPinned = a.isPinned ? 1 : 0;
-    const bPinned = b.isPinned ? 1 : 0;
-    
-    return bPinned - aPinned; // Ghim = 1 sẽ đứng trước Không ghim = 0
-  });
-  const displayedServices = showAll ? sortedServices : sortedServices.slice(0, 6);
   const servicesHeading = cmsData?.servicesHeading !== undefined ? cmsData.servicesHeading : (cmsData?.heading || homepageContent.servicesHeading || "Dịch Vụ Của Chúng Tôi");
   const servicesSubtitle = cmsData?.servicesSubtitle !== undefined ? cmsData.servicesSubtitle : (cmsData?.subheading || homepageContent.servicesSubtitle || "Giải Pháp Toàn Diện Cho Gia Đình");
-
-  const ServiceSkeleton = () => (
-    <div className="animate-pulse p-8 rounded-2xl bg-white border border-slate-100 shadow-xl flex flex-col h-full">
-      <div className="w-14 h-14 bg-slate-200 rounded-xl mb-6" />
-      <div className="h-6 bg-slate-200 rounded w-2/3 mb-4" />
-      <div className="space-y-3 mb-8">
-        <div className="h-4 bg-slate-200 rounded w-full" />
-        <div className="h-4 bg-slate-200 rounded w-11/12" />
-        <div className="h-4 bg-slate-200 rounded w-4/5" />
-      </div>
-      <div className="h-5 bg-slate-200 rounded w-1/4 mt-auto" />
-    </div>
-  );
 
   return (
     <section id="services" className="section-container bg-white">
@@ -103,80 +102,70 @@ export default function Services({
         </div>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {CATEGORY_ITEMS.map((item, index) => {
+          const IconComponent = item.icon;
+          return (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: Math.min((index % 3) * 0.05, 0.15), duration: 0.3 }}
+              whileHover={!isEditable ? { y: -8 } : undefined}
+              onClick={(e) => {
+                if (isEditable) return;
+                if ((e.target as HTMLElement).tagName === 'A' || (e.target as HTMLElement).tagName === 'BUTTON') return;
+                const targetUrl = `/${locationSlug}/dich-vu#${item.id}`;
+                navigate(targetUrl);
+              }}
+              className={`service-card p-5 sm:p-8 rounded-2xl bg-slate-900 flex flex-col h-full relative overflow-hidden ${!isEditable ? 'cursor-pointer' : ''}`}
+            >
+              <>
+                <div 
+                  className="service-overlay-bg"
+                  style={{ backgroundImage: `url(${item.image || cardBackgroundImg})` }}
+                />
+                <div className="service-gradient-overlay" />
+              </>
 
-      {activeServices.length === 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Array.from({ length: 6 }).map((_, idx) => (
-            <ServiceSkeleton key={idx} />
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayedServices.map((service, index) => {
-            const IconComponent = getIconComponent(service.icon);
-            return (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: Math.min((index % 3) * 0.05, 0.15), duration: 0.3 }}
-                onClick={(e) => {
-                  if (isEditable) return;
-                  // If they clicked an inline edit field or link, let it handle itself
-                  if ((e.target as HTMLElement).tagName === 'A' || (e.target as HTMLElement).tagName === 'BUTTON') return;
-                  const targetUrl = `/${locationSlug}/dich-vu/${service.slug}`;
-                  console.log('Navigation target:', targetUrl);
-                  navigate(targetUrl);
-                }}
-                className={`group p-5 sm:p-8 rounded-2xl bg-white border border-slate-100 shadow-xl shadow-slate-100 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all hover:-translate-y-2 flex flex-col h-full ${!isEditable ? 'cursor-pointer' : ''}`}
-              >
-                <div className="w-14 h-14 bg-brand-primary/10 text-brand-primary rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:text-white transition-colors">
+              <div className="service-content flex flex-col h-full text-white">
+                <div className="service-icon-wrapper flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center mb-5 text-white">
                   <IconComponent size={28} />
                 </div>
                 
-                <InlineEdit 
-                  value={service.title}
-                  isEditable={isEditable}
-                  onSave={(val) => onUpdateServiceField?.(service.id, 'title', val)}
-                  className="text-xl font-bold text-brand-secondary mb-3 block"
-                  element="h4"
-                />
+                <div className="flex-1 min-h-[30px]" />
 
-                <InlineEdit 
-                  value={service.shortDescription || ''}
-                  isEditable={isEditable}
-                  onSave={(val) => onUpdateServiceField?.(service.id, 'shortDescription', val)}
-                  className="text-slate-600 mb-6 line-clamp-3 block"
-                  element="p"
-                  multiline={true}
-                />
+                <h4 className="service-title text-xl font-bold mb-3 block text-white">
+                  {item.title}
+                </h4>
+
+                <p className="service-description mb-6 line-clamp-3 block text-slate-300">
+                  {item.description}
+                </p>
                 
                 <Link 
-                  to={`/${locationSlug}/dich-vu/${service.slug}`}
-                  onClick={() => console.log('Navigation target:', `/${locationSlug}/dich-vu/${service.slug}`)}
-                  className="flex items-center gap-2 font-bold text-brand-primary group-hover:gap-3 transition-all mt-auto"
+                  to={`/${locationSlug}/dich-vu#${item.id}`}
+                  className="service-link flex items-center font-bold mt-auto"
                 >
                   Xem chi tiết
                   <ArrowRight size={18} />
                 </Link>
-              </motion.div>
-            );
-          })}
-        </div>
-      )}
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
 
-      {!showAll && activeServices.length > 6 && (
-        <div className="mt-12 text-center">
-          <button 
-            onClick={() => setShowAll(true)}
-            className="inline-flex items-center gap-2 bg-brand-secondary text-white px-6 py-4 md:px-8 md:py-4 rounded-full font-bold text-lg shadow-xl hover:bg-brand-primary hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-          >
-            Xem tất cả dịch vụ
-            <ArrowRight size={20} />
-          </button>
-        </div>
-      )}
+      <div className="mt-12 text-center">
+        <Link 
+          to={`/${locationSlug}/dich-vu`}
+          className="inline-flex items-center gap-2 bg-brand-secondary text-white px-6 py-4 md:px-8 md:py-4 rounded-full font-bold text-lg shadow-xl hover:bg-brand-primary hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer text-decoration-none"
+        >
+          Xem tất cả dịch vụ
+          <ArrowRight size={20} />
+        </Link>
+      </div>
     </section>
   );
 }
