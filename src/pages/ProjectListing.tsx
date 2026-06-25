@@ -38,7 +38,7 @@ export default function ProjectListing() {
       <PageSEO pageType="general" />
 
       {/* Hero Banner Section */}
-      <section className="bg-white border-b border-slate-100 py-10 md:py-16 lg:py-20 relative overflow-hidden">
+      <section className="bg-white border-b border-slate-100 py-10 md:py-12 lg:py-14 relative overflow-hidden">
         {/* Decorative Grid Accent */}
         <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-50 pointer-events-none" />
 
@@ -66,7 +66,7 @@ export default function ProjectListing() {
       </section>
 
       {/* Content Section */}
-      <section className="py-10 md:py-16 lg:py-20">
+      <section className="py-10 md:py-12 lg:py-14">
         <div className="max-w-7xl mx-auto px-6">
           
           {/* Controls Bar */}

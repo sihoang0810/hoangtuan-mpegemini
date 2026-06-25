@@ -85,7 +85,7 @@ export default function Hero({
       className="relative pt-20 pb-16 sm:pt-24 sm:pb-20 md:pt-28 md:pb-24 lg:pt-32 lg:pb-28 bg-slate-950 text-white min-h-[85vh] flex items-center z-10 !bg-cover !bg-center !bg-no-repeat"
       style={{ 
         textShadow: '0 2px 8px rgba(0,0,0,0.35)',
-        backgroundImage: `url(${realHeroRepairImg})`
+        backgroundImage: `url('/images/imou-ngoai-troi2.jpg')`
       }}
     >
       {/* Background Gradients - elegantly dimmed for text readability */}
@@ -132,7 +132,7 @@ export default function Hero({
               value={heroSubtitle}
               isEditable={isEditable}
               onSave={(val) => onUpdateDraftField?.('heroSubtitle', val)}
-              className="text-base sm:text-lg text-slate-300 mb-8 md:mb-10 max-w-lg leading-relaxed block text-balance md:text-left drop-shadow-sm"
+              className="text-base sm:text-lg text-white mb-8 md:mb-10 max-w-lg leading-relaxed block text-balance md:text-left drop-shadow-sm"
               element="p"
               multiline={true}
             />

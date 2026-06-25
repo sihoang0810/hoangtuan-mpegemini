@@ -160,7 +160,7 @@ export default function Projects({ cmsData }: ProjectsProps) {
   const subtitle = cmsData?.subtitle || "Hoàng Tuấn MPE tự hào mang đến những giải pháp thi công bền vững, thẩm mỹ và an toàn cho mọi công trình.";
 
   return (
-    <section className="py-10 md:py-16 lg:py-20 bg-slate-50 overflow-hidden" id="section-projects">
+    <section className="py-10 md:py-12 lg:py-14 bg-slate-50 overflow-hidden" id="section-projects">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20 space-y-4">
           <motion.span 

@@ -104,7 +104,7 @@ const ServiceDetailTemplate = () => {
       <PageSEO pageType="service" data={service} />
       
       {/* Hero Section */}
-      <section className="relative py-8 md:py-16 bg-white overflow-hidden">
+      <section className="relative py-10 md:py-12 lg:py-14 bg-white overflow-hidden">
         <div className="section-container !py-0 grid lg:grid-cols-2 gap-10 md:gap-12 lg:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -175,7 +175,7 @@ const ServiceDetailTemplate = () => {
       </section>
 
       {/* Pricing and Details */}
-      <section className="py-12 md:py-20 bg-slate-50 overflow-hidden">
+      <section className="py-10 md:py-12 lg:py-14 bg-slate-50 overflow-hidden">
         <div className="section-container !py-0">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-12 lg:gap-16">
             {/* Left Content */}

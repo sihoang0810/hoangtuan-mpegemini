@@ -79,8 +79,8 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
   const siteLocationPrefix = '/' + locationSlug;
 
   return (
-    <section id={category.id} className="py-10 border-b border-slate-100 last:border-0 scroll-mt-24">
-      <div className="section-container">
+    <section id={category.id} className="py-5 border-b border-slate-100 last:border-0 scroll-mt-24">
+      <div className="section-container !py-5 md:!py-8 lg:!py-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-6">
           <div className="max-w-2xl text-left">
             <div className="flex items-center gap-3 text-brand-primary mb-4 justify-start">
@@ -421,14 +421,14 @@ export default function ServicesPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-10 md:py-16 overflow-hidden bg-brand-secondary">
+      <section className="relative overflow-hidden bg-brand-secondary">
         {/* Background Patterns */}
         <div className="hidden md:block absolute inset-0 opacity-10 pointer-events-none">
           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-primary rounded-full blur-[100px] -mr-64 -mt-64" />
           <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-brand-accent rounded-full blur-[80px] -ml-40 -mb-40" />
         </div>
         
-        <div className="section-container relative z-10">
+        <div className="section-container !py-10 md:!py-16 lg:!py-20 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -499,13 +499,13 @@ export default function ServicesPage() {
 
 
       {/* Equipment Showcase (Special for Detection Category) */}
-      <section className="py-10 bg-slate-950 text-white relative overflow-hidden">
+      <section className="py-5 bg-slate-950 text-white relative overflow-hidden">
         <div className="hidden md:block absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute top-0 right-1/4 w-[300px] h-[300px] bg-brand-primary rounded-full blur-[100px]" />
           <div className="absolute bottom-0 left-1/4 w-[200px] h-[200px] bg-brand-accent rounded-full blur-[80px]" />
         </div>
         
-        <div className="section-container relative z-10">
+        <div className="section-container !py-5 md:!py-8 lg:!py-10 relative z-10">
           <div className="text-center mb-10 md:mb-16">
             <p className="text-brand-primary font-bold tracking-widest uppercase mb-4 text-xs">Trang Thiết Bị</p>
             <h2 className="font-bold uppercase text-white">Thiết Bị Dò Tìm Hiện Đại Nhất</h2>

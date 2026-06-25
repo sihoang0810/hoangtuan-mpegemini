@@ -79,11 +79,11 @@ export default function ProductListing() {
       <PageSEO pageType="general" />
 
       {/* Hero Section */}
-      <section className="bg-slate-900 pb-12 md:pb-20 relative overflow-hidden">
+      <section className="bg-slate-900 pb-10 md:pb-14 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-primary/10 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 left-0 w-1/4 h-full bg-brand-primary/5 blur-[100px] rounded-full -translate-x-1/2 translate-y-1/2" />
         
-        <div className="max-w-7xl mx-auto px-4 relative z-10 py-10 md:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 relative z-10 py-10 md:py-12 lg:py-14">
           <div className="max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -292,9 +292,9 @@ export default function ProductListing() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-12 md:py-20 bg-white">
+      <section className="py-10 md:py-12 lg:py-14 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-brand-primary/5 rounded-3xl md:rounded-[3rem] p-12 md:p-20 text-center">
+          <div className="bg-brand-primary/5 rounded-3xl md:rounded-[3rem] p-10 md:p-14 text-center">
             <h2 className="font-bold text-brand-secondary mb-8 uppercase tracking-tight">
               Tại Sao Nên Mua Thiết Bị <br />
               Tại <span className="text-brand-primary">Hoàng Tuấn MPE?</span>

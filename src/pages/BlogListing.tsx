@@ -46,7 +46,7 @@ export default function BlogListing() {
     <div id="blog" className="pt-20">
       <PageSEO pageType="general" />
 
-      <section className="bg-white py-10 md:py-16 lg:py-20">
+      <section className="bg-white py-10 md:py-12 lg:py-14">
         <div className="section-container">
           <div className="max-w-3xl mb-10 md:mb-16">
             <motion.div

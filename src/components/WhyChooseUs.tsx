@@ -15,7 +15,7 @@ export default function WhyChooseUs({
   const subheading = cmsData?.whyChooseUsSubtitle !== undefined ? cmsData.whyChooseUsSubtitle : (cmsData?.subheading || "Dịch Vụ Uy Tín, Chất Lượng Hàng Đầu");
 
   return (
-    <section className="py-10 md:py-16 lg:py-20 bg-slate-50 w-full overflow-hidden">
+    <section className="py-10 md:py-12 lg:py-14 bg-slate-50 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center">
         <div>

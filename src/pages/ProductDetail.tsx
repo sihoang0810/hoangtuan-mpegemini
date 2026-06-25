@@ -185,7 +185,7 @@ export default function ProductDetail() {
       </section>
 
       {/* Product Details Tabs / Content */}
-      <section className="py-10 md:py-16 lg:py-20 bg-slate-50">
+      <section className="py-10 md:py-12 lg:py-14 bg-slate-50">
         <div className="section-container">
           <div className="grid lg:grid-cols-3 gap-6 md:gap-12 lg:gap-16">
             <div className="lg:col-span-2 space-y-12">

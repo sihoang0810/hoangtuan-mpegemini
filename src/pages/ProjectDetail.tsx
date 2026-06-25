@@ -53,7 +53,7 @@ export default function ProjectDetail() {
       <PageSEO pageType="project" data={project} />
 
       {/* Hero Header Section */}
-      <section className="bg-brand-secondary text-white py-10 md:py-16 lg:py-20 relative overflow-hidden">
+      <section className="bg-brand-secondary text-white py-10 md:py-12 lg:py-14 relative overflow-hidden">
         {/* Subtle decorative vector backdrop */}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 to-transparent" />

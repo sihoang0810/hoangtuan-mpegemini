@@ -91,7 +91,7 @@ export default function BlogDetail() {
     <div className="pt-20">
       <PageSEO pageType="article" data={post} />
       
-      <section className="bg-white py-12 md:py-20">
+      <section className="bg-white py-10 md:py-12 lg:py-14">
         <div className="section-container grid lg:grid-cols-12 gap-6 md:gap-12 lg:gap-16">
           {/* Main Content */}
           <article className="lg:col-span-8">
@@ -249,7 +249,7 @@ export default function BlogDetail() {
 
       {/* Related Posts */}
       {relatedPosts.length > 0 && (
-        <section className="py-12 md:py-20 bg-slate-50">
+        <section className="py-10 md:py-12 lg:py-14 bg-slate-50">
           <div className="section-container">
             <h2 className="font-bold text-brand-secondary mb-12 uppercase tracking-tighter">
               Bài viết <span className="text-brand-primary">liên quan</span>
