@@ -1,15 +1,15 @@
-import { Wrench, Zap, Droplets, Camera, Search } from 'lucide-react';
+import { Wrench, Zap, Droplets, Camera, Search, Sun, Hammer } from 'lucide-react';
 
 export interface Product {
   id: string;
   slug: string;
   name: string;
-  category: 'electrical' | 'plumbing' | 'camera' | 'leak-detection' | 'detection';
+  category: 'electrical' | 'plumbing' | 'camera' | 'leak-detection' | 'detection' | 'solar' | 'construction';
   description: string;
   price: string;
   image: string;
   features?: string[];
-  specs?: { [key: string]: string };
+  specs?: { [key: string]: string } | string;
 }
 
 export const PRODUCT_CATEGORIES = [
@@ -24,6 +24,18 @@ export const PRODUCT_CATEGORIES = [
     title: 'Nước dân dụng', 
     icon: Droplets,
     description: 'Ống dẫn nước, máy bơm và thiết bị vệ sinh cao cấp cho gia đình.'
+  },
+  { 
+    id: 'construction', 
+    title: 'Thi công trọn gói', 
+    icon: Hammer,
+    description: 'Vật tư thi công cơ điện nước trọn gói cho công trình nhà phố, biệt thự.'
+  },
+  { 
+    id: 'solar', 
+    title: 'Đèn năng lượng', 
+    icon: Sun,
+    description: 'Đèn pha LED, đèn đường năng lượng mặt trời thông minh tự sạc siêu sáng.'
   },
   { 
     id: 'camera', 
@@ -131,5 +143,40 @@ export const PRODUCTS: Product[] = [
     image: 'https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=800',
     features: ['Độ chính xác cao', 'Màn hình hiển thị sóng âm', 'Công nghệ Nhật Bản'],
     specs: { 'Loại': 'Siêu âm đa kênh', 'Dải tần': '1-10000Hz', 'Độ sâu tối đa': '2m' }
+  },
+  // ĐÈN NĂNG LƯỢNG MẶT TRỜI
+  {
+    id: 'p9',
+    slug: 'den-pha-led-nang-luong-mat-troi-jidian-200w',
+    name: 'Đèn pha LED năng lượng mặt trời Jidian 200W',
+    category: 'solar',
+    description: 'Đèn pha LED năng lượng mặt trời siêu sáng, tự sạc thông minh, chống nước tiêu chuẩn IP67 chịu mưa nắng cực tốt.',
+    price: '750.000đ',
+    image: 'https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&q=80&w=800',
+    features: ['Chống nước tuyệt đối IP67', 'Tự động bật khi tối và sạc khi sáng', 'Remote điều khiển khoảng cách 10m'],
+    specs: { 'Thương hiệu': 'Jidian', 'Công suất': '200W', 'Dung lượng pin': '24.000mAh', 'Thời gian chiếu sáng': '12 - 15 giờ' }
+  },
+  {
+    id: 'p10',
+    slug: 'den-duong-nang-luong-mat-troi-chiec-la-300w',
+    name: 'Đèn đường năng lượng mặt trời chiếc lá 300W',
+    category: 'solar',
+    description: 'Thiết kế hình chiếc lá tối ưu góc chiếu sáng, sử dụng chip LED cao cấp và cảm biến chuyển động thông minh.',
+    price: '1.150.000đ',
+    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=800',
+    features: ['Cảm biến chuyển động hồng ngoại', 'Vỏ nhôm đúc nguyên khối tản nhiệt cực tốt', 'Lắp đặt dễ dàng không cần đi dây điện'],
+    specs: { 'Thương hiệu': 'Solar Light', 'Công suất': '300W', 'Chất liệu': 'Nhôm đúc', 'Chuẩn chống nước': 'IP66' }
+  },
+  // THI CÔNG TRỌN GÓI
+  {
+    id: 'p11',
+    slug: 'goi-thi-cong-dien-nuoc-nha-pho-tron-goi',
+    name: 'Thi công điện nước nhà phố trọn gói (Vật tư + Nhân công)',
+    category: 'construction',
+    description: 'Dịch vụ thi công lắp đặt trọn gói hệ thống điện nước, điện nhẹ chuẩn kỹ thuật cho công trình nhà phố từ phần thô đến hoàn thiện.',
+    price: 'Từ 120.000đ/m2',
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800',
+    features: ['Đội ngũ kỹ sư, thợ lành nghề', 'Thi công cam kết đúng tiến độ', 'Bảo hành hệ thống lên đến 24 tháng'],
+    specs: { 'Gói thi công': 'Nhà phố / Biệt thự', 'Phạm vi': 'Toàn tỉnh Lâm Đồng & TP.HCM', 'Bảo hành': '24 tháng kể từ ngày bàn giao' }
   }
 ];

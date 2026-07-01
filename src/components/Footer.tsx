@@ -59,108 +59,104 @@ export default function Footer() {
     .replace(/Công ty TNHH/gi, 'Hoàng Tuấn MPE')
     .replace(/Công ty/gi, 'Hoàng Tuấn MPE');
 
-  const quickLinks = [
-    { name: 'Trang chủ', href: `${siteLocationPrefix}` },
-    { name: 'Dịch vụ', href: `${siteLocationPrefix}/dich-vu` },
-    { name: 'Bảng giá', href: `${siteLocationPrefix}/bang-gia` },
-    { name: 'Sản phẩm', href: `${siteLocationPrefix}/san-pham` },
-    { name: 'Blog', href: `${siteLocationPrefix}/blog` },
-    { name: 'Liên hệ', href: `${siteLocationPrefix}/lien-he` },
-  ];
-
-  const serviceLinks = [
-    { name: 'Sửa điện', href: `${siteLocationPrefix}/dich-vu/sua-dien` },
-    { name: 'Sửa chập điện', href: `${siteLocationPrefix}/dich-vu/sua-chap-dien` },
-    { name: 'Sửa máy bơm nước', href: `${siteLocationPrefix}/dich-vu/lap-may-bom` },
-    { name: 'Sửa rò rỉ nước', href: `${siteLocationPrefix}/dich-vu/sua-ro-ri-nuoc` },
-    { name: 'Siêu âm đường ống', href: `${siteLocationPrefix}/dich-vu/sieu-am-do-ong-am` },
-    { name: 'Lắp camera', href: `${siteLocationPrefix}/dich-vu/lap-camera` },
-  ];
-
   return (
     <footer className="bg-slate-900 text-slate-300 pt-16 md:pt-20 pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12 lg:gap-16 mb-16">
-          {/* Company Info */}
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 mb-16">
+          {/* Company Info - Takes up more space */}
+          <div className="lg:col-span-5 space-y-6">
             <div className="flex items-center gap-2 group cursor-pointer inline-flex w-auto">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-white shadow-md shadow-brand-primary/10 overflow-hidden shrink-0 group-hover:scale-105 transition-transform duration-300 pointer-events-none">
-                <img src={logoUrl} alt="Hoàng Tuấn Logo" className="w-full h-full object-cover mix-blend-multiply" />
+              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-white shadow-md shadow-brand-primary/10 overflow-hidden shrink-0 group-hover:scale-105 transition-transform duration-300 pointer-events-none">
+                <img src={logoUrl} alt="Hoàng Tuấn Logo - Sửa chữa điện nước" className="w-full h-full object-cover mix-blend-multiply" />
               </div>
-              <span className="font-bold text-xl text-white uppercase tracking-tight group-hover:text-brand-primary transition-colors">{companyName}</span>
+              <span className="font-bold text-2xl text-white uppercase tracking-tight group-hover:text-brand-primary transition-colors">{companyName}</span>
             </div>
-            <p className="text-slate-500 leading-relaxed text-sm font-medium">
+            <p className="text-slate-400 leading-relaxed text-sm font-medium">
               {shortAbout}
             </p>
-            <div className="flex gap-4">
-              <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all">
-                <Facebook size={18} />
-              </a>
-              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all">
-                <Youtube size={18} />
-              </a>
-              <a href={zaloUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all">
-                <ZaloIcon size={18} />
-              </a>
-              <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all" title="TikTok">
-                <TikTokIcon size={18} />
-              </a>
+            <div className="pt-2">
+              <h4 className="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Kết nối với chúng tôi</h4>
+              <div className="flex gap-4">
+                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all shadow-sm">
+                  <Facebook size={18} />
+                </a>
+                <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all shadow-sm">
+                  <Youtube size={18} />
+                </a>
+                <a href={zaloUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all shadow-sm">
+                  <ZaloIcon size={18} />
+                </a>
+                <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary hover:text-white transition-all shadow-sm" title="TikTok">
+                  <TikTokIcon size={18} />
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-white font-bold text-lg mb-8 uppercase tracking-wider">Liên Kết</h4>
-            <ul className="space-y-4">
-              {quickLinks.map((item) => (
-                <li key={item.name}>
-                  <Link 
-                    to={item.href} 
-                    onClick={() => console.log('Navigation target:', item.href)}
-                    className="hover:text-brand-primary transition-colors flex items-center gap-2"
-                  >
-                    <span className="w-1 h-1 bg-brand-primary rounded-full" />
-                    {item.name}
-                  </Link>
+          {/* SEO Content & Business Hours */}
+          <div className="lg:col-span-4 space-y-6">
+            <div>
+              <h4 className="text-white font-bold text-lg mb-6 uppercase tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 bg-brand-primary rounded-full"></span>
+                Khu Vực Phục Vụ
+              </h4>
+              <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                Chuyên cung cấp dịch vụ <strong>sửa chữa điện nước</strong>, <strong>lắp đặt camera</strong>, và <strong>xử lý sự cố điện nước khẩn cấp</strong> tại TP. Hồ Chí Minh và Bảo Lộc (Lâm Đồng). Đội ngũ thợ lành nghề, có mặt nhanh chóng, xử lý triệt để, bảo hành dài hạn.
+              </p>
+            </div>
+            
+            <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700/50">
+              <h5 className="text-white font-semibold text-sm mb-3">Thời Gian Làm Việc</h5>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li className="flex justify-between items-center border-b border-slate-700/50 pb-2">
+                  <span>Thứ 2 - Thứ 7:</span>
+                  <span className="text-white font-medium">07:30 - 18:00</span>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h4 className="text-white font-bold text-lg mb-8 uppercase tracking-wider">Dịch Vụ</h4>
-            <ul className="space-y-4">
-              {serviceLinks.map((item) => (
-                <li key={item.name}>
-                  <Link 
-                    to={item.href} 
-                    onClick={() => console.log('Navigation target:', item.href)}
-                    className="hover:text-brand-primary transition-colors flex items-center gap-2"
-                  >
-                    <span className="w-1 h-1 bg-brand-primary rounded-full" />
-                    {item.name}
-                  </Link>
+                <li className="flex justify-between items-center border-b border-slate-700/50 pb-2">
+                  <span>Chủ Nhật:</span>
+                  <span className="text-white font-medium">08:00 - 17:00</span>
                 </li>
-              ))}
-            </ul>
+                <li className="flex justify-between items-center pt-1 text-brand-primary font-medium">
+                  <span>Hỗ trợ khẩn cấp:</span>
+                  <span>24/7</span>
+                </li>
+              </ul>
+            </div>
           </div>
 
           {/* Contact Info */}
-          <div>
-            <h4 className="text-white font-bold text-lg mb-8 uppercase tracking-wider">Liên Hệ</h4>
-            <ul className="space-y-6">
-              <li className="flex items-start gap-4">
-                <MapPin className="text-brand-primary shrink-0 mt-1" size={20} />
-                <span>{address}</span>
+          <div className="lg:col-span-3 space-y-6">
+            <h4 className="text-white font-bold text-lg mb-6 uppercase tracking-wider flex items-center gap-2">
+              <span className="w-2 h-2 bg-brand-primary rounded-full"></span>
+              Thông Tin Liên Hệ
+            </h4>
+            <ul className="space-y-5">
+              <li className="flex items-start gap-4 group">
+                <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 group-hover:bg-brand-primary group-hover:border-brand-primary group-hover:text-white transition-all text-brand-primary mt-1">
+                  <MapPin size={18} />
+                </div>
+                <div className="flex flex-col pt-1">
+                  <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Trụ sở chính</span>
+                  <span className="text-slate-400 text-sm leading-snug">{address}</span>
+                </div>
               </li>
-              <li className="flex items-center gap-4">
-                <Phone className="text-brand-primary shrink-0" size={20} />
-                <a href={`tel:${phone.replace(/[.\s]/g, '')}`} className="font-bold text-white hover:text-brand-primary transition-colors">{phone}</a>
+              <li className="flex items-start gap-4 group">
+                <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 group-hover:bg-brand-primary group-hover:border-brand-primary group-hover:text-white transition-all text-brand-primary mt-1">
+                  <Phone size={18} />
+                </div>
+                <div className="flex flex-col pt-1">
+                  <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Hotline tư vấn</span>
+                  <a href={`tel:${phone.replace(/[.\s]/g, '')}`} className="font-bold text-white text-lg hover:text-brand-primary transition-colors">{phone}</a>
+                </div>
               </li>
-              <li className="flex items-center gap-4">
-                <Mail className="text-brand-primary shrink-0" size={20} />
-                <a href={`mailto:${email}`} className="hover:text-brand-primary transition-colors">{email}</a>
+              <li className="flex items-start gap-4 group">
+                <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 group-hover:bg-brand-primary group-hover:border-brand-primary group-hover:text-white transition-all text-brand-primary mt-1">
+                  <Mail size={18} />
+                </div>
+                <div className="flex flex-col pt-1">
+                  <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Email hỗ trợ</span>
+                  <a href={`mailto:${email}`} className="text-slate-400 hover:text-brand-primary transition-colors text-sm break-all">{email}</a>
+                </div>
               </li>
             </ul>
           </div>

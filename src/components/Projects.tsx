@@ -35,14 +35,14 @@ const DEFAULT_PROJECTS: CMSProject[] = [
     completionDate: '12/04/2026'
   },
   {
-    id: '3',
-    slug: 'lap-dat-camera-xuong-may',
-    title: 'Lắp đặt hệ thống Camera giám sát 4K Xưởng may',
-    description: 'Triển khai hệ thống 32 Camera IP Hikvision độ phân giải 4K cho toàn bộ khu vực xưởng may công nghiệp rộng 2000m2. Hệ thống camera được tích hợp công nghệ AI nhận diện khuôn mặt và cảnh báo xâm nhập ban đêm. Toàn bộ dây tín hiệu được đi trong ống cứng bảo vệ, đảm bảo tính thẩm mỹ và độ bền cao trong môi trường sản xuất. Đội ngũ kỹ thuật viên đã hoàn thành dự án vượt tiến độ 2 ngày so với kế hoạch ban đầu.',
-    image: 'https://images.unsplash.com/photo-1557597774-9d2739f85a76?auto=format&fit=crop&q=80&w=800',
+    id: '5',
+    slug: 'lap-dat-camera-vuon-ray',
+    title: 'Lắp đặt Camera an ninh thông minh giám sát vườn sầu riêng & rẫy cà phê',
+    description: 'Triển khai giải pháp camera Wifi sử dụng năng lượng mặt trời độc lập và camera SIM 4G ngoài trời tự sạc 24/24. Giúp chủ vườn sầu riêng và rẫy cà phê Bảo Lộc bảo vệ tài sản, ngăn ngừa nạn mất trộm nông sản vào mùa thu hoạch cao điểm. Hệ thống tích hợp còi hú báo động, đèn Spotlight ban đêm và công nghệ AI nhận dạng xâm nhập gửi cảnh báo trực tiếp về điện thoại bất chấp địa hình đồi núi dốc đứng không có sẵn điện lưới hay mạng internet dây.',
+    image: '/images/imou-ngoai-troi.jpg',
     category: 'Camera & An ninh',
-    location: 'Bảo Lộc, Lâm Đồng',
-    completionDate: '05/03/2026'
+    location: 'Đại Lào, Bảo Lộc, Lâm Đồng',
+    completionDate: '20/05/2026'
   },
   {
     id: '4',
@@ -55,14 +55,14 @@ const DEFAULT_PROJECTS: CMSProject[] = [
     completionDate: '15/02/2026'
   },
   {
-    id: '5',
-    slug: 'lap-dat-camera-vuon-ray',
-    title: 'Lắp đặt Camera an ninh giám sát vườn sấy & sầu riêng',
-    description: 'Triển khai hệ thống camera Wifi năng lượng mặt trời xoay 360 độ và camera 4G ngoài trời bền bỉ. Đáp ứng nhu cầu bảo vệ thành quả thu hoạch vườn rẫy, cảnh báo kẻ đột nhập lạ bằng còi hú và thông báo nhanh nhạy đến điện thoại gia chủ ngay cả khi không có lưới điện hay Wifi thông thường kéo ra vườn rộng.',
-    image: '/images/imou-ngoai-troi.jpg',
+    id: '3',
+    slug: 'lap-dat-camera-xuong-may',
+    title: 'Lắp đặt hệ thống Camera giám sát 4K Xưởng may công nghiệp',
+    description: 'Triển khai hệ thống 32 Camera IP Hikvision độ phân giải 4K cho toàn bộ khu vực xưởng may công nghiệp rộng 2000m2. Hệ thống camera được tích hợp công nghệ AI nhận diện khuôn mặt và cảnh báo xâm nhập ban đêm. Toàn bộ dây tín hiệu được đi trong ống cứng bảo vệ, đảm bảo tính thẩm mỹ và độ bền cao trong môi trường sản xuất. Đội ngũ kỹ thuật viên đã hoàn thành dự án vượt tiến độ 2 ngày so với kế hoạch ban đầu.',
+    image: 'https://images.unsplash.com/photo-1557597774-9d2739f85a76?auto=format&fit=crop&q=80&w=800',
     category: 'Camera & An ninh',
-    location: 'Đại Lào, Bảo Lộc',
-    completionDate: '20/05/2026'
+    location: 'Bảo Lộc, Lâm Đồng',
+    completionDate: '05/03/2026'
   }
 ];
 

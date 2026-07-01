@@ -7,7 +7,7 @@ import { useLocation } from '../context/LocationContext';
 import InlineEdit from './InlineEdit';
 
 import OptimizedImage from './OptimizedImage';
-import realHeroRepairImg from '../assets/images/hero.png';
+import realHeroRepairImg from '../assets/images/hero-paner.png';
 
 export default function Hero({ 
   cmsData,
@@ -82,19 +82,19 @@ export default function Hero({
 
   return (
     <section 
-      className="relative pt-20 pb-16 sm:pt-24 sm:pb-20 md:pt-28 md:pb-24 lg:pt-32 lg:pb-28 bg-slate-950 text-white min-h-[85vh] flex items-center z-10 !bg-cover !bg-center !bg-no-repeat"
+      className="relative pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24 lg:pt-36 lg:pb-28 bg-slate-950 text-white min-h-[70vh] lg:min-h-[78vh] flex items-center z-10 !bg-cover !bg-top !bg-no-repeat"
       style={{ 
-        textShadow: '0 2px 8px rgba(0,0,0,0.35)',
-        backgroundImage: `url('/images/imou-ngoai-troi2.jpg')`
+        textShadow: '0 2px 8px rgba(0,0,0,0.45)',
+        backgroundImage: `url('${cmsData?.heroImage || (content as any)?.heroImage || realHeroRepairImg}')`
       }}
     >
       {/* Background Gradients - elegantly dimmed for text readability */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none">
-        {/* Left-to-right gradient to ensure text readability on the left, while showing the skyline/office on the right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-slate-950/10 opacity-70" />
+        {/* Left-to-right gradient to ensure text readability on the left, while showing the image clearly */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/50 to-slate-950/10 opacity-60" />
         
         {/* Bottom vertical masking gradient to seamlessly fade into adjacent page sections */}
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-950 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-slate-950 to-transparent" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative pt-4 md:pt-8 z-10 w-full">
@@ -180,7 +180,7 @@ export default function Hero({
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="aspect-square bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden relative group border border-white/10">
+            <div className="aspect-square bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden relative group">
               <AnimatePresence mode="wait">
                 <motion.div
                    key={currentSlide}
@@ -190,7 +190,7 @@ export default function Hero({
                    transition={{ duration: 0.5 }}
                    className="absolute inset-0"
                 >
-                  <div className="absolute inset-0 flex items-center justify-center z-10 transition-colors duration-500 bg-slate-950/40">
+                  <div className="absolute inset-0 hidden items-center justify-center z-10 transition-colors duration-500 bg-slate-950/15">
                     <div className="flex flex-col items-center">
                       <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-4 text-brand-primary group-hover:scale-110 transition-transform">
                         <CheckCircle2 size={36} />
@@ -209,7 +209,7 @@ export default function Hero({
                     priority={true}
                     width={800}
                     height={800}
-                    className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover opacity-100 transition-transform duration-700 group-hover:scale-105"
                   />
                 </motion.div>
               </AnimatePresence>

@@ -139,7 +139,7 @@ export interface CMSService {
   shortDescription: string;
   fullDescription: string;
   icon: string;
-  category: 'electrical' | 'plumbing' | 'camera' | 'detection' | 'smarthome';
+  category: 'electrical' | 'plumbing' | 'construction' | 'solar' | 'camera' | 'detection' | 'smarthome';
   features: string[];
   pricing: {
     item: string;
@@ -214,12 +214,12 @@ export interface CMSProduct {
   id: string;
   slug: string;
   name: string;
-  category: 'electrical' | 'plumbing' | 'camera' | 'leak-detection' | 'detection';
+  category: 'electrical' | 'plumbing' | 'camera' | 'leak-detection' | 'detection' | 'solar' | 'construction';
   description: string;
   price: string;
   image: string;
   features?: string[];
-  specs?: { [key: string]: string };
+  specs?: { [key: string]: string } | string;
   gallery?: string[];
   isPinned?: boolean;
 }
@@ -966,6 +966,9 @@ export async function getServices(forcedLocationId?: string): Promise<CMSService
   console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const currentData = getServicesSync(locId);
   
+  // Return the local data immediately so we don't have to wait for the CMS push
+  return currentData;
+
   // If Sanity is not configured, gracefully deliver local / cached fallback
   if (!isSanityConfigured) {
     logCmsStatus('service', false, 0);
@@ -1023,6 +1026,8 @@ export async function getServiceBySlug(slug: string | undefined, forcedLocationI
   console.log(`[CMS QUERY] locationSlug: ${locId}`);
   const foundLocal = getServiceBySlugSync(slug, locId);
   
+  return foundLocal;
+
   if (!isSanityConfigured || !slug) return foundLocal;
 
   // Utilize the full list cache state to skip background hit if cache is fresh
@@ -1142,7 +1147,10 @@ export function getBlogPostsSync(forcedLocationId?: string): CMSBlogPost[] {
     }
   }
 
-  return finalPosts.filter(isPostHasContent);
+  let uniquePosts = Array.from(
+    new Map(finalPosts.filter(isPostHasContent).map(p => [p.id, p])).values()
+  ) as CMSBlogPost[];
+  return uniquePosts;
 }
 
 export async function getBlogPosts(forcedLocationId?: string): Promise<CMSBlogPost[]> {
@@ -1160,7 +1168,8 @@ export async function getBlogPosts(forcedLocationId?: string): Promise<CMSBlogPo
     const hasData = isValidArray(data);
     logCmsStatus('post', hasData, hasData ? data.length : 0);
     const posts = hasData ? data.map(ensureStringSlug) : currentData;
-    return posts.filter(isPostHasContent);
+    const validPosts = posts.filter(isPostHasContent);
+    return Array.from(new Map(validPosts.map(p => [p.id, p])).values()) as CMSBlogPost[];
   } catch (error) {
     logCmsStatus('post', false, 0, error);
     return currentData;

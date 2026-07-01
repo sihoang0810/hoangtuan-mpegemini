@@ -1,4 +1,4 @@
-import { Zap, ShieldCheck, Settings, Wrench, Droplet, CheckCircle2, Video, Search, Lightbulb, Hammer, Activity, Cpu } from 'lucide-react';
+import { Zap, ShieldCheck, Settings, Wrench, Droplet, CheckCircle2, Video, Search, Lightbulb, Hammer, Activity, Cpu, Sun } from 'lucide-react';
 
 export interface Service {
   id: string;
@@ -7,7 +7,7 @@ export interface Service {
   shortDescription: string;
   fullDescription: string;
   icon: any;
-  category: 'electrical' | 'plumbing' | 'camera' | 'detection' | 'smarthome';
+  category: 'electrical' | 'plumbing' | 'construction' | 'solar' | 'camera' | 'detection' | 'smarthome';
   features: string[];
   pricing: { item: string; price: string; unit?: string }[];
   image?: string;
@@ -382,5 +382,67 @@ export const SERVICES: Service[] = [
       { item: 'Dịch vụ đang phát triển', price: 'Coming Soon', unit: 'thiết bị' }
     ],
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800'
+  },
+
+  // CONSTRUCTION (THI CÔNG ĐIỆN NƯỚC TRỌN GÓI)
+  {
+    id: 'con1',
+    slug: 'thi-cong-dien-nuoc-nha-pho-biet-thu',
+    title: 'Thi công điện nước nhà phố, biệt thự',
+    shortDescription: 'Thi công trọn gói hệ thống điện nước từ phần thô đến hoàn thiện, cam kết an toàn, chuẩn bản vẽ.',
+    fullDescription: 'Dịch vụ thi công lắp đặt trọn gói hệ thống cơ điện nước cho các công trình nhà phố, biệt thự, nhà cấp 4. Đội ngũ thợ giàu kinh nghiệm, thi công tỉ mỉ theo đúng bản vẽ thiết kế kỹ thuật, cam kết tiến độ và chất lượng vượt trội.',
+    icon: Hammer,
+    category: 'construction',
+    features: ['Thi công đúng bản vẽ', 'Cam kết tiến độ bàn giao', 'Bảo hành hệ thống 2 năm'],
+    pricing: [
+      { item: 'Thi công phần thô + hoàn thiện', price: 'Từ 120.000đ', unit: 'm2' },
+      { item: 'Lắp đặt thiết bị vệ sinh, nhà bếp', price: 'Từ 80.000đ', unit: 'thiết bị' }
+    ],
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'con2',
+    slug: 'thi-cong-cai-tao-dien-nuoc-cu',
+    title: 'Cải tạo hệ thống điện nước cũ trọn gói',
+    shortDescription: 'Cải tạo, nâng cấp toàn diện hệ thống đường dây điện và ống nước xuống cấp cho nhà dân, văn phòng.',
+    fullDescription: 'Đối với các ngôi nhà cũ, hệ thống điện nước xuống cấp tiềm ẩn nhiều rủi ro cháy nổ và rò rỉ nước. Hoàng Tuấn MPE cung cấp giải pháp cải tạo trọn gói: thay dây điện Cadivi bọc ống cách điện, đi lại đường ống cấp thoát nước mới chịu áp lực cao, giúp ngôi nhà an toàn tuyệt đối.',
+    icon: Wrench,
+    category: 'construction',
+    features: ['Sử dụng vật tư cao cấp', 'Thi công nhanh, sạch sẽ', 'Khảo sát và báo giá miễn phí'],
+    pricing: [
+      { item: 'Cải tạo toàn bộ hệ thống', price: 'Theo khảo sát', unit: 'gói' }
+    ],
+    image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800'
+  },
+
+  // SOLAR LIGHTS (ĐÈN NĂNG LƯỢNG MẶT TRỜI)
+  {
+    id: 'sol1',
+    slug: 'lap-den-pha-nang-luong-mat-troi',
+    title: 'Lắp đặt đèn pha năng lượng mặt trời',
+    shortDescription: 'Cung cấp và lắp đặt đèn pha LED năng lượng mặt trời siêu sáng, chống nước IP67, tự động bật tắt.',
+    fullDescription: 'Giải pháp chiếu sáng sân vườn, cổng ngõ, nhà xưởng bằng đèn pha năng lượng mặt trời chất lượng cao. Đèn sử dụng chip LED siêu sáng, pin Lithium thế hệ mới có tuổi thọ cao, tự động bật khi trời tối và sạc đầy pin khi trời sáng, tuyệt đối an toàn và không lo mất điện.',
+    icon: Sun,
+    category: 'solar',
+    features: ['Không tốn 1 đồng tiền điện', 'Chống nước IP67 bền bỉ', 'Có remote điều khiển từ xa'],
+    pricing: [
+      { item: 'Đèn pha LED 100W/200W', price: 'Từ 650.000đ', unit: 'bộ' },
+      { item: 'Đèn pha LED 300W/500W', price: 'Từ 950.000đ', unit: 'bộ' }
+    ],
+    image: 'https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'sol2',
+    slug: 'lap-den-duong-nang-luong-mat-troi',
+    title: 'Lắp đặt đèn đường năng lượng mặt trời',
+    shortDescription: 'Lắp đặt đèn đường năng lượng mặt trời cho ngõ hẻm, lối đi chung cư, rẫy vườn và trang trại.',
+    fullDescription: 'Chuyên lắp đặt đèn chiếc lá, đèn đường năng lượng mặt trời cho các công trình công cộng, đường đi nông thôn, rẫy vườn vùng sâu vùng xa chưa có điện lưới. Đèn hoạt động tự động thông minh, thiết kế gọn gàng dễ lắp đặt, bảo hành chính hãng uy tín.',
+    icon: Sun,
+    category: 'solar',
+    features: ['Tự cấp nguồn 100% tự nhiên', 'Cảm biến chuyển động thông minh', 'Lắp đặt dễ dàng không đi dây'],
+    pricing: [
+      { item: 'Đèn đường năng lượng mặt trời', price: 'Từ 850.000đ', unit: 'bộ' }
+    ],
+    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=800'
   }
 ];

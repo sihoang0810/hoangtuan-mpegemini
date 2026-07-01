@@ -67,7 +67,7 @@ export default function WhyChooseUs({
         <div className="relative">
           <div className="aspect-[4/5] bg-brand-primary/10 rounded-3xl overflow-hidden shadow-2xl relative">
             <img 
-              src="https://images.unsplash.com/photo-1542013916693-68931df88e04?auto=format&fit=crop&q=80&w=800" 
+              src="/images/imou-ngoai-troi.jpg" 
               alt="Thợ sửa chữa chuyên nghiệp đang thi công" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"

@@ -27,6 +27,27 @@ export default function Contact() {
     
     setSubmitting(true);
     
+    try {
+      await fetch('/api/telegram/notify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formName: 'Form Liên Hệ Trực Tiếp (Trang Contact)',
+          data: {
+            name: formData.name,
+            phone: formData.phone,
+            address: formData.address || 'Chưa cung cấp',
+            notes: formData.message || 'Chưa cung cấp'
+          },
+          locationSlug
+        })
+      });
+    } catch (err) {
+      console.error('Failed to send telegram notification:', err);
+    }
+    
     // Mở Zalo với nội dung pre-filled (ưu tiên Zalo cho web VN)
     const zaloMsg = encodeURIComponent(`Xin chào Hoàng Tuấn MPE!\nTôi là ${formData.name}, SĐT: ${formData.phone}\nĐịa chỉ: ${formData.address}\nNội dung: ${formData.message}`);
     window.open(`https://zalo.me/0389011315?text=${zaloMsg}`, '_blank');

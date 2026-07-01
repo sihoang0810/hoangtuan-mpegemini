@@ -39,7 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="absolute top-3 left-3">
           <span className="bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg flex items-center gap-2">
             <Tag size={10} />
-            {product.category === 'electrical' ? 'Điện' : product.category === 'plumbing' ? 'Nước' : product.category === 'camera' ? 'Camera' : 'Dò tìm'}
+            {product.category === 'electrical' ? 'Điện' : product.category === 'plumbing' ? 'Nước' : product.category === 'camera' ? 'Camera' : product.category === 'solar' ? 'Đèn NLMT' : product.category === 'construction' ? 'Thi công' : 'Dò tìm'}
           </span>
         </div>
         {(product as any).isPinned && (

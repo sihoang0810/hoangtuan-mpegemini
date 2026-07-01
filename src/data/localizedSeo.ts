@@ -131,7 +131,7 @@ export const LOCALIZED_BUSINESS_SCHEMA: { [key: string]: CMSLocalBusiness } = {
 export const LOCALIZED_CONTACT: { [key: string]: CMSContact } = {
   'bao-loc': {
     pageTitle: "BẢO LỘC - KẾT NỐI VỚI THỢ VẬN HÀNH HOÀNG TUẤN MPE",
-    pageSubtitle: "Đội ngũ điều phối viên trực đài sương gió Bảo Lộc luôn túc trực, thợ bản địa di chuyển dốc đồi Lâm Đồng có mặt sau 15-30 phút gọi.",
+    pageSubtitle: "Đội ngũ điều phối viên trực đài Bảo Lộc luôn túc trực, thợ bản địa di chuyển tại Lâm Đồng có mặt sau 15-30 phút gọi.",
     contactFields: [
       { icon: "Phone", label: "Điện thoại 24/7", val: "0389 011 315", desc: "Không nghỉ trưa, túc trực cả ngày lễ và Tết" },
       { icon: "MessageSquare", label: "Zalo Chat Bảo Lộc", val: "0389011315", desc: "Gửi hình ảnh sự cố nhận tư vấn báo giá ngay" },

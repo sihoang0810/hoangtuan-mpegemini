@@ -10,13 +10,13 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       shortDescription: "Khắc phục nhanh hư hỏng cơ điện gia đình, chập nổ tủ điện, hỏng bóng led ở Bảo Lộc Lâm Đồng.",
       fullDescription: `
         <h1>Thợ Sửa Điện Bảo Lộc Khẩn Cấp - Bảo Vệ Gia Đình Bạn Từ Xứ Trà Lâm Đồng</h1>
-        <p>Hệ thống điện nhà bạn gặp sự cố lúc nửa đêm giữa tiết trời sương mù Bảo Lộc khiến việc sinh hoạt và kinh doanh bị ngưng trệ? Bạn lo ngại những đơn vị thợ không uy tín báo khống giá sửa? Đội thợ điện Bảo Lộc của Hoàng Tuấn MPE chính là giải pháp an toàn tuyệt đối cho bạn.</p>
+        <p>Hệ thống điện nhà bạn gặp sự cố lúc nửa đêm tại khu vực Lộc Châu, Đại Lào khiến việc sinh hoạt và kinh doanh bị ngưng trệ? Bạn lo ngại những đơn vị thợ không uy tín báo khống giá sửa? Đội thợ điện Bảo Lộc của Hoàng Tuấn MPE chính là giải pháp an toàn tuyệt đối cho bạn.</p>
         
         <h2>Các sự cố điện thường gặp tại khu vực TP. Bảo Lộc</h2>
         <ul>
-          <li><strong>Mất điện toàn phần đột ngột:</strong> Xảy ra ngẫu nhiên khi quá tải tải tưới vườn trà hoặc độ ẩm dầm dột tủ sấy.</li>
+          <li><strong>Mất điện toàn phần đột ngột:</strong> Xảy ra ngẫu nhiên khi quá tải điện hoặc độ ẩm dầm dột tủ sấy tại Lộc Phát, Lộc Nga.</li>
           <li><strong>Mối tiếp xúc ổ cắm bị chảy nhựa:</strong> Do thợ đi dây lỏng lẻo hoặc sử dụng ổ cắm kém phẩm chất.</li>
-          <li><strong>Lỗi bóng đèn sân vườn sương sương:</strong> Nước sương xâm nhập đui đèn pha sương dột rò rỉ điện.</li>
+          <li><strong>Lỗi bóng đèn ngoài trời:</strong> Chống nước sương xâm nhập đui đèn gây rò rỉ điện.</li>
         </ul>
 
         <h2>Quy trình sửa điện chuyên nghiệp uy tín của Hoàng Tuấn MPE tại Lâm Đồng</h2>
@@ -29,7 +29,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       `,
       icon: "Zap",
       category: "electrical",
-      features: ["Thợ địa bàn Bảo Lộc túc trực", "Tư vấn báo giá 0 ĐỒNG tận sân vườn", "Linh kiện Panasonic chính gốc 100%"],
+      features: ["Thợ địa bàn Bảo Lộc túc trực", "Tư vấn báo giá 0 ĐỒNG tận nhà", "Linh kiện Panasonic chính gốc 100%"],
       pricing: [
         { item: "Khảo sát & Lập sơ đồ điện", price: "Khảo sát Miễn Phí", unit: "lần" },
         { item: "Thay công tắc ổ cắm Panasonic", price: "Từ 50.000đ", unit: "cái" },
@@ -63,14 +63,14 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       id: "e3",
       slug: "sua-aptomat",
       title: "Sửa Aptomat CB Chống Giật Bảo Lộc",
-      shortDescription: "Thay thế, nâng cấp Aptomat / CB Panasonic Schneider chống giật nhảy dập máy tưới dốc đồi Bảo Lộc.",
+      shortDescription: "Thay thế, nâng cấp Aptomat / CB Panasonic Schneider chống giật an toàn, phù hợp cho mọi khu vực tại Bảo Lộc.",
       fullDescription: `
         <h1>Lắp Đặt & Sửa Thay Thế CB Chống Giật Tại Bảo Lộc Lâm Đồng Chính Hãng</h1>
-        <p>Aptomat nhà bạn nhảy két két dột mồ hôi sương mù Lâm Đồng hay do sử dụng lò nướng, máy nước nóng quá tải? Chúng tôi lắp đặt CB chính hiệu Panasonic, dòng nhạy cao phản hồi tắt sau 0.01 giây khi có dòng rò điện sục nước.</p>
+        <p>Aptomat nhà bạn thường xuyên bị nhảy tại Lộc Châu, Đại Lào hay do sử dụng lò nướng, máy nước nóng quá tải? Chúng tôi lắp đặt CB chính hiệu Panasonic, dòng nhạy cao phản hồi tắt sau 0.01 giây khi có dòng rò điện sục nước.</p>
       `,
       icon: "Settings",
       category: "electrical",
-      features: ["Aptomat Panasonic nhập gốc bảo hành chính hãng", "Tải công suất tưới đồi Bảo Lộc bền bỉ", "Thay an toàn đúng quy chuẩn cơ điện"],
+      features: ["Aptomat Panasonic nhập gốc bảo hành chính hãng", "Tải công suất hoạt động ổn định tại Bảo Lộc", "Thay an toàn đúng quy chuẩn cơ điện"],
       pricing: [
         { item: "Thay CB đơn Panasonic chính hãg", price: "Từ 80.000đ", unit: "bộ" },
         { item: "Căn chỉnh lắp đạt CB chống giật rò dòng", price: "Từ 180.000đ", unit: "con" }
@@ -80,17 +80,17 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       id: "e4",
       slug: "lap-dat-dien",
       title: "Lắp Đặt Điện Sập Tường Trang Trí Bảo Lộc",
-      shortDescription: "Thi công luồn dập dây cơ điện nhà phố, rải led trang trí quán cafe đèo dốc Bảo Lộc.",
+      shortDescription: "Thi công luồn dập dây cơ điện nhà phố, rải led trang trí quán cafe khu vực Bảo Lộc, Lộc Phát, Đamb'ri.",
       fullDescription: `
         <h1>Thi Công Mạng Điện & Bóng Led Nghệ Thuật Cho Shop, Homestay Tại Bảo Lộc</h1>
-        <p>Chúng tôi nhận lắp đặt điện sập tường, bóng âm thạch cao, led tạo khối lãng mạn cho các homestay dốc sương gió mát rượi, cửa tiệm trà dốc đèo Bảo Lộc đạt tính nghệ thuật cao không dơ tường.</p>
+        <p>Chúng tôi nhận lắp đặt điện sập tường, bóng âm thạch cao, led tạo khối lãng mạn cho các homestay tại Đại Lào, Lộc Châu, Lộc Sơn đạt tính nghệ thuật cao không dơ tường.</p>
       `,
       icon: "Lightbulb",
       category: "electrical",
       features: ["Rải led uốn dây mượt lãng mạn nghệ thuật", "Thiết kế tiết kiệm hao phí điện năng", "Thi công dọn dẹp sạch thạch cao"],
       pricing: [
         { item: "Kéo dây nguồn điện luồn ống nẹp PVC", price: "Từ 75.000đ", unit: "mét" },
-        { item: "Lắp đèn chùm quạt trần quán trà đồi dốc", price: "Từ 250.000đ", unit: "bộ" }
+        { item: "Lắp đèn chùm quạt trần quán trà tại Lộc Phát, Lộc Thanh", price: "Từ 250.000đ", unit: "bộ" }
       ]
     },
     {
@@ -100,11 +100,11 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       shortDescription: "Phác họa vị trí rải nguồn điện ngầm trong bê tông phục vụ khoan đục nhà cửa an tâm ở Bảo Lộc.",
       fullDescription: `
         <h1>Dò Tìm Đường Điện Âm Tường Chuyên Nghiệp Bảo Lộc - Tránh Rủi Ro Khoan Trúng</h1>
-        <p>Mỗi khi cơi nới dốc gác xây bậc, việc khoan đụng trúng dây nguồn điện sống cực nguy hiểm tính mạng và chập nổ hệ thống lớn. Thợ cơ điện Lâm Đồng rà lập bản đồ nguồn điện âm tường chi tiết cam kết chính xác tuyệt đối.</p>
+        <p>Mỗi khi cơi nới xây dựng tại Lộc Tiến, Phường 2, việc khoan đụng trúng dây nguồn điện sống cực nguy hiểm tính mạng và chập nổ hệ thống lớn. Thợ cơ điện Lâm Đồng rà lập bản đồ nguồn điện âm tường chi tiết cam kết chính xác tuyệt đối.</p>
       `,
       icon: "Search",
       category: "electrical",
-      features: ["Xác định chính xác dải dây nguồn", "An tâm sửa xây nhà dốc dốc Lâm Đồng", "Chỉ điểm dây mát dây nóng rõ ràng"],
+      features: ["Xác định chính xác dải dây nguồn", "An tâm sửa xây nhà tại Lộc Sơn, B'Lao", "Chỉ điểm dây mát dây nóng rõ ràng"],
       pricing: [
         { item: "Dò tìm dựng bản đồ mạch ranh tường", price: "Từ 300.000đ", unit: "phòng" }
       ]
@@ -112,11 +112,11 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
     {
       id: "p1",
       slug: "sua-nuoc",
-      title: "Dịch Vụ Sửa Nước Sân Vườn Đồi Dốc Bảo Lộc",
+      title: "Dịch Vụ Sửa Chữa Ống Nước Tại Bảo Lộc",
       shortDescription: "Sửa bục vỡ ống cấp thoát sương, vòi hoa sen gãy, bồn cầu rỉ tràn nước xi-phông tại Bảo Lộc.",
       fullDescription: `
         <h1>Thợ Sửa Nước Bảo Lộc - Khóa Van Bục Tiết Kiệm Từng Giọt Nước Sạch Lâm Đồng</h1>
-        <p>Áp suất nước ngầm địa đồi cao thường phá hủy gioăng cao su, nứt dột gãy vòi nước bồn tiểu vệ sinh mốc ẩm dột chân nhà tại Bảo Lộc. Thợ sửa ống nước dốc đèo của Hoàng Tuấn MPE mang phụ tùng xử lý nhanh, giá rẻ.</p>
+        <p>Áp suất nước ngầm tại Lộc Phát, Đamb'ri thường phá hủy gioăng cao su, nứt dột gãy vòi nước bồn tiểu vệ sinh mốc ẩm dột chân nhà tại Bảo Lộc. Thợ sửa ống nước Bảo Lộc của Hoàng Tuấn MPE mang phụ tùng xử lý nhanh, giá rẻ.</p>
       `,
       icon: "Droplet",
       category: "plumbing",
@@ -172,11 +172,11 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
     {
       id: "p2",
       slug: "sua-ro-ri-nuoc",
-      title: "Sửa Rò Rỉ Nước Ngầm Sân Vườn Bảo Lộc",
-      shortDescription: "Định vị và vá vết nứt gãy sập ống nước nhựa PPR dốc đồi đất đá dột nát Lâm Đồng.",
+      title: "Sửa Rò Rỉ Nước Ngầm Tại Bảo Lộc",
+      shortDescription: "Định vị và vá vết nứt gãy sập ống nước nhựa PPR ngầm dưới đất tại Lâm Đồng.",
       fullDescription: `
         <h1>Sửa Rò Rỉ Nước Ngầm Tại Bảo Lộc - Bảo Vệ Nền Móng Căn Nhà An Toàn</h1>
-        <p>Địa chấn rạn nứt đất sụt trượt vỉa đất dốc đèo Bảo Lộc liên tục xô lệch ống cấp nước PPR sinh rò rỉ âm đất dột móng. Thợ Hoàng Tuấn hàn nhiệt ống PPR, xử lý chống thấm dột nền móng chuẩn chỉnh bảo vệ đất vườn nhà.</p>
+        <p>Tình trạng sụt trượt đất khu vực Đại Lào, Lộc Châu liên tục xô lệch ống cấp nước PPR sinh rò rỉ âm đất dột móng. Thợ Hoàng Tuấn hàn nhiệt ống PPR, xử lý chống thấm dột nền móng chuẩn chỉnh bảo vệ đất vườn nhà.</p>
       `,
       icon: "Droplet",
       category: "plumbing",
@@ -193,7 +193,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       shortDescription: "Gia công bọc vành chịu lực ống nhiệt vách nhà tắm, ngăn nước sương thấm tường nốt dột sũng nước.",
       fullDescription: `
         <h1>Thợ Chuyên Sửa Ống Nước Đi Âm Vách Thạch Cao Bê Tông Chất Lượng Bảo Lộc</h1>
-        <p>Vách bê tông ẩm ộc dột nách dốc đồi Bảo Lộc dễ làm mục hoặc bục gãy ren các chỗ nối tê chữ T trong hệ thống phân nước nhà. Hoàng Tuấn nén keo silicon, hàn ống nhiệt PPR chịu lực mướt mượt móng vững lâu dài.</p>
+        <p>Vách bê tông ẩm ướt tại khu vực Bảo Lộc dễ làm mục hoặc bục gãy ren các chỗ nối tê chữ T trong hệ thống phân nước nhà. Hoàng Tuấn nén keo silicon, hàn ống nhiệt PPR chịu lực mướt mượt móng vững lâu dài.</p>
       `,
       icon: "Hammer",
       category: "plumbing",
@@ -206,7 +206,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       id: "p5",
       slug: "lap-dat-thiet-bi-nuoc",
       title: "Lắp Đặt Thiết Bị Vệ Sinh Giá Rẻ Bảo Lộc",
-      shortDescription: "Lắp đặt ráp bồn vệ sinh, lavabo hoa văn dốc đồi, sen cây tắm ấm nóng chính hiệu cho bà con Bảo Lộc.",
+      shortDescription: "Lắp đặt ráp bồn vệ sinh, lavabo cao cấp, sen cây tắm ấm nóng chính hiệu cho bà con Bảo Lộc.",
       fullDescription: `
         <h1>Thợ Thiết Kế Thi Công Ráp Thiết Bị Vệ Sinh Nước Sạch Homestay Bảo Lộc</h1>
         <p>Gắn bồn rửa bồn tắm vòi tắm thư giãn nghỉ ngơi giữa lòng đồi Bảo Lộc. Dịch vụ Hoàng Tuấn MPE lắp đặt thiết bị vệ sinh nhập khẩu chiết khấu cho khách hàng, gia cố không rêu mốc bảo hành uy tín tận dốc nhà bạn.</p>
@@ -216,7 +216,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       features: ["Lắp thẩm mỹ cực cao kín tuyệt đối gián bọ", "Phù hợp phong thủy gia chủ Lâm Đồng", "Tặng kèm khóa phụ lọc cặn giếng đào"],
       pricing: [
         { item: "Lắp bồn cầu sứ / chậu treo Lavabo", price: "Từ 250.000đ", unit: "bộ" },
-        { item: "Lắp đặt bình nóng lạnh đồi dốc dốc", price: "Từ 300.000đ", unit: "máy" }
+        { item: "Lắp đặt bình nóng lạnh tại Đamb'ri, Lộc Nga", price: "Từ 300.000đ", unit: "máy" }
       ]
     },
     {
@@ -225,14 +225,14 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       order: 2,
       title: "Lắp Đặt Hệ Thống Camera Bảo Lộc Trọn Gói",
       image: "/images/camera-.png",
-      shortDescription: "Giải pháp lắp đặt camera an ninh Bảo Lộc giám sát sương mù đồi trà dốc dốc rõ như ban ngày 24/24.",
+      shortDescription: "Giải pháp lắp đặt camera an ninh Bảo Lộc giám sát khu vực Lộc Phát, Đamb'ri rõ như ban ngày 24/24.",
       fullDescription: `
-        <h1>Lắp Đặt Camera Bảo Lộc - Bảo Vệ Biệt Thự Sân Vườn Quán Cafe Bản Địa Chu Đáo</h1>
+        <h1>Lắp Đặt Camera Bảo Lộc - Bảo Vệ Biệt Thự, Quán Cafe Tại Bảo Lộc Chu Đáo</h1>
         <p>Lâm Đồng mưa dầm sương dốc che lấp tầm nhìn biệt thự hay nhà xưởng. Hoàng Tuấn thiết lập cấu hình mắt camera chống nước IP67 Ezviz góc rộng 360 xoay chuyển theo dáng người gửi còi báo động trực tiếp điện thoại.</p>
       `,
       icon: "Video",
       category: "camera",
-      features: ["Mắt hồng ngoại rọi thấu sương tuyết sương mù", "Bộ nhớ lưu trữ an ninh mã hóa dữ liệu cao", "Cài app xem từ xa mượt không trễ dòng"],
+      features: ["Mắt hồng ngoại rọi thấu khu vực thiếu sáng", "Bộ nhớ lưu trữ an ninh mã hóa dữ liệu cao", "Cài app xem từ xa mượt không trễ dòng"],
       pricing: [
         { item: "Công đi dây ráp mắt camera lên trần dốc", price: "Từ 150.000đ", unit: "mắt" }
       ]
@@ -244,7 +244,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       shortDescription: "Khắc phục lỗi đơ hình, camera rách sương đứt dây, cháy nguồn đầu ghi camera Bảo Lộc.",
       fullDescription: `
         <h1>Thợ Sửa Hệ Thống Camera Bảo Lộc Sửa Nhanh Tại Nhà Lấy Liền An Tâm</h1>
-        <p>Bụi bặm trà nương sương ẩm dốc đồi dễ làm hư phích nguồn dẹt tiếp điện hoặc sập modem wifi. Chúng tôi thay dây bọc dẻo cách điện, khôi phục sóng định cấu hình hệ thống camera gia đình Bảo Lộc khôi phục an ninh.</p>
+        <p>Thời tiết sương ẩm và bụi bẩn dễ làm hư phích nguồn dẹt tiếp điện hoặc sập modem wifi. Chúng tôi thay dây bọc dẻo cách điện, khôi phục sóng định cấu hình hệ thống camera gia đình Bảo Lộc khôi phục an ninh.</p>
       `,
       icon: "Wrench",
       category: "camera",
@@ -257,10 +257,10 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       id: "c3",
       slug: "camera-gia-dinh",
       title: "Camera Gia Đình Wifi Chống Trộm Bảo Lộc",
-      shortDescription: "Lắp đặt camera wifi không cần đục lỗ kéo cáp lòng vòng phô nhà đồi dốc Bảo Lộc.",
+      shortDescription: "Lắp đặt camera wifi không cần đục lỗ kéo cáp lòng vòng tại Lộc Châu, Đại Lào.",
       fullDescription: `
         <h1>Lắp Camera Gia Đình Tại Bảo Lộc - Trò Chuyện Con Nhỏ Giám Sát Cổng Rào</h1>
-        <p>Tăng cường bảo hộ gia đình với camera wifi đàm thoại 2 chiều ấm giọng, rà soát xe cộ dốc đồi. Thương hiệu Ezviz Imou phân phối sỉ lẻ giá cực rẻ lắp đặt lấy ngay tại Lâm Đồng bảo hành điện tử chính hiệu.</p>
+        <p>Tăng cường bảo hộ gia đình với camera wifi đàm thoại 2 chiều ấm giọng, rà soát an ninh khu vực Đại Lào, Lộc Châu. Thương hiệu Ezviz Imou phân phối sỉ lẻ giá cực rẻ lắp đặt lấy ngay tại Lâm Đồng bảo hành điện tử chính hiệu.</p>
       `,
       icon: "Video",
       category: "camera",
@@ -294,11 +294,11 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       shortDescription: "Giải pháp giám sát rẫy sầu riêng, cà phê Bảo Lộc từ xa bằng pin mặt trời tự sạc, SIM 4G ổn định.",
       fullDescription: `
         <h1>Lắp Đặt Camera Năng Lượng Mặt Trời Bảo Lộc - Trông Coi Rẫy Cà Phê Sầu Riêng An Tâm</h1>
-        <p>Các khu vực nông trại dốc đồi, rẫy sầu riêng hay vườn bơ tại Bảo Lâm, Di Linh, Bảo Lộc thường xa nguồn lưới điện và mạng Internet dây. Dịch vụ Hoàng Tuấn lắp đặt camera năng lượng mặt trời tích hợp SIM 4G chuyên dụng với pin dung lượng cao, tự sạc đầy từ ánh sáng tự nhiên, giúp quý khách trông coi rẫy rừng bất kể nắng mưa sương mù.</p>
+        <p>Các khu vực nông trại tại Đamb'ri, Lộc Phát hay rẫy sầu riêng vườn bơ tại Bảo Lâm, Di Linh thường xa nguồn lưới điện và mạng Internet dây. Dịch vụ Hoàng Tuấn lắp đặt camera năng lượng mặt trời tích hợp SIM 4G chuyên dụng với pin dung lượng cao, tự sạc đầy từ ánh sáng tự nhiên, giúp quý khách trông coi rẫy rừng bất kể thời tiết phức tạp.</p>
       `,
       icon: "Video",
       category: "camera",
-      features: ["Tự cấp nguồn từ ánh nắng dốc đồi 365 ngày", "Tích hợp thẻ SIM 4G phát sóng mạnh mẽ từ xa", "Chống bụi chống sương bão sấm sét hoàn hảo IP67"],
+      features: ["Tự cấp nguồn từ ánh nắng khu vực đồi núi 365 ngày", "Tích hợp thẻ SIM 4G phát sóng mạnh mẽ từ xa", "Chống bụi chống sương bão sấm sét hoàn hảo IP67"],
       pricing: [
         { item: "Trọn bộ camera 4G Solar cao cấp", price: "Từ 2.450.000đ", unit: "bộ" },
         { item: "Khảo sát dựng cột chống sét, đấu nối tận rẫy", price: "Khảo sát tận nơi", unit: "gói" }
@@ -309,14 +309,14 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       slug: "do-ro-ri-nuoc",
       title: "Dò Tìm Rò Rỉ Nước Siêu Âm Bảo Lộc",
       image: "/images/sieu-am-do-tim-ong-vo.png",
-      shortDescription: "Siêu âm tìm ống nước vỡ ngầm dột thối đất đồi dốc Lâm Đồng chính xác từng vạch cát.",
+      shortDescription: "Siêu âm tìm ống nước vỡ ngầm tại Lộc Sơn, Phường 1 chính xác từng vạch cát.",
       fullDescription: `
         <h1>Dò Tìm Rò Rỉ Nước Sạch Tại Bảo Lộc Bằng Sóng Siêu Âm Công Nghệ Đức</h1>
         <p>Hóa đơn cấp nước sạch tăng phi mã sụt lún sạt trượt góc nền là thảm họa ngầm rò nước Bảo Lộc. Hoàng Tuấn rà rà mặt xi măng dùng thiết bị phát sóng đo biên độ âm nứt ống nước rách rò, định điểm rách chính xác tuyệt nhiên không đập phá.</p>
       `,
       icon: "Search",
       category: "detection",
-      features: ["Thiết bị PQWT Đức siêu âm nhạy xuyên nền", "Bảo vệ móng sân vườn đất dốc Lộc Phát", "Hạn chế đập tối đa giữ nguyên móng xây"],
+      features: ["Thiết bị PQWT Đức siêu âm nhạy xuyên nền", "Bảo vệ móng công trình tại Lộc Phát", "Hạn chế đập tối đa giữ nguyên móng xây"],
       pricing: [
         { item: "Siêu âm dò tìm rò rỉ nhà dân Bảo Lộc", price: "Từ 500.000đ", unit: "lần" }
       ]
@@ -328,7 +328,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       shortDescription: "Rà định vị vết nứt dột ngầm ống dẫn nước cứu hỏa xưởng chè Bảo Lộc.",
       fullDescription: `
         <h1>Dịch Vụ Siêu Âm Rà Ống Nước Bị Nứt Bục Ngầm Dưới Lớp Bê Tông Bảo Lộc</h1>
-        <p>Xưởng chế biến chè nương, lò sấy dốc dốc Lâm Đồng có hệ thống ống phòng cháy chữa cháy âm đất dễ bị ăn mòn rỉ tràn gây sụt áp liên tục. Chúng tôi rà siêu cảm biến định danh khuyết tật rạn vỡ ống dột ngầm loáng cái sửa xong.</p>
+        <p>Xưởng chế biến, lò sấy tại Lộc Nga, Đại Lào có hệ thống ống phòng cháy chữa cháy âm đất dễ bị ăn mòn rỉ tràn gây sụt áp liên tục. Chúng tôi rà siêu cảm biến định danh khuyết tật rạn vỡ ống dột ngầm loáng cái sửa xong.</p>
       `,
       icon: "Search",
       category: "detection",
@@ -341,10 +341,10 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       id: "d3",
       slug: "do-duong-nuoc-am",
       title: "Vẽ Sơ Đồ Hệ Thống Cấp Nước Ngầm Bảo Lộc",
-      shortDescription: "Vẽ bản vẽ cấp thoát nước giếng khoan đồi dốc giúp gia chủ Bảo Lộc sửa móng nhà.",
+      shortDescription: "Vẽ bản vẽ cấp thoát nước giếng khoan tại Lộc Phát, Đamb'ri giúp gia chủ Bảo Lộc sửa móng nhà.",
       fullDescription: `
-        <h1>Dịch Vụ Dò Dựng Lập Sơ Đồ Ống Nước Âm Đất Dốc Đồi Bảo Lộc</h1>
-        <p>Tránh tối đa đục lầm khoan rách ống PPR chịu áp cao khi cất nhà xây thêm bờ kè dốc rào tại Lâm Đồng. Đội thợ dò đường ống nước đo dòng chảy cảm nhiệt vẽ phác hoàn chỉnh toàn hệ thoát van giếng đào nhà gia chủ.</p>
+        <h1>Dịch Vụ Dò Dựng Lập Sơ Đồ Ống Nước Âm Đất Tại Bảo Lộc</h1>
+        <p>Tránh tối đa đục lầm khoan rách ống PPR chịu áp cao khi cất nhà xây thêm bờ kè tại Lộc Tiến, B'Lao. Đội thợ dò đường ống nước đo dòng chảy cảm nhiệt vẽ phác hoàn chỉnh toàn hệ thoát van giếng đào nhà gia chủ.</p>
       `,
       icon: "Search",
       category: "detection",
@@ -412,7 +412,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       shortDescription: "Thiết kế mặt kính cảm ứng sang trọng, điều khiển hệ thống chiếu sáng từ xa qua smartphone.",
       fullDescription: `
         <h1>Lắp Đặt Hệ Thống Công Tắc Điện Thông Minh Sang Trọng Tại Bảo Lộc</h1>
-        <p>Nâng cấp toàn diện cho ngôi nhà của bạn bằng giải pháp công tắc cảm ứng thông minh. Mặt kính cường lực tinh tế, kháng ẩm cực tốt dưới tiết trời nồm sương mù ẩm ướt đặc trưng của Bảo Lộc Lâm Đồng. Điều khiển tắt mở đèn thuận tiện qua giọng nói và smartphone.</p>
+        <p>Nâng cấp toàn diện cho ngôi nhà của bạn bằng giải pháp công tắc cảm ứng thông minh. Mặt kính cường lực tinh tế, kháng ẩm cực tốt tại môi trường ẩm ướt đặc trưng của Bảo Lộc Lâm Đồng. Điều khiển tắt mở đèn thuận tiện qua giọng nói và smartphone.</p>
         <h2>Ưu điểm của công tắc điện thông minh</h2>
         <ul>
           <li><strong>Rất an toàn:</strong> Thiết kế cách điện hoàn toàn, bạn hoàn toàn có thể bật tắt bằng tay ướt không sợ giật giật nhiễu nguồn.</li>
@@ -451,7 +451,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       shortDescription: "Tự động hóa hệ thống rèm cửa, điều hòa, tivi kết hợp âm thanh đa vùng sống động.",
       fullDescription: `
         <h1>Điều Khiển Rèm Cửa - Điều Hòa Không Khí Tự Động Thông Minh Bảo Lộc</h1>
-        <p>Chiếu sáng thích ứng nhịp điệu sinh học, đồng bộ rạp chiếu phim gia đình, tự động nâng rèm khi mặt trời lên rạng rỡ dốc vườn trà. Chúng tôi sẽ sớm ra mắt giải pháp tối ưu này tại Lâm Đồng trong thời gian tới.</p>
+        <p>Chiếu sáng thích ứng nhịp điệu sinh học, đồng bộ rạp chiếu phim gia đình, tự động nâng rèm khi mặt trời lên rạng rỡ tại Lộc Thanh, Đamb'ri. Chúng tôi sẽ sớm ra mắt giải pháp tối ưu này tại Lâm Đồng trong thời gian tới.</p>
       `,
       icon: "Settings",
       category: "smarthome",

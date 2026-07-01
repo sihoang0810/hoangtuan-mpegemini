@@ -12,7 +12,7 @@ dotenv.config();
 
 async function startServer() {
   const app = express();
-  const PORT = Number(process.env.PORT) || 3000;
+  const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
   // 1. Compression for better Core Web Vitals (FCP/LCP)
   app.use(compression());
@@ -42,6 +42,76 @@ async function startServer() {
 
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok" });
+  });
+
+  // API to send leads and booking notifications to Telegram
+  app.post("/api/telegram/notify", async (req, res) => {
+    try {
+      const { formName, data, locationSlug } = req.body;
+      const botToken = process.env.TELEGRAM_BOT_TOKEN;
+      const chatId = process.env.TELEGRAM_CHAT_ID;
+
+      if (!botToken || !chatId || botToken === "your_telegram_bot_token" || chatId === "your_telegram_chat_id") {
+        console.warn("[TELEGRAM] Telegram Bot Token or Chat ID is not configured.");
+        return res.json({ 
+          success: false, 
+          error: "Telegram Bot chưa được cấu hình. Vui lòng nhập TELEGRAM_BOT_TOKEN và TELEGRAM_CHAT_ID trong phần Cài đặt Bí mật (Secrets) của AI Studio." 
+        });
+      }
+
+      const locationText = locationSlug === 'ho-chi-minh' ? 'TP. Hồ Chí Minh' : 'Bảo Lộc, Lâm Đồng';
+      
+      let message = `<b>🔔 YÊU CẦU ĐĂNG KÝ KHÁCH HÀNG MỚI!</b>\n`;
+      message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      message += `<b>📋 Form:</b> <code>${formName || "Đăng ký dịch vụ"}</code>\n`;
+      message += `<b>📍 Khu vực:</b> <code>${locationText}</code>\n\n`;
+      
+      if (data && typeof data === 'object') {
+        const labels: Record<string, string> = {
+          name: "Họ và tên",
+          phone: "Số điện thoại",
+          service: "Hạng mục",
+          address: "Địa chỉ nhà",
+          notes: "Ghi chú thêm",
+          email: "Địa chỉ Email"
+        };
+        
+        for (const [key, val] of Object.entries(data)) {
+          if (val) {
+            const label = labels[key] || key;
+            message += `<b>👉 ${label}:</b> ${val}\n`;
+          }
+        }
+      }
+      
+      message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      message += `<i>📅 Thời gian: ${new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}</i>`;
+
+      const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      const response = await fetch(telegramUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: "HTML"
+        })
+      });
+
+      const result: any = await response.json();
+      if (!result.ok) {
+        throw new Error(result.description || "Lỗi phản hồi từ Telegram API");
+      }
+
+      console.log("[TELEGRAM SUCCESS] Sent notification successfully.");
+      return res.json({ success: true, message: "Gửi thông báo Telegram thành công!" });
+    } catch (err: any) {
+      console.error("[TELEGRAM ERROR]", err);
+      return res.status(500).json({ 
+        success: false, 
+        error: err.message || String(err) 
+      });
+    }
   });
 
   // API route to safely push converted JSON content directly to Sanity API with write token
@@ -134,8 +204,12 @@ async function startServer() {
   // Ensure directories exist
   const publicDir = path.join(process.cwd(), "public");
   const publicImagesDir = path.join(publicDir, "images");
-  if (!fs.existsSync(publicImagesDir)) {
-    fs.mkdirSync(publicImagesDir, { recursive: true });
+  try {
+    if (!fs.existsSync(publicImagesDir)) {
+      fs.mkdirSync(publicImagesDir, { recursive: true });
+    }
+  } catch (fsErr) {
+    console.warn("[STARTUP] Directory creation skipped or not allowed:", fsErr);
   }
 
   // Add prerender.io middleware safely
@@ -224,4 +298,7 @@ async function startServer() {
   });
 }
 
-startServer();
+startServer().catch((err) => {
+  console.error("CRITICAL ERROR: Failed to start Express/Vite server:", err);
+  process.exit(1);
+});

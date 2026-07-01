@@ -14,9 +14,11 @@ import {
   Wrench,
   ThumbsUp,
   Cpu,
-  ChevronDown
+  ChevronDown,
+  Sun,
+  Hammer
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { SERVICES, Service } from '../data/services';
 import { getServices, getServicesSync, CMSService } from '../lib/sanity';
 import { useLocation } from '../context/LocationContext';
@@ -39,6 +41,20 @@ const CATEGORIES = [
     color: 'cyan'
   },
   {
+    id: 'construction',
+    title: 'Thi Công Điện Nước Trọn Gói',
+    description: 'Tư vấn, thiết kế, thi công lắp đặt trọn gói hệ thống điện nước cho nhà phố, biệt thự, căn hộ chung cư và cải tạo công trình cũ.',
+    icon: Hammer,
+    color: 'slate'
+  },
+  {
+    id: 'solar',
+    title: 'Đèn Năng Lượng Mặt Trời',
+    description: 'Giải pháp chiếu sáng xanh thông minh, tiết kiệm 100% điện năng cho sân vườn, cổng ngõ, đường đi, trang trại và rẫy vườn.',
+    icon: Sun,
+    color: 'amber'
+  },
+  {
     id: 'camera',
     title: 'Dịch Vụ Camera Giám Sát',
     description: 'Lắp đặt hệ thống camera an ninh hiện đại, quan sát từ xa qua điện thoại, bảo mật tuyệt đối cho gia đình và doanh nghiệp.',
@@ -50,7 +66,7 @@ const CATEGORIES = [
     title: 'Dịch Vụ Siêu Âm Dò Tìm Rò Rỉ & Ống Âm',
     description: 'Ứng dụng công nghệ siêu âm tiên tiến nhất để phát hiện vị trí rò rỉ nước và đường ống ngầm không cần đục phá.',
     icon: Search,
-    color: 'amber'
+    color: 'rose'
   },
   {
     id: 'smarthome',
@@ -77,6 +93,7 @@ interface CategorySectionProps {
 const CategorySection: React.FC<CategorySectionProps> = ({ category, services }) => {
   const { locationSlug } = useLocation();
   const siteLocationPrefix = '/' + locationSlug;
+  const navigate = useNavigate();
 
   return (
     <section id={category.id} className="py-5 border-b border-slate-100 last:border-0 scroll-mt-24">
@@ -115,27 +132,32 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 flex flex-col overflow-hidden group hover:border-brand-primary/30 transition-all text-left"
+              whileHover={{ y: -8, boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)' }}
+              onClick={(e) => {
+                if ((e.target as HTMLElement).tagName === 'A' || (e.target as HTMLElement).tagName === 'BUTTON') return;
+                navigate(`${siteLocationPrefix}/dich-vu/${service.slug}`);
+              }}
+              className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 flex flex-col overflow-hidden group hover:border-brand-primary/30 transition-[border-color] duration-300 text-left cursor-pointer"
             >
-              <div className="aspect-video lg:aspect-[4/3] bg-slate-100 relative group-hover:scale-105 transition-transform duration-500 overflow-hidden">
+              <div className="aspect-video bg-slate-100 relative overflow-hidden">
                 <img 
                   src={service.image || "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800"}
                   alt={service.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                   decoding="async"
                   width={400}
                   height={200}
                 />
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-brand-primary uppercase">
-                  {category.title}
+                <div className="absolute top-4 left-4 bg-brand-primary text-white p-2.5 rounded-xl flex items-center justify-center shadow-lg shadow-brand-primary/20">
+                  <category.icon size={20} />
                 </div>
               </div>
-              <div className="p-8 flex flex-col flex-1">
-                <h3 className="text-xl font-bold text-brand-secondary mb-4 group-hover:text-brand-primary transition-colors tracking-tight">
+              <div className="p-6 sm:p-8 flex flex-col flex-1">
+                <h3 className="text-xl font-bold text-brand-secondary mb-3 group-hover:text-brand-primary transition-colors tracking-tight line-clamp-2 h-14 flex items-center">
                   {service.title}
                 </h3>
-                <p className="text-slate-500 text-sm mb-6 flex-1" dangerouslySetInnerHTML={{ __html: service.shortDescription || '' }} />
+                <p className="text-slate-500 text-sm mb-6 line-clamp-3 h-[60px] overflow-hidden" dangerouslySetInnerHTML={{ __html: service.shortDescription || '' }} />
                 <div className="space-y-3 mb-6">
                   {service.features.map((f, i) => (
                     <div key={i} className="flex items-center gap-2 text-xs font-bold text-brand-secondary">
@@ -207,8 +229,10 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category, services })
 const FLOATING_NAV = [
   { href: '#electrical', title: 'Điện dân dụng', icon: Zap, activeBg: 'text-white shadow-lg', activeBgColor: '#ea580c' },
   { href: '#plumbing', title: 'Nước dân dụng', icon: Droplet, activeBg: 'text-white shadow-lg', activeBgColor: '#0284c7' },
+  { href: '#construction', title: 'Thi công trọn gói', icon: Hammer, activeBg: 'text-white shadow-lg', activeBgColor: '#64748b' },
+  { href: '#solar', title: 'Đèn năng lượng', icon: Sun, activeBg: 'text-white shadow-lg', activeBgColor: '#d97706' },
   { href: '#camera', title: 'Camera giám sát', icon: Video, activeBg: 'text-white shadow-lg', activeBgColor: '#0f172a' },
-  { href: '#detection', title: 'Dò tìm rò rỉ', icon: Search, activeBg: 'text-white shadow-lg', activeBgColor: '#f59e0b' },
+  { href: '#detection', title: 'Dò tìm rò rỉ', icon: Search, activeBg: 'text-white shadow-lg', activeBgColor: '#e11d48' },
   { href: '#smarthome', title: 'Nhà thông minh', icon: Cpu, activeBg: 'text-white shadow-lg', activeBgColor: '#059669' }
 ];
 
@@ -283,7 +307,7 @@ export default function ServicesPage() {
       }
 
       // Compute active section based on proximity to sticky header trigger point
-      const ids = ['electrical', 'plumbing', 'camera', 'detection', 'smarthome'];
+      const ids = ['electrical', 'plumbing', 'construction', 'solar', 'camera', 'detection', 'smarthome'];
       const headerHeight = headerElement ? headerElement.offsetHeight : 80;
       const triggerPoint = headerHeight + 120;
 

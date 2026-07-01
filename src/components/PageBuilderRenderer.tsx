@@ -167,7 +167,7 @@ export default function PageBuilderRenderer({
       placeholder: f.placeholder,
       isRequired: f.isRequired !== false,
       isEnabled: f.isEnabled !== false,
-      options: f.id === 'service' ? ['Sửa điện', 'Sửa chập điện', 'Sửa nước', 'Sửa rò rỉ nước', 'Siêu âm đường ống', 'Dò tìm rò rỉ nước', 'Lắp / Sửa Camera', 'Khác'] : undefined
+      options: f.id === 'service' ? ['Sửa điện, chập điện', 'Sửa nước, máy bơm', 'Siêu âm dò rò rỉ nước', 'Lắp đặt, sửa Camera', 'Thiết bị Smarthome', 'Thi công điện nước trọn gói', 'Đèn năng lượng mặt trời', 'Khác'] : undefined
     }))
   };
 
@@ -200,17 +200,32 @@ export default function PageBuilderRenderer({
     setFormInputs(prev => ({ ...prev, [fieldId]: val }));
   };
 
-  const handleSimulatedSubmit = (e: React.FormEvent) => {
+  const handleSimulatedSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsFormSubmitting(true);
-    setTimeout(() => {
-      setIsFormSubmitting(false);
-      setFormSubmitted(true);
-      if (onSimulatedFormSubmit) {
-        onSimulatedFormSubmit(formInputs);
-      }
-      setFormInputs({});
-    }, 1200);
+    
+    try {
+      await fetch('/api/telegram/notify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formName: activeForm.formTitle,
+          data: formInputs,
+          locationSlug
+        })
+      });
+    } catch (err) {
+      console.error('Failed to send telegram notification:', err);
+    }
+
+    setIsFormSubmitting(false);
+    setFormSubmitted(true);
+    if (onSimulatedFormSubmit) {
+      onSimulatedFormSubmit(formInputs);
+    }
+    setFormInputs({});
   };
 
   const wrapSection = (secType: string, key: string, index: number, content: React.ReactNode) => {
@@ -329,12 +344,6 @@ export default function PageBuilderRenderer({
   return (
     <>
       {/* ───── INTERACTIVE DYNAMIC HEADER BUILDER ───── */}
-      {activeHeader.promoText && (
-        <div className="bg-gradient-to-r from-orange-600 to-amber-500 text-white text-[11px] sm:text-xs text-center py-2 px-4 shadow-sm relative overflow-hidden flex items-center justify-center gap-2 font-black tracking-wide shrink-0">
-          <Sparkles size={12} className="shrink-0 animate-bounce" />
-          <span>{activeHeader.promoText}</span>
-        </div>
-      )}
       
       {/* ───── PRIMARY CMS CANVAS DISPLAY SECTIONS ───── */}
       {activeSections.map((section, idx) => {

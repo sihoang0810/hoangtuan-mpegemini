@@ -125,7 +125,79 @@ export default function ProductDetail() {
               items={galleryImages.map(img => ({ type: 'image' as const, url: img }))} 
               altPrefix={product.name}
             />
-            {/* Tag/Decal could be placed via absolute over the gallery, but for simplicity let's put it nearby or omit */}
+            
+            {/* Price section moved here, below the product image */}
+            <div className="flex items-center gap-4 py-5 px-6 border border-slate-100 bg-slate-50/70 rounded-2xl shadow-sm">
+              <div>
+                <span className="text-xs text-slate-500 block font-bold uppercase tracking-widest mb-1">Giá bán</span>
+                <span className="text-2xl sm:text-3xl md:text-4xl font-black text-brand-primary">{product.price}</span>
+              </div>
+              <div className="ml-auto flex items-center gap-2 bg-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-brand-secondary font-extrabold text-xs sm:text-sm border border-slate-150 shadow-sm shrink-0">
+                <ShieldCheck size={18} className="text-brand-primary shrink-0" />
+                Bảo hành 12/24 tháng
+              </div>
+            </div>
+
+            {/* Specifications section placed right below price */}
+            {(() => {
+              const specsData = product.specs as any;
+              if (!specsData) return null;
+              const hasSpecs = typeof specsData === 'string' 
+                ? specsData.trim().length > 0 
+                : Object.keys(specsData).length > 0;
+              
+              if (!hasSpecs) return null;
+
+              return (
+                <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-sm">
+                  <h3 className="text-base font-bold text-brand-secondary mb-4 uppercase flex items-center gap-2.5">
+                    <Settings className="text-brand-primary" size={18} />
+                    Thông số kỹ thuật
+                  </h3>
+                  <div className="space-y-1 bg-slate-50/50 p-2 sm:p-3 rounded-xl border border-slate-100">
+                    {typeof specsData === 'string' ? (
+                      specsData
+                        .split('\n')
+                        .map((line: string) => line.trim())
+                        .filter((line: string) => line.length > 0)
+                        .map((line: string, idx: number) => {
+                          // Remove leading bullet/dash characters like –, -, •, *
+                          const cleanLine = line.replace(/^[–\-•*\s]+/, '').trim();
+                          if (!cleanLine) return null;
+
+                          // Check if there's a colon dividing key and value (e.g. "Công suất: 200W")
+                          const colonIdx = cleanLine.indexOf(':');
+                          if (colonIdx > 0 && colonIdx < cleanLine.length - 1) {
+                            const key = cleanLine.substring(0, colonIdx).trim();
+                            const value = cleanLine.substring(colonIdx + 1).trim();
+                            return (
+                              <div key={idx} className="flex justify-between items-start py-2.5 border-b border-slate-100/70 last:border-0 hover:bg-white px-3 rounded-lg transition-colors text-xs sm:text-sm">
+                                <span className="text-slate-500 font-bold uppercase text-[10px] tracking-widest pt-0.5">{key}</span>
+                                <span className="text-brand-secondary font-bold text-right pl-4">{value}</span>
+                              </div>
+                            );
+                          }
+
+                          // Otherwise, render as a clean line list item with an accent bullet
+                          return (
+                            <div key={idx} className="flex items-start gap-2.5 py-2.5 border-b border-slate-100/70 last:border-0 hover:bg-white px-3 rounded-lg transition-colors text-xs sm:text-sm text-brand-secondary font-semibold">
+                              <span className="w-1.5 h-1.5 rounded-full bg-brand-primary shrink-0 mt-2" />
+                              <span className="leading-relaxed">{cleanLine}</span>
+                            </div>
+                          );
+                        })
+                    ) : (
+                      Object.entries(specsData).map(([key, value], idx) => (
+                        <div key={idx} className="flex justify-between items-center py-2.5 border-b border-slate-100/70 last:border-0 hover:bg-white px-3 rounded-lg transition-colors text-xs sm:text-sm">
+                          <span className="text-slate-500 font-bold uppercase text-[10px] tracking-widest">{key}</span>
+                          <span className="text-brand-secondary font-bold text-right pl-4">{value as string}</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
           </motion.div>
 
           {/* Info */}
@@ -141,16 +213,7 @@ export default function ProductDetail() {
               <h1 className="font-bold text-brand-secondary mb-6 uppercase tracking-tight leading-snug text-balance">
                 {product.name}
               </h1>
-              <div className="flex items-center gap-4 py-6 border-y border-slate-100 mb-8">
-                <div>
-                  <span className="text-xs text-slate-500 block font-bold uppercase tracking-widest mb-1">Giá bán</span>
-                  <span className="text-3xl md:text-4xl font-bold text-brand-primary">{product.price}</span>
-                </div>
-                <div className="ml-auto flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-brand-secondary font-bold text-sm">
-                  <ShieldCheck size={18} className="text-brand-primary" />
-                  Bảo hành 12/24 tháng
-                </div>
-              </div>
+              
               <div 
                 className="text-base sm:text-lg text-slate-600 leading-relaxed font-medium prose prose-slate max-w-none prose-p:text-slate-600"
                 dangerouslySetInnerHTML={{ __html: product.description || '' }}
@@ -209,23 +272,7 @@ export default function ProductDetail() {
                 </div>
               )}
 
-              {/* Specifications */}
-              {product.specs && Object.keys(product.specs).length > 0 && (
-                <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-200/50">
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-secondary mb-6 sm:mb-8 uppercase flex items-center gap-3">
-                    <Settings className="text-brand-primary" />
-                    Thông số kỹ thuật
-                  </h2>
-                  <div className="space-y-4">
-                    {Object.entries(product.specs).map(([key, value], idx) => (
-                      <div key={idx} className="flex justify-between items-center py-4 border-b border-slate-100 last:border-0 hover:bg-slate-50 px-4 rounded-lg transition-colors">
-                        <span className="text-slate-500 font-bold uppercase text-[10px] tracking-widest">{key}</span>
-                        <span className="text-brand-secondary font-bold">{value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Specifications moved to left column */}
 
               {/* Installation Support */}
               <div className="bg-brand-primary/10 p-10 rounded-[2.5rem] border border-brand-primary/20">

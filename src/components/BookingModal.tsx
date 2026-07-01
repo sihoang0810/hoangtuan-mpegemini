@@ -35,7 +35,7 @@ export default function BookingModal({ isOpen, onClose, locationSlug }: BookingM
     if (error) setError('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     
@@ -77,16 +77,34 @@ export default function BookingModal({ isOpen, onClose, locationSlug }: BookingM
     const message = `Xin chào Hoàng Tuấn MPE!\nTôi cần đặt lịch khảo sát:\n- Khách hàng: ${formInputs['name']}\n- SĐT: ${phone}\n- Dịch vụ: ${formInputs['service']}\n- Địa chỉ: ${formInputs['address'] || 'Chưa cung cấp'}\n- Khu vực: ${locationConfig.name}`;
     const zaloUrl = `https://zalo.me/${hotlineRaw}?text=${encodeURIComponent(message)}`;
 
-    // Fake a small delay for UX before opening Zalo
-    setTimeout(() => {
-      window.open(zaloUrl, '_blank');
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      setFormInputs({});
-    }, 800);
+    try {
+      await fetch('/api/telegram/notify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formName: 'Yêu Cầu Khảo Sát Tận Nơi (Modal)',
+          data: {
+            name: formInputs['name'],
+            phone: phone,
+            service: formInputs['service'],
+            address: formInputs['address'] || 'Chưa cung cấp'
+          },
+          locationSlug
+        })
+      });
+    } catch (err) {
+      console.error('Failed to send telegram notification:', err);
+    }
+
+    window.open(zaloUrl, '_blank');
+    setIsSubmitting(false);
+    setIsSuccess(true);
+    setFormInputs({});
   };
 
-  const services = ['Sửa điện', 'Sửa chập điện', 'Sửa nước', 'Sửa rò rỉ nước', 'Siêu âm đường ống', 'Dò tìm rò rỉ nước', 'Lắp / Sửa Camera', 'Khác'];
+  const services = ['Sửa điện, chập điện', 'Sửa nước, máy bơm', 'Siêu âm dò rò rỉ nước', 'Lắp đặt, sửa Camera', 'Thiết bị Smarthome', 'Thi công điện nước trọn gói', 'Đèn năng lượng mặt trời', 'Khác'];
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">

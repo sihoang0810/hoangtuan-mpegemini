@@ -37,7 +37,7 @@ export function FormBuilderSection({
     placeholder: f.placeholder,
     isRequired: f.isRequired !== false,
     isEnabled: f.isEnabled !== false,
-    options: f.id === 'service' ? ['Sửa điện', 'Sửa chập điện', 'Sửa nước', 'Sửa rò rỉ nước', 'Siêu âm đường ống', 'Dò tìm rò rỉ nước', 'Lắp / Sửa Camera', 'Khác'] : undefined
+    options: f.id === 'service' ? ['Sửa điện, chập điện', 'Sửa nước, máy bơm', 'Siêu âm dò rò rỉ nước', 'Lắp đặt, sửa Camera', 'Thiết bị Smarthome', 'Thi công điện nước trọn gói', 'Đèn năng lượng mặt trời', 'Khác'] : undefined
   }));
 
   const [formInputs, setFormInputs] = useState<Record<string, string>>({});
@@ -48,17 +48,32 @@ export function FormBuilderSection({
     setFormInputs(prev => ({ ...prev, [fieldId]: val }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsFormSubmitting(true);
-    setTimeout(() => {
-      setIsFormSubmitting(false);
-      setFormSubmitted(true);
-      if (onSimulatedFormSubmit) {
-        onSimulatedFormSubmit(formInputs);
-      }
-      setFormInputs({});
-    }, 1200);
+    
+    try {
+      await fetch('/api/telegram/notify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formName: formTitle,
+          data: formInputs,
+          locationSlug
+        })
+      });
+    } catch (err) {
+      console.error('Failed to send telegram notification:', err);
+    }
+
+    setIsFormSubmitting(false);
+    setFormSubmitted(true);
+    if (onSimulatedFormSubmit) {
+      onSimulatedFormSubmit(formInputs);
+    }
+    setFormInputs({});
   };
 
   return (

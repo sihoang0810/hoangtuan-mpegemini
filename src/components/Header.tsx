@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, PhoneCall, MapPin, ChevronDown, Zap, Droplet, Video, Search, ArrowRight, Cpu } from 'lucide-react';
+import { Menu, X, PhoneCall, MapPin, ChevronDown, Zap, Droplet, Video, Search, ArrowRight, Cpu, Sun, Hammer } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation as useRouterLocation } from 'react-router-dom';
 import { useLocation as useAppLocation } from '../context/LocationContext';
@@ -84,51 +84,84 @@ export default function Header() {
     }
   };
 
+  const handleDropdownServiceClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const currentPath = routerLocation.pathname;
+    const targetPathAndHash = href.split('#');
+    const targetPath = targetPathAndHash[0];
+    const targetHash = targetPathAndHash[1];
+
+    if (currentPath === targetPath && targetHash) {
+      e.preventDefault();
+      setIsOpen(false); // Close mobile menu if open
+
+      const element = document.getElementById(targetHash);
+      if (element) {
+        const headerElement = document.querySelector('header');
+        const headerHeight = headerElement ? headerElement.offsetHeight : 80;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - headerHeight - 10;
+
+        window.scrollTo({
+          top: offsetPosition >= 0 ? offsetPosition : 0,
+          behavior: 'smooth'
+        });
+
+        window.history.pushState(null, '', `#${targetHash}`);
+      }
+    } else {
+      setIsOpen(false);
+    }
+  };
+
   const SERVICE_MENU = [
     {
-      title: 'ĐIỆN', icon: Zap, color: 'text-blue-500',
-      links: [
-        { name: 'Sửa điện', href: `${siteLocationPrefix}/dich-vu/sua-dien` },
-        { name: 'Sửa chập điện', href: `${siteLocationPrefix}/dich-vu/sua-chap-dien` },
-        { name: 'Sửa aptomat', href: `${siteLocationPrefix}/dich-vu/sua-aptomat` },
-        { name: 'Lắp đặt điện', href: `${siteLocationPrefix}/dich-vu/lap-dat-dien` },
-      ]
+      title: 'Dịch vụ Sửa Điện',
+      subtitle: 'Sửa chập điện, sự cố aptomat, lắp đặt thiết bị điện',
+      icon: Zap,
+      color: 'bg-blue-50 text-blue-600 border-blue-100',
+      href: `${siteLocationPrefix}/dich-vu#electrical`
     },
     {
-      title: 'NƯỚC', icon: Droplet, color: 'text-cyan-500',
-      links: [
-        { name: 'Sửa nước', href: `${siteLocationPrefix}/dich-vu/sua-nuoc` },
-        { name: 'Lắp bơm tăng áp', href: `${siteLocationPrefix}/dich-vu/lap-may-bom` },
-        { name: 'Sửa rò rỉ nước', href: `${siteLocationPrefix}/dich-vu/sua-ro-ri-nuoc` },
-        { name: 'Siêu âm đường ống', href: `${siteLocationPrefix}/dich-vu/sieu-am-do-ong-am` },
-      ]
+      title: 'Dịch vụ Sửa Nước',
+      subtitle: 'Xử lý rò rỉ nước, sửa máy bơm, đường ống nước',
+      icon: Droplet,
+      color: 'bg-cyan-50 text-cyan-600 border-cyan-100',
+      href: `${siteLocationPrefix}/dich-vu#plumbing`
     },
     {
-      title: 'CAMERA', icon: Video, color: 'text-indigo-500',
-      links: [
-        { name: 'Lắp camera', href: `${siteLocationPrefix}/dich-vu/lap-camera` },
-        { name: 'Sửa camera', href: `${siteLocationPrefix}/dich-vu/sua-camera` },
-        { name: 'Camera gia đình', href: `${siteLocationPrefix}/dich-vu/camera-gia-dinh` },
-        { name: 'Camera cửa hàng', href: `${siteLocationPrefix}/dich-vu/camera-cua-hang` },
-      ]
+      title: 'Thi công Điện Nước trọn gói',
+      subtitle: 'Thi công cơ điện nước nhà phố, biệt thự, cải tạo nhà cũ',
+      icon: Hammer,
+      color: 'bg-slate-50 text-slate-600 border-slate-100',
+      href: `${siteLocationPrefix}/dich-vu#construction`
     },
     {
-      title: 'DÒ TÌM', icon: Search, color: 'text-amber-500',
-      links: [
-        { name: 'Dò rò rỉ nước', href: `${siteLocationPrefix}/dich-vu/do-ro-ri-nuoc` },
-        { name: 'Siêu âm dò ống âm', href: `${siteLocationPrefix}/dich-vu/sieu-am-do-ong-am` },
-        { name: 'Dò đường nước âm', href: `${siteLocationPrefix}/dich-vu/do-duong-nuoc-am` },
-        { name: 'Dò điện âm tường', href: `${siteLocationPrefix}/dich-vu/do-duong-dien-am-tuong` },
-      ]
+      title: 'Đèn Năng lượng mặt trời',
+      subtitle: 'Lắp đặt đèn pha, đèn đường LED thông minh tự sạc',
+      icon: Sun,
+      color: 'bg-yellow-50 text-yellow-600 border-yellow-100',
+      href: `${siteLocationPrefix}/dich-vu#solar`
     },
     {
-      title: 'SMARTHOME', icon: Cpu, color: 'text-emerald-500',
-      links: [
-        { name: 'Công tắc cửa cuốn thông minh', href: `${siteLocationPrefix}/dich-vu/cong-tac-cua-cuon-thong-minh` },
-        { name: 'Công tắc điện thông minh', href: `${siteLocationPrefix}/dich-vu/cong-tac-dien-thong-minh` },
-        { name: 'Cảm biến an ninh', href: `${siteLocationPrefix}/dich-vu/cam-bien-an-ninh-thong-minh` },
-        { name: 'Giải trí & Rèm tự động', href: `${siteLocationPrefix}/dich-vu/chieu-sang-va-giai-tri-thong-minh` },
-      ]
+      title: 'Dịch vụ Siêu âm Dò tìm',
+      subtitle: 'Siêu âm phát hiện rò rỉ nước, dò tìm đường ống âm',
+      icon: Search,
+      color: 'bg-rose-50 text-rose-600 border-rose-100',
+      href: `${siteLocationPrefix}/dich-vu#detection`
+    },
+    {
+      title: 'Dịch vụ Camera',
+      subtitle: 'Lắp đặt, sửa chữa camera quan sát gia đình, cửa hàng',
+      icon: Video,
+      color: 'bg-indigo-50 text-indigo-600 border-indigo-100',
+      href: `${siteLocationPrefix}/dich-vu#camera`
+    },
+    {
+      title: 'Dịch vụ Điện Thông Minh',
+      subtitle: 'Smarthome, công tắc cửa cuốn, cảm biến an ninh',
+      icon: Cpu,
+      color: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+      href: `${siteLocationPrefix}/dich-vu#smarthome`
     }
   ];
 
@@ -261,10 +294,14 @@ export default function Header() {
             </span>
           </div>
           <div className="flex items-center gap-4 text-slate-300 text-[11px] sm:text-[12px]">
-            <a href={`tel:${mainHotline.replace(/[.\s]/g, '')}`} className="hover:text-brand-primary transition-colors flex items-center gap-1.5 py-0.5">
-              <PhoneCall size={12} className="text-brand-primary" />
-              <span className="font-extrabold text-white">Hotline 24/7: {mainHotline}</span>
-            </a>
+            <button 
+              onClick={changeLocation}
+              className="hover:text-brand-primary transition-colors flex items-center gap-1.5 py-0.5 cursor-pointer text-white font-extrabold"
+            >
+              <MapPin size={12} className="text-brand-primary" />
+              <span>Khu vực: {mappedDisplayName}</span>
+              <ChevronDown size={10} className="opacity-70" />
+            </button>
           </div>
         </div>
       </div>
@@ -304,7 +341,7 @@ export default function Header() {
                     <Link 
                       to={targetPath}
                       onClick={(e) => handleMenuClick(e, link.href)}
-                      className={`relative py-8 text-sm font-bold tracking-wide uppercase transition-all duration-300 whitespace-nowrap flex items-center gap-1 ${
+                      className={`relative py-8 text-sm font-bold tracking-wide transition-all duration-300 whitespace-nowrap flex items-center gap-1 ${
                         active 
                           ? 'text-brand-primary font-extrabold scale-102' 
                           : 'text-brand-secondary hover:text-brand-primary hover:scale-102 font-bold'
@@ -319,39 +356,38 @@ export default function Header() {
 
                     {/* Mega Menu Dropdown */}
                     {link.hasDropdown && (
-                      <div className="absolute top-full left-1/2 w-max bg-white shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-slate-100/60 rounded-3xl p-8 mega-menu-container">
-                        <div className="flex gap-10">
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 w-[640px] bg-white shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-slate-100/60 rounded-3xl p-6 mega-menu-container">
+                        <div className="grid grid-cols-2 gap-4">
                           {SERVICE_MENU.map((item) => (
-                            <div key={item.title}>
-                              <div className={`flex items-center gap-2 font-bold mb-4 ${item.color}`}>
-                                <item.icon size={20} />
-                                <span className="tracking-widest uppercase text-xs">{item.title}</span>
+                            <Link
+                              key={item.title}
+                              to={item.href}
+                              onClick={(e) => handleDropdownServiceClick(e, item.href)}
+                              className="flex items-start gap-4 p-4 rounded-2xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all group"
+                            >
+                              <div className={`p-3 rounded-xl border shrink-0 ${item.color} group-hover:scale-105 transition-transform`}>
+                                <item.icon size={22} />
                               </div>
-                              <ul className="space-y-3">
-                                {item.links.map((sublink) => (
-                                  <li key={sublink.name}>
-                                    <Link 
-                                      to={sublink.href}
-                                      onClick={() => console.log('Navigation target:', sublink.href)}
-                                      className="text-slate-600 hover:text-brand-primary flex flex-col transition-colors"
-                                    >
-                                      <span className="font-bold text-sm">{sublink.name}</span>
-                                      <span className="text-[12px] text-slate-500 capitalize">tại {mappedDisplayName}</span>
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
+                              <div className="flex flex-col">
+                                <span className="font-extrabold text-sm text-slate-900 group-hover:text-brand-primary transition-colors">
+                                  {item.title}
+                                </span>
+                                <span className="text-xs text-slate-500 mt-1 leading-snug">
+                                  {item.subtitle}
+                                </span>
+                              </div>
+                            </Link>
                           ))}
                         </div>
-                        <div className="mt-8 pt-8 border-t border-slate-50 flex justify-center">
+                        <div className="mt-5 pt-4 border-t border-slate-100/60 flex justify-between items-center text-xs">
+                          <span className="text-slate-400 font-medium">Hỗ trợ 24/7 nhanh chóng tại {mappedDisplayName}</span>
                           <Link 
                             to={`${siteLocationPrefix}/dich-vu`}
                             onClick={() => console.log('Navigation target:', `${siteLocationPrefix}/dich-vu`)}
-                            className="flex items-center gap-2 bg-brand-primary text-white px-8 py-3 rounded-full font-bold text-sm uppercase hover:scale-105 active:scale-95 transition-all shadow-lg shadow-brand-primary/20 tracking-widest"
+                            className="flex items-center gap-1.5 text-brand-primary font-bold hover:underline"
                           >
-                            Xem tất cả dịch vụ
-                            <ArrowRight size={18} />
+                            <span>Tất cả dịch vụ</span>
+                            <ArrowRight size={14} />
                           </Link>
                         </div>
                       </div>
@@ -362,16 +398,15 @@ export default function Header() {
             </div>
           </nav>
 
-          {/* Location Selector Button - Right */}
+          {/* Hotline Call Button - Right */}
           <div className="hidden lg:block shrink-0">
-            <button 
-              onClick={changeLocation}
+            <a 
+              href={`tel:${mainHotline.replace(/[.\s]/g, '')}`}
               className="flex items-center gap-3 bg-brand-primary text-white px-6 py-3 rounded-full font-bold text-lg shadow-xl shadow-brand-primary/30 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer tracking-tight"
             >
-              <MapPin size={22} />
-              <span>{mappedDisplayName}</span>
-              <ChevronDown size={18} className="opacity-70" />
-            </button>
+              <PhoneCall size={22} className="animate-pulse" />
+              <span>Hotline: {mainHotline}</span>
+            </a>
           </div>
 
           {/* Mobile Toggle */}
@@ -462,19 +497,17 @@ export default function Header() {
                               </Link>
                             </div>
                             {SERVICE_MENU.map((item) => {
-                              const serviceName = `Dịch vụ ${item.title.toLowerCase()}`;
-                              const targetLink = item.links[0]?.href || `${siteLocationPrefix}/dich-vu`;
                               return (
                                 <div key={item.title}>
                                   <Link 
-                                    to={targetLink}
-                                    className="flex items-center gap-3 py-2 px-3 bg-white hover:bg-slate-50 active:bg-slate-100 rounded-xl transition-colors shadow-sm shadow-brand-primary/10"
-                                    onClick={() => setIsOpen(false)}
+                                    to={item.href}
+                                    className="flex items-center gap-3 py-2.5 px-3 bg-white hover:bg-slate-50 active:bg-slate-100 rounded-xl transition-colors shadow-sm shadow-brand-primary/10 border border-slate-100"
+                                    onClick={(e) => handleDropdownServiceClick(e, item.href)}
                                   >
-                                    <div className={`p-2 rounded-lg bg-current/10 ${item.color}`}>
-                                      <item.icon size={18} className="text-current" />
+                                    <div className={`p-2 rounded-lg shrink-0 ${item.color}`}>
+                                      <item.icon size={18} />
                                     </div>
-                                    <span className="font-bold text-slate-700 capitalize text-sm">{serviceName}</span>
+                                    <span className="font-extrabold text-slate-700 text-sm">{item.title}</span>
                                   </Link>
                                 </div>
                               );
