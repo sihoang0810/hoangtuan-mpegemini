@@ -9,7 +9,7 @@ export interface Service {
   icon: any;
   category: 'electrical' | 'plumbing' | 'construction' | 'solar' | 'camera' | 'detection' | 'smarthome';
   features: string[];
-  pricing: { item: string; price: string; unit?: string }[];
+  pricing: { item: string; price: string; unit?: string; isTotal?: boolean }[];
   image?: string;
   gallery?: {
     type: 'image' | 'video';
@@ -36,7 +36,7 @@ export const SERVICES: Service[] = [
     pricing: [
       { item: 'Thay công tắc/ổ cắm', price: 'Từ 50.000đ', unit: 'cái' },
       { item: 'Sửa mất điện cục bộ', price: 'Từ 150.000đ', unit: 'lần' },
-      { item: 'Kiểm tra đường dây', price: 'Miễn phí', unit: '' }
+      { item: 'Kiểm tra đường dây', price: 'Khảo sát miễn phí', unit: '' }
     ],
     benefits: ['Thợ tay nghề cao', 'Linh kiện chính hãng', 'Giá cả minh bạch'],
     faq: [
@@ -142,7 +142,7 @@ export const SERVICES: Service[] = [
     features: ['Chống thấm triệt để', 'Vật liệu bền bỉ', 'Tiết kiệm chi phí'],
     pricing: [
       { item: 'Xử lý rò rỉ lộ thiên', price: 'Từ 150.000đ', unit: 'điểm' },
-      { item: 'Sửa rò rỉ âm tường', price: 'Theo khảo sát', unit: 'điểm' }
+      { item: 'Sửa rò rỉ âm tường', price: 'Khảo sát miễn phí – Báo giá tại chỗ', unit: 'điểm' }
     ]
   },
   {
@@ -156,7 +156,7 @@ export const SERVICES: Service[] = [
     features: ['Hạn chế đục phá', 'Thi công nhanh gọn', 'Bảo hành dài hạn'],
     pricing: [
       { item: 'Hàn ống nhiệt PPR', price: 'Từ 200.000đ', unit: 'điểm' },
-      { item: 'Đục và trám trét', price: 'Căn cứ thực tế', unit: 'm2' }
+      { item: 'Đục và trám trét', price: 'Khảo sát miễn phí – Báo giá tại chỗ', unit: 'm2' }
     ]
   },
   {
@@ -188,7 +188,7 @@ export const SERVICES: Service[] = [
     features: ['Xem qua App 24/7', 'Lưu trữ trọn vẹn', 'Hỗ trợ kỹ thuật nhanh'],
     pricing: [
       { item: 'Công lắp đặt camera', price: 'Từ 150.000đ', unit: 'mắt' },
-      { item: 'Trọn gói hệ thống', price: 'Liên hệ', unit: 'gói' }
+      { item: 'Trọn gói hệ thống', price: 'Liên hệ để nhận báo giá', unit: 'gói' }
     ]
   },
   {
@@ -214,7 +214,9 @@ export const SERVICES: Service[] = [
     category: 'camera',
     features: ['Giá từ 5xx.000đ', 'Dễ sử dụng', 'Cảnh báo chuyển động'],
     pricing: [
-      { item: 'Camera Ezviz/Imou', price: 'Từ 850.000đ', unit: 'mắt' }
+      { item: 'Giá thiết bị (chính hãng)', price: 'Từ 850.000đ', unit: 'mắt' },
+      { item: 'Công lắp đặt + đi dây', price: 'Từ 150.000đ', unit: 'mắt' },
+      { item: 'Tổng chi phí dự kiến từ', price: 'Từ 1.000.000đ', unit: 'mắt', isTotal: true }
     ]
   },
   {
@@ -227,7 +229,7 @@ export const SERVICES: Service[] = [
     category: 'camera',
     features: ['Quản lý từ xa', 'Hình ảnh sắc nét', 'Bảo hành tận nơi'],
     pricing: [
-      { item: 'Hệ thống cao cấp', price: 'Báo giá theo mẫu', unit: 'gói' }
+      { item: 'Hệ thống cao cấp', price: 'Liên hệ để nhận báo giá', unit: 'gói' }
     ]
   },
   {
@@ -242,8 +244,9 @@ export const SERVICES: Service[] = [
     category: 'camera',
     features: ['Tự cấp nguồn xanh 100%', 'Tích hợp SIM 4G tốc độ cao', 'Chuẩn chống nước tuyệt bộc IP67'],
     pricing: [
-      { item: 'Bao gồm camera + tấm pin mặt trời', price: 'Từ 2.450.000đ', unit: 'bộ' },
-      { item: 'Công thi công tận rẫy rừng', price: 'Khảo sát thực tế', unit: 'gói' }
+      { item: 'Giá thiết bị (chính hãng)', price: 'Từ 2.450.000đ', unit: 'bộ' },
+      { item: 'Công lắp đặt + đi dây', price: 'Từ 150.000đ', unit: 'bộ' },
+      { item: 'Tổng chi phí dự kiến từ', price: 'Từ 2.600.000đ', unit: 'bộ', isTotal: true }
     ]
   },
 
@@ -261,7 +264,7 @@ export const SERVICES: Service[] = [
     features: ['Siêu âm hiện đại', 'Tiết kiệm tài nguyên', 'Xử lý tại chỗ'],
     pricing: [
       { item: 'Dò rò rỉ nhà dân', price: 'Từ 500.000đ', unit: 'lần' },
-      { item: 'Dò rò rỉ công ty', price: 'Khảo sát báo giá', unit: 'lần' }
+      { item: 'Dò rò rỉ công ty', price: 'Khảo sát miễn phí – Báo giá tại chỗ', unit: 'lần' }
     ]
   },
   {
@@ -365,7 +368,7 @@ export const SERVICES: Service[] = [
     category: 'smarthome',
     features: ['Sắp ra mắt (Coming soon)', 'Cấu hình đỉnh cao', 'Kết nối bảo mật'],
     pricing: [
-      { item: 'Dịch vụ đang phát triển', price: 'Coming Soon', unit: 'hệ thống' }
+      { item: 'Dịch vụ đang phát triển', price: 'Liên hệ để nhận báo giá', unit: 'hệ thống' }
     ],
     image: 'https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&q=80&w=800'
   },
@@ -379,7 +382,7 @@ export const SERVICES: Service[] = [
     category: 'smarthome',
     features: ['Sắp ra mắt (Coming soon)', 'Phong cách sống hiện đại', 'Trải nghiệm đỉnh cao'],
     pricing: [
-      { item: 'Dịch vụ đang phát triển', price: 'Coming Soon', unit: 'thiết bị' }
+      { item: 'Dịch vụ đang phát triển', price: 'Liên hệ để nhận báo giá', unit: 'thiết bị' }
     ],
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800'
   },
@@ -410,7 +413,7 @@ export const SERVICES: Service[] = [
     category: 'construction',
     features: ['Sử dụng vật tư cao cấp', 'Thi công nhanh, sạch sẽ', 'Khảo sát và báo giá miễn phí'],
     pricing: [
-      { item: 'Cải tạo toàn bộ hệ thống', price: 'Theo khảo sát', unit: 'gói' }
+      { item: 'Cải tạo toàn bộ hệ thống', price: 'Khảo sát miễn phí – Báo giá tại chỗ', unit: 'gói' }
     ],
     image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800'
   },

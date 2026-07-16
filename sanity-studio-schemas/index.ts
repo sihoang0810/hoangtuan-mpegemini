@@ -13,6 +13,11 @@ import { post } from './post';
 import { testimonial } from './testimonial';
 import { faq } from './faq';
 import { product } from './product';
+import { project } from './project';
+import { category } from './category';
+import { banner } from './banner';
+import { location } from './location';
+import { productCategory } from './productCategory';
 
 export const schemaTypes = [
   siteSettings,
@@ -20,5 +25,10 @@ export const schemaTypes = [
   post,
   testimonial,
   faq,
-  product
+  product,
+  project,
+  category,
+  banner,
+  location,
+  productCategory
 ];

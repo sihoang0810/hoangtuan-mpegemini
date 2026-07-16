@@ -6,9 +6,9 @@ import { LOCATIONS } from '../constants';
 import BookingModal from './BookingModal';
 import { useAnalytics } from '../hooks/useAnalytics';
 
-const ZaloIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-    <path d="M22.091 14.394c-.201-.274-.475-.522-.816-.738.312-.497.514-1.077.514-1.656 0-2.761-3.134-5-7-5s-7 2.239-7 5 3.134 5 7 5c.421 0 .83-.028 1.226-.081 1.054.896 2.457 1.481 3.991 1.636.19.019.38.031.571.031.259 0 .506-.022.744-.063.19-.033.37-.087.541-.159l.012-.005c.403-.172.645-.595.645-1.031 0-.317-.11-.607-.291-.834l-.197-.101zm-7.304-4.894c.328 0 .594.266.594.594s-.266.594-.594.594-.594-.266-.594-.594.266-.594.594-.594zm-2.375.594c0 .328-.266.594-.594.594s-.594-.266-.594-.594.266-.594.594-.594.594.266.594.594z" />
+const ZaloIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} fillRule="evenodd" clipRule="evenodd">
+    <path d="M12.003 2C6.443 2 2 6.443 2 12.003c0 2.115.65 4.075 1.765 5.7L2 22l4.475-1.472a9.92 9.92 0 0 0 5.528 1.475c5.56 0 10.003-4.443 10.003-10.003C22.006 6.443 17.563 2 12.003 2ZM15 14H10.5L15 8.75V7.5H9V9H13.5L9 14.25V15.5H15V14Z" />
   </svg>
 );
 
@@ -168,7 +168,7 @@ export default function FloatingContact() {
                 rel="noopener noreferrer"
                 className="flex flex-col items-center justify-center gap-1 bg-[#0068ff] text-white py-2 px-2 rounded-xl font-bold active:scale-95 transition-transform"
               >
-                <MessageCircle size={18} />
+                <ZaloIcon className="w-[18px] h-[18px]" />
                 <span className="text-[10px] uppercase">Zalo</span>
               </a>
               <a 

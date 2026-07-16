@@ -22,6 +22,7 @@ import { getProductBySlug, getProductBySlugSync, getProducts, getProductsSync, C
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 import MediaGallery from '../components/MediaGallery';
+import { PortableText } from '@portabletext/react';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 
@@ -214,10 +215,13 @@ export default function ProductDetail() {
                 {product.name}
               </h1>
               
-              <div 
-                className="text-base sm:text-lg text-slate-600 leading-relaxed font-medium prose prose-slate max-w-none prose-p:text-slate-600"
-                dangerouslySetInnerHTML={{ __html: product.description || '' }}
-              />
+              <div className="text-base sm:text-lg text-slate-600 leading-relaxed font-medium prose prose-slate max-w-none prose-p:text-slate-600">
+                {product.content ? (
+                  <PortableText value={product.content} />
+                ) : (
+                  <div dangerouslySetInnerHTML={{ __html: product.description || '' }} />
+                )}
+              </div>
             </motion.div>
 
             {/* Quick Actions */}

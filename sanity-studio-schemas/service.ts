@@ -84,6 +84,12 @@ export const service = defineType({
       ]
     }),
     defineField({
+      name: 'category',
+      title: 'Danh mục',
+      type: 'reference',
+      to: [{ type: 'category' }],
+    }),
+    defineField({
       name: 'locations',
       title: 'Áp dụng cho Chi Nhánh',
       type: 'array',
@@ -103,7 +109,18 @@ export const service = defineType({
       type: 'number',
       description: 'Số nhỏ hơn sẽ hiển thị trước (ví dụ: 1, 2, 3...).',
       initialValue: 10,
-    })
+    }),
+    // SEO Fields
+    defineField({
+      name: 'seoTitle',
+      title: 'SEO Title (Tiêu đề SEO)',
+      type: 'string',
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO Description (Mô tả SEO)',
+      type: 'text',
+    }),
   ],
   preview: {
     select: {

@@ -1,12 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@custom-variant hover {
-  @media (hover: hover) {
-    &:hover;
-  }
-}
-
 @theme {
   --color-brand-primary: #0284c7;
   --color-brand-secondary: #0F172A;

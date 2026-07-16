@@ -1,12 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, MapPin, Calendar, ArrowRight, Hammer, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
-import { PROJECTS_DATA, Project } from '../data/projectsData';
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 import { Link } from 'react-router-dom';
 import OptimizedImage from '../components/OptimizedImage';
 import FinalCTA from '../components/FinalCTA';
+import { getProjects, getProjectsSync, CMSProject, client } from '../lib/sanity';
 
 export default function ProjectListing() {
   const { locationSlug } = useLocation();
@@ -16,26 +16,53 @@ export default function ProjectListing() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   
+  const [projectsData, setProjectsData] = useState<CMSProject[]>(() => getProjectsSync(locationSlug));
+
+  useEffect(() => {
+    let active = true;
+
+    getProjects(locationSlug).then((data) => {
+      if (active && data) {
+        setProjectsData(data);
+      }
+    });
+
+    const subscription = client
+      .listen(`*[_type == "project"]`)
+      .subscribe((update) => {
+        if (active) {
+          getProjects(locationSlug).then((data) => {
+            if (active && data) setProjectsData(data);
+          });
+        }
+      });
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, [locationSlug]);
+
   // State to track active preview image index for each project card
   const [projectImageIndexes, setProjectImageIndexes] = useState<Record<string, number>>({});
 
   // Collect unique categories from projects data
   const categories = useMemo(() => {
-    const list = new Set(PROJECTS_DATA.map(p => p.category));
-    return ['all', ...Array.from(list)];
-  }, []);
+    const list = new Set(projectsData.map(p => p.category || ''));
+    return ['all', ...Array.from(list).filter(Boolean)];
+  }, [projectsData]);
 
   const filteredProjects = useMemo(() => {
-    return PROJECTS_DATA.filter(project => {
-      const matchesCategory = activeCategory === 'all' || project.category === activeCategory;
-      const matchesSearch = 
-        project.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        project.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.category.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
+    return projectsData.filter(project => {
+      const categoryMatch = activeCategory === 'all' || project.category === activeCategory;
+      const searchMatch = 
+        project.title?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        project.shortDescription?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.category?.toLowerCase().includes(searchQuery.toLowerCase());
+      return categoryMatch && searchMatch;
     });
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, projectsData]);
 
   // Handle switching preview images for a specific project
   const handleSetImageIndex = (projectId: string, index: number) => {
@@ -45,19 +72,23 @@ export default function ProjectListing() {
     }));
   };
 
-  const handleNextImage = (project: Project, e: React.MouseEvent) => {
+  const handleNextImage = (project: CMSProject, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    const imgs = project.images || project.gallery || [];
+    if (!imgs.length) return;
     const currentIdx = projectImageIndexes[project.id] || 0;
-    const nextIdx = (currentIdx + 1) % project.images.length;
+    const nextIdx = (currentIdx + 1) % imgs.length;
     handleSetImageIndex(project.id, nextIdx);
   };
 
-  const handlePrevImage = (project: Project, e: React.MouseEvent) => {
+  const handlePrevImage = (project: CMSProject, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    const imgs = project.images || project.gallery || [];
+    if (!imgs.length) return;
     const currentIdx = projectImageIndexes[project.id] || 0;
-    const prevIdx = (currentIdx - 1 + project.images.length) % project.images.length;
+    const prevIdx = (currentIdx - 1 + imgs.length) % imgs.length;
     handleSetImageIndex(project.id, prevIdx);
   };
 
@@ -149,8 +180,9 @@ export default function ProjectListing() {
               >
                 {filteredProjects.map((project, index) => {
                   const isEven = index % 2 === 0;
+                  const imgs = project.images || project.gallery || (project.image ? [project.image] : []);
                   const activeImgIdx = projectImageIndexes[project.id] || 0;
-                  const activeImg = project.images[activeImgIdx] || project.gallery[0];
+                  const activeImg = imgs[activeImgIdx] || imgs[0] || '';
 
                   return (
                     <motion.div
@@ -176,11 +208,17 @@ export default function ProjectListing() {
                                 transition={{ duration: 0.3 }}
                                 className="w-full h-full"
                               >
-                                <OptimizedImage
-                                  src={activeImg}
-                                  alt={`${project.title} - Ảnh ${activeImgIdx + 1}`}
-                                  className="w-full h-full object-cover"
-                                />
+                                {activeImg ? (
+                                  <OptimizedImage
+                                    src={activeImg}
+                                    alt={`${project.title} - Ảnh ${activeImgIdx + 1}`}
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center bg-slate-200">
+                                    <span className="text-slate-400">Không có ảnh</span>
+                                  </div>
+                                )}
                               </motion.div>
                             </AnimatePresence>
 
@@ -192,14 +230,16 @@ export default function ProjectListing() {
                             </div>
 
                             {/* Category Badge */}
-                            <div className="absolute top-4 left-4 z-10">
-                              <span className="bg-brand-primary text-white text-[10px] font-black px-4 py-2 rounded-xl uppercase tracking-widest shadow-md">
-                                {project.category}
-                              </span>
-                            </div>
+                            {project.category && (
+                              <div className="absolute top-4 left-4 z-10">
+                                <span className="bg-brand-primary text-white text-[10px] font-black px-4 py-2 rounded-xl uppercase tracking-widest shadow-md">
+                                  {project.category}
+                                </span>
+                              </div>
+                            )}
 
                             {/* Quick Navigation Arrows for multi-images */}
-                            {project.images.length > 1 && (
+                            {imgs.length > 1 && (
                               <>
                                 <button
                                   onClick={(e) => handlePrevImage(project, e)}
@@ -220,9 +260,9 @@ export default function ProjectListing() {
                           </div>
 
                           {/* Image Switcher Thumbnails Indicator */}
-                          {project.images.length > 1 && (
+                          {imgs.length > 1 && (
                             <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-                              {project.images.map((img, idx) => (
+                              {imgs.map((img, idx) => (
                                 <button
                                   key={idx}
                                   onClick={() => handleSetImageIndex(project.id, idx)}
@@ -247,14 +287,18 @@ export default function ProjectListing() {
                         {/* Text summaries content */}
                         <div className="w-full lg:w-1/2 space-y-5">
                           <div className="flex flex-wrap gap-2.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                            <div className="flex items-center gap-1 bg-slate-100 px-3.5 py-1.5 rounded-xl border border-slate-150">
-                              <MapPin size={13} className="text-brand-primary" />
-                              <span>{project.location}</span>
-                            </div>
-                            <div className="flex items-center gap-1 bg-slate-100 px-3.5 py-1.5 rounded-xl border border-slate-150">
-                              <Calendar size={13} className="text-brand-primary" />
-                              <span>Bàn giao: {project.completionDate}</span>
-                            </div>
+                            {project.location && (
+                              <div className="flex items-center gap-1 bg-slate-100 px-3.5 py-1.5 rounded-xl border border-slate-150">
+                                <MapPin size={13} className="text-brand-primary" />
+                                <span>{project.location}</span>
+                              </div>
+                            )}
+                            {project.completionDate && (
+                              <div className="flex items-center gap-1 bg-slate-100 px-3.5 py-1.5 rounded-xl border border-slate-150">
+                                <Calendar size={13} className="text-brand-primary" />
+                                <span>Bàn giao: {project.completionDate}</span>
+                              </div>
+                            )}
                           </div>
 
                           <h3 className="text-xl sm:text-2xl font-black text-brand-secondary leading-snug tracking-tight hover:text-brand-primary transition-colors">
@@ -264,21 +308,23 @@ export default function ProjectListing() {
                           </h3>
 
                           <p className="text-slate-500 leading-relaxed text-sm whitespace-pre-line">
-                            {project.shortDescription}
+                            {project.shortDescription || project.description}
                           </p>
 
                           {/* Brief Key services list */}
-                          <div className="pt-2 space-y-1.5">
-                            <span className="text-[11px] font-black text-brand-primary uppercase tracking-wider block">Các hạng mục chính thực hiện:</span>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-semibold text-slate-600">
-                              {project.services.slice(0, 4).map((s, sIdx) => (
-                                <div key={sIdx} className="flex items-start gap-1.5">
-                                  <span className="text-brand-primary shrink-0">✓</span>
-                                  <span className="line-clamp-1">{s}</span>
-                                </div>
-                              ))}
+                          {project.services && project.services.length > 0 && (
+                            <div className="pt-2 space-y-1.5">
+                              <span className="text-[11px] font-black text-brand-primary uppercase tracking-wider block">Các hạng mục chính thực hiện:</span>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-semibold text-slate-600">
+                                {project.services.slice(0, 4).map((s, sIdx) => (
+                                  <div key={sIdx} className="flex items-start gap-1.5">
+                                    <span className="text-brand-primary shrink-0">✓</span>
+                                    <span className="line-clamp-1">{s}</span>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
 
                           <div className="pt-4 flex flex-wrap gap-4 items-center">
                             <Link

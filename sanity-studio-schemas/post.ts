@@ -81,6 +81,19 @@ export const post = defineType({
       ]
     }),
     defineField({
+      name: 'category',
+      title: 'Danh mục',
+      type: 'reference',
+      to: [{ type: 'category' }],
+    }),
+    defineField({
+      name: 'tags',
+      title: 'Thẻ (Tags)',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'Nhập các từ khóa liên quan (ví dụ: Sửa điện, Dò nước...)',
+    }),
+    defineField({
       name: 'locations',
       title: 'Hiển thị cho Chi Nhánh',
       type: 'array',
@@ -99,7 +112,18 @@ export const post = defineType({
       title: 'Thứ tự hiển thị',
       type: 'number',
       initialValue: 0,
-    })
+    }),
+    // SEO Fields
+    defineField({
+      name: 'seoTitle',
+      title: 'SEO Title (Tiêu đề SEO)',
+      type: 'string',
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO Description (Mô tả SEO)',
+      type: 'text',
+    }),
   ],
   preview: {
     select: {

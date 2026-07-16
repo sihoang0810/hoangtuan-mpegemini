@@ -11,9 +11,11 @@
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
     "sanity": "cd sanity && npx sanity dev",
-    "seed": "tsx seed.ts"
+    "seed": "tsx seed.ts",
+    "seed:testimonials": "tsx seed-testimonials.ts"
   },
   "dependencies": {
+    "@portabletext/react": "^6.2.0",
     "@sanity/cli": "^6.6.0",
     "@sanity/client": "^7.22.0",
     "@sanity/color-input": "^6.0.5",

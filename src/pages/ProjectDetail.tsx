@@ -6,7 +6,8 @@ import {
   Lightbulb, Trophy, HelpCircle, Image as ImageIcon, Phone, ArrowRight,
   X, ZoomIn, ChevronLeft, ChevronRight, Clock, Gauge, ShieldCheck
 } from 'lucide-react';
-import { PROJECTS_DATA, Project } from '../data/projectsData';
+import { getProjectBySlug, getProjectBySlugSync, CMSProject, client } from '../lib/sanity';
+import { PortableText } from '@portabletext/react';
 import { useLocation } from '../context/LocationContext';
 import PageSEO from '../components/PageSEO';
 import OptimizedImage from '../components/OptimizedImage';
@@ -22,13 +23,39 @@ export default function ProjectDetail() {
   // Lightbox State for rich image preview
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  // Find project by slug
-  const project = useMemo(() => {
-    return PROJECTS_DATA.find(p => p.slug === slug);
-  }, [slug]);
+  // Fetch project from Sanity
+  const [project, setProject] = useState<CMSProject | null>(() => getProjectBySlugSync(slug, locationSlug));
+  const [loading, setLoading] = useState(!project);
+
+  React.useEffect(() => {
+    let active = true;
+    setLoading(true);
+
+    getProjectBySlug(slug, locationSlug).then(data => {
+      if (active) {
+        if (data) setProject(data);
+        setLoading(false);
+      }
+    });
+
+    const subscription = client
+      .listen(`*[_type == "project" && slug.current == $slug]`, { slug })
+      .subscribe(() => {
+        if (active) {
+          getProjectBySlug(slug, locationSlug).then(data => {
+            if (active && data) setProject(data);
+          });
+        }
+      });
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, [slug, locationSlug]);
 
   // If project not found, redirect gracefully to listing
-  if (!project) {
+  if (!loading && !project) {
     return (
       <div className="pt-20 md:pt-28 pb-16 md:pb-24 text-center">
         <div className="max-w-md mx-auto space-y-4 px-6">
@@ -45,10 +72,22 @@ export default function ProjectDetail() {
     );
   }
 
+  // Handle loading state
+  if (loading && !project) {
+    return (
+      <div className="pt-20 md:pt-28 pb-16 md:pb-24 text-center">
+        <div className="max-w-md mx-auto space-y-4 px-6">
+          <p className="text-slate-500 text-sm">Đang tải chi tiết dự án...</p>
+        </div>
+      </div>
+    );
+  }
+
   // Related projects mapping
-  const relatedProjects = useMemo(() => {
-    return PROJECTS_DATA.filter(p => project.relatedProjects.includes(p.slug));
-  }, [project]);
+  // Note: Sanity CMSProject doesn't have relatedProjects array by default yet, so fallback to empty
+  const relatedProjects: CMSProject[] = [];
+
+  const images = project?.images || project?.gallery || (project?.image ? [project.image] : []);
 
   // Handle Lightbox navigation
   const handleOpenLightbox = (index: number) => {
@@ -62,19 +101,19 @@ export default function ProjectDetail() {
   const handlePrevLightbox = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (lightboxIndex !== null) {
-      setLightboxIndex((lightboxIndex - 1 + project.gallery.length) % project.gallery.length);
+      setLightboxIndex((lightboxIndex - 1 + images.length) % images.length);
     }
   };
 
   const handleNextLightbox = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (lightboxIndex !== null) {
-      setLightboxIndex((lightboxIndex + 1) % project.gallery.length);
+      setLightboxIndex((lightboxIndex + 1) % images.length);
     }
   };
 
   // Generate dynamic, meaningful caption based on project type and index
-  const getPhotoCaption = (proj: Project, idx: number) => {
+  const getPhotoCaption = (proj: CMSProject, idx: number) => {
     const defaultCaptions: Record<string, string[]> = {
       "sua-dien-biet-thu-dalat": [
         "Hộp tủ điện cũ nhảy aptomat liên tục và dây nhợ quá tải",
@@ -180,7 +219,7 @@ export default function ProjectDetail() {
         {/* Featured Large Image at the top of the blog post */}
         <div className="rounded-3xl overflow-hidden aspect-[16/9] md:aspect-[21/9] mb-10 shadow-md border border-slate-100 bg-slate-50 relative group">
           <OptimizedImage 
-            src={project.images[0]} 
+            src={images[0] || project.image || ''} 
             alt={project.title} 
             className="w-full h-full object-cover"
           />
@@ -281,6 +320,7 @@ export default function ProjectDetail() {
           </section>
 
           {/* Challenges & Solutions */}
+          {(project.challenges || project.solutions) && (
           <section className="space-y-6">
             <h2 className="text-lg sm:text-xl font-black text-brand-secondary uppercase tracking-tight flex items-center gap-2.5">
               <span className="w-1.5 h-6 bg-brand-primary rounded-full inline-block" />
@@ -297,7 +337,7 @@ export default function ProjectDetail() {
                   <AlertTriangle size={16} /> Hiện trạng thực tế tại hiện trường
                 </div>
                 <blockquote className="text-xs sm:text-sm text-slate-600 leading-relaxed font-semibold italic border-l-2 border-amber-300 pl-4 py-1">
-                  {project.challenges}
+                  {project.challenges || project.description}
                 </blockquote>
               </div>
 
@@ -307,13 +347,15 @@ export default function ProjectDetail() {
                   <Lightbulb size={16} /> Phương án kỹ thuật & Giải pháp khắc phục
                 </div>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-semibold pl-4 border-l-2 border-brand-primary py-1">
-                  {project.solutions}
+                  {project.solutions || project.description}
                 </p>
               </div>
             </div>
           </section>
+          )}
 
           {/* Before/After Tool embedded right in the article */}
+          {project.beforeAfter && (
           <section className="space-y-4">
             <h2 className="text-lg sm:text-xl font-black text-brand-secondary uppercase tracking-tight flex items-center gap-2.5">
               <span className="w-1.5 h-6 bg-brand-primary rounded-full inline-block" />
@@ -371,6 +413,7 @@ export default function ProjectDetail() {
               </div>
             </div>
           </section>
+          )}
 
           {/* Specifications details if available */}
           {project.specifications && project.specifications.length > 0 && (
@@ -528,7 +571,7 @@ export default function ProjectDetail() {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {project.gallery.map((img, idx) => (
+              {images && images.map((img, idx) => (
                 <div 
                   key={idx} 
                   onClick={() => handleOpenLightbox(idx)}
@@ -546,7 +589,7 @@ export default function ProjectDetail() {
                       </span>
                     </div>
                     <div className="absolute bottom-2 right-2 bg-slate-900/65 text-white text-[9px] font-bold px-2 py-1 rounded">
-                      Ảnh {idx + 1}/{project.gallery.length}
+                      Ảnh {idx + 1}/{images.length}
                     </div>
                   </div>
                   
@@ -650,7 +693,7 @@ export default function ProjectDetail() {
                 <div key={item.id} className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden group">
                   <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                     <OptimizedImage
-                      src={item.images[0]}
+                      src={item.images?.[0] || item.gallery?.[0] || item.image || ''}
                       alt={item.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
@@ -718,7 +761,7 @@ export default function ProjectDetail() {
 
               <div className="max-h-[70vh] md:max-h-[75vh] w-full flex items-center justify-center">
                 <img 
-                  src={project.gallery[lightboxIndex]} 
+                  src={images[lightboxIndex]} 
                   alt="Construction Diary enlarged view" 
                   className="max-h-[70vh] md:max-h-[75vh] object-contain rounded-xl shadow-2xl border border-white/5"
                   onClick={(e) => e.stopPropagation()}
@@ -742,7 +785,7 @@ export default function ProjectDetail() {
                 {getPhotoCaption(project, lightboxIndex)}
               </p>
               <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">
-                Ảnh {lightboxIndex + 1} trên {project.gallery.length} • Click vùng trống để thoát xem ảnh
+                Ảnh {lightboxIndex + 1} trên {images.length} • Click vùng trống để thoát xem ảnh
               </p>
             </div>
           </motion.div>

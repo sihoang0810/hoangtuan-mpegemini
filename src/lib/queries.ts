@@ -9,7 +9,7 @@ export const locationsQuery = `*[_type == "location"] | order(id asc) {
   name,
   hotline,
   description,
-  image,
+  "image": coalesce(image.asset->url, image),
   "slug": slug.current
 }`;
 
@@ -35,7 +35,7 @@ export const homepageQuery = `*[_type == "homepage" && location->slug.current ==
   },
   aboutHeading,
   aboutContent,
-  aboutImage,
+  "aboutImage": coalesce(aboutImage.asset->url, aboutImage),
   benefitHeading,
   benefits[],
   sections[] {
@@ -80,7 +80,7 @@ export const servicesQuery = `*[_type == "service" && location->slug.current == 
     price,
     unit
   },
-  image,
+  "image": coalesce(image.asset->url, image),
   benefits,
   faq[] {
     question,
@@ -105,7 +105,7 @@ export const serviceBySlugQuery = `*[_type == "service" && (slug == $slug || slu
     price,
     unit
   },
-  image,
+  "image": coalesce(image.asset->url, image),
   benefits,
   faq[] {
     question,
@@ -136,9 +136,9 @@ export const postsQuery = `*[_type == "post" && location->slug.current == $locat
   author {
     name,
     role,
-    avatar
+    "avatar": coalesce(avatar.asset->url, avatar)
   },
-  image,
+  "image": coalesce(mainImage.asset->url, image.asset->url, image),
   readTime,
   tags,
   faq[] {
@@ -159,9 +159,9 @@ export const postBySlugQuery = `*[_type == "post" && (slug == $slug || slug.curr
   author {
     name,
     role,
-    avatar
+    "avatar": coalesce(avatar.asset->url, avatar)
   },
-  image,
+  "image": coalesce(mainImage.asset->url, image.asset->url, image),
   readTime,
   tags,
   faq[] {
@@ -188,9 +188,10 @@ export const productsQuery = `*[_type == "product" && location->slug.current == 
   category,
   description,
   price,
-  image,
+  "image": coalesce(productImage.asset->url, image.asset->url, image),
   features,
-  specs
+  specs,
+  content
 }`;
 
 export const productBySlugQuery = `*[_type == "product" && (slug == $slug || slug.current == $slug) && location->slug.current == $locationSlug][0] {
@@ -201,9 +202,42 @@ export const productBySlugQuery = `*[_type == "product" && (slug == $slug || slu
   category,
   description,
   price,
-  image,
+  "image": coalesce(productImage.asset->url, image.asset->url, image),
   features,
-  specs
+  specs,
+  content
+}`;
+
+// Projects per location
+export const projectsQuery = `*[_type == "project" && $locationSlug in locations] | order(order asc, _createdAt desc) {
+  _id,
+  "id": _id,
+  "slug": slug.current,
+  title,
+  description,
+  "shortDescription": description,
+  "image": coalesce(mainImage.asset->url, image.asset->url, image),
+  "category": category->title,
+  location,
+  completionDate,
+  "gallery": coalesce(gallery[].asset->url, gallery),
+  order
+}`;
+
+export const projectBySlugQuery = `*[_type == "project" && (slug == $slug || slug.current == $slug) && $locationSlug in locations][0] {
+  _id,
+  "id": _id,
+  "slug": slug.current,
+  title,
+  description,
+  "shortDescription": description,
+  content,
+  "image": coalesce(mainImage.asset->url, image.asset->url, image),
+  "category": category->title,
+  location,
+  completionDate,
+  "gallery": coalesce(gallery[].asset->url, gallery),
+  order
 }`;
 
 // 9. Pricing Entries per location
@@ -229,11 +263,11 @@ export const faqsQuery = `*[_type == "faq" && location->slug.current == $locatio
 // 11. Testimonials per location
 export const testimonialsQuery = `*[_type == "testimonial" && location->slug.current == $locationSlug] | order(rating desc, _createdAt desc) {
   _id,
-  name,
-  role,
-  review,
+  "name": coalesce(customerName, name),
+  "role": coalesce(customerRole, role),
+  "review": coalesce(content, review),
   rating,
-  avatar
+  "avatar": coalesce(avatar.asset->url, avatar)
 }`;
 
 // 12. Reviews per location
@@ -250,7 +284,7 @@ export const reviewsQuery = `*[_type == "review" && location->slug.current == $l
 export const galleryQuery = `*[_type == "gallery" && location->slug.current == $locationSlug] | order(_createdAt desc) {
   _id,
   title,
-  image,
+  "image": coalesce(image.asset->url, image),
   category,
   caption
 }`;
@@ -300,7 +334,7 @@ export const popupsQuery = `*[_type == "popup" && isActive == true && location->
   _id,
   title,
   subtitle,
-  image,
+  "image": coalesce(image.asset->url, image),
   ctaText,
   ctaLink,
   delaySeconds,
@@ -314,7 +348,7 @@ export const seoQuery = `*[_type == "seo" && pagePath == $path && location->slug
   metaTitle,
   metaDescription,
   canonicalUrl,
-  ogImage,
+  "ogImage": coalesce(ogImage.asset->url, ogImage),
   keywords[]
 }`;
 
@@ -323,7 +357,7 @@ export const localBusinessQuery = `*[_type == "localBusiness" && location->slug.
   _id,
   name,
   legalName,
-  logo,
+  "logo": coalesce(logo.asset->url, logo),
   telephone,
   address {
     streetAddress,
@@ -349,8 +383,8 @@ export const siteSettingsQuery = `*[_type == "siteSettings" && location->slug.cu
   _id,
   siteName,
   tagline,
-  logo,
-  favicon,
+  "logo": coalesce(logo.asset->url, logo),
+  "favicon": coalesce(favicon.asset->url, favicon),
   mainHotline,
   mainZalo,
   headerNotice

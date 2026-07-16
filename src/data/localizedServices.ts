@@ -183,7 +183,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       features: ["Hàn dán ống chịu lực nhiệt độ cao", "Trả lại đất nén vững chãi chân ranh", "Phát hiện chặn hóa đơn nước tiền triệu"],
       pricing: [
         { item: "Khắc phục bục ống nước cất lộ thiên", price: "Từ 150.000đ", unit: "điểm" },
-        { item: "Gia cố dán keo ống chịu tải PPR dột ngầm", price: "Khảo sát cụ thể", unit: "điểm" }
+        { item: "Gia cố dán keo ống chịu tải PPR dột ngầm", price: "Khảo sát miễn phí – Báo giá tại chỗ", unit: "điểm" }
       ]
     },
     {
@@ -266,7 +266,9 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       category: "camera",
       features: ["Nhận diện người chuyển động bằng AI", "Đàm thoại hai chiều ấm áp thanh âm", "Thẩm mỹ tinh tế treo vách nhỏ gọn"],
       pricing: [
-        { item: "Camera wifi Ezviz cao cấp chính hãg", price: "Từ 850.000đ", unit: "mắt" }
+        { item: "Giá thiết bị (chính hãng)", price: "Từ 850.000đ", unit: "mắt" },
+        { item: "Công lắp đặt + đi dây", price: "Từ 150.000đ", unit: "mắt" },
+        { item: "Tổng chi phí dự kiến từ", price: "Từ 1.000.000đ", unit: "mắt", isTotal: true }
       ]
     },
     {
@@ -300,8 +302,9 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       category: "camera",
       features: ["Tự cấp nguồn từ ánh nắng khu vực đồi núi 365 ngày", "Tích hợp thẻ SIM 4G phát sóng mạnh mẽ từ xa", "Chống bụi chống sương bão sấm sét hoàn hảo IP67"],
       pricing: [
-        { item: "Trọn bộ camera 4G Solar cao cấp", price: "Từ 2.450.000đ", unit: "bộ" },
-        { item: "Khảo sát dựng cột chống sét, đấu nối tận rẫy", price: "Khảo sát tận nơi", unit: "gói" }
+        { item: "Giá thiết bị (chính hãng)", price: "Từ 2.450.000đ", unit: "bộ" },
+        { item: "Công lắp đặt + đi dây", price: "Từ 150.000đ", unit: "bộ" },
+        { item: "Tổng chi phí dự kiến từ", price: "Từ 2.600.000đ", unit: "bộ", isTotal: true }
       ]
     },
     {
@@ -334,7 +337,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       category: "detection",
       features: ["Thiết bị Đức rọi sâu 2 mét dưới gạch đá", "Rà điểm nứt cực khít tránh rủi ro sạt đất", "Phát hành văn bản đo đạc đúng chuẩn"],
       pricing: [
-        { item: "Rà ống cứu hỏa nhà xưởng Bảo Lộc", price: "Báo giá khảo sát", unit: "lần" }
+        { item: "Rà ống cứu hỏa nhà xưởng Bảo Lộc", price: "Khảo sát miễn phí – Báo giá tại chỗ", unit: "lần" }
       ]
     },
     {
@@ -441,7 +444,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       category: "smarthome",
       features: ["Sắp ra mắt (Coming soon)", "Công nghệ cảm biến bảo mật cao", "Đầu thu trung tâm kết nối ổn định"],
       pricing: [
-        { item: "Giải pháp an toàn cảm ứng thông minh", price: "Coming Soon", unit: "hệ thống" }
+        { item: "Giải pháp an toàn cảm ứng thông minh", price: "Liên hệ để nhận báo giá", unit: "hệ thống" }
       ]
     },
     {
@@ -457,7 +460,96 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       category: "smarthome",
       features: ["Sắp ra mắt (Coming soon)", "Phong cách sống tiện nghi vượt bậc", "Tiết kiệm tối đa điện tiêu hao điều hòa"],
       pricing: [
-        { item: "Gói tích hợp rèm điều hòa thông minh", price: "Coming Soon", unit: "gói" }
+        { item: "Gói tích hợp rèm điều hòa thông minh", price: "Liên hệ để nhận báo giá", unit: "gói" }
+      ]
+    },
+    {
+      id: "sol1",
+      slug: "lap-den-pha-nang-luong-mat-troi",
+      order: 1,
+      title: "Lắp Đèn Pha Năng Lượng Mặt Trời Bảo Lộc",
+      shortDescription: "Cung cấp, lắp đặt đèn pha LED năng lượng mặt trời siêu sáng, tự động bật tắt, chống nước bão sương tại Bảo Lộc.",
+      fullDescription: `
+        <h1>Lắp Đặt Đèn Pha LED Năng Lượng Mặt Trời Bảo Lộc - Chiếu Sáng Xanh Tiết Kiệm 100% Điện Năng</h1>
+        <p>Bà con tại Bảo Lộc, Lâm Đồng thường sở hữu những mảnh vườn, trang trại đồi dốc dốc rộng lớn, hay biệt thự sân vườn tại Lộc Phát, Đamb'ri rộng lớn, nơi việc kéo đường dây điện 220V truyền thống vô cùng tốn kém chi phí thi công và tiềm ẩn nhiều rủi ro chập cháy, giật điện trong thời tiết sương ẩm, mưa dầm. Giải pháp lắp đặt đèn pha năng lượng mặt trời thông minh tự sạc chính là lựa chọn an toàn, hiện đại hàng đầu.</p>
+        
+        <h2>Tại Sao Nên Lắp Đèn Pha Năng Lượng Mặt Trời Tại Hoàng Tuấn MPE?</h2>
+        <p>Chúng tôi cung cấp giải pháp lắp đặt đèn pha LED năng lượng mặt trời thế hệ mới của các hãng nổi tiếng như Jidian, Blue Carbon với độ bền vượt trội:</p>
+        <ul>
+          <li><strong>Không tốn tiền điện:</strong> Đèn hoàn toàn tự cấp 100% nguồn điện xanh từ ánh sáng tự nhiên thông qua tấm pin mặt trời cao cấp hiệu suất chuyển đổi cực lớn.</li>
+          <li><strong>Chống chịu thời tiết IP67:</strong> Thân đèn đúc nhôm nguyên khối sơn tĩnh điện, kết hợp kính cường lực chịu áp cao và gioăng cao su khít bít ngăn hoàn toàn mưa sương sương mù đặc trưng Bảo Lộc thâm nhập.</li>
+          <li><strong>Cảm biến ánh sáng thông minh:</strong> Đèn tự động tắt và sạc pin khi rạng đông, tự động bật sáng rực rỡ khi hoàng hôn buông xuống mà không cần con người tác động gạt gạt nút bấm.</li>
+          <li><strong>Độ sáng bền bỉ, thời gian chiếu dài:</strong> Sử dụng pin lưu trữ Lithium sắt phosphat (LiFePO4) chống chai, duy trì chiếu rọi liên tục 12 - 15 giờ mỗi đêm kể cả những ngày trời Bảo Lộc nhiều mây ẩm sương.</li>
+        </ul>
+
+        <h2>Quy Trình Lắp Đặt Chuyên Nghiệp Từ Thợ Hoàng Tuấn:</h2>
+        <p>Thợ Hoàng Tuấn MPE trực tiếp khảo sát góc đón nắng tại sân vườn hay rẫy của bạn tại Lâm Đồng, tư vấn công suất (W) phù hợp nhất, tiến hành gá cố định tấm pin chắc chắn chống gió bão dột rung lắc, căn chỉnh góc rọi tối ưu của đèn pha và bàn giao remote điều khiển hẹn giờ tiện lợi.</p>
+      `,
+      icon: "Sun",
+      category: "solar",
+      features: [
+        "Không tốn một đồng tiền điện suốt đời sử dụng",
+        "Tấm pin đa tinh thể (Poly) hiệu suất sạc siêu nhanh",
+        "Vỏ nhôm đúc nguyên khối chuẩn chống nước IP67",
+        "Pin Lithium LiFePO4 chống chai bùng nổ, sạc xả 2000 lần"
+      ],
+      pricing: [
+        { item: "Đèn pha Solar LED Jidian 100W", price: "Từ 650.000đ", unit: "bộ" },
+        { item: "Đèn pha Solar LED Jidian 200W", price: "Từ 750.000đ", unit: "bộ" },
+        { item: "Đèn pha Solar LED Blue Carbon 300W", price: "Từ 1.150.000đ", unit: "bộ" },
+        { item: "Đèn pha Solar LED Blue Carbon 500W", price: "Từ 1.650.000đ", unit: "bộ" },
+        { item: "Công thợ gá lắp tấm pin, định vị đèn pha", price: "Từ 150.000đ", unit: "bộ" }
+      ],
+      benefits: [
+        "Đèn sáng ổn định bất kể sự cố cúp điện lưới",
+        "An toàn tuyệt đối cho người già, trẻ nhỏ khỏi lo giật điện",
+        "Thợ Bảo Lộc thi công nhanh gọn, bảo hành uy tín 24 tháng"
+      ],
+      faq: [
+        { question: "Đèn pha năng lượng mặt trời có sạc được vào ngày trời Bảo Lộc mưa sương mù không?", answer: "Có! Tấm pin công nghệ đa tinh thể cao cấp của chúng tôi vẫn hấp thụ tia cực tím và sạc yếu vào những ngày nhiều mây hoặc sương mù nhẹ, đảm bảo đèn vẫn duy trì sáng dịu nhẹ ban đêm." },
+        { question: "Tôi có được tự lắp đặt để tiết kiệm chi phí không?", answer: "Có, đèn pha đi kèm đầy đủ bát treo, ốc vít và remote điều khiển từ xa. Quý khách hoàn toàn có thể tự gá lắp tại nhà. Tuy nhiên, nếu cần lắp trên cao hoặc vườn rẫy diện tích lớn đón hướng nắng phức tạp, hãy để thợ Hoàng Tuấn hỗ trợ để tấm pin đón nắng tốt nhất." }
+      ]
+    },
+    {
+      id: "sol2",
+      slug: "lap-den-duong-nang-luong-mat-troi",
+      order: 2,
+      title: "Lắp Đèn Đường Năng Lượng Mặt Trời Bảo Lộc",
+      shortDescription: "Thi công đèn đường năng lượng mặt trời chiếc lá, đèn bàn chải siêu sáng cho ngõ hẻm, lối đi, rẫy vườn Bảo Lộc.",
+      fullDescription: `
+        <h1>Lắp Đặt Đèn Đường Năng Lượng Mặt Trời Bảo Lộc - Giải Pháp Sáng Sân Lối Đi Không Lo Hóa Đơn Điện</h1>
+        <p>Hệ thống đèn đường ngõ hẻm công cộng, đường đi chung homestay, hoặc đường dẫn quanh rẫy rẫy cà phê sầu riêng tại Bảo Lộc thường thiếu ánh sáng về đêm gây bất tiện cho đi lại và mất an ninh trật tự. Việc lắp ráp đèn đường năng lượng mặt trời độc lập không cần đi dây điện luồn ống nẹp phức tạp là giải pháp tối ưu và tiết kiệm chi phí xây lắp nhất.</p>
+        
+        <h2>Các Dòng Đèn Đường Năng Lượng Mặt Trời Được Ưa Chuộng:</h2>
+        <ul>
+          <li><strong>Đèn chiếc lá Solar:</strong> Thiết kế thon gọn hình chiếc lá tối ưu hóa góc chiếu sáng rộng, thấu kính lồi rọi rực sáng dải đường đi, chất liệu nhôm đúc cực bền.</li>
+          <li><strong>Đèn đường bàn chải liền thể:</strong> Tích hợp sẵn tấm pin sạc ở mặt lưng cực kỳ gọn gàng, có cảm biến chuyển động tiện dụng.</li>
+          <li><strong>Đèn đĩa bay UFO Solar 360 độ:</strong> Chiếu tỏa tròn đều mọi hướng, phù hợp lắp đặt giữa sân nhà hay khuôn viên Homestay nghỉ dưỡng.</li>
+        </ul>
+
+        <h2>Tính Năng Cảm Biến Chuyển Động Hồng Ngoại Thông Minh:</h2>
+        <p>Đèn đường lắp đặt tại lối đi thường tích hợp cảm biến radar thông minh: Tự động sáng dịu 30% công suất khi không có người qua lại để tiết kiệm tối đa pin sạc, và ngay lập tức bộc phát sáng rực 100% công suất cực đại khi phát hiện chuyển động của người hoặc xe trong bán kính 8-10 mét. Giúp nâng cao hiệu quả đuổi trộm và kéo dài thời gian phát sáng lên tới 2-3 đêm mưa liên tục.</p>
+      `,
+      icon: "Sun",
+      category: "solar",
+      features: [
+        "Cảm biến chuyển động hồng ngoại tự động điều tiết ánh sáng",
+        "Lắp ráp độc lập trên cột thép hoặc treo vách tường cực lẹ",
+        "Thời gian chiếu sáng xuyên đêm từ 12 đến 16 tiếng",
+        "Thân đèn đúc hợp kim chống rỉ sét muối sương"
+      ],
+      pricing: [
+        { item: "Đèn đường chiếc lá Solar 100W", price: "Từ 850.000đ", unit: "bộ" },
+        { item: "Đèn đường chiếc lá Solar 200W", price: "Từ 1.050.000đ", unit: "bộ" },
+        { item: "Đèn đường chiếc lá Solar 300W", price: "Từ 1.150.000đ", unit: "bộ" },
+        { item: "Đèn đường bàn chải liền thể UFO 400W", price: "Từ 1.350.000đ", unit: "bộ" },
+        { item: "Trụ thép gắn đèn đường sấy tĩnh điện cao 3m", price: "Từ 450.000đ", unit: "trụ" },
+        { item: "Công thợ chôn móng bê tông dựng trụ gá đèn", price: "Từ 250.000đ", unit: "trụ" }
+      ],
+      benefits: [
+        "Làm đẹp và sáng ngõ đi chung an lành cho xóm trà Bảo Lộc",
+        "Lắp đặt hoàn toàn độc lập, không sợ sấm sét chập nguồn mùa mưa",
+        "Sản phẩm bảo hành chính hãng đổi mới 1-1 nhanh gọn tận nơi"
       ]
     }
   ],
@@ -691,7 +783,9 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       category: "camera",
       features: ["Tính năng bám đuôi người lạ đột nhập thông minh AI", "Đàm thoại hai chiều siêu trong veo trung thực sóng", "Lắp ráp cực nhanh ghim ốc phẳng đẹp"],
       pricing: [
-        { item: "Hộp camera wifi Ezviz Imou rành chính hãng hcm", price: "Từ 850.000đ", unit: "mắt" }
+        { item: "Giá thiết bị (chính hãng)", price: "Từ 850.000đ", unit: "mắt" },
+        { item: "Công lắp đặt + đi dây", price: "Từ 150.000đ", unit: "mắt" },
+        { item: "Tổng chi phí dự kiến từ", price: "Từ 1.000.000đ", unit: "mắt", isTotal: true }
       ]
     },
     {
@@ -725,8 +819,9 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       category: "camera",
       features: ["Nguồn pin lưu trữ dung lượng lớn giám sát ban đêm 24/7", "SIM DATA 4G chuyên dụng mượt mà không trễ giật", "Mắt camera AI bám xoay cảnh báo trộm cướp đột nhập tức thì"],
       pricing: [
-        { item: "Trọn bộ camera + pin Solar sạc nhanh tphcm", price: "Từ 2.450.000đ", unit: "bộ" },
-        { item: "Hỗ trợ dựng chân cột sắt lắp đặt công trình", price: "Báo giá khảo sát", unit: "lần" }
+        { item: "Giá thiết bị (chính hãng)", price: "Từ 2.450.000đ", unit: "bộ" },
+        { item: "Công lắp đặt + đi dây", price: "Từ 150.000đ", unit: "bộ" },
+        { item: "Tổng chi phí dự kiến từ", price: "Từ 2.600.000đ", unit: "bộ", isTotal: true }
       ]
     },
     {
@@ -867,7 +962,7 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       category: "smarthome",
       features: ["Sắp ra mắt (Coming soon)", "Uốn hướng quét chống báo giả từ vật nuôi", "Nối mạng còi hú dọa trộm dập tắt rủi ro"],
       pricing: [
-        { item: "Hệ thống cảm biến rà chống trộm hcm", price: "Coming Soon", unit: "gói" }
+        { item: "Hệ thống cảm biến rà chống trộm hcm", price: "Liên hệ để nhận báo giá", unit: "gói" }
       ]
     },
     {
@@ -883,7 +978,94 @@ export const LOCALIZED_SERVICES: { [key: string]: CMSService[] } = {
       category: "smarthome",
       features: ["Sắp ra mắt (Coming soon)", "Mang rạp chiếu phim rạp nhạc rải âm sành điệu", "Mô tơ rèm chạy êm ái dưới 30dB độ ồn"],
       pricing: [
-        { item: "Thiết kế giải trí đa phòng thông minh", price: "Coming Soon", unit: "gói" }
+        { item: "Thiết kế giải trí đa phòng thông minh", price: "Liên hệ để nhận báo giá", unit: "gói" }
+      ]
+    },
+    {
+      id: "sol1",
+      slug: "lap-den-pha-nang-luong-mat-troi",
+      order: 1,
+      title: "Lắp Đèn Pha Năng Lượng Mặt Trời TPHCM",
+      shortDescription: "Lắp đặt đèn pha LED năng lượng mặt trời chiếu sáng sân vườn, kho bãi, biệt thự sân thượng tại TP.HCM chính hãng.",
+      fullDescription: `
+        <h1>Lắp Đặt Đèn Pha LED Năng Lượng Mặt Trời TP.HCM - Giải Pháp Chiếu Sáng Sân Vườn Tiết Kiệm, Hiện Đại</h1>
+        <p>Tại Thành phố Hồ Chí Minh, nhu cầu chiếu sáng biệt thự sân vườn, chiếu rọi ban công, sân thượng, hoặc bảo vệ bãi giữ xe, nhà kho bãi, khu đất trống là very lớn. Việc vận hành hệ thống chiếu sáng thâu đêm suốt sáng bằng điện lưới không chỉ gia tăng đáng kể hóa đơn tiền điện hàng tháng, mà còn gặp phiền phức về kéo dây, rủi ro chập cháy mỗi mùa mưa ngập nước Sài Gòn. Đèn pha năng lượng mặt trời chính là lựa chọn thay thế hoàn hảo hàng đầu.</p>
+        
+        <h2>Lợi Ích Đột Phá Khi Lắp Đèn Pha Năng Lượng Mặt Trời Tại HCM:</h2>
+        <ul>
+          <li><strong>Tiết kiệm 100% chi phí điện năng:</strong> Đèn hoạt động tự cung tự cấp nguồn năng lượng xanh dồi dào từ ánh nắng mặt trời, hóa đơn tiền điện luôn ở mức 0 đồng.</li>
+          <li><strong>Cấu tạo chống nước, bền bỉ tối đa:</strong> Thân đèn hợp kim nhôm nguyên khối đúc dày dặn, bảo vệ kín bít tuyệt đối chuẩn IP67 thách thức mọi cơn mưa bão lụt ngập đường sá TP.HCM.</li>
+          <li><strong>Điều khiển tự động thông minh:</strong> Đèn tự sạc sạc đầy pin trong ngày và tự động thắp sáng rực rỡ suốt đêm dài từ lúc 18h00 tối đến rạng sáng 6h00 hôm sau.</li>
+          <li><strong>Thi công tinh gọn, tính thẩm mỹ cao:</strong> Không cần đi dây điện đục khoét tường vách bê tông căn biệt thự hay nhà phố của bạn, đảm bảo mỹ quan láng mịn.</li>
+        </ul>
+
+        <h2>Hoàng Tuấn MPE Cam Kết Chất Lượng Đèn Pha Cao Cấp:</h2>
+        <p>Chúng tôi cung cấp sỉ lẻ các loại đèn pha LED Solar Jidian, Blue Carbon đa công suất 100W, 200W, 300W, 500W chính hãng, có đội ngũ thợ lành nghề trực tiếp giao hàng lắp đặt chuẩn xác chỉ trong 2 giờ tại tất cả các quận huyện thuộc TPHCM.</p>
+      `,
+      icon: "Sun",
+      category: "solar",
+      features: [
+        "Hoàn toàn miễn phí tiền điện suốt quá trình vận hành",
+        "Tấm pin hấp thụ nhiệt năng tốt nhất sạc đầy nhanh",
+        "Kháng nước chuẩn IP67 không sợ mưa to ngập úng",
+        "Pin Lithium cao cấp dung lượng thực chiếu sáng thâu đêm"
+      ],
+      pricing: [
+        { item: "Đèn pha Solar LED Jidian 100W chính hãng", price: "Từ 650.000đ", unit: "bộ" },
+        { item: "Đèn pha Solar LED Jidian 200W chính hãng", price: "Từ 750.000đ", unit: "bộ" },
+        { item: "Đèn pha Solar LED Blue Carbon 300W cao cấp", price: "Từ 1.150.000đ", unit: "bộ" },
+        { item: "Đèn pha Solar LED Blue Carbon 500W cao cấp", price: "Từ 1.650.000đ", unit: "bộ" },
+        { item: "Công thợ thi công gá lắp gối sườn tấm pin tận nhà hcm", price: "Từ 150.000đ", unit: "bộ" }
+      ],
+      benefits: [
+        "Giao hàng nhanh lắp đặt trong ngày tại các quận huyện hcm",
+        "Mặt bằng thi công sạch sẽ thẩm mỹ, bảo trì trọn đời",
+        "Sản phẩm bảo hành chính hãng uy tín 2 năm một đổi một"
+      ],
+      faq: [
+        { question: "Đèn pha Solar lắp trên sân thượng, ban công đón nắng thế nào?", answer: "Tấm pin năng lượng mặt trời bắt buộc phải lắp đặt ngoài trời, góc nghiêng đón nắng trực diện khoảng 10-15 độ và không bị cây xanh hay mái nhà bên cạnh che khuất. Thợ của chúng tôi sẽ căn chỉnh góc treo hoàn hảo nhất." }
+      ]
+    },
+    {
+      id: "sol2",
+      slug: "lap-den-duong-nang-luong-mat-troi",
+      order: 2,
+      title: "Lắp Đèn Đường Năng Lượng Mặt Trời TPHCM",
+      shortDescription: "Thi công lắp đặt đèn đường năng lượng mặt trời cho dự án, đường nội bộ, chung cư, nhà xưởng kho bãi tại TP.HCM.",
+      fullDescription: `
+        <h1>Lắp Đặt Đèn Đường Năng Lượng Mặt Trời Tại TPHCM - Giải Pháp Chiếu Sáng Công Cộng Tiết Kiệm Tối Đa</h1>
+        <p>Chiếu sáng đường nội khu chung cư, lối đi nội bộ công ty, khuôn viên nhà xưởng kho bãi lớn hay ngõ hẻm công cộng tại Thành phố Hồ Chí Minh là vô cùng cấp thiết nhằm đảm bảo an toàn giao thông và phòng chống tệ nạn xã hội. Đèn đường năng lượng mặt trời chiếc lá, đèn bàn chải liền thể chính là giải pháp kinh tế nhất giúp cắt giảm hoàn toàn tiền điện và chi phí đi dây điện rườm rà dưới lòng đường.</p>
+        
+        <h2>Tại Sao Nên Đầu Tư Đèn Đường Năng Lượng Mặt Trời?</h2>
+        <ul>
+          <li><strong>Không lo đục phá đào đường:</strong> Do hoạt động hoàn toàn độc lập tự sạc tự sáng, bạn chỉ cần gá đèn trực tiếp lên cột thép hoặc vách sườn nhà xưởng, không cần đào bới rải cáp ngầm tốn kém, phức tạp.</li>
+          <li><strong>Cảm biến radar chuyển động:</strong> Đèn đường thông minh tự động sáng rực khi có người qua lại và sáng dịu 30% khi vắng vẻ để dự trữ nguồn điện cho những ngày mưa dài bão liên miên của Sài Gòn.</li>
+          <li><strong>Hợp kim nhôm siêu bền bỉ:</strong> Kháng mài mòn, chống rỉ sét hoàn toàn dưới thời tiết ẩm nóng đặc thù miền Nam Việt Nam.</li>
+        </ul>
+
+        <h2>Dịch Vụ Thi Công Trọn Gói Uy Tín Từ Hoàng Tuấn MPE:</h2>
+        <p>Chúng tôi chuyên nhận tư vấn thiết kế, cung cấp thiết bị đèn đường Solar chiếc lá 100W-300W, đèn bàn chải, đèn UFO tròn chiếu tỏa 360 độ và trực tiếp thi công đào hố, chôn cột bê tông dựng trụ gá đèn đường cho các dự án khu dân cư, ngõ hẻm hẻm phố, khuôn viên nhà xưởng tại TPHCM giá tốt nhất.</p>
+      `,
+      icon: "Sun",
+      category: "solar",
+      features: [
+        "Sử dụng chip LED siêu sáng rọi xa, rải góc rộng dải đường",
+        "Tấm pin Mono sạc cực nhanh dù trời ít nắng nhiều mây",
+        "Tích hợp cảm biến rada nhạy phát hiện người qua lại",
+        "Trụ sấy thép sơn tĩnh điện chịu sức gió giật mạnh"
+      ],
+      pricing: [
+        { item: "Đèn đường chiếc lá Solar 100W", price: "Từ 850.000đ", unit: "bộ" },
+        { item: "Đèn đường chiếc lá Solar 200W", price: "Từ 1.050.000đ", unit: "bộ" },
+        { item: "Đèn đường chiếc lá Solar 300W", price: "Từ 1.150.000đ", unit: "bộ" },
+        { item: "Đèn đường bàn chải liền thể UFO 400W", price: "Từ 1.350.000đ", unit: "bộ" },
+        { item: "Trụ thép gắn đèn đường sấy tĩnh điện cao 3m", price: "Từ 450.000đ", unit: "trụ" },
+        { item: "Công thợ chôn móng bê tông dựng trụ gá đèn hcm", price: "Từ 250.000đ", unit: "trụ" }
+      ],
+      benefits: [
+        "Hỗ trợ thủ tục đăng ký kiểm định độ sáng, chất lượng dự án",
+        "Thời gian thi công chuẩn xác tiến độ cam kết",
+        "Bảo hành chính hãng 2 năm bảo trì kỹ thuật trọn đời"
       ]
     }
   ]

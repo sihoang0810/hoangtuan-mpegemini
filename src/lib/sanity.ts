@@ -14,6 +14,7 @@ import {
   TESTIMONIALS as fallbackTestimonials,
 } from '../constants';
 import { SERVICES as fallbackServices, Service as LocalService } from '../data/services';
+import { PROJECTS_DATA } from '../data/projectsData';
 import { 
   PRODUCTS as fallbackProducts, 
   PRODUCT_CATEGORIES as fallbackProductCategories 
@@ -71,6 +72,8 @@ import {
   productCategoriesQuery,
   productsQuery,
   productBySlugQuery,
+  projectsQuery,
+  projectBySlugQuery,
   pricingQuery,
   faqsQuery,
   testimonialsQuery,
@@ -145,6 +148,7 @@ export interface CMSService {
     item: string;
     price: string;
     unit?: string;
+    isTotal?: boolean;
   }[];
   image?: string;
   gallery?: {
@@ -195,11 +199,47 @@ export interface CMSProject {
   slug: string;
   title: string;
   description: string;
+  shortDescription?: string;
+  fullDescription?: string;
+  duration?: string;
+  difficulty?: string;
+  benefits?: string[];
+  challenges?: string;
+  solutions?: string;
+  beforeAfter?: {
+    beforeImage?: any;
+    afterImage?: any;
+    beforeDesc?: string;
+    afterDesc?: string;
+  };
+  specifications?: {
+    label: string;
+    value: string;
+  }[];
+  steps?: {
+    title: string;
+    description: string;
+  }[];
+  packages?: {
+    name: string;
+    price: string;
+    features: string[];
+    isPopular?: boolean;
+    badge?: string;
+  }[];
+  outcome?: string;
+  faq?: {
+    question: string;
+    answer: string;
+  }[];
+  content?: any;
   image: string;
+  images?: string[];
   category?: string;
   completionDate?: string;
   location?: string;
   gallery?: string[];
+  services?: string[];
   order?: number;
 }
 
@@ -222,6 +262,7 @@ export interface CMSProduct {
   specs?: { [key: string]: string } | string;
   gallery?: string[];
   isPinned?: boolean;
+  content?: any;
 }
 
 export interface CMSPricing {
@@ -404,9 +445,22 @@ const isValidObject = (obj: any) => obj && typeof obj === 'object' && Object.key
 /**
  * Helper to append Sanity image transformation parameters for optimization.
  */
-export function getSanityImageUrl(url: string | undefined, width?: number, quality: number = 80): string {
-  if (!url) return 'https://images.unsplash.com/photo-1542013936-6533e14cb263?auto=format&fit=crop&q=80&w=1200';
-  if (!url.includes('cdn.sanity.io')) return url;
+export function getSanityImageUrl(url: any, width?: number, quality: number = 80): string {
+  let resolvedUrl: string | undefined;
+  if (url && typeof url === 'object') {
+    if (typeof url.url === 'string') {
+      resolvedUrl = url.url;
+    } else if (url.asset && typeof url.asset === 'object') {
+      if (typeof url.asset.url === 'string') {
+        resolvedUrl = url.asset.url;
+      }
+    }
+  } else if (typeof url === 'string') {
+    resolvedUrl = url;
+  }
+
+  if (!resolvedUrl) return 'https://images.unsplash.com/photo-1542013936-6533e14cb263?auto=format&fit=crop&q=80&w=1200';
+  if (!resolvedUrl.includes('cdn.sanity.io')) return resolvedUrl;
   
   const params = new URLSearchParams();
   if (width) params.append('w', width.toString());
@@ -414,16 +468,29 @@ export function getSanityImageUrl(url: string | undefined, width?: number, quali
   params.append('auto', 'format');
   params.append('fit', 'crop');
   
-  return `${url}${url.includes('?') ? '&' : '?'}${params.toString()}`;
+  return `${resolvedUrl}${resolvedUrl.includes('?') ? '&' : '?'}${params.toString()}`;
 }
 
 /**
  * Generates a srcset string for responsive Sanity images.
  */
-export function getSanitySrcSet(url: string | undefined): string {
-  if (!url || !url.includes('cdn.sanity.io')) return '';
+export function getSanitySrcSet(url: any): string {
+  let resolvedUrl: string | undefined;
+  if (url && typeof url === 'object') {
+    if (typeof url.url === 'string') {
+      resolvedUrl = url.url;
+    } else if (url.asset && typeof url.asset === 'object') {
+      if (typeof url.asset.url === 'string') {
+        resolvedUrl = url.asset.url;
+      }
+    }
+  } else if (typeof url === 'string') {
+    resolvedUrl = url;
+  }
+
+  if (!resolvedUrl || !resolvedUrl.includes('cdn.sanity.io')) return '';
   const widths = [320, 640, 768, 1024, 1280, 1536];
-  return widths.map(w => `${getSanityImageUrl(url, w)} ${w}w`).join(', ');
+  return widths.map(w => `${getSanityImageUrl(resolvedUrl, w)} ${w}w`).join(', ');
 }
 
 // Helper to convert canonical slug to fallback data keys ('ho-chi-minh' or 'bao-loc')
@@ -588,6 +655,40 @@ export function saveProductsCache(forcedLocationId: string | undefined, data: CM
     localStorage.setItem(`products_cache_${locId}`, JSON.stringify(item));
   } catch (error) {
     console.warn(`Error saving products cache for ${locId} to localStorage:`, error);
+  }
+}
+
+/**
+ * Retrieves cached projects from localStorage.
+ */
+export function getCachedProjects(forcedLocationId?: string): CMSProject[] | null {
+  if (typeof window === 'undefined') return null;
+  const locId = forcedLocationId || getCurrentLocationId();
+  try {
+    const raw = localStorage.getItem(`projects_cache_${locId}`);
+    if (!raw) return null;
+    const item: CacheItem<CMSProject[]> = JSON.parse(raw);
+    return item.data;
+  } catch (error) {
+    console.warn(`Error reading projects cache for ${locId} from localStorage:`, error);
+    return null;
+  }
+}
+
+/**
+ * Saves current projects to localStorage cache.
+ */
+export function saveProjectsCache(forcedLocationId: string | undefined, data: CMSProject[]): void {
+  if (typeof window === 'undefined') return;
+  const locId = forcedLocationId || getCurrentLocationId();
+  try {
+    const item: CacheItem<CMSProject[]> = {
+      data,
+      timestamp: Date.now()
+    };
+    localStorage.setItem(`projects_cache_${locId}`, JSON.stringify(item));
+  } catch (error) {
+    console.warn(`Error saving projects cache for ${locId} to localStorage:`, error);
   }
 }
 
@@ -1364,6 +1465,92 @@ export async function getProductBySlug(slug: string | undefined, forcedLocationI
     return foundLocal;
   } catch (error) {
     logCmsStatus(`product-slug-${slug}`, false, 0, error);
+    return foundLocal;
+  }
+}
+
+export function getProjectsSync(forcedLocationId?: string): CMSProject[] {
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  if (isSanityConfigured) {
+    const cached = getCachedProjects(locId);
+    if (cached && cached.length > 0) {
+      return cached;
+    }
+  } else {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(`projects_cache_${locId}`);
+    }
+  }
+  return PROJECTS_DATA.map(p => ({
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    description: p.fullDescription || p.shortDescription,
+    shortDescription: p.shortDescription,
+    image: p.images?.[0] || p.gallery?.[0] || '',
+    images: p.images || p.gallery,
+    category: p.category,
+    completionDate: p.completionDate,
+    location: p.location,
+    gallery: p.gallery,
+    services: p.services,
+    order: 0
+  }));
+}
+
+export function getProjectBySlugSync(slug: string | undefined, forcedLocationId?: string): CMSProject | null {
+  const list = getProjectsSync(forcedLocationId);
+  return list.map(ensureStringSlug).find(p => p.slug === slug) || null;
+}
+
+export async function getProjects(forcedLocationId?: string): Promise<CMSProject[]> {
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  const currentData = getProjectsSync(locId);
+
+  if (!isSanityConfigured) {
+    return currentData;
+  }
+
+  const cacheKey = `projects_cache_${locId}`;
+  const expired = isCacheExpired(cacheKey);
+
+  try {
+    const data = await client.fetch<CMSProject[]>(projectsQuery, { locationSlug: locId });
+    const hasData = isValidArray(data);
+
+    if (hasData) {
+      if (isDataDifferent(data, currentData)) {
+        saveProjectsCache(locId, data);
+        return data;
+      } else {
+        saveProjectsCache(locId, currentData);
+        return currentData;
+      }
+    }
+    return currentData;
+  } catch (error) {
+    return currentData;
+  }
+}
+
+export async function getProjectBySlug(slug: string | undefined, forcedLocationId?: string): Promise<CMSProject | null> {
+  const locId = forcedLocationId || getCurrentLocationSlug();
+  const foundLocal = getProjectBySlugSync(slug, locId);
+
+  if (!isSanityConfigured || !slug) return foundLocal;
+
+  try {
+    const data = await client.fetch<CMSProject>(projectBySlugQuery, { slug, locationSlug: locId });
+    const hasData = isValidObject(data);
+
+    if (hasData) {
+      if (isDataDifferent(data, foundLocal)) {
+        return data;
+      }
+      return foundLocal;
+    }
+    return foundLocal;
+  } catch (error) {
     return foundLocal;
   }
 }

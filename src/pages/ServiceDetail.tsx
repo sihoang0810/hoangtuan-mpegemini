@@ -224,28 +224,43 @@ const ServiceDetailTemplate = () => {
 
                   {/* Bố cục danh sách tối giản, cực thoáng đãng */}
                   <div className="space-y-6 sm:space-y-8">
-                    {service.pricing.map((p, idx) => (
-                      <div key={idx}>
-                        <div className="py-2">
-                          <h3 className="font-semibold text-slate-800 text-base sm:text-lg leading-snug">
-                            {p.item}
-                          </h3>
-                          <div className="mt-1 flex items-baseline gap-1">
-                            <span className="text-lg sm:text-xl font-extrabold text-brand-primary">
-                              {p.price}
-                            </span>
-                            {p.unit && (
-                              <span className="text-xs font-bold text-slate-400 capitalize">
-                                / {p.unit}
+                    {service.pricing.map((p, idx) => {
+                      const isTotal = p.isTotal;
+                      return (
+                        <div key={idx}>
+                          <div className={`py-2 ${
+                            isTotal 
+                              ? 'bg-brand-primary/10 p-4 rounded-2xl border border-brand-primary/20 mt-4' 
+                              : ''
+                          }`}>
+                            <h3 className={`font-semibold leading-snug ${
+                              isTotal 
+                                ? 'text-brand-secondary text-base sm:text-lg font-extrabold' 
+                                : 'text-slate-800 text-base sm:text-lg'
+                            }`}>
+                              {p.item}
+                            </h3>
+                            <div className="mt-1 flex items-baseline gap-1">
+                              <span className={`font-extrabold text-brand-primary ${
+                                isTotal ? 'text-xl sm:text-2xl' : 'text-lg sm:text-xl'
+                              }`}>
+                                {p.price}
                               </span>
-                            )}
+                              {p.unit && (
+                                <span className={`font-bold capitalize ${
+                                  isTotal ? 'text-xs text-brand-primary/80' : 'text-xs text-slate-400'
+                                }`}>
+                                  / {p.unit}
+                                </span>
+                              )}
+                            </div>
                           </div>
+                          {idx < service.pricing.length - 1 && !isTotal && !service.pricing[idx + 1]?.isTotal && (
+                            <div className="mt-6 border-b border-dashed border-slate-200/80" />
+                          )}
                         </div>
-                        {idx < service.pricing.length - 1 && (
-                          <div className="mt-6 border-b border-dashed border-slate-200/80" />
-                        )}
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   <div className="mt-8 sm:mt-10 p-4 bg-amber-50/50 rounded-2xl border border-amber-100/60 flex items-start gap-3">

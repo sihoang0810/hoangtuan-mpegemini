@@ -8,6 +8,7 @@ import InlineEdit from './InlineEdit';
 
 import OptimizedImage from './OptimizedImage';
 import realHeroRepairImg from '../assets/images/hero-paner.png';
+import heroBgImg from '../assets/images/hero_bg_1784117567686.jpg';
 
 export default function Hero({ 
   cmsData,
@@ -75,26 +76,30 @@ export default function Hero({
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
-  const heroTitle = cmsData?.heroTitle !== undefined ? cmsData.heroTitle : (content?.heroTitle || 'Sửa Điện Nước');
-  const heroSubtitle = cmsData?.heroSubtitle !== undefined ? cmsData.heroSubtitle : (content?.heroSubtitle || 'Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. Chúng tôi xử lý mọi sự cố từ nhỏ đến phức tạp với đội ngũ thợ tay nghề cao.');
+  const heroTitle = 'HOÀNG TUẤN MPE';
+  const regionalTitle = content?.heroTitle || 'Dịch Vụ Sửa Điện Nước Uy Tín';
+  const regionalSubtitle = content?.heroSubtitle || 'Giải pháp sửa chữa điện nước gia đình nhanh chóng, uy tín và chuyên nghiệp. Chúng tôi xử lý mọi sự cố từ nhỏ đến phức tạp với đội ngũ thợ tay nghề cao.';
+  const heroSubtitle = cmsData?.heroSubtitle !== undefined ? cmsData.heroSubtitle : `${regionalTitle}. ${regionalSubtitle}`;
   const overlayText = cmsData?.heroOverlayText !== undefined ? cmsData.heroOverlayText : (content?.heroOverlayText || 'SẴN SÀNG PHỤC VỤ 24/7');
 
 
   return (
     <section 
-      className="relative pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24 lg:pt-36 lg:pb-28 bg-slate-950 text-white min-h-[70vh] lg:min-h-[78vh] flex items-center z-10 !bg-cover !bg-top !bg-no-repeat"
+      className="relative pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24 lg:pt-36 lg:pb-28 bg-slate-950 text-white min-h-[70vh] lg:min-h-[78vh] flex items-center z-10"
       style={{ 
-        textShadow: '0 2px 8px rgba(0,0,0,0.45)',
-        backgroundImage: `url('${cmsData?.heroImage || (content as any)?.heroImage || realHeroRepairImg}')`
+        textShadow: '0 2px 8px rgba(0,0,0,0.45)'
       }}
     >
-      {/* Background Gradients - elegantly dimmed for text readability */}
-      <div className="absolute inset-0 z-0 select-none pointer-events-none">
-        {/* Left-to-right gradient to ensure text readability on the left, while showing the image clearly */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/50 to-slate-950/10 opacity-60" />
-        
-        {/* Bottom vertical masking gradient to seamlessly fade into adjacent page sections */}
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-slate-950 to-transparent" />
+      {/* Background Image & Gradients (Responsive background using object-cover) */}
+      <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden">
+        <img 
+          src={heroBgImg} 
+          alt="HOÀNG TUẤN MPE Background" 
+          className="w-full h-full object-cover object-center opacity-50 md:opacity-60 transition-opacity duration-500"
+          referrerPolicy="no-referrer"
+        />
+        {/* Dark overlays to guarantee high-contrast text readability */}
+        <div className="absolute inset-0 bg-neutral-950/20" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative pt-4 md:pt-8 z-10 w-full">
@@ -123,7 +128,7 @@ export default function Hero({
               value={heroTitle}
               isEditable={isEditable}
               onSave={(val) => onUpdateDraftField?.('heroTitle', val)}
-              className="font-extrabold text-white leading-[1.2] text-balance mb-5 md:mb-6 tracking-tight block text-3xl sm:text-4xl md:text-5xl lg:text-fluid-h1 drop-shadow-sm"
+              className="font-extrabold text-white leading-[1.2] text-balance mb-5 md:mb-6 tracking-tight block text-3xl sm:text-4xl md:text-5xl lg:text-fluid-h1 drop-shadow-sm uppercase"
               element="h1"
               multiline={true}
             />

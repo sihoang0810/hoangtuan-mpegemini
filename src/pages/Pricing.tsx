@@ -221,29 +221,7 @@ export default function Pricing() {
           </p>
         </div>
 
-        {/* Regular Category Shortcuts Row (Replacing static tabs to allow navigation scroll shortcuts) */}
-        <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-16 overflow-x-auto pb-4 no-scrollbar">
-          {PRICE_CATEGORIES.map((cat) => {
-            const isActive = activeSection === cat.id;
-            return (
-              <a
-                key={cat.id}
-                href={`#${cat.id}`}
-                onClick={(e) => handleFloatingClick(e, cat.id)}
-                className={`flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl font-bold whitespace-nowrap transition-all border focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary cursor-pointer select-none ${
-                  isActive 
-                    ? 'bg-brand-primary text-white border-brand-primary shadow-xl shadow-brand-primary/20 scale-105' 
-                    : 'bg-white text-slate-600 border-slate-100 hover:bg-slate-50 hover:border-slate-300'
-                }`}
-              >
-                <div className={`${isActive ? 'text-white' : cat.textColor} transition-colors`}>
-                  <cat.icon size={20} />
-                </div>
-                <span className="uppercase text-xs tracking-wider">{cat.title}</span>
-              </a>
-            );
-          })}
-        </div>
+
 
         {/* Content Area - Stacked vertically */}
         <div className="space-y-12 sm:space-y-16">
@@ -285,17 +263,39 @@ export default function Pricing() {
                         <div className="w-1.5 h-1.5 bg-brand-primary rounded-full transition-transform group-hover:scale-150" />
                       </h3>
                       <div className="space-y-3 sm:space-y-4">
-                        {service.pricing.map((p, idx) => (
-                          <div key={idx} className="flex justify-between items-start sm:items-center gap-3 group/row">
-                            <span className="text-slate-600 font-semibold text-xs sm:text-sm group-hover/row:text-brand-primary transition-colors flex-1 min-w-0 pr-1">
-                              {p.item}
-                            </span>
-                            <div className="hidden sm:block flex-grow border-b border-dotted border-slate-200 group-hover/row:border-brand-primary/30 transition-colors" />
-                            <span className="text-brand-primary font-bold text-xs sm:text-sm whitespace-nowrap bg-brand-primary/5 px-2 sm:px-3 py-1 rounded-md sm:rounded-lg border border-brand-primary/10 shrink-0 self-start sm:self-center">
-                              {p.price}
-                            </span>
-                          </div>
-                        ))}
+                        {service.pricing.map((p, idx) => {
+                          const isTotal = p.isTotal;
+                          return (
+                            <div 
+                              key={idx} 
+                              className={`flex justify-between items-start sm:items-center gap-3 group/row ${
+                                isTotal 
+                                  ? 'bg-brand-primary/10 p-3 sm:p-4 rounded-xl border border-brand-primary/20 mt-3 font-bold shadow-sm shadow-brand-primary/5' 
+                                  : ''
+                              }`}
+                            >
+                              <span className={`${
+                                isTotal 
+                                  ? 'text-brand-secondary text-sm sm:text-base font-extrabold flex-1 min-w-0 pr-1' 
+                                  : 'text-slate-600 font-semibold text-xs sm:text-sm group-hover/row:text-brand-primary transition-colors flex-1 min-w-0 pr-1'
+                              }`}>
+                                {p.item}
+                              </span>
+                              <div className={`hidden sm:block flex-grow border-b border-dotted ${
+                                isTotal 
+                                  ? 'border-brand-primary/30' 
+                                  : 'border-slate-200 group-hover/row:border-brand-primary/30'
+                              } transition-colors`} />
+                              <span className={`${
+                                isTotal 
+                                  ? 'text-brand-primary font-extrabold text-sm sm:text-base whitespace-nowrap bg-brand-primary/20 px-3 py-1.5 rounded-md sm:rounded-lg border border-brand-primary/30 shrink-0 self-start sm:self-center shadow-sm' 
+                                  : 'text-brand-primary font-bold text-xs sm:text-sm whitespace-nowrap bg-brand-primary/5 px-2 sm:px-3 py-1 rounded-md sm:rounded-lg border border-brand-primary/10 shrink-0 self-start sm:self-center'
+                              }`}>
+                                {p.price}
+                              </span>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   ))}

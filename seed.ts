@@ -9,6 +9,7 @@ import { LOCALIZED_SERVICES } from './src/data/localizedServices';
 import { LOCALIZED_PRODUCTS } from './src/data/localizedProducts';
 import { LOCALIZED_BLOGS } from './src/data/localizedBlog';
 import { BLOG_POSTS } from './src/data/blog';
+import { PROJECTS_DATA } from './src/data/projectsData';
 import { LOCALIZED_FAQS } from './src/data/localizedFaqs';
 import { LOCALIZED_REVIEWS, LOCALIZED_TESTIMONIALS } from './src/data/localizedReviews';
 import { LOCALIZED_SEO, LOCALIZED_BUSINESS_SCHEMA, LOCALIZED_CONTACT, LOCALIZED_SITE_SETTINGS } from './src/data/localizedSeo';
@@ -90,7 +91,10 @@ async function runSeed() {
     { _id: 'serviceCategory-electrical', _type: 'serviceCategory', id: 'electrical', title: 'Điện dân dụng', description: 'Sửa chữa chập điện âm tường, thay thế ổ cắm công tắc thiết bị Panasonic chính hiệu.', icon: 'Zap', color: 'amber' },
     { _id: 'serviceCategory-plumbing', _type: 'serviceCategory', id: 'plumbing', title: 'Nước dân dụng', description: 'Hàn ống nước nóng PPR chịu nhiệt, sửa phao bồn nước, thông tắc rò rỉ bồn cầu triệt để.', icon: 'Droplet', color: 'blue' },
     { _id: 'serviceCategory-camera', _type: 'serviceCategory', id: 'camera', title: 'Camera an ninh', description: 'Lắp đặt, cấu hình camera IP PoE Hikvision, thiết bị Ezviz ngoài trời xoay 360 độ góc rộng sắc nét.', icon: 'Video', color: 'emerald' },
-    { _id: 'serviceCategory-detection', _type: 'serviceCategory', id: 'detection', title: 'Siêu âm rò rỉ', description: 'Rà tìm rò rỉ đường ống nước ngầm sâu bằng máy PQWT sóng màng cảm ứng hiện đại nhất.', icon: 'Activity', color: 'rose' }
+    { _id: 'serviceCategory-detection', _type: 'serviceCategory', id: 'detection', title: 'Siêu âm rò rỉ', description: 'Rà tìm rò rỉ đường ống nước ngầm sâu bằng máy PQWT sóng màng cảm ứng hiện đại nhất.', icon: 'Activity', color: 'rose' },
+    { _id: 'serviceCategory-smarthome', _type: 'serviceCategory', id: 'smarthome', title: 'Nhà thông minh', description: 'Giải pháp nhà thông minh, công tắc cảm ứng, điều khiển cửa cuốn từ xa, rèm thông minh, cảm biến an ninh.', icon: 'Home', color: 'indigo' },
+    { _id: 'serviceCategory-construction', _type: 'serviceCategory', id: 'construction', title: 'Thi công xây dựng', description: 'Thi công cơ điện công trình, hoàn thiện căn hộ, sửa chữa nâng cấp nhà trọn gói.', icon: 'Hammer', color: 'orange' },
+    { _id: 'serviceCategory-solar', _type: 'serviceCategory', id: 'solar', title: 'Điện mặt trời', description: 'Lắp đặt tấm pin năng lượng mặt trời, hybrid hòa lưới lưu trữ điện năng bền bỉ.', icon: 'Sun', color: 'yellow' }
   ];
   seedDocuments.push(...serviceCategories);
 
@@ -99,7 +103,9 @@ async function runSeed() {
     { _id: 'productCategory-electrical', _type: 'productCategory', id: 'electrical', title: 'Thiết bị điện', description: 'Aptomat chống giật, ổ cắm mặt nạ Panasonic, dây cáp điện Cadivi và đèn LED MPE siêu tiết kiệm bền bỉ.', icon: 'Zap' },
     { _id: 'productCategory-plumbing', _type: 'productCategory', id: 'plumbing', title: 'Thiết bị nước', description: 'Vòi đồng chịu lực, ống nhựa PPR chịu nhiệt Bình Minh, van khóa và phụ kiện vệ sinh bền bỉ.', icon: 'Droplets' },
     { _id: 'productCategory-camera', _type: 'productCategory', id: 'camera', title: 'Camera chính hãng', description: 'Mắt camera Ezviz ngoài trời kháng bụi nước, đầu ghi Dahua, ổ cứng chuyên quay dữ liệu 24/7.', icon: 'Video' },
-    { _id: 'productCategory-detection', _type: 'productCategory', id: 'detection', title: 'Hệ thống dò tìm', description: 'Thiết bị cảm biến siêu âm phát rò rỉ cơ học, máy đo ampe kìm và phụ tùng bổ trợ dò sửa.', icon: 'Activity' }
+    { _id: 'productCategory-detection', _type: 'productCategory', id: 'detection', title: 'Hệ thống dò tìm', description: 'Thiết bị cảm biến siêu âm phát rò rỉ cơ học, máy đo ampe kìm và phụ tùng bổ trợ dò sửa.', icon: 'Activity' },
+    { _id: 'productCategory-solar', _type: 'productCategory', id: 'solar', title: 'Điện mặt trời', description: 'Tấm pin năng lượng mặt trời Mono, Inverter hòa lưới, pin lưu trữ Lithium và linh kiện lắp đặt chuyên dụng.', icon: 'Sun' },
+    { _id: 'productCategory-construction', _type: 'productCategory', id: 'construction', title: 'Vật tư thi công', description: 'Dây cáp chịu tải Cadivi, ống luồn dây chống cháy, ống nhựa và phụ kiện ngành xây dựng.', icon: 'Hammer' }
   ];
   seedDocuments.push(...productCategories);
 
@@ -136,6 +142,42 @@ async function runSeed() {
   ];
   seedDocuments.push(...menus);
 
+  // 6. Projects (Dự án thực tế)
+  PROJECTS_DATA.forEach((project) => {
+    const projId = generateDeterministicId('project', 'global', project.slug);
+    
+    const targetLocs: string[] = [];
+    const locStr = (project.location || '').toLowerCase();
+    if (locStr.includes('hcm') || locStr.includes('hồ chí minh') || locStr.includes('ho chi minh') || locStr.includes('quận')) {
+      targetLocs.push('ho-chi-minh');
+    }
+    if (locStr.includes('bảo lộc') || locStr.includes('bao loc') || locStr.includes('lâm đồng') || locStr.includes('lam dong') || locStr.includes('đà lạt') || locStr.includes('da lat')) {
+      targetLocs.push('bao-loc');
+    }
+    if (targetLocs.length === 0) {
+      targetLocs.push('bao-loc', 'ho-chi-minh');
+    }
+
+    seedDocuments.push({
+      _id: projId,
+      _type: 'project',
+      locations: targetLocs,
+      title: project.title,
+      slug: { _type: 'slug', current: project.slug },
+      description: project.shortDescription || project.fullDescription,
+      content: [{
+        _type: 'block',
+        style: 'normal',
+        children: [{ _type: 'span', text: project.fullDescription, marks: [] }]
+      }],
+      location: project.location,
+      completionDate: project.completionDate,
+      image: project.images && project.images.length > 0 ? project.images[0] : (project.gallery && project.gallery.length > 0 ? project.gallery[0] : ''),
+      gallery: project.images || project.gallery || [],
+      tags: project.services || [],
+      order: 0
+    });
+  });
 
   // ==========================================================================
   // B. LOCATION-SPECIFIC DATABASES (Bảo Lộc & Hồ Chí Minh)
@@ -510,19 +552,58 @@ async function runSeed() {
 
 
   // ==========================================================================
-  // D. MIGRATING IMAGES AND EXECUTING TRANSACTION
+  // D. MIGRATING IMAGES AND EXECUTING TRANSACTION IN BATCHES
   // ==========================================================================
 
   console.log(`\n🚀 Verification Complete: Staging ${seedDocuments.length} documents. Starting image migrations and upserts...`);
 
-  for (const doc of seedDocuments) {
+  // Helper to chunk an array
+  const chunk = <T>(arr: T[], size: number): T[][] =>
+    Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
+      arr.slice(i * size, i * size + size)
+    );
+
+  const fullyProcessedDocs: any[] = [];
+
+  // Process images in small concurrent chunks (concurrency: 10) to avoid any HTTP socket exhaustion
+  const docChunks = chunk(seedDocuments, 10);
+  console.log(`📸 Processing images for ${seedDocuments.length} documents in ${docChunks.length} parallel cycles...`);
+  
+  for (let cIdx = 0; cIdx < docChunks.length; cIdx++) {
+    const docChunk = docChunks[cIdx];
+    await Promise.all(
+      docChunk.map(async (doc) => {
+        try {
+          const fullyProcessedDoc = await resolveDocumentImages(client, doc);
+          fullyProcessedDocs.push(fullyProcessedDoc);
+        } catch (err: any) {
+          report.failed++;
+          const errMsg = `❌ [FATAL PRE-WRITE PROCESS] Failed to parse document ID: "${doc._id}" of type [${doc._type}]: ${err.message || err}`;
+          console.error(errMsg);
+          report.log.push(errMsg);
+        }
+      })
+    );
+  }
+
+  // Commit processed documents in transactional batches of 50
+  const writeChunks = chunk(fullyProcessedDocs, 50);
+  console.log(`\n💾 Committing ${fullyProcessedDocs.length} documents to Sanity in ${writeChunks.length} transaction batches...`);
+  
+  for (let idx = 0; idx < writeChunks.length; idx++) {
+    const writeChunk = writeChunks[idx];
+    console.log(`📦 Committing transaction batch ${idx + 1}/${writeChunks.length} containing ${writeChunk.length} documents...`);
     try {
-      console.log(`📸 Processing images for [${doc._type}] ID: ${doc._id}...`);
-      const fullyProcessedDoc = await resolveDocumentImages(client, doc);
-      await upsertDocument(client, fullyProcessedDoc, report);
+      const tx = client.transaction();
+      for (const doc of writeChunk) {
+        tx.createOrReplace(doc);
+      }
+      await tx.commit();
+      report.created += writeChunk.length;
+      console.log(`✨ Successfully committed batch ${idx + 1}.`);
     } catch (err: any) {
-      report.failed++;
-      const errMsg = `❌ [FATAL PRE-WRITE PROCESS] Failed to parse document ID: "${doc._id}" of type [${doc._type}]: ${err.message || err}`;
+      report.failed += writeChunk.length;
+      const errMsg = `❌ [BATCH FAILED] Failed to commit transaction batch ${idx + 1}: ${err.message || err}`;
       console.error(errMsg);
       report.log.push(errMsg);
     }

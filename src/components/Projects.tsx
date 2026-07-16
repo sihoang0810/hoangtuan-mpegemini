@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Calendar, MapPin, Plus, Minus } from 'lucide-react';
-import { CMSProject } from '../lib/sanity';
+import { CMSProject, getProjects, getProjectsSync, client } from '../lib/sanity';
 import OptimizedImage from './OptimizedImage';
+import { useLocation } from '../context/LocationContext';
 
 interface ProjectsProps {
   cmsData?: {
@@ -155,7 +156,40 @@ const ProjectItem = ({ project, index }: { project: CMSProject; index: number })
 };
 
 export default function Projects({ cmsData }: ProjectsProps) {
-  const projects = cmsData?.projects || DEFAULT_PROJECTS;
+  const { locationSlug } = useLocation();
+  const [projects, setProjects] = useState<CMSProject[]>(() => {
+    if (cmsData?.projects && cmsData.projects.length > 0) return cmsData.projects;
+    return getProjectsSync(locationSlug);
+  });
+
+  useEffect(() => {
+    let active = true;
+
+    // Fetch async content from Sanity with caching
+    getProjects(locationSlug).then((data) => {
+      if (active && data && data.length > 0) {
+        setProjects(data);
+      }
+    });
+
+    // Real-time subscription to auto-update live website immediately when Sanity is changed
+    const subscription = client
+      .listen(`*[_type == "project"]`)
+      .subscribe((update) => {
+        if (active) {
+          getProjects(locationSlug).then(data => {
+            if (active && data) setProjects(data);
+          });
+        }
+      });
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, [locationSlug]);
+
+  const displayProjects = projects.length > 0 ? projects : DEFAULT_PROJECTS;
   const heading = cmsData?.heading || "Dự Án Tiêu Biểu";
   const subtitle = cmsData?.subtitle || "Hoàng Tuấn MPE tự hào mang đến những giải pháp thi công bền vững, thẩm mỹ và an toàn cho mọi công trình.";
 
@@ -188,7 +222,7 @@ export default function Projects({ cmsData }: ProjectsProps) {
         </div>
 
         <div>
-          {projects.slice(0, 4).map((project, index) => (
+          {displayProjects.slice(0, 4).map((project, index) => (
             <ProjectItem key={project.id} project={project} index={index} />
           ))}
         </div>

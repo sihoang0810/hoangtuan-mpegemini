@@ -1,0 +1,75 @@
+--- src/lib/queries.ts
++++ src/lib/queries.ts
+@@ -207,29 +207,17 @@
+ 
+ // Projects per location
+-export const projectsQuery = `*[_type == "project" && location->slug.current == $locationSlug] | order(_createdAt desc) {
++export const projectsQuery = `*[_type == "project" && $locationSlug in locations] | order(order asc, _createdAt desc) {
+   _id,
+-  id,
+-  slug,
++  "id": _id,
++  "slug": slug.current,
+   title,
+-  shortDescription,
+-  fullDescription,
+-  image,
+-  category,
+-  locationText,
++  description,
++  "image": mainImage.asset->url,
++  "category": category->title,
++  location,
+   completionDate,
+-  difficulty,
+-  duration,
+-  benefits,
+-  services,
+-  challenges,
+-  solutions,
+-  outcome,
+-  beforeAfter,
+-  faq,
+-  packages,
+-  specifications,
+-  steps,
+-  gallery,
++  "gallery": gallery[].asset->url,
+   order
+ }`;
+ 
+-export const projectBySlugQuery = `*[_type == "project" && (slug == $slug || slug.current == $slug) && location->slug.current == $locationSlug][0] {
++export const projectBySlugQuery = `*[_type == "project" && (slug == $slug || slug.current == $slug) && $locationSlug in locations][0] {
+   _id,
+-  id,
+-  slug,
++  "id": _id,
++  "slug": slug.current,
+   title,
+-  shortDescription,
+-  fullDescription,
+-  image,
+-  category,
+-  locationText,
++  description,
++  "content": content,
++  "image": mainImage.asset->url,
++  "category": category->title,
++  location,
+   completionDate,
+-  difficulty,
+-  duration,
+-  benefits,
+-  services,
+-  challenges,
+-  solutions,
+-  outcome,
+-  beforeAfter,
+-  faq,
+-  packages,
+-  specifications,
+-  steps,
+-  gallery,
++  "gallery": gallery[].asset->url,
+   order
+ }`;
